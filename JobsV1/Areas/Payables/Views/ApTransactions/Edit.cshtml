@@ -159,7 +159,13 @@
             </div>
         </div>
 
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.ApTransTypeId, "Type", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ApTransTypeId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ApTransTypeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group" hidden>
             @Html.LabelFor(model => model.IsPrinted, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -171,6 +177,8 @@
             </div>
         </div>
 
+
+
         <div class="form-group">
             @Html.LabelFor(model => model.IsRepeating, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -181,48 +189,6 @@
             </div>
         </div>
 
-        <div id="repeat-group">
-            <hr />
-            <h4> Repeating Details </h4>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Interval, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Interval, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Interval, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.RepeatCount, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.RepeatCount, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.RepeatCount, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group" hidden>
-                @Html.LabelFor(model => model.RepeatNo, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.RepeatNo, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.RepeatNo, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group" hidden>
-                @Html.LabelFor(model => model.NextRef, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.NextRef, new { htmlAttributes = new { @class = "form-control", @maxlength = 2 } })
-                    @Html.ValidationMessageFor(model => model.RepeatCount, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group" hidden>
-                @Html.LabelFor(model => model.PrevRef, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.PrevRef, new { htmlAttributes = new { @class = "form-control", @maxlength = 3 } })
-                    @Html.ValidationMessageFor(model => model.RepeatCount, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

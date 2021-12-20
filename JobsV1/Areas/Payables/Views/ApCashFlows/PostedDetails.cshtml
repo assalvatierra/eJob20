@@ -1,0 +1,95 @@
+﻿@model IEnumerable<ApModels.Models.Custom.CashFlowModel>
+
+@{
+    ViewBag.Title = "CashFlow";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+    decimal TotalCashIn = 0;
+    decimal TotalCashout = 0;
+    decimal TotalBalance = 0;
+}
+
+<h2>CashFlow</h2>
+
+<p>
+    @Html.ActionLink("Back to List", "Posted")
+</p>
+
+<h4> Date: @ViewBag.Today </h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            Cash in
+        </th>
+        <th>
+            Expenses
+        </th>
+        <th style="width:5px;"></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        TotalCashIn += item.CREDIT;
+        TotalCashout += item.DEBIT;
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @if (item.CREDIT != 0)
+                {
+                    @item.CREDIT.ToString("#,##0.00")
+                }
+            </td>
+            <td>
+                @if (item.DEBIT != 0)
+                {
+                    @item.DEBIT.ToString("#,##0.00")
+                }
+            </td>
+            <td style="width:5px;">
+               
+            </td>
+        </tr>
+    }
+    <!-- TOTALS CALCULATIONS -->
+    @{
+        TotalBalance = TotalCashIn - TotalCashout;
+    }
+    <tr>
+        <td>
+        </td>
+        <td>
+            <span class="text-muted"> Total Cash-in </span><br />
+            <span id="TotalCashIn">@TotalCashIn.ToString("#,##0.00")</span>
+        </td>
+        <td>
+            <span class="text-muted"> Total Expenses </span><br />
+            <span id="TotalCashout">@TotalCashout.ToString("#,##0.00")</span>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+            <span class="text-muted"> Balance </span>
+        </td>
+        <td>
+            <span id="totalBalance">@TotalBalance.ToString("#,##0.00")</span>
+        </td>
+        <td>
+        </td>
+    </tr>
+</table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+  
+}

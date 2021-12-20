@@ -7,14 +7,32 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ApModels.Models;
+using ApModels.Models.Custom;
 using ApServices;
 
-namespace Payable.Areas.Payables.Controllers
+namespace JobsV1.Areas.Payables.Controllers
 {
     public class ApTransactionsController : Controller
     {
         private PayablesFactory ap = new PayablesFactory();
         private DateClassMgr dt = new DateClassMgr();
+        private ApDBContainer db = new ApDBContainer();
+
+        private enum STATUS: int {
+            NEW = 6,
+            REQUEST = 1,
+            APPROVED = 2,
+            RELEASED = 3,
+            RETURNED = 5,
+            CLOSED = 4
+        };
+
+
+        private enum CASHFLOWTYPE: int
+        {
+            DEBIT = 1,
+            CREDIT = 2,
+        };
 
         // GET: Payables/ApTransactions
         public ActionResult Index(int? status, string sort)
@@ -92,22 +110,29 @@ namespace Payable.Areas.Payables.Controllers
         // GET: Payables/ApTransactions/Create
         public ActionResult Create()
         {
-            var today = dt.GetCurrentDateTime();
+            try
+            {
 
-            ApTransaction transaction = new ApTransaction();
-            transaction.Amount = 0;
-            transaction.NextRef = 0;
-            transaction.PrevRef = 0;
-            transaction.DtEncoded = today;
-            transaction.DtInvoice = today;
-            transaction.DtDue = today;
-            transaction.DtService = today;
-            transaction.DtServiceTo = today;
+                var today = dt.GetCurrentDateTime();
 
-            ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name");
-            ViewBag.ApTransCategoryId = new SelectList(ap.TransactionMgr.GetTransCategories(), "Id", "Name");
-            ViewBag.ApTransStatusId = new SelectList(ap.TransactionMgr.GetTransStatus().OrderBy(c=>c.Code), "Id", "Status");
-            return View(transaction);
+                ApTransaction transaction = new ApTransaction();
+                transaction.Amount = 0;
+                transaction.DtEncoded = today;
+                transaction.DtInvoice = today;
+                transaction.DtDue = today;
+                transaction.DtService = today;
+                transaction.DtServiceTo = today;
+
+                ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name");
+                ViewBag.ApTransCategoryId = new SelectList(ap.TransactionMgr.GetTransCategories(), "Id", "Name");
+                ViewBag.ApTransStatusId = new SelectList(ap.TransactionMgr.GetTransStatus().OrderBy(c => c.Code), "Id", "Status");
+                ViewBag.ApTransTypeId = new SelectList(ap.TransactionMgr.GetTransTypes(), "Id", "Type");
+                return View(transaction);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         // POST: Payables/ApTransactions/Create
@@ -115,12 +140,11 @@ namespace Payable.Areas.Payables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,InvoiceNo,DtInvoice,DtEncoded,Description,Amount,IsRepeating,Interval,DtDue,DtService,DtServiceTo," +
-            "Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount,BudgetAmt,JobRef")] ApTransaction apTransaction)
+        public ActionResult Create([Bind(Include = "Id,InvoiceNo,DtInvoice,DtEncoded,Description,Amount,BudgetAmt,DtDue,DtService,DtServiceTo," +
+            "JobRef,Remarks,IsRepeating,ApAccountId,ApTransStatusId,ApTransCategoryId,ApTransTypeId")] ApTransaction apTransaction)
         {
             if (ModelState.IsValid)
             {
-                apTransaction.RepeatNo = 1;
                 apTransaction.IsPrinted = false;
                 ap.TransactionMgr.AddTransaction(apTransaction);
 
@@ -138,25 +162,35 @@ namespace Payable.Areas.Payables.Controllers
             ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name", apTransaction.ApAccountId);
             ViewBag.ApTransCategoryId = new SelectList(ap.TransactionMgr.GetTransCategories(), "Id", "Name", apTransaction.ApTransCategoryId);
             ViewBag.ApTransStatusId = new SelectList(ap.TransactionMgr.GetTransStatus(), "Id", "Status", apTransaction.ApTransStatusId);
+            ViewBag.ApTransTypeId = new SelectList(ap.TransactionMgr.GetTransTypes(), "Id", "Type", apTransaction.ApTransTypeId);
             return View(apTransaction);
         }
 
         // GET: Payables/ApTransactions/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                ApTransaction apTransaction = ap.TransactionMgr.GetTransactionById((int)id);
+                if (apTransaction == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name", apTransaction.ApAccountId);
+                ViewBag.ApTransCategoryId = new SelectList(ap.TransactionMgr.GetTransCategories(), "Id", "Name", apTransaction.ApTransCategoryId);
+                ViewBag.ApTransStatusId = new SelectList(ap.TransactionMgr.GetTransStatus().OrderBy(c => c.Code), "Id", "Status", apTransaction.ApTransStatusId);
+                ViewBag.ApTransTypeId = new SelectList(ap.TransactionMgr.GetTransTypes(), "Id", "Type", apTransaction.ApTransTypeId);
+                return View(apTransaction);
             }
-            ApTransaction apTransaction = ap.TransactionMgr.GetTransactionById((int)id);
-            if (apTransaction == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                throw ex;
             }
-            ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name", apTransaction.ApAccountId);
-            ViewBag.ApTransCategoryId = new SelectList(ap.TransactionMgr.GetTransCategories(), "Id", "Name", apTransaction.ApTransCategoryId);
-            ViewBag.ApTransStatusId = new SelectList(ap.TransactionMgr.GetTransStatus().OrderBy(c => c.Code), "Id", "Status", apTransaction.ApTransStatusId);
-            return View(apTransaction);
         }
 
         // POST: Payables/ApTransactions/Edit/5
@@ -164,22 +198,46 @@ namespace Payable.Areas.Payables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,InvoiceNo,DtInvoice,DtEncoded,Description,Amount,IsRepeating,Interval,DtDue,DtService,DtServiceTo," +
-            "Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount,RepeatNo,IsPrinted,BudgetAmt,ReleaseAmt,DtRelease,JobRef")] ApTransaction apTransaction)
+        public ActionResult Edit([Bind(Include = "Id,InvoiceNo,DtInvoice,DtEncoded,Description,Amount,BudgetAmt,DtDue,DtService,DtServiceTo," +
+            "ReleaseAmt,DtRelease,JobRef,Remarks,IsRepeating,ApAccountId,ApTransStatusId,ApTransCategoryId,ApTransTypeId")] ApTransaction apTransaction)
         {
-            if (ModelState.IsValid)
+
+            try
             {
-                ap.TransactionMgr.EditTransaction(apTransaction);
 
-                //add action log for transaction edit 
-                ap.ActionMgr.AddAction(GetUser(), apTransaction.Id, 11);
+                var isAdmin = User.IsInRole("Admin");
 
-                return RedirectToAction("Details", new { id = apTransaction.Id });
+                if (ModelState.IsValid)
+                {
+                    if (apTransaction.ApTransStatusId > 1 && apTransaction.ApTransStatusId < 5)
+                    {
+                        if (isAdmin)
+                        {
+                            ap.TransactionMgr.EditTransaction(apTransaction);
+                        }
+
+                        return RedirectToAction("Details", new { id = apTransaction.Id });
+
+                    }
+
+                    ap.TransactionMgr.EditTransaction(apTransaction);
+
+                    //add action log for transaction edit 
+                    ap.ActionMgr.AddAction(GetUser(), apTransaction.Id, 11);
+
+                    return RedirectToAction("Details", new { id = apTransaction.Id });
+                }
+                ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name", apTransaction.ApAccountId);
+                ViewBag.ApTransCategoryId = new SelectList(ap.TransactionMgr.GetTransCategories(), "Id", "Name", apTransaction.ApTransCategoryId);
+                ViewBag.ApTransStatusId = new SelectList(ap.TransactionMgr.GetTransStatus(), "Id", "Status", apTransaction.ApTransStatusId);
+                ViewBag.ApTransTypeId = new SelectList(ap.TransactionMgr.GetTransTypes(), "Id", "Type", apTransaction.ApTransTypeId);
+                return View(apTransaction);
             }
-            ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name", apTransaction.ApAccountId);
-            ViewBag.ApTransCategoryId = new SelectList(ap.TransactionMgr.GetTransCategories(), "Id", "Name", apTransaction.ApTransCategoryId);
-            ViewBag.ApTransStatusId = new SelectList(ap.TransactionMgr.GetTransStatus(), "Id", "Status", apTransaction.ApTransStatusId);
-            return View(apTransaction);
+            catch(Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         // GET: Payables/ApTransactions/Delete/5
@@ -220,6 +278,9 @@ namespace Payable.Areas.Payables.Controllers
             base.Dispose(disposing);
         }
 
+
+
+        #region API
         [HttpPost]
         public bool AcceptPayment(int paymentid, int transId)
         {
@@ -264,18 +325,77 @@ namespace Payable.Areas.Payables.Controllers
             //update payable
             var updateResponse = ap.TransactionMgr.EditTransaction(payable);
 
-
             //add action log for transaction update status 
             ap.ActionMgr.AddAction(GetUser(), (int)transId, (int)statusId);
 
             if (updateResponse)
             {
+                //Add cashflow
+                UpdateCashFlowByTrans(payable);
+
                 return true;
             }
 
             return false;
         }
 
+        public void UpdateCashFlowByTrans(ApTransaction payable)
+        {
+            //RELEASED
+            if (payable.ApTransStatusId == ((int)STATUS.RELEASED))
+            {
+                ReleasedCashFlow(payable);
+            }
+
+            //RETURN
+            if (payable.ApTransStatusId == ((int)STATUS.RETURNED))
+            {
+                ReturnedCashFlow(payable);
+            }
+        }
+
+        public void ReleasedCashFlow(ApTransaction payable)
+        {
+            var today = dt.GetCurrentDate();
+
+            //RELEASED
+            if (payable.ReleaseAmt != 0)
+            {
+                ap.CashFlowMgr.AddCashFlow(new ApCashFlow
+                {
+                    Description = payable.Description,
+                    Date = payable.DtRelease ?? today,
+                    Amount = payable.ReleaseAmt ?? 0,
+                    Remarks = payable.Remarks,
+                    ApCashFlowTypeId = 1,
+                    ApAccountId = payable.ApAccountId
+                });
+            }
+        }
+
+        public void ReturnedCashFlow(ApTransaction payable)
+        {
+            var today = dt.GetCurrentDate();
+
+            //RETURN
+            
+                var budget = payable.ReleaseAmt ?? 0;
+                var payments = payable.ApTransPayments == null ? 0 : payable.ApTransPayments.ToList().Sum(c => c.ApPayment.Amount);
+                var payableChange = budget - payments;
+                if (payableChange > 0)
+                {
+                    ap.CashFlowMgr.AddCashFlow(new ApCashFlow
+                    {
+                        Description = "Change " + payable.Description,
+                        Date = today,
+                        Amount = payableChange,
+                        Remarks = payable.Remarks,
+                        ApCashFlowTypeId = 2,
+                        ApAccountId = payable.ApAccountId
+                    });
+                }
+            
+        }
 
         [HttpGet]
         public JsonResult GetRepeatingPayablesCount()
@@ -285,21 +405,21 @@ namespace Payable.Areas.Payables.Controllers
             return Json(repeatingPayables.Count(), JsonRequestBehavior.AllowGet);
         }
 
-
         [HttpGet]
         public JsonResult GetRepeatingPayables()
         {
             var repeatingPayables = ap.TransactionMgr.GetRepeatingTransactions();
 
             return Json(repeatingPayables.Select(p =>
-                new {
+                new
+                {
                     p.Id,
                     p.ApAccount.Name,
                     p.ApAccount.ContactPerson,
                     p.Amount,
                     p.Description,
                     p.DtDue,
-                    p.Interval
+                    p.IsRepeating
                 }),
                 JsonRequestBehavior.AllowGet);
         }
@@ -361,7 +481,8 @@ namespace Payable.Areas.Payables.Controllers
         {
             var duePayables = ap.TransactionMgr.GetDueTransactions()
                 .Select(
-                    t => new {
+                    t => new
+                    {
                         t.Id,
                         t.ApAccount.Name,
                         t.ApTransStatu.Status,
@@ -391,19 +512,16 @@ namespace Payable.Areas.Payables.Controllers
             return "Unable to Release Payment";
         }
 
- 
-
         [HttpPost]
-        public string ReturnAmount(int? id, decimal? amount, string remarks )
+        public string ReturnAmount(int? id, decimal? amount, string remarks)
         {
-                if ( id != null && amount != null)
-                {
-                    ap.TransactionMgr.UpdateReturnAmount((int)id, (decimal)amount, remarks);
-                    return "OK";
-                }
+            if (id != null && amount != null)
+            {
+                ap.TransactionMgr.UpdateReturnAmount((int)id, (decimal)amount, remarks);
+                return "OK";
+            }
 
-                return "Unable to Release Payment";
-            
+            return "Unable to Release Payment";
         }
 
         [HttpPost]
@@ -434,6 +552,11 @@ namespace Payable.Areas.Payables.Controllers
 
             return "Unable to Release Payment";
         }
+
+
+
+        #endregion 
+
         #region Print Request Form
         public ActionResult PrintRequestForm(int id)
         {
@@ -441,7 +564,9 @@ namespace Payable.Areas.Payables.Controllers
 
             ViewBag.Today = dt.GetCurrentDateTime().ToShortDateString();
             ViewBag.PrintGroupId = id;
-            return View(payables);
+
+
+            return View();
         }
 
         [HttpPost]
@@ -488,12 +613,36 @@ namespace Payable.Areas.Payables.Controllers
 
             return View(requestDetails);
         }
+
+
+        public ActionResult PrintPOForm(int? id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var request = db.ApTransactions.Find(id);
+
+            if (request == null)
+            {
+                return HttpNotFound();
+            }
+
+            UpdatePrintStatus((int)id);
+            ViewBag.Company = request.ApAccount;
+            ViewBag.DtRequest = request.DtInvoice;
+            ViewBag.PONo = request.Id;
+            return View(request);
+        }
+
         #endregion
 
         #region History Actions 
         public ActionResult ActionHistory(int? id)
         {
-            if (id == null )
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -502,7 +651,7 @@ namespace Payable.Areas.Payables.Controllers
             ViewBag.TransId = (int)id;
             return View(actionList.ApActions.ToList());
         }
-    }
+        #endregion
 
-    #endregion
+    }
 }

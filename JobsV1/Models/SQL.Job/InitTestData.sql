@@ -674,3 +674,16 @@ SELECT act.*, sup.Name FROM (
 SELECT *  FROM crLogTrips t 
 LEFT JOIN crLogPassengers p ON t.Id = p.crLogTripId
 WHERE t.Id = 1
+
+
+--- USER ROLES ----
+SELECT userRoles.RoleId, Users = users.Email, Roles = roles.Name FROM AspNetUserRoles userRoles 
+LEFT JOIN AspNetRoles roles ON userRoles.RoleId = roles.Id
+LEFT JOIN AspNetUsers users ON userRoles.UserId = users.Id
+;
+
+
+
+--- USER ROLES ----
+SELECT * FROM AspNetRoles
+;

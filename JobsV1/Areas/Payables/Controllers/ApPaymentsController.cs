@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using ApModels.Models;
 using ApServices;
 
-namespace Payable.Areas.Payables.Controllers
+namespace JobsV1.Areas.Payables.Controllers
 {
     public class ApPaymentsController : Controller
     {

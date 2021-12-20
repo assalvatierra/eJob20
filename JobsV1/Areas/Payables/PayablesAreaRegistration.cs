@@ -23,10 +23,12 @@ namespace Payable.Areas.Payables
               new string[] { "JobsV1.Controllers" }
             );
 
+
             context.MapRoute(
                 "Payables_default",
                 "Payables/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional },
+              new string[] { "JobsV1.Areas.Payables.Controllers" }
             );
         }
     }

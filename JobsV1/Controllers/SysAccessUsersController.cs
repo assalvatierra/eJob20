@@ -851,6 +851,144 @@ namespace JobsV1.Controllers
 
 
 
+        public ActionResult ManageRoles(string user)
+        {
+            var AppUserRoles = new List<AppUserRole>();
+            //get user roles
+
+            AppUserRoles = GetUserRoles().ToList();
+
+            ViewData["Users"] = GetUsers();
+            ViewData["Roles"] = GetRoles();
+
+            return View(AppUserRoles);
+        }
+
+
+        public List<AppUserRole> GetUserRoles()
+        {
+            List<AppUserRole> prodList = new List<AppUserRole>();
+
+            //sql query with comma separated item list
+            string sql = @" SELECT userRoles.RoleId, Users = users.Email, Roles = roles.Name 
+                        FROM AspNetUserRoles userRoles 
+                        LEFT JOIN AspNetRoles roles ON userRoles.RoleId = roles.Id
+                        LEFT JOIN AspNetUsers users ON userRoles.UserId = users.Id;";
+
+            prodList = db.Database.SqlQuery<AppUserRole>(sql).ToList();
+
+            return prodList;
+
+        }
+
+
+
+        public List<AppRoles> GetRoles()
+        {
+            List<AppRoles> roles = new List<AppRoles>();
+
+            //sql query with comma separated item list
+            string sql = @" SELECT * FROM AspNetRoles";
+
+            roles = db.Database.SqlQuery<AppRoles>(sql).ToList();
+
+            return roles;
+
+        }
+
+
+
+        public List<AppUsers> GetUsers()
+        {
+            List<AppUsers> users = new List<AppUsers>();
+
+            //sql query with comma separated item list
+            string sql = @" SELECT * FROM AspNetUsers";
+
+            users = db.Database.SqlQuery<AppUsers>(sql).ToList();
+
+            return users;
+
+        }
+
+
+
+        public string GetUserId(string user)
+        {
+            string userId = "";
+
+            //sql query with comma separated item list
+            string sql = @" SELECT Id FROM AspNetUsers WHERE AspNetUsers.Email = '"+ user +"' ";
+
+            userId = db.Database.SqlQuery<string>(sql).First();
+
+            return userId;
+
+        }
+
+
+        // POST SysAccessUsers/PostAddUserRole
+        [HttpPost]
+        public string PostAddUserRoleAsync(string userId, int roleId)
+        {
+            try
+            {
+
+                string sql = @" C * FROM AspNetRoles";
+
+                //roles = db.Database.SqlQuery<AppRoles>(sql).ToList();
+
+                return  "Add Successfull";
+            }
+            catch
+            {
+                return "error execeiption encounterd";
+            }
+
+        }
+
+
+        // POST SysAccessUsers/RemoveUserRole
+        [HttpDelete]
+        public string RemoveUserRoleAsync(string userId, int roleId)
+        {
+            try
+            {
+
+                string sql = @" SELECT * FROM AspNetRoles";
+
+                //roles = db.Database.SqlQuery<AppRoles>(sql).ToList();
+
+                return "Delete Successfull";
+            }
+            catch
+            {
+                return "error execeiption encounterd";
+            }
+        }
+
         #endregion
+
+        public class AppUserRole
+        {
+            public string Id { get; set; }
+            public string Users { get; set; }
+            public string Roles { get; set; }
+        }
+
+        public class AppRoles
+        {
+            public string Id { get; set; }
+            public string Name { get; set; }
+        }
+
+
+        public class AppUsers
+        {
+            public string Id { get; set; }
+            public string Email { get; set; }
+        }
     }
+
+
 }

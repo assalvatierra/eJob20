@@ -10,7 +10,7 @@ using ApModels.Models;
 using ApServices;
 using Microsoft.Ajax.Utilities;
 
-namespace Payable.Areas.Payables.Controllers
+namespace JobsV1.Areas.Payables.Controllers
 {
     public class ApAccountsController : Controller
     {

@@ -17,6 +17,18 @@
     decimal GrandTotal = 0;
 
     bool isAdmin = ViewBag.IsAdmin;
+
+    int TYPE_CASH = 1;
+    int TYPE_BANK = 3;
+    int TYPE_PO = 2;
+
+    int STATUS_REQUEST = 1;
+    int STATUS_APPROVED = 2;
+    int STATUS_RELEASED = 3;
+    int STATUS_CLOSED = 4;
+    int STATUS_RETURNED = 5;
+    int STATUS_NEW = 7;
+    int STATUS_CANCELLED = 6;
 }
 
 <h2>Expenses Transactions </h2>
@@ -26,16 +38,17 @@
     <a href="/Payables/ApTransactions/ReleasedDaily"> <button class="btn btn-default"> Daily Expenses </button></a>
     <a href="/Payables/ApTransactions/ReleasedWeekly"> <button class="btn btn-default"> Monthly Expenses </button></a>
     <a href="/Payables/ApTransactions/PrintRequestList"> <button class="btn btn-default"> Print Requests </button></a>
+    <a href="/Payables/ApCashFlows/" class="btn btn-default"> Cash Flow </a>
 </p>
 
 <div class="btn-group" style="margin-bottom:5px;margin-right:10px;">
     <button class="btn btn-default" disabled> Status </button>
     <button class="btn btn-default active" id="status-0" onclick="UpdateFilter(0, '@sortBy')"> Active </button>
-    <button class="btn btn-default" id="status-1" onclick="UpdateFilter( 1, '@sortBy')"> Request </button>
-    <button class="btn btn-default" id="status-2" onclick="UpdateFilter( 2, '@sortBy')"> Approved </button>
-    <button class="btn btn-default" id="status-3" onclick="UpdateFilter( 3, '@sortBy')"> Released </button>
-    <button class="btn btn-default" id="status-5" onclick="UpdateFilter( 5, '@sortBy')"> Returned   </button>
-    <button class="btn btn-default" id="status-4" onclick="UpdateFilter( 4, '@sortBy')"> Closed   </button>
+    <button class="btn btn-default" id="status-1" onclick="UpdateFilter( @STATUS_REQUEST, '@sortBy')"> Request  </button>
+    <button class="btn btn-default" id="status-2" onclick="UpdateFilter( @STATUS_APPROVED, '@sortBy')"> Approved </button>
+    <button class="btn btn-default" id="status-3" onclick="UpdateFilter( @STATUS_RELEASED, '@sortBy')"> Released </button>
+    <button class="btn btn-default" id="status-5" onclick="UpdateFilter( @STATUS_RETURNED, '@sortBy')"> Returned </button>
+    <button class="btn btn-default" id="status-4" onclick="UpdateFilter( @STATUS_CLOSED, '@sortBy')"> Closed   </button>
 </div>
 
 
@@ -126,12 +139,12 @@
         {
             decimal totalTransPayment = 0;
             decimal transChange = 0;
-            string paymentDate = "" ;
+            string paymentDate = "";
 
             //get total transaction payment
             foreach (var transpayment in item.ApTransPayments)
             {
-                if (transpayment.ApPayment.ApPaymentStatusId == 2)
+                if (transpayment.ApPayment.ApPaymentStatusId == STATUS_APPROVED)
                 {
                     totalTransPayment += transpayment.ApPayment.Amount;
                     paymentDate = transpayment.ApPayment.DtPayment.ToString("MMM dd yyyy");
@@ -148,7 +161,7 @@
             string textcolor = "black";
             string bgcolor = "none";
 
-            if (item.ApTransStatusId < 4)
+            if (item.ApTransStatusId < STATUS_CLOSED)
             {
 
                 if (today.CompareTo(item.DtDue) == 0)
@@ -170,7 +183,7 @@
                 }
 
             }
-            else if (item.ApTransStatusId > 6)
+            else if (item.ApTransStatusId > STATUS_CANCELLED)
             {
                 textcolor = "gray";
             }
@@ -182,12 +195,14 @@
 
             <tr style="color:@textcolor;background-color:@bgcolor;">
                 <td>
-                    @if (item.ApTransStatusId == 3 && (item.ReleaseAmt == 0 || item.ReleaseAmt == null))
+                    @if (item.ApTransStatusId == STATUS_RELEASED 
+                        && (item.ReleaseAmt == 0 || item.ReleaseAmt == null) 
+                        && item.ApTransTypeId != TYPE_PO)
                     {
                         <img src="~/Images/SalesLead/high-importance.png" width="20" />
                     }
 
-                    @if (!item.IsPrinted && status == 2)
+                    @if (!item.IsPrinted && status == STATUS_APPROVED)
                     {
                         <input value="@item.Id" type="checkbox" class="print-Checkbox" onclick="CheckRepeatItems(this)" />
                     }
@@ -233,9 +248,10 @@
                     }
 
                     @Html.DisplayFor(modelItem => item.ApTransCategory.Name)
+                    @Html.DisplayFor(modelItem => item.ApTransType.Type)
                 </td>
                 <td>
-                    @if (item.ApTransStatusId == 1)
+                    @if (item.ApTransStatusId == STATUS_REQUEST)
                     {
 
 
@@ -249,27 +265,27 @@
                             <span class="label label-primary">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
                         }
                     }
-                    else if (item.ApTransStatusId == 2)
+                    else if (item.ApTransStatusId == STATUS_APPROVED)
                     {
                         <span class="label label-info">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
 
                     }
-                    else if (item.ApTransStatusId == 3)
+                    else if (item.ApTransStatusId == STATUS_RELEASED)
                     {
                         <span class="label label-warning">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
 
                     }
-                    else if (item.ApTransStatusId == 5)
+                    else if (item.ApTransStatusId == STATUS_RETURNED)
                     {
                         <span class="label label-success">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
 
                     }
-                    else if (item.ApTransStatusId == 7)
+                    else if (item.ApTransStatusId == STATUS_CANCELLED)
                     {
                         <span class="label label-default">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
 
                     }
-                    else if (item.ApTransStatusId == 8)
+                    else if (item.ApTransStatusId == STATUS_NEW)
                     {
                         <span class="label label-default">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
 
@@ -312,18 +328,20 @@
                     <span style="font-size:11px;color:gray;">
                         @paymentDate
                     </span>
-                   
+
                 </td>
 
                 <td>
-                    @if (totalTransPayment != 0)
+                    @if (totalTransPayment != 0 && item.ApTransTypeId != TYPE_PO)
                     {
                         <span>
                             @transChange.ToString("#,##0.00")
                         </span>
                     }
 
-                    @if ((totalTransPayment == 0) && item.ApTransStatusId >= 5 && item.ApTransPayments.Count() != 0)
+                    @if ((totalTransPayment == 0) && item.ApTransStatusId >= 5 
+                        && item.ApTransPayments.Count() != 0 
+                        && item.ApTransTypeId != TYPE_PO)
                     {
                         <span>
                             @released.ToString("#,##0.00")
@@ -338,55 +356,59 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdown-actions">
-                            <li> 
-                                @if (item.ApTransStatusId == 7 || item.ApTransStatusId == 8)
+                            <li>
+                                @if (item.ApTransStatusId == STATUS_NEW || item.ApTransStatusId == 8)
                                 {
                                     <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 1)"> Request </a>
                                 }
-                                @if (item.ApTransStatusId == 1 && isAdmin)
+
+                                @if (item.ApTransStatusId == STATUS_REQUEST && isAdmin)
                                 {
                                     <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 2)"> Approve </a>
                                 }
-                                else if (item.ApTransStatusId == 2)
+                                else if (item.ApTransStatusId == STATUS_APPROVED)
                                 {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReleaseModal(@item.Id)"> Payment Release </a>
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReleaseModal(@item.Id,'@item.Description', @item.BudgetAmt)"> Payment Release </a>
 
-                                    @*if (!item.IsPrinted)
-                                        {
-                                            @Html.ActionLink("Print Request", "PrintRequestForm", "ApTransactions", new { id = item.Id }, new { @onclick="OnPrintClicked(this,"+ item.Id +")", @target="_blank" })
-                                        }*@
-
-                                }
-                                else if (item.ApTransStatusId == 3)
-                                {
-                                    if (item.ApTransPayments.Count() != 0 || isAdmin)
-                                    { 
-                                        //return
-                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id, @item.Amount)"> Return </a>
+                                    if (!item.IsPrinted && item.ApTransTypeId == TYPE_PO)
+                                    {
+                                            @Html.ActionLink("Print PO", "PrintPOForm", "ApTransactions", new { id = item.Id }, new { @target="_blank" })
                                     }
-                                   
+
                                 }
-                                else if (item.ApTransStatusId == 5 && isAdmin)
+                                else if (item.ApTransStatusId == STATUS_RELEASED)
+                                {
+                                     <li>
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
+                                    </li>
+                                    if (item.ApTransPayments.Count() != 0 || isAdmin)
+                                    {
+                                        //return
+                                        <li>
+                                            <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount)"> Return </a>
+                                        </li>
+                                    }
+
+                                }
+                                else if (item.ApTransStatusId == STATUS_RETURNED && isAdmin)
                                 {
                                     <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusClose(this, @item.Id)"> Paid & Close </a>
                                 }
                             </li>
 
-                            @if (item.ApTransStatusId == 3)
-                            { 
-                                <li>
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id)"> Add Payment </a>
-
-                                </li>
-                            }
-
                             <li role="separator" class="divider"></li>
-                            @if (item.ApTransStatusId <= 1 || item.ApTransStatusId >= 7)
+                            @if (item.ApTransStatusId <= STATUS_REQUEST || item.ApTransStatusId >= STATUS_CANCELLED)
                             {
                                 <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                             }
+                            else
+                            {
+                                if (isAdmin) {
+                                    <li> @Html.ActionLink("Admin Edit", "Edit", new { id = item.Id }) </li>
+                                <li> @Html.ActionLink("History", "ActionHistory", new { id = item.Id }) </li>
+                                }
+                            }
                             <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
-                            <li> @Html.ActionLink("History", "ActionHistory", new { id = item.Id }) </li>
                             @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                         </ul>
                     </div>
@@ -493,7 +515,7 @@
     </div>
 </div>
 
-<!-- Repeating Payables Modal -->
+<!-- Due Payables Modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="DuePayables-Modal">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -567,6 +589,18 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-md-2">  Description  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="ReleasePayment-Description" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">  Budget  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="ReleasePayment-Budget" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-md-2">  Amount  </label>
                         <div class="col-md-10">
                             <input type="text" maxlength="20" id="ReleasePayment-Amount" class="form-control" />
@@ -576,13 +610,13 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="ReleasePayment(this)">Release</button>
+                <button type="button" class="btn btn-primary" onclick="ReleasePayment(this)">Release </button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Release Payment Modal -->
+<!-- Add Payment Modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="Payment-Modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -605,7 +639,19 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-md-2">  Description  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="Payment-Description" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-md-2">  Amount  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="Payment-TmpAmount" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Payment  </label>
                         <div class="col-md-10">
                             <input type="text" maxlength="20" id="Payment-Amount" class="form-control" />
                         </div>
@@ -620,7 +666,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="Payment(this)">Release</button>
+                <button type="button" class="btn btn-primary" onclick="Payment(this)">Add Payment</button>
             </div>
         </div>
     </div>
@@ -643,13 +689,19 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-md-2">  Description  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="ReturnAmount-Description" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-md-2">  Amount  </label>
                         <div class="col-md-10">
                             <input type="text" maxlength="20" id="ReturnAmount-PreAmount" class="form-control" readonly />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-2"> Returned Amount  </label>
+                        <label class="control-label col-md-2"> Actual Amount  </label>
                         <div class="col-md-10">
                             <input type="text" maxlength="20" id="ReturnAmount-Amount" class="form-control" />
                         </div>

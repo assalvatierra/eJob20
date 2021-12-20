@@ -1,0 +1,158 @@
+﻿@model IEnumerable<ApModels.Models.Custom.CashFlowModel>
+
+@{
+    ViewBag.Title = "CashFlow";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+    decimal TotalCashIn  = 0;
+    decimal TotalCashout = 0;
+    decimal TotalBalance = 0;
+    bool isAdmin = ViewBag.IsAdmin ?? false;
+}
+
+<h2>CashFlow</h2>
+
+<p>
+    @Html.ActionLink("Back to Expenses", "Index", "Aptransactions")
+</p>
+<p>
+    @Html.ActionLink("Cash In", "Create", null, new { @class = "btn btn-default" })
+    @Html.ActionLink("Posted Cash Flow", "Posted", null, new { @class = "btn btn-default" })
+</p>
+
+<h4> Date: @ViewBag.Today </h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            Cash in
+        </th>
+        <th>
+            Expenses
+        </th>
+        <th style="width:120px;"></th>
+    </tr>
+
+    @foreach (var dategroup in Model.GroupBy(c => c.Date))
+    {
+
+        <tr>
+            <td colspan="4" class="text-primary">
+                @dategroup.Key.ToString("MMM dd yyyy")
+            </td>
+        </tr>
+
+        foreach (var item in dategroup.OrderBy(c => c.OrderNo))
+        {
+
+            TotalCashIn += item.CREDIT;
+            TotalCashout += item.DEBIT;
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @if (item.CREDIT != 0)
+                    {
+                        @item.CREDIT.ToString("#,##0.00")
+                    }
+                </td>
+                <td>
+                    @if (item.DEBIT != 0)
+                    {
+                        @item.DEBIT.ToString("#,##0.00")
+                    }
+                </td>
+                <td style="width:120px;">
+                    @if (item.Id != 0)
+                    {
+                        if (isAdmin)
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })<span> |</span>
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        }
+                    }
+                </td>
+            </tr>
+        }
+
+    }
+    <!-- TOTALS CALCULATIONS -->
+    @{
+        TotalBalance = TotalCashIn - TotalCashout;
+    }
+    <tr>
+        <td>
+        </td>
+        <td>
+            <span class="text-muted"> Total Cash-in </span><br />
+            <span id="TotalCashIn">@TotalCashIn.ToString("#,##0.00")</span>
+        </td>
+        <td>
+            <span class="text-muted"> Total Expenses </span><br />
+            <span id="TotalCashout">@TotalCashout.ToString("#,##0.00")</span>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+            <span class="text-muted"> Balance </span>
+        </td>
+        <td>
+            <span id="totalBalance">@TotalBalance.ToString("#,##0.00")</span>
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td></td>
+        <td>
+            <button class="btn btn-primary" onclick="PostBalance()">
+                Post Balance
+            </button>
+        </td>
+        <td></td>
+    </tr>
+</table>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransCreate.js"></script>
+    <script>
+        function PostBalance() {
+
+            var data = {
+                DtPost: moment(new Date()).format("MM/DD/YYYY"),
+                Cash  : @TotalCashIn,
+                Amount : @TotalCashout,
+                Balance : @TotalBalance,
+
+            }
+
+            console.log(data);
+
+           var con = $.post("/Payables/ApCashFlows/CashFlowPost", data, (res) => {
+                if (res == "True") {
+                    alert("Balance Posted.");
+                    window.location.reload(false);
+                } else {
+                    alert("Unable to post Balance.");
+                    window.location.reload(false);
+                }
+
+           })
+
+            console.log(con);
+        }
+    </script>
+}

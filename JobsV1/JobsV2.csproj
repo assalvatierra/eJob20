@@ -49,18 +49,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ApInterfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\RealSysMods\Payables\ApInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="ApModels, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\RealSysMods\Payables\ApModels.dll</HintPath>
-    </Reference>
-    <Reference Include="ApServices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\RealSysMods\Payables\ApServices.dll</HintPath>
-    </Reference>
     <Reference Include="ArDBLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\RealSysMods\Receivables\ArDBLayer.dll</HintPath>
@@ -375,6 +363,7 @@
       <DependentUpon>AppointmentDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Payables\Controllers\ApAccountsController.cs" />
+    <Compile Include="Areas\Payables\Controllers\ApCashFlowsController.cs" />
     <Compile Include="Areas\Payables\Controllers\ApPaymentsController.cs" />
     <Compile Include="Areas\Payables\Controllers\ApTransactionsController.cs" />
     <Compile Include="Areas\Payables\Controllers\ApTransItemsController.cs" />
@@ -566,7 +555,9 @@
     <Content Include="Areas\Payables\Data\Initial.sql" />
     <Content Include="Areas\Payables\Data\Initial_data.sql" />
     <Content Include="Areas\Payables\Scripts\ApPayments\ApPaymentCreate.js" />
+    <Content Include="Areas\Payables\Scripts\ApTransactions\ApTransRepeating.js" />
     <Content Include="Areas\Payables\Scripts\ApTransactions\ApTransaction.js" />
+    <Content Include="Areas\Payables\Scripts\ApTransactions\ApCashIn.js" />
     <Content Include="Areas\Payables\Scripts\ApTransactions\ReleasedDaily.js" />
     <Content Include="Areas\Payables\Scripts\ApTransactions\ApTransCreate.js" />
     <Content Include="Areas\Payables\Scripts\ApTransactions\ApTransDetails.js" />
@@ -1389,6 +1380,7 @@
     <Content Include="Areas\Personel\Script\CarRentalLogReturn.js" />
     <Content Include="Areas\Personel\Script\CashTransactions.js" />
     <Content Include="Areas\Personel\Script\CopyPassengers.js" />
+    <Content Include="Areas\Personel\Script\DriverUpdateTime.js" />
     <Content Include="Areas\Personel\Script\CreateTripLogTime.js" />
     <Content Include="Areas\Personel\Script\CreatePassengerTime.js" />
     <Content Include="Areas\Personel\Script\CrLogFuel.js" />
@@ -1450,8 +1442,11 @@
     <Content Include="BingSiteAuth.xml" />
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\ApInterfaces.dll" />
+    <Content Include="bin\ApInterfaces.pdb" />
     <Content Include="bin\ApModels.dll" />
+    <Content Include="bin\ApModels.pdb" />
     <Content Include="bin\ApServices.dll" />
+    <Content Include="bin\ApServices.pdb" />
     <Content Include="bin\ArDBLayer.dll" />
     <Content Include="bin\ArInterfaces.dll" />
     <Content Include="bin\ArModels.dll" />
@@ -2617,6 +2612,18 @@
     <Content Include="Areas\Personel\Views\crLogBilling\_LogOdoUpdateModal.cshtml" />
     <Content Include="Areas\Personel\Views\crLogBilling\_VehicleTripFilter.cshtml" />
     <Content Include="Areas\Personel\Views\crLogBilling\_VehicleSummaryFilter.cshtml" />
+    <Content Include="bin\ApModels.dll.config" />
+    <Content Include="bin\ApServices.dll.config" />
+    <Content Include="Areas\Payables\Views\ApCashFlows\Posted.cshtml" />
+    <Content Include="Areas\Payables\Views\ApCashFlows\PostedDetails.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengers\CreatePassTripDriver.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengers\ReportPassDropped.cshtml" />
+    <Content Include="Areas\Payables\Views\ApCashFlows\Create.cshtml" />
+    <Content Include="Areas\Payables\Views\ApCashFlows\Delete.cshtml" />
+    <Content Include="Areas\Payables\Views\ApCashFlows\Details.cshtml" />
+    <Content Include="Areas\Payables\Views\ApCashFlows\Edit.cshtml" />
+    <Content Include="Areas\Payables\Views\ApCashFlows\Index.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransactions\PrintPOForm.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
@@ -3534,6 +3541,7 @@
     <Content Include="Views\InvCarMntRcmds\Edit.cshtml" />
     <Content Include="Views\InvCarMntRcmds\Index.cshtml" />
     <Content Include="Views\InvItems\EditInvCrLogUnit.cshtml" />
+    <Content Include="Views\SysAccessUsers\ManageRoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -3555,6 +3563,20 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Payable20\ApInterfaces\ApInterfaces.csproj">
+      <Project>{612DB2FA-AE5F-4934-A856-48D757E3267B}</Project>
+      <Name>ApInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Payable20\ApModels\ApModels.csproj">
+      <Project>{EE27D0D9-C2CD-451B-A02C-6C121723F3CB}</Project>
+      <Name>ApModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Payable20\ApServices\ApServices.csproj">
+      <Project>{D9E4457A-12F0-4E6F-A629-5043BAB5455A}</Project>
+      <Name>ApServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -87,10 +87,10 @@
     </div>
 
     <div class="col-md-6">
-        @if (Model.RepeatCount != 0)
+        @*@if (Model.RepeatCount != 0)
         {
             <h3 class="col-sm-12"> No @Html.DisplayFor(model => model.RepeatNo) of @Html.DisplayFor(model => model.RepeatCount) </h3>
-        }
+        }*@
         <div class="col-sm-12">
             <label class="control-label text-muted"> Invoice </label>
             <p style="margin-top:0px;font-weight:600;"> @Html.DisplayFor(model => model.InvoiceNo) </p>
@@ -108,7 +108,7 @@
             <p style="margin-top:0px;"> @Model.IsRepeating </p>
         </div>
 
-        @if (Model.IsRepeating)
+        @*@if (Model.IsRepeating)
         {
 
             <div class="col-sm-12">
@@ -125,7 +125,7 @@
                 <label class="control-label text-muted"> Repeat No </label>
                 <p> @Html.DisplayFor(model => model.RepeatNo) of @Html.DisplayFor(model => model.RepeatCount) </p>
             </div>
-        }
+        }*@
 
     </div>
 </div>
