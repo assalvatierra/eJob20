@@ -2235,7 +2235,6 @@ namespace JobsV1.Areas.Personel.Controllers
 
         #endregion
 
-
         #region CarRentalLogs Services
 
         //Check if Unit is encoded in trip logs for the selected date
@@ -2434,6 +2433,41 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
+        //POST: CarRentalLog/UpdateDriverTime
+        [HttpPost]
+        public bool UpdateDriverTime(int tripId, string time, int typeId)
+        {
+            try
+            {
+                var trip = db.crLogTrips.Find(tripId);
+
+                if (trip == null)
+                {
+                    return false;
+                }
+
+                //TIME-IN
+                if (typeId == 1)
+                {
+                    trip.StartTime = time;
+                }
+
+                //TIME-OUT
+                if (typeId == 2)
+                {
+                    trip.EndTime = time;
+                }
+
+                db.Entry(trip).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         #endregion
     }

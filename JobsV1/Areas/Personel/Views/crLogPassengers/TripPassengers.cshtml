@@ -10,11 +10,19 @@
 
 }
 
-<h2>@tripDetails.DtTrip.ToString("MMM dd yyyy")- @tripDetails.crLogCompany.Name / @tripDetails.crLogUnit.Description / @tripDetails.crLogDriver.Name </h2>
+<h2>
+    @tripDetails.DtTrip.ToString("MMM dd yyyy")-
+
+    @Html.ActionLink(@tripDetails.crLogCompany.Name, "TripPortal", "CrLogPassengerList",new { id = tripDetails.crLogCompanyId }, null)
+     / @tripDetails.crLogUnit.Description /
+    @Html.ActionLink(@tripDetails.crLogDriver.Name, "DriversTripList", new { id = tripDetails.crLogDriverId }, null)
+
+</h2>
 <h2>Passenger List</h2>
 
 <p>
-    @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog")
+    @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog") |
+    @Html.ActionLink("Drivers View", "DriversTripPassengers", new { id = tripDetails.crLogDriverId }, null)
 </p>
 <p>
     @Html.ActionLink("Add Passenger", "CreatePassTrip", new { id = tripId }) |

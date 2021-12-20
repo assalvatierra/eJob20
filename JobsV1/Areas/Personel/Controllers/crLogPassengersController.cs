@@ -91,7 +91,7 @@ namespace JobsV1.Areas.Personel.Controllers
             return View(sorted_Passengers);
         }
 
-        // GET: Personel/DriversTripPassengers/{driversId}
+        // GET: crLogPassengersController/DriversTripList/{driversId}
         public ActionResult DriversTripList(int? id)
         {
             if (id == null)
@@ -198,6 +198,9 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.Driver = tripToday.crLogDriver.Name;
             ViewBag.DriversId = tripToday.crLogDriverId;
             ViewBag.UnitDetails = tripToday.crLogUnit.Description;
+            ViewBag.StartTime = tripToday.StartTime;
+            ViewBag.EndTime = tripToday.EndTime;
+
             return View(sorted_Passengers);
         }
 
@@ -287,7 +290,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.SaveChanges();
 
                 //check passenger
-                if (CheckPassengerNameOnMaster(crLogPassenger))
+                if (CheckPassNameNotOnMaster(crLogPassenger))
                 {
                     SavePassengerToMasterList(crLogPassenger);
                 }
@@ -301,6 +304,54 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.PassengerList = GetPassengersNotInTrip(crLogPassenger.crLogTripId);
             return View(crLogPassenger);
         }
+
+
+        // GET: Personel/crLogPassengers/Create
+        public ActionResult CreatePassTripDriver(int id)
+        {
+            crLogPassenger passenger = new crLogPassenger();
+            passenger.timeContacted = " ";
+            passenger.timeBoarded = " ";
+            passenger.timeDelivered = " ";
+            passenger.PickupTime = "7:30 PM";
+            passenger.DropTime = "9:00 PM";
+
+            ViewBag.tripId = id;
+            ViewBag.crLogPassStatusId = new SelectList(db.crLogPassStatus, "Id", "Status");
+            ViewBag.crLogTripId = new SelectList(db.crLogTrips, "Id", "DtTrip", id);
+            ViewBag.Area = new SelectList(db.crLogPassengerAreas.OrderBy(a => a.Name), "Name", "Name");
+            ViewBag.PassengerList = GetPassengersNotInTrip(id);
+            return View(passenger);
+        }
+
+        // POST: Personel/crLogPassengers/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreatePassTripDriver([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId,Area,NextDay,RestDay")] crLogPassenger crLogPassenger)
+        {
+            if (ModelState.IsValid && CreatePassValidation(crLogPassenger))
+            {
+                db.crLogPassengers.Add(crLogPassenger);
+                db.SaveChanges();
+
+                //check passenger
+                if (CheckPassNameNotOnMaster(crLogPassenger))
+                {
+                    SavePassengerToMasterList(crLogPassenger);
+                }
+                return RedirectToAction("DriversTripPassengers", new { id = crLogPassenger.crLogTripId });
+            }
+
+            ViewBag.tripId = crLogPassenger.crLogTripId;
+            ViewBag.crLogPassStatusId = new SelectList(db.crLogPassStatus, "Id", "Status", crLogPassenger.crLogPassStatusId);
+            ViewBag.crLogTripId = new SelectList(db.crLogTrips, "Id", "Remarks", crLogPassenger.crLogTripId);
+            ViewBag.Area = new SelectList(db.crLogPassengerAreas.OrderBy(a => a.Name), "Name", "Name", crLogPassenger.Area);
+            ViewBag.PassengerList = GetPassengersNotInTrip(crLogPassenger.crLogTripId);
+            return View(crLogPassenger);
+        }
+
 
 
         // GET: Personel/crLogPassengers/Edit/5
@@ -893,7 +944,7 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
-        public bool CheckPassengerNameOnMaster(crLogPassenger passenger)
+        public bool CheckPassNameNotOnMaster(crLogPassenger passenger)
         {
             var isNotEncoded = db.crLogPassengerMasters.Where(p => passenger.Name == p.Name);
             if (isNotEncoded.FirstOrDefault() == null)
@@ -987,7 +1038,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 }
 
                 //check passenger
-                if (CheckPassengerNameOnMaster(passenger))
+                if (CheckPassNameNotOnMaster(passenger))
                 {
                     SavePassengerToMasterList(passenger);
                 }
@@ -1184,6 +1235,28 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
+
+        public ActionResult ReportPassDropped(int id)
+        {
+            try
+            {
+                var trip = db.crLogTrips.Find(id);
+
+                if (trip == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var psgrList = trip.crLogPassengers.Where(c=> !String.IsNullOrEmpty(c.timeBoarded)).ToList();
+                ViewBag.TripId = id;
+
+                return View(psgrList);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }
