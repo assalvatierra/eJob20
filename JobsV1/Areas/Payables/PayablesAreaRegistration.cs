@@ -23,6 +23,12 @@ namespace Payable.Areas.Payables
               new string[] { "JobsV1.Controllers" }
             );
 
+            context.MapRoute(
+              "Payables Home Redirect",
+              "Payables/Home",
+              new { controller = "ApTransactions", action = "Index" },
+              new string[] { "JobsV1.Areas.Payables.Controllers" }
+            );
 
             context.MapRoute(
                 "Payables_default",

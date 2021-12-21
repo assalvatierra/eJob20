@@ -31,6 +31,13 @@
     int STATUS_CANCELLED = 6;
 }
 
+<style>
+    .header {
+        position: sticky;
+        top: 0;
+    }
+</style>
+
 <h2>Expenses Transactions </h2>
 <p>
     @Html.ActionLink("Create New", "Create", null, new { @class = " btn btn-primary" })
@@ -70,53 +77,53 @@
 
 <table class="table" id="payables-table">
     <tr>
-        <th>
+        <th class="header" scope="col">
             @if (status == 2)
             {
                 <a href="#" type="checkbox" id="payables-table-checkAll" onclick="CheckAllPayableItems()">All </a>
             }
 
         </th>
-        <th>
+        <th class="header" scope="col">
             @Html.DisplayNameFor(model => model.Id)
         </th>
-        <th>
+        <th class="header" scope="col">
             JobRef
         </th>
-        <th>
+        <th class="header" scope="col">
             Invoice&nbsp;Date
         </th>
-        <th>
+        <th class="header" scope="col">
             @Html.DisplayNameFor(model => model.ApAccount.Name)
         </th>
-        <th style="min-width:160px;">
+        <th style="min-width:160px;" class="header" scope="col">
             @Html.DisplayNameFor(model => model.Description)
         </th>
-        <th>
+        <th class="header" scope="col">
             Due&nbsp;Date
         </th>
-        <th style="min-width:100px;">
+        <th style="min-width:100px;" class="header" scope="col">
             Category
         </th>
-        <th>
+        <th class="header" scope="col">
             @Html.DisplayNameFor(model => model.ApTransStatu.Status)
         </th>
-        <th>
+        <th class="header" scope="col">
             Budget
         </th>
-        <th>
+        <th class="header" scope="col">
             Released
         </th>
-        <th>
+        <th class="header" scope="col">
             @Html.DisplayNameFor(model => model.Amount)
         </th>
-        <th>
+        <th class="header" scope="col">
             Payment
         </th>
-        <th>
+        <th class="header" scope="col">
             Change
         </th>
-        <th>
+        <th class="header" scope="col">
         </th>
     </tr>
 
@@ -359,12 +366,14 @@
                             <li>
                                 @if (item.ApTransStatusId == STATUS_NEW || item.ApTransStatusId == 8)
                                 {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 1)"> Request </a>
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_RELEASED)"> Request </a>
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_CANCELLED)"> Cancel </a>
                                 }
 
                                 @if (item.ApTransStatusId == STATUS_REQUEST && isAdmin)
                                 {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 2)"> Approve </a>
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_APPROVED)"> Approve </a>
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_CANCELLED)"> Cancel </a>
                                 }
                                 else if (item.ApTransStatusId == STATUS_APPROVED)
                                 {
@@ -372,13 +381,13 @@
 
                                     if (!item.IsPrinted && item.ApTransTypeId == TYPE_PO)
                                     {
-                                            @Html.ActionLink("Print PO", "PrintPOForm", "ApTransactions", new { id = item.Id }, new { @target="_blank" })
+                                        @Html.ActionLink("Print PO", "PrintPOForm", "ApTransactions", new { id = item.Id }, new { @target = "_blank" })
                                     }
 
                                 }
                                 else if (item.ApTransStatusId == STATUS_RELEASED)
                                 {
-                                     <li>
+<li>
                                         <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
                                     </li>
                                     if (item.ApTransPayments.Count() != 0 || isAdmin)

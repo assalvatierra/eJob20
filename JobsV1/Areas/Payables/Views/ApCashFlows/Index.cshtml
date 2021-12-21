@@ -4,20 +4,22 @@
     ViewBag.Title = "CashFlow";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 
+    decimal TotalRequest = 0;
     decimal TotalCashIn  = 0;
     decimal TotalCashout = 0;
     decimal TotalBalance = 0;
+    decimal TotalProjectedBalance = 0;
     bool isAdmin = ViewBag.IsAdmin ?? false;
 }
 
 <h2>CashFlow</h2>
 
 <p>
-    @Html.ActionLink("Back to Expenses", "Index", "Aptransactions")
+    @Html.ActionLink("Back to Expenses", "Index", "Aptransactions") | 
+    @Html.ActionLink("Posted Cash Flows", "Posted", null, null)
 </p>
 <p>
     @Html.ActionLink("Cash In", "Create", null, new { @class = "btn btn-default" })
-    @Html.ActionLink("Posted Cash Flow", "Posted", null, new { @class = "btn btn-default" })
 </p>
 
 <h4> Date: @ViewBag.Today </h4>
@@ -26,6 +28,9 @@
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            Request
         </th>
         <th>
             Cash in
@@ -50,10 +55,18 @@
 
             TotalCashIn += item.CREDIT;
             TotalCashout += item.DEBIT;
+            TotalRequest += item.REQUEST == null ? (decimal)(0) : (decimal)item.REQUEST;
 
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
+                    <span class="text-muted"> @Html.DisplayFor(modelItem => item.Remarks)</span>
+                </td>
+                <td>
+                    @if (item.REQUEST != null)
+                    {
+                        <span class="text-info"> @item.REQUEST</span>
+                    }
                 </td>
                 <td>
                     @if (item.CREDIT != 0)
@@ -84,9 +97,14 @@
     <!-- TOTALS CALCULATIONS -->
     @{
         TotalBalance = TotalCashIn - TotalCashout;
+        TotalProjectedBalance = TotalBalance - TotalRequest;
     }
     <tr>
         <td>
+        </td>
+        <td>
+            <span class="text-muted"> Total Request </span><br />
+            <span id="TotalCashIn" class="text-info">@TotalRequest.ToString("#,##0.00")</span>
         </td>
         <td>
             <span class="text-muted"> Total Cash-in </span><br />
@@ -99,10 +117,10 @@
         <td></td>
     </tr>
     <tr>
-        <td>
+        <td colspan="2">
         </td>
         <td>
-            <span class="text-muted"> Balance </span>
+            <span class="text-muted"> Actual Balance </span>
         </td>
         <td>
             <span id="totalBalance">@TotalBalance.ToString("#,##0.00")</span>
@@ -111,9 +129,20 @@
         </td>
     </tr>
     <tr>
+        <td colspan="2">
+        </td>
+        <td>
+            <span class="text-muted"> Projected Balance </span>
+        </td>
+        <td>
+            <span id="totalBalance">@TotalProjectedBalance.ToString("#,##0.00")</span>
+        </td>
         <td>
         </td>
-        <td></td>
+    </tr>
+    <tr>
+        <td colspan="3">
+        </td>
         <td>
             <button class="btn btn-primary" onclick="PostBalance()">
                 Post Balance

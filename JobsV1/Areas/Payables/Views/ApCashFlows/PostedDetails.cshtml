@@ -28,34 +28,43 @@
         <th>
             Expenses
         </th>
-        <th style="width:5px;"></th>
+        <th style="width:120px;"></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var dategroup in Model.GroupBy(c => c.Date))
     {
-        TotalCashIn += item.CREDIT;
-        TotalCashout += item.DEBIT;
 
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @if (item.CREDIT != 0)
-                {
-                    @item.CREDIT.ToString("#,##0.00")
-                }
-            </td>
-            <td>
-                @if (item.DEBIT != 0)
-                {
-                    @item.DEBIT.ToString("#,##0.00")
-                }
-            </td>
-            <td style="width:5px;">
-               
+            <td colspan="4" class="text-primary">
+                @dategroup.Key.ToString("MMM dd yyyy")
             </td>
         </tr>
+
+        foreach (var item in dategroup.OrderBy(c => c.OrderNo))
+        {
+
+            TotalCashIn += item.CREDIT;
+            TotalCashout += item.DEBIT;
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @if (item.CREDIT != 0)
+                    {
+                        @item.CREDIT.ToString("#,##0.00")
+                    }
+                </td>
+                <td>
+                    @if (item.DEBIT != 0)
+                    {
+                        @item.DEBIT.ToString("#,##0.00")
+                    }
+                </td>
+            </tr>
+        }
+
     }
     <!-- TOTALS CALCULATIONS -->
     @{
@@ -91,5 +100,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-  
+
 }

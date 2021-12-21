@@ -73,9 +73,13 @@ namespace JobsV1.Areas.Payables.Controllers
         // GET: Payables/ApCashFlows/Create
         public ActionResult Create()
         {
+            ApCashFlow apCashFlow = new ApCashFlow();
+
+            apCashFlow.PerformedBy = GetUser();
+
             ViewBag.ApCashFlowTypeId = new SelectList(db.ApCashFlowTypes, "Id", "Type", 2);
             ViewBag.ApAccountId = new SelectList(db.ApAccounts, "Id", "Name", 2);
-            return View();
+            return View(apCashFlow);
         }
 
         // POST: Payables/ApCashFlows/Create
@@ -83,7 +87,7 @@ namespace JobsV1.Areas.Payables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,Amount,Date,Remarks,ApCashFlowTypeId,ApAccountId")] ApCashFlow apCashFlow)
+        public ActionResult Create([Bind(Include = "Id,Description,Amount,Date,Remarks,ApCashFlowTypeId,ApAccountId,PerformedBy")] ApCashFlow apCashFlow)
         {
             if (ModelState.IsValid)
             {
@@ -92,6 +96,7 @@ namespace JobsV1.Areas.Payables.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.User = GetUser();
             ViewBag.ApCashFlowTypeId = new SelectList(db.ApCashFlowTypes, "Id", "Type", apCashFlow.ApCashFlowTypeId);
             ViewBag.ApAccountId = new SelectList(db.ApAccounts, "Id", "Name", apCashFlow.ApAccountId);
             return View(apCashFlow);
@@ -109,6 +114,7 @@ namespace JobsV1.Areas.Payables.Controllers
             {
                 return HttpNotFound();
             }
+            //ViewBag.User = GetUser();
             ViewBag.ApCashFlowTypeId = new SelectList(db.ApCashFlowTypes, "Id", "Type", apCashFlow.ApCashFlowTypeId);
             ViewBag.ApAccountId = new SelectList(db.ApAccounts, "Id", "Name", apCashFlow.ApAccountId);
             return View(apCashFlow);
@@ -119,7 +125,7 @@ namespace JobsV1.Areas.Payables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description,Amount,Date,Remarks,ApCashFlowTypeId,ApAccountId")] ApCashFlow apCashFlow)
+        public ActionResult Edit([Bind(Include = "Id,Description,Amount,Date,Remarks,ApCashFlowTypeId,ApAccountId,PerformedBy")] ApCashFlow apCashFlow)
         {
             if (ModelState.IsValid)
             {
@@ -127,6 +133,7 @@ namespace JobsV1.Areas.Payables.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.User = GetUser();
             ViewBag.ApCashFlowTypeId = new SelectList(db.ApCashFlowTypes, "Id", "Type", apCashFlow.ApCashFlowTypeId);
             ViewBag.ApAccountId = new SelectList(db.ApAccounts, "Id", "Name", apCashFlow.ApAccountId);
             return View(apCashFlow);
@@ -249,50 +256,7 @@ namespace JobsV1.Areas.Payables.Controllers
                     return HttpNotFound();
                 }
 
-
-                var postedgroup = db.ApCashFlowPostGroups.Where(p => p.ApTransPostId == id).ToList();
-
-                List<CashFlowModel> cashFlowModel = new List<CashFlowModel>();
-
-                var datetoday = ap.DateClassMgr.GetCurrentDate();
-                var cashflow = postedgroup.Select(c => c.ApCashFlow).ToList();
-
-
-                //Changes
-                var openingBal = cashflow.Where(c => c.ApCashFlowTypeId == (int)CASHFLOWTYPE.CREDIT
-                    && c.Description == "Opening Balance").ToList();
-                openingBal.ForEach(c => {
-                    cashFlowModel.Add(new CashFlowModel
-                    {
-                        Date = c.Date,
-                        Description = c.Description,
-                        CREDIT = c.Amount
-                    });
-                });
-
-
-                //Expenses
-                var expenses = cashflow.Where(c => c.ApCashFlowTypeId == (int)CASHFLOWTYPE.DEBIT).ToList();
-                expenses.ForEach(c => {
-                    cashFlowModel.Add(new CashFlowModel
-                    {
-                        Date = c.Date,
-                        Description = c.Description,
-                        DEBIT = c.Amount,
-                    });
-                });
-
-                //Changes
-                var cashIns = cashflow.Where(c => c.ApCashFlowTypeId == (int)CASHFLOWTYPE.CREDIT
-                    && c.Description != "Opening Balance").ToList();
-                cashIns.ForEach(c => {
-                    cashFlowModel.Add(new CashFlowModel
-                    {
-                        Date = c.Date,
-                        Description = c.Description,
-                        CREDIT = c.Amount
-                    });
-                });
+                List<CashFlowModel> cashFlowModel = ap.CashFlowMgr.GetCashFlowListByPostedId((int)id);
 
                 ViewBag.Today = postedDetails.DtPost.ToString("MMM dd yyyy");
 
@@ -305,5 +269,9 @@ namespace JobsV1.Areas.Payables.Controllers
         }
         #endregion
 
+        public string GetUser()
+        {
+            return HttpContext.User.Identity.Name ?? "Unknown";
+        }
     }
 }

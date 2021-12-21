@@ -356,7 +356,7 @@ namespace JobsV1.Areas.Payables.Controllers
 
         public void ReleasedCashFlow(ApTransaction payable)
         {
-            var today = dt.GetCurrentDate();
+            var today = dt.GetCurrentDate().Date;
 
             //RELEASED
             if (payable.ReleaseAmt != 0)
@@ -368,14 +368,15 @@ namespace JobsV1.Areas.Payables.Controllers
                     Amount = payable.ReleaseAmt ?? 0,
                     Remarks = payable.Remarks,
                     ApCashFlowTypeId = 1,
-                    ApAccountId = payable.ApAccountId
+                    ApAccountId = payable.ApAccountId,
+                    PerformedBy = GetUser()
                 });
             }
         }
 
         public void ReturnedCashFlow(ApTransaction payable)
         {
-            var today = dt.GetCurrentDate();
+            var today = dt.GetCurrentDate().Date;
 
             //RETURN
             
@@ -391,7 +392,8 @@ namespace JobsV1.Areas.Payables.Controllers
                         Amount = payableChange,
                         Remarks = payable.Remarks,
                         ApCashFlowTypeId = 2,
-                        ApAccountId = payable.ApAccountId
+                        ApAccountId = payable.ApAccountId,
+                        PerformedBy = GetUser()
                     });
                 }
             
