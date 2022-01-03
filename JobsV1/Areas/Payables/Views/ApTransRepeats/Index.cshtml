@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ApModels.Models.ApTransRepeat>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RepeatCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RepeatNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NextRef)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrevRef)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApTransactionId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Interval)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RepeatCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RepeatNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NextRef)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrevRef)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApTransactionId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Interval)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

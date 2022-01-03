@@ -121,17 +121,17 @@ namespace JobsV1.Areas.Payables.Controllers
         {
             if (apPayments.ApPaymentStatusId == 1)
             {
-                //add action log for transaction create 
-                ap.ActionMgr.AddAction(GetUser(), transId, 6);
+                //add action log for transaction create pending
+                ap.ActionMgr.AddAction(GetUser(), transId, 15);
             }
             if (apPayments.ApPaymentStatusId == 2)
             {
-                //add action log for transaction create 
+                //add action log for transaction create accepted
                 ap.ActionMgr.AddAction(GetUser(), transId, 7);
             }
             if (apPayments.ApPaymentStatusId == 3)
             {
-                //add action log for transaction create 
+                //add action log for transaction create cancelled
                 ap.ActionMgr.AddAction(GetUser(), transId, 8);
             }
 

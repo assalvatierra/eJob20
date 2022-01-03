@@ -8,13 +8,16 @@
     decimal TotalPayment = 0;
     decimal TotalBalance = 0;
     decimal TotalItemAmount = 0;
+
 }
 
 <h2>Details</h2>
 <p>
-    @if (Model.ApTransStatusId < 2) {
+    @if (Model.ApTransStatusId < 2)
+    {
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id })<span> | </span>
     }
+    @Html.ActionLink("Repeating", "Create", "ApTransRepeats", new { id = Model.Id }, null)<span> | </span>
     @Html.ActionLink("History", "ActionHistory", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
@@ -87,10 +90,12 @@
     </div>
 
     <div class="col-md-6">
-        @*@if (Model.RepeatCount != 0)
+        @if (Model.ApTransRepeat != null )
         {
-            <h3 class="col-sm-12"> No @Html.DisplayFor(model => model.RepeatNo) of @Html.DisplayFor(model => model.RepeatCount) </h3>
-        }*@
+            <h3 class="col-sm-12"> No @Html.DisplayFor(model => model.ApTransRepeat.RepeatNo) of 
+                @Html.DisplayFor(model => model.ApTransRepeat.RepeatCount)
+            </h3>
+        }
         <div class="col-sm-12">
             <label class="control-label text-muted"> Invoice </label>
             <p style="margin-top:0px;font-weight:600;"> @Html.DisplayFor(model => model.InvoiceNo) </p>

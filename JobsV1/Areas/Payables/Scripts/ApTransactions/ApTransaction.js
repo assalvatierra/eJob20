@@ -20,8 +20,9 @@ function Initialize(status, sortBy) {
         $("#status-" + status).addClass('active');
         $("#status-" + status).siblings('.active').removeClass('active');
 
-
     }
+
+    Init_Repeating();
 }
 
 //update filter on list

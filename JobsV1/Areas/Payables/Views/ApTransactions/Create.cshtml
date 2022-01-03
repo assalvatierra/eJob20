@@ -173,5 +173,12 @@
                 $("#repeat-group").hide();
             }
         });
+
+        document.getElementById('yourTextBoxID').onkeypress = function () {
+            if (event.keyCode === 39) { // apostrophe
+                // prevent the keypress
+                return false;
+            }
+        };
     </script>
 }

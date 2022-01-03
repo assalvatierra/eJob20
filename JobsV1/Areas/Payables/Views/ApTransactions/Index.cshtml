@@ -202,8 +202,8 @@
 
             <tr style="color:@textcolor;background-color:@bgcolor;">
                 <td>
-                    @if (item.ApTransStatusId == STATUS_RELEASED 
-                        && (item.ReleaseAmt == 0 || item.ReleaseAmt == null) 
+                    @if (item.ApTransStatusId == STATUS_RELEASED
+                        && (item.ReleaseAmt == 0 || item.ReleaseAmt == null)
                         && item.ApTransTypeId != TYPE_PO)
                     {
                         <img src="~/Images/SalesLead/high-importance.png" width="20" />
@@ -346,8 +346,8 @@
                         </span>
                     }
 
-                    @if ((totalTransPayment == 0) && item.ApTransStatusId >= 5 
-                        && item.ApTransPayments.Count() != 0 
+                    @if ((totalTransPayment == 0) && item.ApTransStatusId >= 5
+                        && item.ApTransPayments.Count() != 0
                         && item.ApTransTypeId != TYPE_PO)
                     {
                         <span>
@@ -387,81 +387,82 @@
                                 }
                                 else if (item.ApTransStatusId == STATUS_RELEASED)
                                 {
-<li>
-                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
-                                    </li>
-                                    if (item.ApTransPayments.Count() != 0 || isAdmin)
-                                    {
-                                        //return
-                                        <li>
-                                            <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount)"> Return </a>
-                                        </li>
-                                    }
-
-                                }
-                                else if (item.ApTransStatusId == STATUS_RETURNED && isAdmin)
+                                <li>
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
+                                </li>
+                                if (item.ApTransPayments.Count() != 0 || isAdmin)
                                 {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusClose(this, @item.Id)"> Paid & Close </a>
+                                    //return
+                                    <li>
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount)"> Return </a>
+                                    </li>
                                 }
-                            </li>
 
-                            <li role="separator" class="divider"></li>
-                            @if (item.ApTransStatusId <= STATUS_REQUEST || item.ApTransStatusId >= STATUS_CANCELLED)
-                            {
-                                <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                             }
-                            else
+                            else if (item.ApTransStatusId == STATUS_RETURNED && isAdmin)
                             {
-                                if (isAdmin) {
-                                    <li> @Html.ActionLink("Admin Edit", "Edit", new { id = item.Id }) </li>
-                                <li> @Html.ActionLink("History", "ActionHistory", new { id = item.Id }) </li>
+                                <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusClose(this, @item.Id)"> Paid & Close </a>
+                            }
+                                </li>
+
+                                <li role="separator" class="divider"></li>
+                                @if (item.ApTransStatusId <= STATUS_REQUEST || item.ApTransStatusId >= STATUS_CANCELLED)
+                                {
+                                    <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                                 }
-                            }
-                            <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
-                            @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                        </ul>
-                    </div>
+                                else
+                                {
+                                    if (isAdmin)
+                                    {
+                                        <li> @Html.ActionLink("Admin Edit", "Edit", new { id = item.Id }) </li>
+                                        <li> @Html.ActionLink("History", "ActionHistory", new { id = item.Id }) </li>
+                                    }
+                                }
+                                <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
+                                @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                totalPayment += totalTransPayment;
+                totalAmount += item.Amount;
+
+                totalBudget += item.BudgetAmt ?? 0;
+                totalRelease += item.ReleaseAmt ?? 0;
+            }
+
+
+            {
+                totalBalance = totalRelease - totalPayment;
+                GrandTotal += totalAmount;
+            }
+            <tr>
+                <td colspan="9">
                 </td>
+                <td>
+                    <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Budget </span><br />
+                    <span style="font-size:18px;">@totalBudget.ToString("#,##0.00")</span>
+                </td>
+                <td>
+                    <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Released </span><br />
+                    <span style="font-size:18px;">@totalRelease.ToString("#,##0.00")</span>
+                </td>
+                <td style="background-color:lightgray;">
+                    <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Amount </span><br />
+                    <span style="font-size:18px;">@totalAmount.ToString("#,##0.00")</span>
+                </td>
+                <td style="color:darkgreen;background-color:lightgray;">
+                    <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Payment </span><br />
+                    <span style="font-size:18px;">@totalPayment.ToString("#,##0.00")</span>
+                </td>
+                <td style="font-weight:600;">
+                    <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total Diff </span><br />
+                    <span style="font-size:18px;color:blue;">@totalBalance.ToString("#,##0.00")</span>
+                </td>
+                <td></td>
             </tr>
-            totalPayment += totalTransPayment;
-            totalAmount += item.Amount;
 
-            totalBudget += item.BudgetAmt ?? 0;
-            totalRelease += item.ReleaseAmt ?? 0;
         }
-
-
-        {
-            totalBalance = totalRelease - totalPayment;
-            GrandTotal += totalAmount;
-        }
-        <tr>
-            <td colspan="9">
-            </td>
-            <td>
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Budget </span><br />
-                <span style="font-size:18px;">@totalBudget.ToString("#,##0.00")</span>
-            </td>
-            <td>
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Released </span><br />
-                <span style="font-size:18px;">@totalRelease.ToString("#,##0.00")</span>
-            </td>
-            <td style="background-color:lightgray;">
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Amount </span><br />
-                <span style="font-size:18px;">@totalAmount.ToString("#,##0.00")</span>
-            </td>
-            <td style="color:darkgreen;background-color:lightgray;">
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Payment </span><br />
-                <span style="font-size:18px;">@totalPayment.ToString("#,##0.00")</span>
-            </td>
-            <td style="font-weight:600;">
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total Diff </span><br />
-                <span style="font-size:18px;color:blue;">@totalBalance.ToString("#,##0.00")</span>
-            </td>
-            <td></td>
-        </tr>
-
-    }
 
 
 </table>
@@ -736,6 +737,7 @@
 
 @section Scripts{
     <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransaction.js"></script>
+    <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransRepeating.js"></script>
     <script>
         $(Initialize('@status','@sortBy'));
     </script>

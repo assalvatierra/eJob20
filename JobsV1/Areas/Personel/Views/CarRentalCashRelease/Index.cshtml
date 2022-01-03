@@ -11,32 +11,46 @@
     int ReleasedCount = (int)ViewBag.ReleasedCount;
 
     decimal TotalAmount = 0;
+
+    int STATUS_REQUEST = 1;
+    int STATUS_APPROVED = 2;
+    int STATUS_RETURNED = 3;
 }
 
 <h2>Cash Transaction</h2>
 <p>
     @Html.ActionLink("Back to Trip Log", "Index", "CarRentalLog") |
     @Html.ActionLink("Previous Records", "PrevRecords") |
-    @Html.ActionLink("Salary Summary", "SalarySummary")   
+    @Html.ActionLink("Salary Summary", "SalarySummary")
 </p>
 <p id="status-list">
     <span class="text-muted"> Status Filter:  </span>
-    @Html.ActionLink("Request", "Index", new { statusId = 1 }, new { @id = "status-request" })
+    @Html.ActionLink("Request", "Index", new { statusId = STATUS_REQUEST }, new { @id = "status-request" })
     <span class="badge"> @RequestCount </span> |
-    @Html.ActionLink("Approved", "Index", new { statusId = 2 }, new { @id = "status-approved" })
+    @Html.ActionLink("Approved", "Index", new { statusId = STATUS_APPROVED }, new { @id = "status-approved" })
     <span class="badge"> @ApprovedCount </span> |
-    @Html.ActionLink("Released", "Index", new { statusId = 3 }, new { @id = "status-released" })
-    <span class="badge"> @ReleasedCount </span> 
+    @Html.ActionLink("Released", "Index", new { statusId = STATUS_RETURNED }, new { @id = "status-released" })
+    <span class="badge"> @ReleasedCount </span>
 </p>
 
 <p>
     @Html.ActionLink("Add New Cash Trx", "Create")
 
 </p>
+<p>
+    <button type="button" class="btn btn-default" id="approveAll-Btn" onclick="ApproveSelectedItems()" style="display:none">
+        Approve Selected
+    </button>
+</p>
 
-
-<table class="table">
+<table class="table" id="cashTrans-Table">
     <tr>
+        @if (StatusId == STATUS_REQUEST)
+        {
+            <th id="tb-hd-forApproval">
+                <a class="cursor-hand" onclick="CheckAll()"> Check All </a>
+            </th>
+        }
         <th>
             @Html.DisplayNameFor(model => model.DtRelease)
         </th>
@@ -55,7 +69,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.OrderBy(c=>c.crLogDriver.Name))
+    @foreach (var item in Model.OrderBy(c => c.crLogDriver.Name))
     {
         if (item.crLogCashTypeId == 3 || item.crLogCashTypeId == 4 || item.crLogCashTypeId == 5)
         {
@@ -63,6 +77,11 @@
         }
         TotalAmount += item.Amount;
         <tr>
+            @if (StatusId == STATUS_REQUEST) {
+            <td class="item-forApproval">
+                <input type="checkbox" value="@item.Id" />
+            </td>
+            }
             <td>
                 @item.DtRelease.ToShortDateString()
             </td>
@@ -87,11 +106,11 @@
                             <span>
                                 <a class="cursor-hand" onclick="ApproveRequest(this, '@item.Id')"> Approve </a> |
                                 @Html.ActionLink("Trip Logs", "DriverTripList", new { id = item.Id }, null)
-                               
+
                             </span>
                         }
                         else
-                        { 
+                        {
                             @Html.ActionLink("Trip Logs", "DriverTripList", new { id = item.Id }, null)<span> |</span>
                             @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                         }
@@ -100,13 +119,13 @@
                         <span>
                             @if (item.crLogCashTypeId == 1)
                             {
-                            @Html.ActionLink("Print", "PrintSalaryForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
+                                @Html.ActionLink("Print", "PrintSalaryForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
                             }
                             else
                             {
-                            @Html.ActionLink("Print", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
+                                @Html.ActionLink("Print", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
                             }
-                            
+
                             <a class="cursor-hand" onclick="ApproveRelease(this, '@item.Id')"> Release </a> |
                             @Html.ActionLink("Trip Logs", "DriverTripList", new { id = item.Id }, null)
                         </span>
@@ -122,7 +141,7 @@
                 {
                     <span>
                         |
-                        @Html.ActionLink("Drivers Summary", "DriverSummary", "CarRentalLog",new { id = item.crLogDriverId }, null) |
+                        @Html.ActionLink("Drivers Summary", "DriverSummary", "CarRentalLog", new { id = item.crLogDriverId }, null) |
                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                         @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                     </span>
@@ -160,6 +179,7 @@
 
 @section Scripts{
     <script src="~/Areas/Personel/Script/CarRentalLogReturn.js"></script>
+    <script src="~/Areas/Personel/Script/CashReleaseApprove.js"></script>
     <script>
         $(() => {
             FilterStatus('@StatusId');

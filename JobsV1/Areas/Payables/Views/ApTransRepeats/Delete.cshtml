@@ -1,0 +1,72 @@
+﻿@model ApModels.Models.ApTransRepeat
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ApTransRepeat</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RepeatCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepeatCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RepeatNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepeatNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NextRef)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NextRef)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrevRef)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrevRef)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApTransactionId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApTransactionId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Interval)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Interval)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -19,7 +19,7 @@ function Init_Repeating() {
         //GetDuePayables();
     } else {
         if (!sessionStorage.getItem('ApTrans-DueShowed')) {
-            // GetDuePayables();
+            //GetDuePayables();
         }
     }
 
@@ -85,7 +85,7 @@ function CancelRepeat(e, id) {
 
 function GetRepeatingPayablesCount() {
     $.get("/Payables/ApTransactions/GetRepeatingPayablesCount", null, (response) => {
-        //console.log(response);
+        console.log(response);
 
         $("#RepeatingPayables-loading").show();
 

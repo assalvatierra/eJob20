@@ -104,6 +104,8 @@ namespace JobsV1.Areas.Payables.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.Repeating = apTransaction.ApTransRepeat;
             return View(apTransaction);
         }
 
@@ -421,7 +423,8 @@ namespace JobsV1.Areas.Payables.Controllers
                     p.Amount,
                     p.Description,
                     p.DtDue,
-                    p.IsRepeating
+                    p.IsRepeating,
+                    p.ApTransRepeat.Interval
                 }),
                 JsonRequestBehavior.AllowGet);
         }
@@ -442,13 +445,14 @@ namespace JobsV1.Areas.Payables.Controllers
                 //repeat items based on interval
                 copyResult = ap.TransactionMgr.CopyRepeatingTrans(payableId);
 
+
+                //add action log for transaction create 
+                ap.ActionMgr.AddAction(GetUser(), payableId, 12);
+
                 if (!copyResult)
                 {
                     return copyResult;
                 }
-
-                //add action log for transaction create 
-                ap.ActionMgr.AddAction(GetUser(), payableId, 12);
             }
 
             return copyResult;

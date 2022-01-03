@@ -32,8 +32,12 @@ function InitDatePicker() {
     );
 
     $('input[name="Date"]').val(moment(ddd1).format('MM/DD/YYYY'));
+    console.log(ddd1);
 
-    if (ddd1 === '' || ddd1 === '1/1/0001 12:00:00 am') {
+    console.log(ddd1 == '01/01/2001');
+    
+    if (ddd1 === '' || ddd1 === '01/01/0001 12:00:00 am' || ddd1 === '01/01/2001') {
+        console.log(moment().format('MM/DD/YYYY'));
         $('input[name="Date"]').val(moment().format('MM/DD/YYYY'));
     }
 

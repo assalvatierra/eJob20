@@ -9,6 +9,7 @@
     decimal TotalCashout = 0;
     decimal TotalBalance = 0;
     decimal TotalProjectedBalance = 0;
+    decimal TotalProjectedAfterWithdraw = 0;
     bool isAdmin = ViewBag.IsAdmin ?? false;
 }
 
@@ -30,6 +31,9 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
+            Cash Request
+        </th>
+        <th>
             Request
         </th>
         <th>
@@ -45,7 +49,7 @@
     {
 
         <tr>
-            <td colspan="4" class="text-primary">
+            <td colspan="6" class="text-primary">
                 @dategroup.Key.ToString("MMM dd yyyy")
             </td>
         </tr>
@@ -62,10 +66,11 @@
                     @Html.DisplayFor(modelItem => item.Description)
                     <span class="text-muted"> @Html.DisplayFor(modelItem => item.Remarks)</span>
                 </td>
+                <td></td>
                 <td>
                     @if (item.REQUEST != null)
                     {
-                        <span class="text-info"> @item.REQUEST</span>
+                        <span class="text-success"> @item.REQUEST</span>
                     }
                 </td>
                 <td>
@@ -98,9 +103,43 @@
     @{
         TotalBalance = TotalCashIn - TotalCashout;
         TotalProjectedBalance = TotalBalance - TotalRequest;
+
+        decimal ForWithdraw = 0;
+
+        if (TotalProjectedBalance < 4000)
+        {
+            ForWithdraw = (decimal)5000 - TotalProjectedBalance ;
+        }
+
+
+        TotalProjectedAfterWithdraw = TotalProjectedBalance + ForWithdraw;
     }
     <tr>
         <td>
+            For Withdrawal
+        </td>
+        <td class="text-info">
+            @ForWithdraw
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+            <span class="text-muted"> Total Cash Request </span><br />
+            <span id="TotalCashIn" class="text-info">@ForWithdraw.ToString("#,##0.00")</span>
         </td>
         <td>
             <span class="text-muted"> Total Request </span><br />
@@ -117,7 +156,7 @@
         <td></td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td colspan="3">
         </td>
         <td>
             <span class="text-muted"> Actual Balance </span>
@@ -129,7 +168,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td colspan="3">
         </td>
         <td>
             <span class="text-muted"> Projected Balance </span>
@@ -142,6 +181,18 @@
     </tr>
     <tr>
         <td colspan="3">
+        </td>
+        <td>
+            <span class="text-muted"> After Withdrawal </span>
+        </td>
+        <td>
+            <span id="totalBalance" class="text-success">@TotalProjectedAfterWithdraw.ToString("#,##0.00")</span>
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
         </td>
         <td>
             <button class="btn btn-primary" onclick="PostBalance()">
@@ -170,7 +221,7 @@
 
             console.log(data);
 
-           var con = $.post("/Payables/ApCashFlows/CashFlowPost", data, (res) => {
+            var con = $.post("/Payables/ApCashFlows/CashFlowPost", data, (res) => {
                 if (res == "True") {
                     alert("Balance Posted.");
                     window.location.reload(false);
@@ -178,8 +229,10 @@
                     alert("Unable to post Balance.");
                     window.location.reload(false);
                 }
-
-           })
+            }).fail(() => {
+                alert("Unable to post Balance.");
+                window.location.reload(false);
+            });
 
             console.log(con);
         }

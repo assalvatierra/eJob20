@@ -1,0 +1,66 @@
+﻿@model ApModels.Models.ApTransRepeat
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ApTransRepeat</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RepeatCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepeatCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RepeatNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepeatNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NextRef)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NextRef)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrevRef)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrevRef)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApTransactionId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApTransactionId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Interval)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Interval)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
