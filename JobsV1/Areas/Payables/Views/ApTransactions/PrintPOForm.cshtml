@@ -12,31 +12,34 @@
     .no-border-top td{
         border-top:none !important;
     }
+
+    
 </style>
+<div>
 
-<div style="display:flex;flex-direction:column;margin-top:-50px;margin-right:20px;">
+    <div style="display:flex;flex-direction:column;margin-top:-50px;margin-right:20px;">
 
-    <div style="margin:auto;margin-top:10px;width:700px;">
-        <table class="table rpt-table-bordered" style="margin-bottom:5px;">
-            <tr>
-                <td>
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <div class="pull-left">
-                                <h3 style="margin-top:20px;margin-bottom:0px;"> RealBreeze Davao </h3>
-                                <p style="margin-top:5px;margin-left:0px;padding-left:0px;margin-bottom:0px;"> Door 1, Travellers Inn, Matina Davao City </p>
-                                <p style="margin-top:5px;margin-left:0px;padding-left:0px;margin-bottom:0px;"> Tel: (082) 333-5157 / +63 995-450-8517  </p>
+        <div style="margin:auto;margin-top:10px;width:700px;">
+            <table class="table rpt-table-bordered" style="margin-bottom:5px;margin-right:5px;border-right:3px solid black;">
+                <tr>
+                    <td colspan="2">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="pull-left">
+                                    <h3 style="margin-top:20px;margin-bottom:0px;"> RealBreeze Davao </h3>
+                                    <p style="margin-top:5px;margin-left:0px;padding-left:0px;margin-bottom:0px;"> Door 1, Travellers Inn, Matina Davao City </p>
+                                    <p style="margin-top:5px;margin-left:0px;padding-left:0px;margin-bottom:0px;"> Tel: (082) 333-5157 / +63 995-450-8517  </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="text-align:right;">
+                                <div class="pull-right">
+                                    <h2> Purchase Order </h2>
+                                    <p> PO No : @ViewBag.PONo.ToString("D4") </p>
+                                    <p> Date  : @ViewBag.dtRequest.ToString("MMM dd yyyy") </p>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6" style="text-align:right;">
-                            <div class="pull-right">
-                                <h2> Purchase Order </h2>
-                                <p> PO No : @ViewBag.PONo.ToString("D4") </p>
-                                <p> Date  : @ViewBag.dtRequest.ToString("MMM dd yyyy") </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-12 col-xs-12">
                             <div class="col-md-6" style="text-align:left;margin-left:-10px;">
                                 <div class="col-md-10 col-xs-10" style="border:0px dotted black;margin-top:10px;padding:0px;">
                                     <p style="margin-bottom:0px;"> <b>To:</b> </p>
@@ -47,34 +50,34 @@
 
                                 </div>
                             </div>
-                    </div>
-                    <div class="col-md-12">
-                        <p class="col-md-6">
-                        </p>
-                    </div>
-                </td>  
-            </tr>
-            <tr>
-                <td style="padding:0px;">
-                    <div style="min-height:300px;">
+                        </div>
+                        <div class="col-md-12">
+                            <p class="col-md-6">
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding:0px;">
+                        <div style="min-height:300px;">
 
-                        <table class="table" style="margin-bottom:0px;">
-                            <tr>
-                                <th>
-                                    Type - Description
-                                </th>
-                                <th>
-                                    Qty
-                                </th>
-                                <th>
-                                    Amount
-                                </th>
-                            </tr>
-                            
-                                <tr class="no-border-top">
+                            <table class="table" style="margin-bottom:0px;">
+                                <tr>
+                                    <th>
+                                        Type - Description
+                                    </th>
+                                    <th>
+                                        Qty
+                                    </th>
+                                    <th>
+                                        Amount
+                                    </th>
+                                </tr>
+
+                                <tr class="no-border-top" style="font-size:20px;">
                                     <td>
                                         @Model.Description
-                                       
+
                                     </td>
                                     <td>
                                         1
@@ -83,60 +86,62 @@
                                         @totalAmount.ToString("#,##0.00")
                                     </td>
                                 </tr>
-                               
-                            
-                            <tr>
-                                <td colspan="2">
-                                    <span class="pull-right"> Total </span>
-                                </td>
-                                <td>
-                                    <b>@totalAmount.ToString("#,##0.00")</b>
-                                </td>
-                            </tr>
-                        </table>
-                        <div style="width:100%;border-top:2px solid black;">
 
+
+                                <tr style="font-size:20px;">
+                                    <td colspan="2">
+                                        <span class="pull-right"> Total </span>
+                                    </td>
+                                    <td>
+                                        <b>@totalAmount.ToString("#,##0.00")</b>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div style="width:100%;border-top:2px solid black;">
+
+                            </div>
+                            <p>
+                                Remarks:
+                                @if (!String.IsNullOrEmpty(Model.Remarks))
+                                {
+                                    <span>
+                                        - @Model.Remarks
+                                    </span>
+                                }
+                            </p>
                         </div>
-                        <p>
-                            Remarks: 
-                            @if (!String.IsNullOrEmpty(Model.Remarks))
-                            {
-                                <span>
-                                    - @Model.Remarks
-                                </span>
-                            }
-                        </p>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
 
-                    <table class="table" style="margin-bottom:0px;">
-                        <tr>
-                            <td  style="border-top:none !important;">
+                        <table class="table" style="margin-bottom:0px;">
+                            <tr>
+                                <td style="border-top:none !important;">
                                     <p> Requested By : </p>
                                     <p>_________________</p>
-                            </td>
-                            <td  style="border-top:none !important;">
+                                </td>
+                                <td style="border-top:none !important;">
                                     <p> Released By :</p>
                                     <p>____________________</p>
-                            </td>
-                            <td  style="border-top:none !important;">
+                                </td>
+                                <td style="border-top:none !important;">
 
                                     <p>Approved By :</p>
                                     <p>____________________</p>
-                            </td>
-                            <td  style="border-top:none !important;">
+                                </td>
+                                <td style="border-top:none !important;">
                                     <p>Received By : </p>
                                     <p>____________________</p>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
 
-            </tr>
-        </table>
+                </tr>
+            </table>
+        </div>
+
     </div>
 
 </div>

@@ -205,7 +205,7 @@ function OnPrintClicked(e, transId) {
 
 //---------- Release Payment ----------------//
 //show release payment modal
-function ShowReleaseModal(Id, Desription, Budget) {
+function ShowReleaseModal(Id, Desription, Budget, Type) {
     $("#ReleasePayment-Modal").modal('show');
 
     //Populate Fields
@@ -214,6 +214,12 @@ function ShowReleaseModal(Id, Desription, Budget) {
     $("#ReleasePayment-Description").val(Desription);
     $('#ReleasePayment-Date').val(moment().format('MM/DD/YYYY hh:mm A'));
     $("#ReleasePayment-Amount").val(0);
+
+    if (Type == 'PO') {
+        $("#ReleasePayment-Amount").prop('disabled', true);
+    } else {
+        $("#ReleasePayment-Amount").prop('disabled', false);
+    }
 }
 
 //release payment amount

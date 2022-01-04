@@ -424,7 +424,8 @@ namespace JobsV1.Areas.Payables.Controllers
                     p.Description,
                     p.DtDue,
                     p.IsRepeating,
-                    p.ApTransRepeat.Interval
+                    p.ApTransRepeat.Interval,
+                   
                 }),
                 JsonRequestBehavior.AllowGet);
         }
@@ -511,6 +512,7 @@ namespace JobsV1.Areas.Payables.Controllers
 
             if (DateTime.TryParse(date, out dtRelease) && id != null && amount != null)
             {
+              
                 ap.TransactionMgr.UpdateReleaseAmount((int)id, (decimal)amount, dtRelease);
                 return "OK";
             }

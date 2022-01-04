@@ -377,7 +377,7 @@
                                 }
                                 else if (item.ApTransStatusId == STATUS_APPROVED)
                                 {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReleaseModal(@item.Id,'@item.Description', @item.BudgetAmt)"> Payment Release </a>
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReleaseModal(@item.Id,'@item.Description', @item.BudgetAmt, '@item.ApTransType.Type')"> Payment Release </a>
 
                                     if (!item.IsPrinted && item.ApTransTypeId == TYPE_PO)
                                     {
@@ -387,25 +387,24 @@
                                 }
                                 else if (item.ApTransStatusId == STATUS_RELEASED)
                                 {
-                                <li>
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
-                                </li>
-                                if (item.ApTransPayments.Count() != 0 || isAdmin)
-                                {
-                                    //return
                                     <li>
-                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount)"> Return </a>
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
                                     </li>
+                                    if (item.ApTransPayments.Count() != 0 || isAdmin)
+                                    {
+                                        //return
+                                        <li>
+                                            <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount)"> Return </a>
+                                        </li>
+                                    }
+
                                 }
-
-                            }
-                            else if (item.ApTransStatusId == STATUS_RETURNED && isAdmin)
-                            {
-                                <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusClose(this, @item.Id)"> Paid & Close </a>
-                            }
-                                </li>
-
-                                <li role="separator" class="divider"></li>
+                                else if (item.ApTransStatusId == STATUS_RETURNED && isAdmin)
+                                {
+                                    <li> <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusClose(this, @item.Id)"> Paid & Close </a></li>
+                                }
+                            </li>
+                            <li role="separator" class="divider"></li>
                                 @if (item.ApTransStatusId <= STATUS_REQUEST || item.ApTransStatusId >= STATUS_CANCELLED)
                                 {
                                     <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
