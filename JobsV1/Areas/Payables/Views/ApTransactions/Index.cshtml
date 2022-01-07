@@ -366,7 +366,7 @@
                             <li>
                                 @if (item.ApTransStatusId == STATUS_NEW || item.ApTransStatusId == 8)
                                 {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_RELEASED)"> Request </a>
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_REQUEST)"> Request </a>
                                     <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_CANCELLED)"> Cancel </a>
                                 }
 
@@ -401,7 +401,9 @@
                                 }
                                 else if (item.ApTransStatusId == STATUS_RETURNED && isAdmin)
                                 {
-                                    <li> <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusClose(this, @item.Id)"> Paid & Close </a></li>
+                                    <li> 
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusClose(this, @item.Id)"> Paid & Close </a>
+                                    </li>
                                 }
                             </li>
                             <li role="separator" class="divider"></li>
@@ -419,15 +421,16 @@
                                 }
                                 <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
                                 @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                totalPayment += totalTransPayment;
-                totalAmount += item.Amount;
+                         </ul>
+                    </div>
+                </td>
+            </tr>
+            totalPayment += totalTransPayment;
+            totalAmount += item.Amount;
 
-                totalBudget += item.BudgetAmt ?? 0;
-                totalRelease += item.ReleaseAmt ?? 0;
+            totalBudget += item.BudgetAmt ?? 0;
+            totalRelease += item.ReleaseAmt ?? 0;
+
             }
 
 

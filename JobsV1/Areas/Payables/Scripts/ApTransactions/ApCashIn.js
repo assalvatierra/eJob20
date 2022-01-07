@@ -36,7 +36,7 @@ function InitDatePicker() {
 
     console.log(ddd1 == '01/01/2001');
     
-    if (ddd1 === '' || ddd1 === '01/01/0001 12:00:00 am' || ddd1 === '01/01/2001') {
+    if (ddd1 == '' || ddd1 == '01/01/0001 12:00:00 AM' || ddd1 == '01/01/2001' || ddd1 == '1/1/0001 12:00:00 AM') {
         console.log(moment().format('MM/DD/YYYY'));
         $('input[name="Date"]').val(moment().format('MM/DD/YYYY'));
     }
