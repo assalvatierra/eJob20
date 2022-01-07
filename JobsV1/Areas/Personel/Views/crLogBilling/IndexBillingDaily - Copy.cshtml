@@ -1,13 +1,10 @@
-﻿@model JobsV1.Areas.Personel.Controllers.crLogTripBilling
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>
 
 @{
     ViewBag.Title = "Trip Log";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     int TotalCount = 0;
     decimal TotalRate = 0;
-    decimal TotalOTRate = 0;
-    decimal TotalOT = 0;
-    decimal Total = 0;
 }
 <style href=""></style>
 <style>
@@ -22,7 +19,7 @@
     }
 </style>
 
-<h2>Trip Log - Daily Rate Billing </h2>
+<h2>Trip Log - Daily Rate + OT Billing </h2>
 
 <p>
     Trip Logs |
@@ -34,14 +31,6 @@
     @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses")
 </p>
 <p>
-    @*@Html.ActionLink("Add New Trip", "Create") |
-        @Html.ActionLink("Copy Trip", "CopyTrip") |
-        @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
-        @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease") |*@
-    @*@Html.ActionLink("Trip Logs View", "Index") |
-        @Html.ActionLink("OT Billing", "IndexBilling", new { company = ViewBag.Company }) |
-        Daily Rate Billing |
-        @Html.ActionLink("Sunday Billing", "IndexBillingSunday")*@
     <div class="col-md-7">
         @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog", null, new { @class = " btn btn-default" })
     </div>
@@ -166,22 +155,19 @@
             Rate
         </td>
         <td>
-            OT Rate
-        </td>
-        <td>
-            OT Hrs
         </td>
     </tr>
-    @foreach (var tripGroup in Model.OTTrips.GroupBy(c => c.Unit))
+    @foreach (var tripGroup in Model.GroupBy(t => t.DtTrip.Date))
     {
-        <tr>
-            <td colspan="7">
 
+
+        @*<tr>
+            <td colspan="6">
             </td>
-        </tr>
-
+        </tr>*@
         foreach (var trip in tripGroup)
         {
+
             var dtcolor = "black";
 
 
@@ -190,40 +176,27 @@
                 dtcolor = "blue";
             }
 
+            //if (trip.DtTrip.DayOfWeek.ToString() == "Sunday")
+            //{
+
+            //}
+            //else
+            //{
             TotalCount += 1;
             TotalRate += trip.Rate;
-            TotalOTRate += trip.OTRate;
-            TotalOT += (decimal)trip.OTHours;
 
-            <tr>
-                <td>@trip.Driver</td>
-                <td style="color:@dtcolor;">@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
-                <td>@trip.Unit</td>
-                <td> </td>
-                <td>@trip.Rate.ToString("#,##0") </td>
-                <td>
-                    @if (trip.OTRate > 0)
-                    {
-                        <span>
-                            @trip.OTRate.ToString("#,##0")
-                        </span>
-                    }
-                </td>
-                <td>
-                    @if (trip.OTHours > 0)
-                    {
-                    <span>
-                        @trip.OTHours.ToString("#,##0.0") Hrs
-                    </span>
-                    }
-                </td>
-            </tr>
+                <tr>
+                    <td>@trip.crLogDriver.Name</td>
+                    <td style="color:@dtcolor;">@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
+                    <td>@trip.crLogUnit.Description</td>
+                    <td> </td>
+                    <td>@trip.Rate.ToString("#,##0") </td>
+                    @*<td>@trip.ToString("N0") </td>*@
+                </tr>
+
+            //}
 
         }
-    }
-
-    @{
-        Total = TotalRate + TotalOTRate;
     }
     <tr>
         <td colspan="4"> Total Count: @TotalCount</td>
@@ -231,22 +204,6 @@
             <span style="font-size:9px;"> Total Rate</span><br />
             <span style="font-weight:bold;"> @TotalRate.ToString("#,##0") </span>
         </td>
-        <td>
-            <span style="font-size:9px;"> Total Rate</span><br />
-            <span style="font-weight:bold;"> @TotalOTRate.ToString("#,##0") </span>
-        </td>
-        <td>
-            <span style="font-size:9px;"> Total Rate</span><br />
-             <span style="font-weight:bold;"> @TotalOT.ToString("#,##0") </span>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="5"></td>
-        <td>
-            <span style="font-size:9px;"> Total </span><br />
-            <span style="font-weight:bold;"> @Total.ToString("#,##0") </span>
-        </td>
-        <td></td>
     </tr>
 </table>
 
@@ -398,7 +355,7 @@
             //$("#totalOTRate").text(totalOTRate);
         }
 
-
+        
         function GetOTCompanyRate() {
             var totalOTRate = 0;
             $('#TripLogsOT-Table tr td .OTCompanyRate').each(function () {
@@ -414,7 +371,7 @@
             //$("#totalOTCompanyRate").text(totalOTRate);
         }
 
-
+        
         function ShowLoading() {
             $("#overlay").show();
         }
@@ -426,7 +383,7 @@
         function ToggleDriverTrip() {
             $("#TripLogs-Table").toggle();
         }
-
+        
         function PrintBilling() {
             ShowLoading();
             location.href = "/Personel/CarRentalLog/PrintIndexBillingDaily"

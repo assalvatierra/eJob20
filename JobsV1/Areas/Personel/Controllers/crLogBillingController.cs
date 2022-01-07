@@ -115,7 +115,7 @@ namespace JobsV1.Areas.Personel.Controllers
             var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby);
 
             crLogTripBilling tripBilling = new crLogTripBilling();
-            tripBilling.SundayTrips = new List<crBilling_Sundays>();
+            tripBilling.SundayTrips = new List<crBilling_Daily>();
             tripBilling.OTTrips = new List<crBilling_OT>();
 
             tripBilling.Company = company;
@@ -123,7 +123,7 @@ namespace JobsV1.Areas.Personel.Controllers
             //Sundays Trip
             var sundaysTrip = tripLogs.Where(s => s.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
             sundaysTrip.ForEach((t) => {
-                tripBilling.SundayTrips.Add(new crBilling_Sundays
+                tripBilling.SundayTrips.Add(new crBilling_Daily
                 {
                     Id = t.Id,
                     Driver = t.crLogDriver.Name,
@@ -258,7 +258,7 @@ namespace JobsV1.Areas.Personel.Controllers
             var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby);
 
             crLogTripBilling tripBilling = new crLogTripBilling();
-            tripBilling.SundayTrips = new List<crBilling_Sundays>();
+            tripBilling.SundayTrips = new List<crBilling_Daily>();
             tripBilling.OTTrips = new List<crBilling_OT>();
 
             tripBilling.Company = company;
@@ -266,7 +266,7 @@ namespace JobsV1.Areas.Personel.Controllers
             //Sundays Trip
             var sundaysTrip = tripLogs.Where(s => s.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
             sundaysTrip.ForEach((t) => {
-                tripBilling.SundayTrips.Add(new crBilling_Sundays
+                tripBilling.SundayTrips.Add(new crBilling_Daily
                 {
                     Id = t.Id,
                     Driver = t.crLogDriver.Name,
@@ -311,7 +311,7 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         // GET: Personel/CarRentalLog/IndexBilling
-        public ActionResult IndexBillingDaily(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        public ActionResult IndexBillingDailyOld(string startDate, string endDate, string unit, string driver, string company, string sortby)
         {
 
             #region Session
@@ -398,6 +398,123 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.Company = company;
 
             return View(tripLogs);
+        }
+
+        // GET: Personel/CarRentalLog/IndexBilling
+        public ActionResult IndexBillingDaily(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        {
+
+            #region Session
+            if (!startDate.IsNullOrWhiteSpace())
+            {
+                Session["triplog-startDate"] = startDate;
+            }
+            else
+            {
+                if (Session["triplog-startDate"] != null)
+                {
+                    startDate = Session["triplog-startDate"].ToString();
+                }
+            }
+
+            if (!endDate.IsNullOrWhiteSpace())
+            {
+                Session["triplog-endDate"] = endDate;
+            }
+            else
+            {
+                if (Session["triplog-endDate"] != null)
+                {
+                    endDate = Session["triplog-endDate"].ToString();
+                }
+            }
+
+            if (!unit.IsNullOrWhiteSpace())
+            {
+                Session["triplog-unit"] = unit;
+            }
+            else
+            {
+                if (Session["triplog-unit"] != null)
+                {
+                    unit = Session["triplog-unit"].ToString();
+                }
+            }
+
+            if (!driver.IsNullOrWhiteSpace())
+            {
+                Session["triplog-driver"] = driver;
+            }
+            else
+            {
+                if (Session["triplog-driver"] != null)
+                {
+                    driver = Session["triplog-driver"].ToString();
+                }
+            }
+
+            if (!company.IsNullOrWhiteSpace())
+            {
+                Session["triplog-company"] = company;
+            }
+            else
+            {
+                if (Session["triplog-company"] != null)
+                {
+                    company = Session["triplog-company"].ToString();
+                }
+            }
+
+            #endregion
+
+            var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby);
+
+            crLogTripBilling tripBilling = new crLogTripBilling();
+            tripBilling.SundayTrips = new List<crBilling_Daily>();
+            tripBilling.OTTrips = new List<crBilling_OT>();
+
+            tripBilling.Company = company;
+
+
+            // OTT trips
+            var OTTrips = tripLogs.ToList();
+            OTTrips.ForEach((t) => {
+                double OTHrs = crServices.GetTripLogOTHours(t);
+                tripBilling.OTTrips.Add(new crBilling_OT
+                {
+                    Id = t.Id,
+                    Driver = t.crLogDriver.Name,
+                    DtTrip = t.DtTrip,
+                    Unit = t.crLogUnit.Description,
+                    StartTime = t.StartTime,
+                    EndTime = t.EndTime,
+                    Rate = t.Rate,
+                    OTHours = OTHrs,
+                    OTRate = crServices.GetTripLogOTCompanyRate(t, OTHrs)
+                });
+            });
+
+
+
+            //get summary
+            var logSummary = crServices.GetCrLogSummary(tripLogs);
+            ViewBag.DriversLogSummary = logSummary.CrDrivers ?? new List<CrDriverLogs>();
+            ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
+            ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
+
+            ViewBag.FilteredsDate = startDate;
+            ViewBag.FilteredeDate = endDate;
+            ViewBag.FilteredUnit = unit ?? "all";
+            ViewBag.FilteredDriver = driver ?? "all";
+            ViewBag.FilteredCompany = company ?? "all";
+            ViewBag.SortBy = sortby ?? "Date";
+
+            ViewBag.crLogUnitList = dl.GetUnits().ToList();
+            ViewBag.crLogDriverList = dl.GetDrivers().ToList();
+            ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
+            ViewBag.Company = company;
+
+            return View(tripBilling);
         }
 
 
@@ -573,7 +690,7 @@ namespace JobsV1.Areas.Personel.Controllers
             var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby);
 
             crLogTripBilling tripBilling = new crLogTripBilling();
-            tripBilling.SundayTrips = new List<crBilling_Sundays>();
+            tripBilling.SundayTrips = new List<crBilling_Daily>();
             tripBilling.OTTrips = new List<crBilling_OT>();
 
             tripBilling.Company = company;
@@ -581,7 +698,7 @@ namespace JobsV1.Areas.Personel.Controllers
             //Sundays Trip
             var sundaysTrip = tripLogs.Where(s => s.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
             sundaysTrip.ForEach((t) => {
-                tripBilling.SundayTrips.Add(new crBilling_Sundays
+                tripBilling.SundayTrips.Add(new crBilling_Daily
                 {
                     Id = t.Id,
                     Driver = t.crLogDriver.Name,
@@ -701,7 +818,7 @@ namespace JobsV1.Areas.Personel.Controllers
             var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby);
 
             crLogTripBilling tripBilling = new crLogTripBilling();
-            tripBilling.SundayTrips = new List<crBilling_Sundays>();
+            tripBilling.SundayTrips = new List<crBilling_Daily>();
             tripBilling.OTTrips = new List<crBilling_OT>();
 
             tripBilling.Company = company;
@@ -709,7 +826,7 @@ namespace JobsV1.Areas.Personel.Controllers
             //Sundays Trip
             var sundaysTrip = tripLogs.Where(s => s.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
             sundaysTrip.ForEach((t) => {
-                tripBilling.SundayTrips.Add(new crBilling_Sundays
+                tripBilling.SundayTrips.Add(new crBilling_Daily
                 {
                     Id = t.Id,
                     Driver = t.crLogDriver.Name,

@@ -237,7 +237,7 @@
                         <span class="OT-Rate"> @trip.OTRate.ToString("#,##0") </span>
                     </td>
                     <td>
-                        @trip.OTHours Hrs
+                        @trip.OTHours.ToString("#,##0.00") Hrs
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "EditOTBilling", new { id = trip.Id }) 

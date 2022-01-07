@@ -2477,7 +2477,7 @@ namespace JobsV1.Areas.Personel.Controllers
         public string Company { get; set; }
         public List<crBilling_ContractVehicles> ContractVehicles { get; set; }
         public List<crBilling_OT> OTTrips { get; set; }
-        public List<crBilling_Sundays> SundayTrips { get; set; }
+        public List<crBilling_Daily> SundayTrips { get; set; }
     }
 
     public class crBilling_ContractVehicles
@@ -2504,7 +2504,7 @@ namespace JobsV1.Areas.Personel.Controllers
         public decimal OTRate { get; set; }
     }
 
-    public class crBilling_Sundays
+    public class crBilling_Daily
     {
         public int Id { get; set; }
         public string Driver { get; set; }
