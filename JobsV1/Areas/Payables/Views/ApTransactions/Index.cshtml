@@ -148,6 +148,9 @@
             decimal transChange = 0;
             string paymentDate = "";
 
+            decimal budgetAmount = item.BudgetAmt ?? 0;
+            decimal amountVariance = budgetAmount * (decimal)0.3;
+
             //get total transaction payment
             foreach (var transpayment in item.ApTransPayments)
             {
@@ -206,7 +209,15 @@
                         && (item.ReleaseAmt == 0 || item.ReleaseAmt == null)
                         && item.ApTransTypeId != TYPE_PO)
                     {
-                        <img src="~/Images/SalesLead/high-importance.png" width="20" />
+                        <img src="~/Images/SalesLead/high-importance.png" width="20" alt="Release Amount is 0 or null" title="Release Amount is 0 or null" />
+                    }
+
+                    @if (item.Amount < (item.BudgetAmt - amountVariance) ||
+                         item.Amount > (item.BudgetAmt + amountVariance) )
+                    {
+                        <img src="~/Images/SalesLead/high-importance.png" width="20" 
+                             alt="Amount returned reached a 30% variance of the budget amount" 
+                             title="Amount returned reached a 30% variance of the budget amount"  />
                     }
 
                     @if (!item.IsPrinted && status == STATUS_APPROVED)
@@ -377,7 +388,7 @@
                                 }
                                 else if (item.ApTransStatusId == STATUS_APPROVED)
                                 {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReleaseModal(@item.Id,'@item.Description', @item.BudgetAmt, '@item.ApTransType.Type')"> Payment Release </a>
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReleaseModal(@item.Id,'@item.Description', @item.BudgetAmt, '@item.ApTransType.Type')"> Release </a>
 
                                     if (!item.IsPrinted && item.ApTransTypeId == TYPE_PO)
                                     {
@@ -394,7 +405,7 @@
                                     {
                                         //return
                                         <li>
-                                            <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount)"> Return </a>
+                                            <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt)"> Return </a>
                                         </li>
                                     }
 
@@ -704,6 +715,12 @@
                         <label class="control-label col-md-2">  Description  </label>
                         <div class="col-md-10">
                             <input type="text" maxlength="20" id="ReturnAmount-Description" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">  Budget  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="ReturnAmount-BudgetAmount" class="form-control" readonly />
                         </div>
                     </div>
                     <div class="form-group">

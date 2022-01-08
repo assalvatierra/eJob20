@@ -243,22 +243,49 @@ function ReturnAmount(e) {
     var amount = $("#ReturnAmount-Amount").val();
     var id = $("#ReturnAmount-Id").val();
 
+    var budgetAmount = $("#ReturnAmount-BudgetAmount").val();
+    var varianceCheck = CheckAmountVarianceIsPass(budgetAmount, amount);
+
+    if (varianceCheck) {
+        POST_ReturnAmount(id, amount, remarks);
+    } else {
+        if(confirm("The RReturn Amount have reached the 30% variance of Budget Amount. Do you want to return?")){
+            POST_ReturnAmount(id, amount, remarks);
+        }
+    }
+}
+
+function POST_ReturnAmount(id, amount, remarks) {
+
     $.post("/Payables/ApTransactions/ReturnAmount", { id: id, amount: amount, remarks: remarks }, (res) => {
         if (res == "OK") {
             UpdateStatus(id, 5); //update to return
-
             $("#ReturnAmount-Modal").modal('hide');
         }
     });
 }
 
-function ShowReturnAmountModal(id, Description, amount) {
+function ShowReturnAmountModal(id, Description, amount, budget) {
     $("#ReturnAmount-Id").val(id);
     $("#ReturnAmount-PreAmount").val(amount);
+    $("#ReturnAmount-BudgetAmount").val(budget);
     $("#ReturnAmount-Amount").val(0);
     $("#ReturnAmount-Remarks").val('');
     $("#ReturnAmount-Description").val(Description);
     $("#ReturnAmount-Modal").modal('show');
+}
+
+function CheckAmountVarianceIsPass(budgetAmount, returnedAmount) {
+
+    var budgetAmount = budgetAmount ?? 0;
+    var amountVariance = budgetAmount * 0.3;
+
+    if (returnedAmount < (budgetAmount - amountVariance) ||
+        returnedAmount > (budgetAmount + amountVariance)) {
+        return false;
+    }
+
+    return true;
 }
 
 

@@ -13,7 +13,7 @@
 
 <h2>Details</h2>
 <p>
-    @if (Model.ApTransStatusId < 2)
+    @if (Model.ApTransStatusId < 2 || Model.ApTransStatusId == 7)
     {
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id })<span> | </span>
     }
