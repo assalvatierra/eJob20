@@ -1,4 +1,4 @@
-﻿@model JobsV1.Areas.Personel.Controllers.crLogTripBilling
+﻿@model JobsV1.Areas.Personel.Models.crLogTripBilling
 
 @{
     ViewBag.Title = "Trip Log";
@@ -37,7 +37,7 @@
 </p>
 <p>
     <div class="col-md-7">
-        @Html.ActionLink("Back to Trip Logs",  "Index", "CarRentalLog", null, new { @class = "btn btn-default" })
+        @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog", null, new { @class = "btn btn-default" })
     </div>
     <div class="col-md-5 btn-group">
         @Html.ActionLink("OT Billing", "IndexBilling", null, new { @class = "btn btn-default" })
@@ -431,7 +431,7 @@
 
         function PrintBilling() {
             ShowLoading();
-            location.href = "/Personel/CarRentalLog/PrintIndexBillingSunday"
+            location.href = "/Personel/crLogBilling/PrintIndexBillingSunday"
         }
 
 

@@ -1,10 +1,13 @@
-﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>
+﻿@model JobsV1.Areas.Personel.Models.crLogTripBilling
 
 @{
     ViewBag.Title = ViewBag.Company + " Billing Particulars - Daily";
     Layout = "~/Views/Shared/_PrintLayout.cshtml";
     int TotalCount = 0;
     decimal TotalRate = 0;
+    decimal TotalOTRate = 0;
+    decimal TotalOT = 0;
+    decimal Total = 0;
 }
 
 <style>
@@ -50,9 +53,9 @@
 <h4 class="text-center">@DateTime.Parse(ViewBag.FilteredsDate).ToString("MMM dd yyyy") - @DateTime.Parse(ViewBag.FilteredeDate).ToString("MMM dd yyyy")</h4>
 
 <br />
-<h4>Daily</h4>
-<table class="table with-border">
-    <tr class="with-border">
+<h4>Daily Rates </h4>
+<table class="table">
+    <tr>
         <td>
             Driver
         </td>
@@ -67,16 +70,22 @@
         <td>
             Rate
         </td>
+        <td>
+            OT Rate
+        </td>
+        <td>
+            OT Hrs
+        </td>
     </tr>
-    @foreach (var tripGroup in Model.GroupBy(t => t.DtTrip.Date))
+    @foreach (var tripGroup in Model.OTTrips.GroupBy(c => c.Unit))
     {
-
         <tr>
-            <td colspan="6"></td>
+            <td colspan="7">
+            </td>
         </tr>
+
         foreach (var trip in tripGroup)
         {
-
             var dtcolor = "black";
 
 
@@ -85,32 +94,62 @@
                 dtcolor = "blue";
             }
 
-            //if (trip.DtTrip.DayOfWeek.ToString() == "Sunday")
-            //{
-
-            //}
-            //else
-            //{
             TotalCount += 1;
             TotalRate += trip.Rate;
+            TotalOTRate += trip.OTRate;
+            TotalOT += (decimal)trip.OTHours;
 
-                <tr>
-                    <td>@trip.crLogDriver.Name</td>
-                    <td style="color:@dtcolor;">@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
-                    <td>@trip.crLogUnit.Description</td>
-                    <td> </td>
-                    <td>@trip.Rate.ToString("#,##0") </td>
-                    <td> </td>
-                </tr>
+            <tr>
+                <td>@trip.Driver</td>
+                <td style="color:@dtcolor;">@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
+                <td>@trip.Unit</td>
+                <td> </td>
+                <td>@trip.Rate.ToString("#,##0") </td>
+                <td>
+                    @if (trip.OTRate > 0)
+                    {
+                        <span>
+                            @trip.OTRate.ToString("#,##0")
+                        </span>
+                    }
+                </td>
+                <td>
+                    @if (trip.OTHours > 0)
+                    {
+                        <span>
+                            @trip.OTHours.ToString("#,##0.0") Hrs
+                        </span>
+                    }
+                </td>
+            </tr>
 
-            //}
         }
     }
+
+    @{
+        Total = TotalRate + TotalOTRate;
+    }
     <tr>
-        <td colspan="4" style="border-top:2px solid;"> Total Count: @TotalCount</td>
-        <td style="border-top:2px solid;">
+        <td colspan="4"> Total Count: @TotalCount</td>
+        <td>
             <span style="font-size:9px;"> Total Rate</span><br />
-            <span style="font-weight:bold;">@TotalRate.ToString("#,##0")</span>
+            <span style="font-weight:bold;"> @TotalRate.ToString("#,##0") </span>
         </td>
+        <td>
+            <span style="font-size:9px;"> Total Rate</span><br />
+            <span style="font-weight:bold;"> @TotalOTRate.ToString("#,##0") </span>
+        </td>
+        <td>
+            <span style="font-size:9px;"> Total Rate</span><br />
+            <span style="font-weight:bold;"> @TotalOT.ToString("#,##0") </span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5"></td>
+        <td>
+            <span style="font-size:9px;"> Total </span><br />
+            <span style="font-weight:bold;"> @Total.ToString("#,##0") </span>
+        </td>
+        <td></td>
     </tr>
 </table>

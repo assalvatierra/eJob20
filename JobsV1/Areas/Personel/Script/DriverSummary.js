@@ -6,7 +6,7 @@
 $("select[name=crLogDriverId]").change(() => {
     let selectedDriver = $("select[name=crLogDriverId] :selected").val();
 
-    window.location.href = "/Personel/CarRentalLog/DriverSummary/" + selectedDriver;
+    window.location.href = "/Personel/crLogDrivers/DriverSummary/" + selectedDriver;
 })
 
 function SelectAllCheckBox() {
@@ -42,8 +42,6 @@ function CalculateTotalSalary() {
             $tripId = $row.find('td[name*="id"]').text().trim(),
             $checkedBoxStatus = $row.find('input:checked').is(":checked");
 
-        console.log($tripId + " - " + $driverfee + " + " + $driverOT + " - " + $checkedBoxStatus);
-
         if ($checkedBoxStatus) {
             if (parseFloat($driverfee) > 0 ) {
 
@@ -56,10 +54,7 @@ function CalculateTotalSalary() {
                 jsonReqData.TripIds.push($tripId);
 
             }
-
             TotalSelected++;
-
-            console.log(TotalSalary);
         }
     });
 
@@ -89,10 +84,8 @@ function CreateSalaryRequest() {
 function SubmitSalaryRequestForm() {
     var logReqData = CalculateTotalSalary();
     logReqData.Remarks = $("#ReqForm-Remarks").val();
-    console.log(logReqData);
-
+    
     $.post("/Personel/CarRentalCashRelease/CreateDriverRelease", logReqData, (result) => {
-        console.log(result);
         if (result == 'True') {
             window.location.href = "../DriverSummary?id=" + logReqData.DriverId + "&reqStatus=1";
         } else {
@@ -116,13 +109,10 @@ function SubmitPaymentForm(driverId) {
         Amount: parseFloat($("#Payment-Amount").val()),
         Remarks: $("#Payment-Remarks").val()
     }
-    //logReqData.Remarks = $("#ReqForm-Remarks").val();
-    console.log(data);
 
     $.post("/Personel/CarRentalCashRelease/CreateDriverPayment", data, (result) => {
-        console.log(result);
         if (result == 'True') {
-            window.location.href = "/Personel/CarRentalLog/DriverSummary?id=" + data.DriverId ;
+            window.location.href = "/Personel/crLogDrivers/DriverSummary?id=" + data.DriverId ;
         } else {
             alert("An error occured while processing your request");
         }
@@ -145,13 +135,13 @@ function SubmitCAForm(driverId) {
         Amount: parseFloat($("#CA-Amount").val()),
         Remarks: $("#CA-Remarks").val()
     }
-    //logReqData.Remarks = $("#ReqForm-Remarks").val();
-    console.log(data);
+
+
 
     $.post("/Personel/CarRentalCashRelease/CreateDriverCA", data, (result) => {
-        console.log(result);
+        //console.log(result);
         if (result == 'True') {
-            window.location.href = "/Personel/CarRentalLog/DriverSummary?id=" + data.DriverId + "&reqStatus=2";
+            window.location.href = "/Personel/crLogDrivers/DriverSummary?id=" + data.DriverId + "&reqStatus=2";
         } else {
             alert("An error occured while processing your request");
         }
@@ -159,3 +149,56 @@ function SubmitCAForm(driverId) {
 
 }
 
+
+function Initialize(reqStatus) {
+    CalculateTotalSalary();
+
+    if (reqStatus == '1') {
+        $("#request-success-message").show();
+    }
+
+    if (reqStatus == '2') {
+        $("#ca-success-message").show();
+    }
+
+
+    if (reqStatus == '4') {
+        $("#closeTRx-success-message").show();
+    }
+
+    if (reqStatus == '5') {
+        $("#closeTRx-error-message").show();
+    }
+}
+
+
+function Initialize_Date(dtStart, dtEnd, driver) {
+
+    if (dtStart == '') {
+        $('#DtStart').val(moment().format("MM/DD/YYYY"));
+    } else {
+        $('#DtStart').val(moment(dtStart).format("MM/DD/YYYY"));
+    }
+    if (dtEnd == '') {
+        $('#DtEnd').val(moment().format("MM/DD/YYYY"));
+    } else {
+        $('#DtEnd').val(moment(dtEnd).format("MM/DD/YYYY"));
+    }
+
+    if (dtStart != '' && dtEnd != '') {
+        $("#show-date-text").show();
+    }
+
+    var driverId = parseInt(driver);
+
+    if (driverId > 0) {
+        $("#driverId").val(driverId);
+    } else {
+        $("#driverId").val(0);
+    }
+}
+
+function DriverSummaryFilter_AddDays(days) {
+
+    $("#DtStart").val(moment().add(days, 'days').format("MM/DD/YYYY"));
+}

@@ -4,23 +4,19 @@ using System.Data;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
-using System.Web.Mvc;
 using JobsV1.Areas.Personel.Models;
 using JobsV1.Models;
 using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Areas.Personel.Services
 {
-    public class CarRentalLogSvc
+    public class CrLogServices
     {
 
-        private CarRentalLogDBContainer db;
+        private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
         private DateClass dt = new DateClass();
 
-        public CarRentalLogSvc(CarRentalLogDBContainer _contextdb)
+        public CrLogServices(CarRentalLogDBContainer _contextdb)
         {
             db = _contextdb;
         }
@@ -178,7 +174,73 @@ namespace JobsV1.Areas.Personel.Services
 
         }
 
+        public IQueryable<crLogTrip> GetFilteredTripLogs(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        {
+            //Get Logs
+            var crLogTrips = db.crLogTrips.Include(c => c.crLogDriver).Include(c => c.crLogUnit).Include(c => c.crLogCompany).Include(c => c.crLogClosing);
 
+            //Filter
+            if (!startDate.IsNullOrWhiteSpace() && !endDate.IsNullOrWhiteSpace())
+            {
+                var sdate = DateTime.ParseExact(startDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
+                var edate = DateTime.ParseExact(endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
+
+                crLogTrips = crLogTrips.Where(c => DbFunctions.TruncateTime(c.DtTrip) >= sdate && DbFunctions.TruncateTime(c.DtTrip) <= edate);
+            }
+
+            if (!String.IsNullOrEmpty(unit) && unit != "all")
+            {
+                crLogTrips = crLogTrips.Where(c => c.crLogUnit.Description == unit);
+            }
+            else
+            {
+                crLogTrips = crLogTrips.OrderBy(c => c.crLogUnit.Description);
+            }
+
+            if (!driver.IsNullOrWhiteSpace() && driver != "all")
+            {
+                crLogTrips = crLogTrips.Where(c => c.crLogDriver.Name == driver);
+            }
+            else
+            {
+                crLogTrips = crLogTrips.OrderBy(c => c.crLogDriver.Name);
+            }
+
+            if (!company.IsNullOrWhiteSpace() && company != "all")
+            {
+                crLogTrips = crLogTrips.Where(c => c.crLogCompany.Name == company);
+            }
+            else
+            {
+                crLogTrips = crLogTrips.OrderBy(c => c.crLogCompany.Name);
+            }
+
+            //Sorting
+            switch (sortby)
+            {
+                case "Unit":
+                    crLogTrips = crLogTrips.OrderBy(c => c.crLogUnit.Description);
+                    break;
+                case "Company":
+                    crLogTrips = crLogTrips.OrderBy(c => c.crLogCompany.Name);
+                    break;
+                case "Driver":
+                    crLogTrips = crLogTrips.OrderBy(c => c.crLogDriver.Name);
+                    break;
+                case "Date":
+                    crLogTrips = crLogTrips.OrderBy(c => c.DtTrip);
+                    break;
+                case "Date-Desc":
+                    crLogTrips = crLogTrips.OrderByDescending(c => c.DtTrip);
+                    break;
+                default:
+                    crLogTrips = crLogTrips.OrderBy(c => c.DtTrip);
+                    break;
+            }
+
+            return crLogTrips;
+
+        }
 
         public double GetTripLogOTHours(crLogTrip trip)
         {
@@ -270,7 +332,6 @@ namespace JobsV1.Areas.Personel.Services
             return hrsDiffTemp;
         }
 
-
         //GET : rate of OT per hour based on OTRate for Driver
         public double GetTripOTRate(int? id)
         {
@@ -326,7 +387,6 @@ namespace JobsV1.Areas.Personel.Services
             return CalcOTRate;
         }
 
-
         //GET : rate of OT per hour based on OTRate for Driver
         public double GetTripOTCompanyRate(int? id)
         {
@@ -380,7 +440,6 @@ namespace JobsV1.Areas.Personel.Services
             return CalcOTRate;
         }
 
-
         //GET : rate of OT per hour based on OTRate for Company
         public double GetTripOTAddon(int? id)
         {
@@ -401,7 +460,6 @@ namespace JobsV1.Areas.Personel.Services
 
             return CalcOTRate;
         }
-
 
         //GET : /Personel/CarRentalLog/GetTripOTHours/{TripLogId}
         public double GetTripOTHours(int? id)
@@ -450,8 +508,6 @@ namespace JobsV1.Areas.Personel.Services
 
             return 0;
         }
-
-
 
         //Check if Unit is encoded in trip logs for the selected date
         public bool GetUnitIsInTripByDate(int unitId, DateTime? date)
@@ -507,7 +563,6 @@ namespace JobsV1.Areas.Personel.Services
 
             return logSummary;
         }
-
 
         public List<CrDriverLogs> GetDriverLogs(CrLogSummary logSummary, List<crLogTrip> tripLogs)
         {
@@ -613,7 +668,6 @@ namespace JobsV1.Areas.Personel.Services
             return logSummary.CrUnits;
         }
 
-
         public crLogTrip GetTripLogLatestTrip(int unitID, int driverID, int CompanyID)
         {
             return db.crLogTrips
@@ -640,15 +694,68 @@ namespace JobsV1.Areas.Personel.Services
             }
         }
 
+        public int GenerateClosingId()
+        {
+            crLogClosing ctrx = new crLogClosing()
+            { 
+                dtClose = System.DateTime.Now 
+            };
+
+            db.crLogClosings.Add(ctrx);
+            db.SaveChanges();
+
+            return ctrx.Id;
+        }
+
+        //Check if Unit is encoded in trip logs for the selected date
+        public bool GetUnitIsInTripByDateSvc(int unitId, DateTime? date)
+        {
+            var today = dt.GetCurrentDate();
+
+            if (date != null)
+            {
+                today = (DateTime)date;
+            }
+
+            var isInTripToday = db.crLogTrips.Where(c => c.crLogUnitId == unitId &&
+                                        DbFunctions.TruncateTime(c.DtTrip) == today
+                                    ).ToList();
+
+            if (isInTripToday.Count() > 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        //Check if Driver is encoded in trip logs for the selected date
+        public bool GetDriverIsInTripByDateSvc(int driverId, DateTime? date)
+        {
+            var today = dt.GetCurrentDate();
+
+            if (date != null)
+            {
+                today = (DateTime)date;
+            }
+
+            var isInTripToday = db.crLogTrips.Where(c => c.crLogDriverId == driverId &&
+                                        DbFunctions.TruncateTime(c.DtTrip) == today
+                                    ).ToList();
+
+            if (isInTripToday.Count() > 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         //Finalize Trip
         public bool SetTripFinal(crLogTrip triplog)
         {
             try
             {
-                //find trip
-                //var triplog = db.crLogTrips.Find(id);
-
                 //set trip as final, cannot be edited
                 triplog.IsFinal = true;
 
@@ -663,8 +770,59 @@ namespace JobsV1.Areas.Personel.Services
             }
         }
 
+        public bool CheckTripFinalizeRange(List<crLogTrip> trips)
+        {
+            try
+            {
+                var dateTimeNow = dt.GetCurrentDateTime();
 
+                //18 == 6:00pm
+                //finalize trips
+                if (dateTimeNow.Hour >= 18)
+                {
+                    var result = false;
+                    foreach (var trip in trips)
+                    {
+                        result = SetTripFinal(trip);
+                    }
 
+                    if (result)
+                    {
+                        //save
+                       SaveDbChanges();
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //Param: id = TripId
+        public bool DeleteTripPassengers(int? id)
+        {
+            try
+            {
+                if (id != null)
+                {
+                    var tripPass = db.crLogPassengers.Where(p => p.crLogTripId == id).ToList();
+                    if (tripPass.Count() > 0)
+                    {
+                        db.crLogPassengers.RemoveRange(tripPass);
+                    }
+
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         public int SaveDbChanges()
         {

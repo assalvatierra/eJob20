@@ -212,8 +212,9 @@
                         <img src="~/Images/SalesLead/high-importance.png" width="20" alt="Release Amount is 0 or null" title="Release Amount is 0 or null" />
                     }
 
-                    @if (item.Amount < (item.BudgetAmt - amountVariance) ||
-                         item.Amount > (item.BudgetAmt + amountVariance) )
+                    @if ((item.ApTransStatusId == STATUS_RETURNED && item.ApTransTypeId != TYPE_PO) &&
+                         (item.Amount < (item.BudgetAmt - amountVariance) ||
+                          item.Amount > (item.BudgetAmt + amountVariance)) )
                     {
                         <img src="~/Images/SalesLead/high-importance.png" width="20" 
                              alt="Amount returned reached a 30% variance of the budget amount" 

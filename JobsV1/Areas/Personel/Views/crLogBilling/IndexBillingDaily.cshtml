@@ -1,4 +1,4 @@
-﻿@model JobsV1.Areas.Personel.Controllers.crLogTripBilling
+﻿@model JobsV1.Areas.Personel.Models.crLogTripBilling
 
 @{
     ViewBag.Title = "Trip Log";
@@ -429,7 +429,7 @@
 
         function PrintBilling() {
             ShowLoading();
-            location.href = "/Personel/CarRentalLog/PrintIndexBillingDaily"
+            location.href = "/Personel/crLogBilling/PrintIndexBillingDaily"
         }
 
 

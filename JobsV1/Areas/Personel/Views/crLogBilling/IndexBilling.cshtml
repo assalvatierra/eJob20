@@ -1,4 +1,4 @@
-﻿@model JobsV1.Areas.Personel.Controllers.crLogTripBilling
+﻿@model JobsV1.Areas.Personel.Models.crLogTripBilling
 
 @{
     ViewBag.Title = "Trip Log";
@@ -35,24 +35,26 @@
     @Html.ActionLink("Expenses", "Index", "CrLogFuels", null, null) |
     @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses")
 </p>
-<div><p>
-    @*@Html.ActionLink("Add New Trip", "Create") |
-        @Html.ActionLink("Copy Trip", "CopyTrip") |
-        @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
-        @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease") |*@
-    @*OT Billing |
-        @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", new { company = ViewBag.Company }) | |
-        @Html.ActionLink("Sunday Billing", "IndexBillingSunday")*@
-    <div class="col-md-7">
-         @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog", null, new { @class = " btn btn-default" }) 
-    </div>
-    <!-- Billing Links -->
-    <div class="col-md-5 btn-group">
-        @Html.ActionLink("OT Billing", "IndexBilling", null, new { @class = " btn btn-default active" })
-        @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", null, new { @class = " btn btn-default" })
-        @Html.ActionLink("Sunday Billing", "IndexBillingSunday", null, new { @class = " btn btn-default" })
-    </div>
-</p></div>
+<div>
+    <p>
+        @*@Html.ActionLink("Add New Trip", "Create") |
+            @Html.ActionLink("Copy Trip", "CopyTrip") |
+            @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
+            @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease") |*@
+        @*OT Billing |
+            @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", new { company = ViewBag.Company }) | |
+            @Html.ActionLink("Sunday Billing", "IndexBillingSunday")*@
+        <div class="col-md-7">
+            @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog", null, new { @class = " btn btn-default" })
+        </div>
+        <!-- Billing Links -->
+        <div class="col-md-5 btn-group">
+            @Html.ActionLink("OT Billing", "IndexBilling", null, new { @class = " btn btn-default active" })
+            @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", null, new { @class = " btn btn-default" })
+            @Html.ActionLink("Sunday Billing", "IndexBillingSunday", null, new { @class = " btn btn-default" })
+        </div>
+    </p>
+</div>
 
 <p class="col-md-12">
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#FilterModal">Filter</button>
@@ -216,7 +218,6 @@
             Overtime
         </td>
         <td>
-
         </td>
     </tr>
     @foreach (var tripGroup in Model.OTTrips.GroupBy(t => t.DtTrip.Date))
@@ -224,25 +225,25 @@
         <tr><td colspan="6"> </td></tr>
         foreach (var trip in tripGroup)
         {
-                TotalOTCount += 1;
-                TotalOTRate += trip.OTRate;
-                TotalOTHrs += trip.OTHours;
+            TotalOTCount += 1;
+            TotalOTRate += trip.OTRate;
+            TotalOTHrs += trip.OTHours;
 
-                <tr>
-                    <td>@trip.Driver</td>
-                    <td>@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
-                    <td>@trip.Unit</td>
-                    <td>@trip.StartTime - @trip.EndTime</td>
-                    <td>
-                        <span class="OT-Rate"> @trip.OTRate.ToString("#,##0") </span>
-                    </td>
-                    <td>
-                        @trip.OTHours.ToString("#,##0.00") Hrs
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "EditOTBilling", new { id = trip.Id }) 
-                    </td>
-                </tr>
+            <tr>
+                <td>@trip.Driver</td>
+                <td>@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
+                <td>@trip.Unit</td>
+                <td>@trip.StartTime - @trip.EndTime</td>
+                <td>
+                    <span class="OT-Rate"> @trip.OTRate.ToString("#,##0") </span>
+                </td>
+                <td>
+                    @trip.OTHours.ToString("#,##0.00") Hrs
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditOTBilling", new { id = trip.Id })
+                </td>
+            </tr>
         }
     }
     <!-- Summary -->
@@ -408,7 +409,7 @@
             //$("#totalOTRate").text(totalOTRate);
         }
 
-        
+
         function GetOTCompanyRate() {
             var totalOTRate = 0;
             $('#TripLogsOT-Table tr td .OTCompanyRate').each(function () {
@@ -424,7 +425,7 @@
             //$("#totalOTCompanyRate").text(totalOTRate);
         }
 
-        
+
         function ShowLoading() {
             $("#overlay").show();
         }
@@ -436,10 +437,10 @@
         function ToggleDriverTrip() {
             $("#TripLogs-Table").toggle();
         }
-        
+
         function PrintBilling() {
             ShowLoading();
-            location.href = "/Personel/CarRentalLog/PrintIndexBilling"
+            location.href = "/Personel/crLogBilling/PrintIndexBilling"
         }
 
 

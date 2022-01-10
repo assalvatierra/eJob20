@@ -54,8 +54,8 @@
             @Html.DisplayFor(modelItem => item.Status)
         </td>
         <td>
-            @Html.ActionLink("Summary", "DriverSummary", "CarRentalLog", new { id = item.Id }, null) |
-            @Html.ActionLink("Salary Details", "DriverTrxHistory", "CarRentalLog", new { id = item.Id }, null) |
+            @Html.ActionLink("Summary", "DriverSummary", new { id = item.Id }, null) |
+            @Html.ActionLink("Salary Details", "DriverTrxHistory", new { id = item.Id }, null) |
             @Html.ActionLink("Trip List", "DriversTripList", "crLogPassengers", new { id = item.Id }, null) |
             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
             @Html.ActionLink("Details", "Details", new { id = item.Id }) |

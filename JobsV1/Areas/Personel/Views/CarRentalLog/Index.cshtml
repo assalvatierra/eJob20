@@ -298,6 +298,12 @@
             <td class="td-date">
                 @item.DtTrip.ToString("MMM dd yyyy")
                 <span style="color:@color;"> @item.DtTrip.ToString(" (ddd) ")</span>
+
+                @if (item.IsFinal)
+                {
+                    <!-- Lock img icon -->
+                    <i class="fa fa-lock"></i>
+                }
             </td>
             <td>
 
@@ -317,9 +323,6 @@
                         <a class="cursor-pointer" onclick="Show_JobsLinkModal('@item.Id')">  Link </a>
                     }
                 }
-
-
-
             </td>
             <td class="td-driver">
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)
@@ -364,18 +367,12 @@
                         @if (item.AllowEdit)
                         {
                               <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
-                              @*
-                                <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
-                                <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
-                              *@
                         }
                         else
                         {
                             if (!item.IsFinal && !isAdmin)
                             {
                                 <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
-                                @*<li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> + Update Odo </a></li>*@
-                                @*<li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')">  +  Update OT </a></li>*@
                                 <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
 
                             }
@@ -397,14 +394,14 @@
                         @if (String.IsNullOrEmpty(item.StartTime))
                         {
                             <li role="separator" class="divider"></li>
-                            <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> - Update Odo  </a></li>
-                            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')">  - Update OT   </a></li>
+                            <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')">  Update Odo  </a></li>
+                            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')">   Update OT   </a></li>
 
                         }
 
 
                         <li role="separator" class="divider"></li>
-                        <li>@Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })</li>
+                        <li>@Html.ActionLink("Driver Summary", "DriverSummary", "crLogDrivers", new { id = item.crLogDriverId }, null)</li>
                         <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
                         <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
 

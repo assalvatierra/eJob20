@@ -135,12 +135,12 @@
             color = "black";
         }
 
-        if (item.DriverFee > 0 && item.DriverFee != null)
+        if (item.DriverFee > 0 && item.DriverFee != 0)
         {
             _drivertrips += item.DriverFee;
         }
         
-        if (item.DriverOT > 0 && item.DriverOT != null)
+        if (item.DriverOT > 0 && item.DriverOT != 0)
         {
             _driverOT += item.DriverOT;
         }
@@ -323,8 +323,6 @@
                     if (_driverbalance == 0)
                     {
                         <span>
-                            @*<a class="cursor-hand" onclick="CloseAllCAPayments()"> Close All CA & Payments </a>*@
-
                             @Html.ActionLink("Close All CA & Payments ", "CloseCashBalance", new { id = ViewBag.DriverId })
                         </span>
                     }
@@ -404,8 +402,6 @@
                 </td>
             </tr>
         }
-
-
     </table>
 
 }
@@ -419,11 +415,9 @@
 <br />
 
 <p>
-   
-        @Html.ActionLink("Drivers Salary", "DriverTrxHistory", new { id = ViewBag.DriverId }) 
-        <span> | </span>
-        @Html.ActionLink("Drivers Expenses", "DriverExpenseHistory", new { id = ViewBag.DriverId })
-    
+    @Html.ActionLink("Drivers Salary", "DriverTrxHistory", new { id = ViewBag.DriverId }) 
+    <span> | </span>
+    @Html.ActionLink("Drivers Expenses", "DriverExpenseHistory", new { id = ViewBag.DriverId })
 </p>
 <p>
     @Html.ActionLink("Go to Trip Log", "Index") | @Html.ActionLink("Go to Cash Trx", "Index", "CarRentalCashRelease") |
@@ -442,67 +436,10 @@
     <script>
 
         $(() => {
-            Initialize();
-            Initialize_Date();
+            Initialize(@reqStatus);
+            Initialize_Date(@ViewBag.DtStart, @ViewBag.DtEnd, @ViewBag.driverId);
         })
 
-        function Initialize() {
-            CalculateTotalSalary();
-
-            if ('@reqStatus' == '1') {
-                $("#request-success-message").show();
-            }
-
-
-            if ('@reqStatus' == '2') {
-                $("#ca-success-message").show();
-            }
-
-
-            if ('@reqStatus' == '4') {
-                $("#closeTRx-success-message").show();
-            }
-
-
-
-            if ('@reqStatus' == '5') {
-                $("#closeTRx-error-message").show();
-            }
-        }
-
-
-        function Initialize_Date() {
-            var dtStart = '@ViewBag.DtStart';
-            var dtEnd = '@ViewBag.DtEnd';
-
-            if (dtStart == '') {
-                $('#DtStart').val(moment().format("MM/DD/YYYY"));
-            } else {
-                $('#DtStart').val(moment(dtStart).format("MM/DD/YYYY"));
-            }
-            if (dtEnd == '') {
-                $('#DtEnd').val(moment().format("MM/DD/YYYY"));
-            } else {
-                $('#DtEnd').val(moment(dtEnd).format("MM/DD/YYYY"));
-            }
-
-            if (dtStart  != '' && dtEnd != '') {
-                $("#show-date-text").show();
-            }
-
-            var driverId = parseInt('@ViewBag.driverId');
-            console.log(driverId);
-            if (driverId > 0) {
-                $("#driverId").val(driverId);
-            } else {
-                $("#driverId").val(0);
-            }
-        }
-
-        function DriverSummaryFilter_AddDays(days) {
-            console.log("add days")
-            $("#DtStart").val(moment().add(days, 'days').format("MM/DD/YYYY"));
-        }
 
     </script>
 }
