@@ -249,7 +249,7 @@ function ReturnAmount(e) {
     if (varianceCheck) {
         POST_ReturnAmount(id, amount, remarks);
     } else {
-        if(confirm("The RReturn Amount have reached the 30% variance of Budget Amount. Do you want to return?")){
+        if (confirm("The Returned Amount " + amount + " have reached the 30% variance of Budget Amount " + budgetAmount +". Do you want to return?")){
             POST_ReturnAmount(id, amount, remarks);
         }
     }

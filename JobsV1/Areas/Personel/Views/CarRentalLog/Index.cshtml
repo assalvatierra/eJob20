@@ -35,6 +35,7 @@
 </style>
 
 <h2>Trip Log</h2>
+
 @if (ViewBag.FilteredsDate != null)
 {
     string date = ViewBag.FilteredsDate;
@@ -260,6 +261,7 @@
     @foreach (var item in Model)
     {
         var color = "black";
+        var tripcolor = "black";
 
         if (item.DtTrip.DayOfWeek.ToString() == "Sunday")
         {
@@ -274,6 +276,12 @@
             color = "black";
         }
 
+
+        if (item.crLogTripJobMains.Count() == 0)
+        {
+            tripcolor = "red";
+        }
+
         count += 1;
         totalRate += item.Rate;
         totalAddon += item.Addon;
@@ -281,7 +289,7 @@
         totalDriverFee += item.DriverFee;
         totalDriverOT += item.DriverOT;
 
-        <tr id="trip-@item.Id">
+        <tr id="trip-@item.Id" style="color:@tripcolor;">
             <td class="trip-Finalize" hidden>
                 @if (!item.IsFinal)
                 {
@@ -320,7 +328,7 @@
                 {
                     if (!item.crLogCompany.IsInternal)
                     {
-                        <a class="cursor-pointer" onclick="Show_JobsLinkModal('@item.Id')">  Link </a>
+                        <a class="cursor-pointer" onclick="Show_JobsLinkModal('@item.Id','@item.DtTrip.ToShortDateString()')">  Link </a>
                     }
                 }
             </td>
@@ -351,9 +359,7 @@
             <td>
                 @item.DriverOT.ToString("#,##0.00")
             </td>
-
             <td>
-                @*@{ Html.RenderAction("GetTripPassengersCount", "crLogPassengers", new { id = item.Id });}*@
                 <img src="~/Images/Icons/icons-queue.png" width="20" alt="passengers" title="passengers count" />
                 @item.crLogPassengers.Count()
             </td>

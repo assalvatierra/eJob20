@@ -175,8 +175,6 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         // POST: Personel/CarRentalLog/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, AddonOT, IsFinal, AllowEdit")] crLogTrip crLogTrip)
@@ -211,13 +209,13 @@ namespace JobsV1.Areas.Personel.Controllers
 
             if (crLogTrip.OTRate == null)
             {
-                //crLogTrip.OTRate = 200;
+                crLogTrip.OTRate = 200;
             }
-
+            
 
             if (crLogTrip.DriverOTRate == null)
             {
-                //crLogTrip.DriverOTRate = 50;
+                crLogTrip.DriverOTRate = 50;
             }
 
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
@@ -228,17 +226,17 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         // POST: Personel/CarRentalLog/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, AddonOT, IsFinal, AllowEdit")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {
+                otServices = new CrOTServices(db);
                 //caculate OT
                 var OTRate = otServices.GetTripLogOTRate(crLogTrip);
-                if (OTRate > 0 && crLogTrip.DriverOT == 0)
+
+                if (OTRate > 0 && crLogTrip.DriverOT == 0 )
                 {
                     crLogTrip.DriverOT = (decimal)OTRate;
                 }
@@ -290,7 +288,6 @@ namespace JobsV1.Areas.Personel.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
 
         protected override void Dispose(bool disposing)
         {
@@ -670,6 +667,7 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             if (Id != null)
             {
+                otServices = new CrOTServices(db);
                 crLogTrip crLogTrip = db.crLogTrips.Find(Id);
 
                 if (crLogTrip == null)
@@ -1128,7 +1126,7 @@ namespace JobsV1.Areas.Personel.Controllers
             return false;
         }
 
-        //POST: CarRentalLog/GetDriverIsInTripByDate
+        //GET: CarRentalLog/GetDriverIsInTripByDate
         [HttpGet]
         public bool GetDriverIsInTripByDate(int driverId, DateTime? date)
         {
@@ -1150,6 +1148,31 @@ namespace JobsV1.Areas.Personel.Controllers
 
             return false;
         }
+
+        //GET: CarRentalLog/GetTripIdLinkCountToday
+        [HttpGet]
+        public JsonResult GetTripIdLinkCountToday(int? jobId)
+        {
+            try
+            {
+                if (jobId == null)
+                {
+                    return Json(8, JsonRequestBehavior.AllowGet);
+                }
+
+                var today = dt.GetCurrentDate();
+
+                var LinktripCount = db.crLogTripJobMains.Where(c => c.JobMainId == jobId && DbFunctions.TruncateTime( c.crLogTrip.DtTrip) == today).Count();
+
+                return Json(LinktripCount, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(9, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
 
         #endregion
 

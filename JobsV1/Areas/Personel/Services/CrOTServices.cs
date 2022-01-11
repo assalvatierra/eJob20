@@ -179,28 +179,36 @@ namespace JobsV1.Areas.Personel.Services
         //GET : rate of OT per hour based on OTRate for Driver
         public double GetTripLogOTRate(crLogTrip trip)
         {
-
-            if (trip == null)
+            try
             {
+
+                if (trip == null)
+                {
+                    return 0;
+                }
+
+                double OTHours = GetTripLogOTHours(trip);
+                double CalcOTRate = 0;
+
+
+                if (trip.DriverOTRate != null)
+                {
+                    CalcOTRate = OTHours * Double.Parse(trip.DriverOTRate.ToString());
+                }
+                else
+                {
+                    //default 50 per hour overtime rate
+                    CalcOTRate = OTHours * 50;
+                }
+
+
+                return CalcOTRate;
+            }
+            catch (Exception ex )
+            {
+                throw ex;
                 return 0;
             }
-
-            double OTHours = GetTripLogOTHours(trip);
-            double CalcOTRate = 0;
-
-
-            if (trip.DriverOTRate != null)
-            {
-                CalcOTRate = OTHours * Double.Parse(trip.DriverOTRate.ToString());
-            }
-            else
-            {
-                //default 50 per hour overtime rate
-                CalcOTRate = OTHours * 50;
-            }
-
-
-            return CalcOTRate;
         }
 
 
