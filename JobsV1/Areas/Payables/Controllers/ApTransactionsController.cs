@@ -114,7 +114,6 @@ namespace JobsV1.Areas.Payables.Controllers
         {
             try
             {
-
                 var today = dt.GetCurrentDateTime();
 
                 ApTransaction transaction = new ApTransaction();
@@ -127,7 +126,9 @@ namespace JobsV1.Areas.Payables.Controllers
 
                 ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name");
                 ViewBag.ApTransCategoryId = new SelectList(ap.TransactionMgr.GetTransCategories(), "Id", "Name");
-                ViewBag.ApTransStatusId = new SelectList(ap.TransactionMgr.GetTransStatus().OrderBy(c => c.Code), "Id", "Status");
+                //ViewBag.ApTransStatusId = new SelectList(ap.TransactionMgr.GetTransStatus().OrderBy(c => c.Code), "Id", "Status");
+
+                ViewBag.ApTransStatusId = new SelectList(db.ApTransStatus.Where(c=>c.Id == 1).ToList(), "Id", "Status");
                 ViewBag.ApTransTypeId = new SelectList(ap.TransactionMgr.GetTransTypes(), "Id", "Type");
                 return View(transaction);
             }

@@ -249,7 +249,9 @@ function ReturnAmount(e) {
     if (varianceCheck) {
         POST_ReturnAmount(id, amount, remarks);
     } else {
-        if (confirm("The Returned Amount " + amount + " have reached the 30% variance of Budget Amount " + budgetAmount +". Do you want to return?")){
+        if (confirm("The Returned Amount " + amount 
+            + " have reached the 30% variance of Budget Amount "
+            + budgetAmount + ". Do you want to return?")) {
             POST_ReturnAmount(id, amount, remarks);
         }
     }
@@ -257,11 +259,13 @@ function ReturnAmount(e) {
 
 function POST_ReturnAmount(id, amount, remarks) {
 
-    $.post("/Payables/ApTransactions/ReturnAmount", { id: id, amount: amount, remarks: remarks }, (res) => {
-        if (res == "OK") {
-            UpdateStatus(id, 5); //update to return
-            $("#ReturnAmount-Modal").modal('hide');
-        }
+    $.post("/Payables/ApTransactions/ReturnAmount",
+        { id: id, amount: amount, remarks: remarks },
+        (res) => {
+            if (res == "OK") {
+                UpdateStatus(id, 5); //update to return
+                $("#ReturnAmount-Modal").modal('hide');
+            }
     });
 }
 

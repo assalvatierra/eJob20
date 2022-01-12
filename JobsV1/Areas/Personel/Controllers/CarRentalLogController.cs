@@ -177,7 +177,9 @@ namespace JobsV1.Areas.Personel.Controllers
         // POST: Personel/CarRentalLog/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, AddonOT, IsFinal, AllowEdit")] crLogTrip crLogTrip)
+        public ActionResult Create([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses," +
+            "DriverFee,Remarks, OdoStart, OdoEnd, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, AddonOT, " +
+            "IsFinal, AllowEdit")] crLogTrip crLogTrip)
         { 
             if (ModelState.IsValid)
             {
@@ -228,7 +230,9 @@ namespace JobsV1.Areas.Personel.Controllers
         // POST: Personel/CarRentalLog/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, AddonOT, IsFinal, AllowEdit")] crLogTrip crLogTrip)
+        public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses," +
+            "DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, " +
+            "AddonOT, IsFinal, AllowEdit")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {
@@ -663,7 +667,8 @@ namespace JobsV1.Areas.Personel.Controllers
 
         //POST: CarRentalLog/SetTripOT
         [HttpPost]
-        public bool SetTripOT(int? Id, string StartTime, string EndTime, int? TripHours, Decimal? OTRate, Decimal? DriverOTRate, string Remarks)
+        public bool SetTripOT(int? Id, string StartTime, string EndTime, int? TripHours, 
+            Decimal? OTRate, Decimal? DriverOTRate, string Remarks)
         {
             if (Id != null)
             {
@@ -822,7 +827,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
         //POST: Personel/CarRentalLog/SetLinkTriplogJobs/{triplogId:int, jobmainId:int}
         [HttpPost]
-        public bool SetLinkTriplogJobs(int triplogId, int jobmainId)
+        public HttpResponseMessage SetLinkTriplogJobs(int triplogId, int jobmainId)
         {
             try
             {
@@ -834,12 +839,11 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.crLogTripJobMains.Add(logTripJobMain);
                 db.SaveChanges();
 
-                return true;
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
-            catch (Exception ex)
+            catch
             {
-                var eexm = ex;
-                return false;
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
         }
 
@@ -887,6 +891,31 @@ namespace JobsV1.Areas.Personel.Controllers
             catch 
             {
                 return false;
+            }
+        }
+
+        //GET: CarRentalLog/GetTripIdLinkCountToday
+        [HttpGet]
+        public JsonResult GetTripIdLinkCountToday(int? jobId)
+        {
+            try
+            {
+                if (jobId == null)
+                {
+                    return Json(0, JsonRequestBehavior.AllowGet);
+                }
+
+                var today = dt.GetCurrentDate();
+
+                var LinktripCount = db.crLogTripJobMains
+                    .Where(c => c.JobMainId == jobId && DbFunctions.TruncateTime(c.crLogTrip.DtTrip) == today)
+                    .Count();
+
+                return Json(LinktripCount, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(0, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -1149,33 +1178,7 @@ namespace JobsV1.Areas.Personel.Controllers
             return false;
         }
 
-        //GET: CarRentalLog/GetTripIdLinkCountToday
-        [HttpGet]
-        public JsonResult GetTripIdLinkCountToday(int? jobId)
-        {
-            try
-            {
-                if (jobId == null)
-                {
-                    return Json(8, JsonRequestBehavior.AllowGet);
-                }
-
-                var today = dt.GetCurrentDate();
-
-                var LinktripCount = db.crLogTripJobMains.Where(c => c.JobMainId == jobId && DbFunctions.TruncateTime( c.crLogTrip.DtTrip) == today).Count();
-
-                return Json(LinktripCount, JsonRequestBehavior.AllowGet);
-            }
-            catch
-            {
-                return Json(9, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-
-
         #endregion
-
 
         private class TripOdoRequest
         {

@@ -288,27 +288,6 @@ namespace JobsV1.Areas.Personel.Services
             return 0;
         }
 
-        private DateTime convertDateTime(DateTime time)
-        {
-            var timeTemp = time;
-
-            //round off time start
-            if (time.Minute > 40)
-            {
-                time = time.AddMinutes(60 - time.Minute);
-            }
-            else if (time.Minute >= 20 && time.Minute <= 40)
-            {
-                time = time.AddMinutes(30 - time.Minute);
-            }
-            else
-            {
-                time = time.AddMinutes(0 - time.Minute);
-            }
-
-            return time;
-        }
-
         //Round Off time Difference in Hours
         // if timediff is greater than 0.833 (50 mins), round off to 1 (1 hour)
         //                greater than 0.333 (20 mins) or less than 0.833 (50 mins), round off to 0.5 ()
