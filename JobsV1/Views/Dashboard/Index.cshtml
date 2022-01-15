@@ -1,0 +1,266 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    //title and description defined in controller
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+<div class="row dashboard">
+    @{Html.RenderPartial("_SideMenuView");}
+
+    <div class="dashboard-main">
+        <div class="row">
+            <div class="col-md-12" style="margin:5px 20px;">
+                <div style="margin-left:20px;">
+                    <button class="btn btn-primary pull-left" id="sidenav-toggle" style="padding:5px 15px;margin-right:20px;"> 
+                    <i class="fa fa-bars"> </i> </button>
+                    <h1> Dashboard </h1>
+                </div> 
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="row-flex">
+
+                @{Html.RenderPartial("_SummaryView");}
+
+                <div class="col-md-12">
+                    <div class="flex-inline-row">
+                        @{Html.RenderPartial("_TripLogsView");}
+
+                        @{Html.RenderPartial("_NotificationsView");}
+                    </div>
+                    <hr />
+                </div>
+
+                <div class="col-md-12">
+                    <div class="flex-inline-row">
+                        @{Html.RenderPartial("_PayablesView");}
+
+                        @{Html.RenderPartial("_ReceivablesView");}
+                    </div>
+                    <hr />
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @*<script src="~/Scripts/Chartjs/Chart.js"></script>*@
+    <script>
+
+        function jobsChart() {
+            const labels = [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+            ];
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'Jobs Count',
+                    backgroundColor: 'rgb(30,144,255)',
+                    borderColor: 'rgb(30,144,255)',
+                    data: [0, 10, 5, 2, 20, 30, 45],
+                }]
+            };
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    tension: 0.3,
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                },
+
+            };
+
+            new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+        }
+
+
+        function expenseChart() {
+            const DATA_COUNT = 5;
+            const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
+
+            const data = {
+                labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
+                datasets: [
+                    {
+                        label: 'Dataset 1',
+                        data: [5, 20, 40, 30, 10],
+                        backgroundColor: ['red', 'orange', 'yellow', 'green', 'blue'],
+                    }
+                ]
+            };
+
+            const config = {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'right'
+                        },
+                        title: {
+                            display: false,
+                            text: 'Chart.js Doughnut Chart'
+                        }
+                    }
+                },
+            };
+
+            new Chart(
+                document.getElementById('expenseChart'),
+                config
+            );
+        }
+
+        $(() => {
+            // CHARTS CONFIG
+            // === include 'setup' then 'config' above ===
+            jobsChart();
+            expenseChart();
+        });
+
+
+        $("#sidenav-toggle").click(() => {
+            //toggle side navigation (hide/show)
+            $(".dashboard-sidebar").toggle(300);
+        });
+    </script>
+
+    <script>
+      function sidebarMenu (menu) {
+            var animationSpeed = 300,
+                subMenuSelector = '.sidebar-submenu';
+
+            $(menu).on('click', 'li a', function (e) {
+                var $this = $(this);
+                var checkElement = $this.next();
+
+                if (checkElement.is(subMenuSelector) && checkElement.is(':visible')) {
+                    checkElement.slideUp(animationSpeed, function () {
+                        checkElement.removeClass('menu-open');
+                    });
+                    checkElement.parent("li").removeClass("active");
+                }
+
+                //If the menu is not visible
+                else if ((checkElement.is(subMenuSelector)) && (!checkElement.is(':visible'))) {
+                    //Get the parent menu
+                    var parent = $this.parents('ul').first();
+                    //Close all open menus within the parent
+                    var ul = parent.find('ul:visible').slideUp(animationSpeed);
+                    //Remove the menu-open class from the parent
+                    ul.removeClass('menu-open');
+                    //Get the parent li
+                    var parent_li = $this.parent("li");
+
+                    //Open the target menu and add the menu-open class
+                    checkElement.slideDown(animationSpeed, function () {
+                        //Add the class active to the parent li
+                        checkElement.addClass('menu-open');
+                        parent.find('li.active').removeClass('active');
+                        parent_li.addClass('active');
+                    });
+                }
+                //if this isn't a link, prevent the page from being redirected
+                if (checkElement.is(subMenuSelector)) {
+                    e.preventDefault();
+                }
+            });
+        }
+        sidebarMenu($('.sidebar-menu'));
+    </script>
+
+    <script>
+        $(() => {
+            GetTotalSales();
+            GetTotalExpenses();
+            GetJobOrders();
+            GetTripLogs();
+        });
+
+        function GetTotalSales() {
+            $.get('/Dashboard/GetSalesThisMonth', null, (sales) => {
+                console.log(sales);
+                $('#Sales-TotalAmount').text(sales);
+            });
+        }
+
+        function GetTotalExpenses() {
+            $.get('/Dashboard/GetExpensesThisMonth', null, (expenses) => {
+                console.log(expenses);
+                $('#Expenses-TotalAmount').text("P"+expenses);
+            });
+        }
+
+
+        function GetJobOrders() {
+            $.get('/Dashboard/GetActiveJobs', null, (jobs) => {
+                console.log(jobs);
+                AddJobsToList(jobs);
+            });
+        }
+
+        function GetTripLogs() {
+            $.get('/Dashboard/GetActiveTriplogs', null, (logs) => {
+                console.log(logs);
+                AddTripLogsToList(logs);
+            });
+        }
+
+        function AddJobsToList(jobs) {
+            if (jobs.length > 0) {
+                for (var i = 0; i < jobs.length; i++ ){
+
+                    var jobRow = "<tr>" +
+                        "<td><span style='font-weight:600;'>" + jobs[i]["Id"] + "</span></td>" +
+                        "<td><span class='no-margin-bottom text-bold'>" + jobs[i]["Description"]  + "</span><br>"+
+                            "<span class='text-muted'>" + jobs[i]["StartDate"] + "-" + jobs[i]["EndDate"] + "</span></td>" +
+                        "<td><span class='label label-primary'>" + jobs[i]["Status"] + "</span><br>" +
+                            "<span class='text-success'>" + jobs[i]["Amount"] +"</span></td>" +
+                        "</tr>";
+                    $("#JobsTable").append(jobRow);
+                }
+            }
+        }
+
+        function AddTripLogsToList(logs) {
+            if (logs.length > 0) {
+                for (var i = 0; i < logs.length; i++) {
+                   
+                    var logsRow = "<tr>" +
+                        "<td><i class='fa fa-car'> </i><span>" + logs[i]["Unit"] + "</span></td>" +
+                        "<td><i class='fa fa-user'> </i><span>" + logs[i]["Driver"] + "</span></td>" +
+                        "<td><span>" + logs[i]["Description"] + "</span></td>" +
+                        "<td><span'>" + logs[i]["JobId"] + "</span></td>" +
+                        "</tr>";
+                    $("#TripLogsTable").append(logsRow);
+                }
+            }
+        }
+    </script>
+}

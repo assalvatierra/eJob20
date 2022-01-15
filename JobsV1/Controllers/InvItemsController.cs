@@ -35,8 +35,6 @@ namespace JobsV1.Controllers
             //ViewBag.SupplierList = db.Suppliers.ToList();
             //ViewBag.CatList = InvCats;
 
-            ViewBag.coopList = db.CoopMembers.Where(c=>c.Status == "ACT").ToList();
-            ViewBag.SiteConfig = SITECONFIG;
 
             //inventory items
             var itemList = db.InvItems.Include(s => s.SupplierInvItems)
@@ -53,6 +51,9 @@ namespace JobsV1.Controllers
                    .Include(s => s.CoopMemberItems);
             }
 
+            ViewBag.coopList = db.CoopMembers.Where(c => c.Status == "ACT").ToList();
+            ViewBag.SiteConfig = SITECONFIG;
+            ViewBag.showAll = showAll ?? 0;
             return View(itemList.OrderBy(s => s.OrderNo).ToList());
         }
 
@@ -102,6 +103,9 @@ namespace JobsV1.Controllers
             InvItem item = new InvItem();
             item.OrderNo = 999;
 
+
+            ViewBag.ViewLabel = new SelectList(GetViewListItems(), "Value", "Text");
+
             return View(item);
         }
 
@@ -125,6 +129,7 @@ namespace JobsV1.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.ViewLabel = new SelectList(GetViewListItems(), "Value", "Text");
             return View(invItem);
         }
 
@@ -159,6 +164,7 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ViewLabel = new SelectList(GetViewListItems(), "Value", "Text");
             return View(invItem);
         }
 
@@ -175,6 +181,7 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ViewLabel = new SelectList(GetViewListItems(), "Value", "Text");
             return View(invItem);
         }
 
@@ -186,10 +193,16 @@ namespace JobsV1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             var invItem = db.InvItems.Find(id);
             var _invItemCrLogUnit = db.InvItemCrLogUnits.Where(i => i.InvItemId == id);
 
-            ViewBag.InvItemId = new SelectList(db.InvItems, "Id", "Description", invItem.Id);
+            var listItems = db.InvItems.Select(i => new SelectListItem {
+                Value = i.Id.ToString(),
+                Text = i.Description + " " + i.ItemCode
+            });
+
+            ViewBag.InvItemId = new SelectList(listItems, "Value", "Text", invItem.Id);
             ViewBag.CrLogUnitId = new SelectList(crlogdb.crLogUnits, "Id", "Description");
             return View(_invItemCrLogUnit.FirstOrDefault());
         }
@@ -433,6 +446,24 @@ namespace JobsV1.Controllers
             {
                 return null;
             }
+        }
+
+        private List<SelectListItem> GetViewListItems()
+        {
+
+            List<SelectListItem> listItem = new List<SelectListItem>();
+            listItem.Add(new SelectListItem()
+            {
+                Value = "Unit",
+                Text = "Unit"
+            });
+            listItem.Add(new SelectListItem()
+            {
+                Value = "Driver",
+                Text = "Driver"
+            });
+
+            return listItem;
         }
 
         #region Maintenance

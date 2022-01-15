@@ -37,6 +37,14 @@ namespace JobsV1
             bundles.Add(new ScriptBundle("~/bundles/flickity").Include(
                       "~/Scripts/Flicky.2.2.1.js"));
 
+            bundles.Add(new StyleBundle("~/Content/base/css").Include(
+                      "~/Content/bootstrap.css",
+                      "~/Content/ModalUser.css",
+                      "~/Content/themes/base/jquery-ui.css",
+                      "~/Content/themes/base/bootstrap-directional-buttons.min.css",
+                      "~/Content/Chart.min.css"
+                      ));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/ModalUser.css",

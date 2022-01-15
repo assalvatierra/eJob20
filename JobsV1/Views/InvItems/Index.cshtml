@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 
     var siteConfig = ViewBag.SiteConfig;
+    int showAll = ViewBag.showAll;
 }
 
 <h2>Item List</h2>
@@ -112,6 +113,20 @@
 
         }
 
+        <tr>
+            <td colspan="5">
+                <span class="btn btn-default" onclick="UpdateUrl(@showAll)" style="width:100%">
+                    @if (showAll == 0)
+                    {
+                        <span> Show more</span>
+                    }
+                    else
+                    {
+                        <span> Show less</span>
+                    }
+                </span>
+            </td>
+        </tr>
     </table>
 
 <p>
@@ -122,3 +137,17 @@
     @Html.ActionLink("Maintenance", "Index", "InvCarRecords")
 </p>
 
+
+@section Scripts{
+    <script>
+        function UpdateUrl(showFlag) {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (showFlag == 0) {
+                urlParams.set('showAll', '1');
+            } else {
+                urlParams.set('showAll', '0');
+            }
+            window.location.search = urlParams;
+        }
+    </script>
+    }

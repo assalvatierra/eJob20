@@ -946,7 +946,6 @@ namespace JobsV1.Controllers
         [HttpGet]
         public JsonResult GetActiveJobList()
         {
-
             List<cActiveJobs> activeJobs = dbc.getActiveJobs(1);
 
             return Json(activeJobs.GroupBy(c=>c.JobMainId, 

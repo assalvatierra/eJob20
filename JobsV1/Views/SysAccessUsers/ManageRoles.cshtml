@@ -1,0 +1,117 @@
+﻿
+@model IEnumerable<JobsV1.Controllers.SysAccessUsersController.AppUserRole>
+
+@{
+    var Roles = ViewData["Roles"] as IEnumerable<JobsV1.Controllers.SysAccessUsersController.AppRoles>;
+    var Users = ViewData["Users"] as IEnumerable<JobsV1.Controllers.SysAccessUsersController.AppUsers>;
+}
+
+<h2> Manage Roles </h2>
+<p>
+    <a asp-page="./Main"> Back to List </a>
+</p>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRoleModal">
+    + Add Role
+</button>
+<table class="table">
+    <tr>
+        <th>
+            User
+        </th>
+        <th>
+            Role
+        </th>
+
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Users
+            </td>
+            <td>
+                @item.Roles
+            </td>
+            <td>
+                <button class="btn btn-danger" onclick="RemoveUserRole('@item.Users', @item.Roles)"> Remove </button>
+            </td>
+        </tr>
+    }
+</table>
+
+<!-- Add Roles Modal -->
+<div class="modal fade" id="addRoleModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- List of roles not assigned to the user -->
+                    <div class="col-md-12">
+                        <label class="col-md-12"> User </label>
+                        <select id="userId" class="form-control">
+                            @foreach (var user in Users)
+                            {
+                                <option value="@user.Id"> @user.Email </option>
+                            }
+                        </select>
+                    </div>
+
+                    <label class="col-md-12"> Role </label>
+                    <div class="col-md-12">
+                        <select id="rolesId" class="form-control">
+                            @foreach (var role in Roles)
+                            {
+                                <option value="@role.Id"> @role.Name </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Remove Roles Modal -->
+
+@section Scripts{
+    <script>
+
+        function AddUserRole(user, role) {
+            $.post('/SysAccessUsers/PostAddUserRole?roleId=' + role + '&userId=' + user,
+                null).done(() => {
+                    window.location.reload(false);
+                });
+        }
+
+
+        function RemoveUserRole(user, role) {
+            $.ajax({
+                url: '/SysAccessUsers/RemoveUserRole?roleId=' + role + '&userId=' + user, // Url of backend (can be python, php, etc..)
+                type: "DELETE", // data type (can be get, post, put, delete)
+                data: null, // data in json format
+                async: false, // enable or disable async (optional, but suggested as false if you need to populate data afterwards)
+                success: function (response, textStatus, jqXHR) {
+                    console.log(response);
+                    window.location.reload(false);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                }
+            });
+        }
+
+    </script>
+}

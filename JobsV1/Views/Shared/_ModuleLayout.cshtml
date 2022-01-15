@@ -13,12 +13,13 @@
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">      <!-- Google Fonts : Nunito Regular -->
-    <link href="~/fonts/glyphicons-halflings-regular.svg" />
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css/DateRangePicker")
     @Styles.Render("~/Content/css/jquerytimepicker")
     @Styles.Render("~/Content/themes/base/css")
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet">
     <style>
         .CustomBox div span {
             float: left;
@@ -37,19 +38,14 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a href="/" class="navbar-brand" id="navbar-title">@ViewBag.NavBarTitle</a>
-                @*@Html.ActionLink("AJ88", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("Home", "Index", "MepuMain")</li>*@
                     <li><a href="/">Home</a></li>
                     @if (Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Control Panel", "Index", "Home", new { area = "" }, null)</li>
-                        @*
-                            <li>@Html.ActionLink("Jobs", "JobTable", "JobMains", new { span = 30 }, null)</li>
-                            <li>@Html.ActionLink("Accounting", "Index", "AsMain", new { Area = "Accounting", span = 30 }, null)</li>
-                        *@
+                       
                     }
                     <li>@Html.ActionLink("About", "About")</li>
                     <li>@Html.ActionLink("Contact", "Contact")</li>
@@ -65,21 +61,9 @@
             <section class="content-wrapper main-content clear-fix">
 
                 <div class="container">
-                    @*<div class="row">
-                            <div class="CustomBox" style="height:110px;display: inline-block;min-width:380px;">
-                                <div class="pull-left" style="display: inline-block;"> @Html.Module(Url.Content("~/"), "", "", ROOTMENUID)</div>
-                            </div>
-                        </div>*@
+                 
                     <div class="row">
-                        @*<div style="vertical-align:top;min-width:300px;">
-                                <div class="CustomBox" style="float:left;width:100%;min-width:380px;">
-                                    @Html.Menu2(Url.Content("~/"), "" , "", ROOTMENUID, USERNAME)
-                                </div>
-                                <div class="PanelContainer">
-                                    @RenderSection("LeftInfo", required: false)
-                                </div>
-                            </div>*@
-
+                       
                         <div class="PanelContainer-main" style="padding:0px;background-color:#eff3f6;border:none;min-width:98%;">
 
                             <div class="CustomBox container-module">

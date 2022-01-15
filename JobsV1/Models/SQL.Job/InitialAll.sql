@@ -481,6 +481,26 @@ insert into InvItemCategories([InvItemId],[InvItemCatId])
 values
 (1,7),(2,7),(3,10),(4,6),(5,11),(6,2),(7,2),(8,2);
 
+
+insert into InvItems ([ItemCode],[Description],[Remarks],[ContactInfo],[ViewLabel],[OrderNo] )
+values
+('LAF4920','Toyota Innova','M/T 2.5 Diesel 2013 Brown','','UNIT',100),
+('GAN7604','Toyota Innova','M/T 2.5 Diesel 2013 Red','','UNIT',100),
+('AAF9396 ','Mitsubishi Montero','A/T 3.0 Diesel White','','UNIT',100),
+('GAL8852','Toyota Rush','A/T Diesel 2019 Mettalic Gray','','UNIT',100),
+('AOA5108','Toyota Grandia','A/T Diesel White','','UNIT',100),
+('GAI3946','Nissan Premium','A/T Diesel Gray','','UNIT',100),
+('GAN4445','Toyota Grandia Tourer','A/T Diesel White','','UNIT',100),
+('GAO4974','Toyota Hilux','A/T Diesel Red','','UNIT',100),
+('GAT4724','Toyota Fortuner','A/T Diesel Gray','','UNIT',100),
+
+('Jehiel','Jehiel Bufe','','','DRIVER',200),
+('Jeremiah','Jeremiah Tolentino ','','','DRIVER',200),
+('Danny','Danny Escaner','','','GUIDE',200),
+('Romie','Romie Bajadi','','','GUIDE',200),
+('Melchor','Melchor Toribio','','','GUIDE',200),
+('Joremly','Joremly Baluya','','','GUIDE',200);
+
 insert into InvCarRecordTypes([Description], [SysCode], [OdoInterval], [DaysInterval], [IconPath], [OrderNo])
 values
 ('Oil Change (Fully Synthetic) ', 'COFS', 10000, 180, '/Images/Icons/Maintenance/icons-oil-industry-black.png', 1),

@@ -87,7 +87,7 @@
             <th>
                 Fuel
             </th>
-            <th>
+            <th width="">
                 Driver
             </th>
             <th>
@@ -121,6 +121,21 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.JobMainId)
+                        </td> 
+                        <td>
+                            @jobDesc
+
+                            @*@if (jobDesc.Length < textlimit)
+                            {
+                                @jobDesc
+                            }
+                            else
+                            {
+                                <span data-toggle="tooltip" data-placement="bottom" title="@item.Particulars / @item.Description">
+                                    @jobDesc.ToString().Substring(0, textlimit)
+                                    <text>...</text>
+                                </span>
+                            }*@
                         </td>
                         <td>
                             @foreach (var unitItem in item.Unit)
@@ -131,22 +146,10 @@
                         <td>
                             @foreach (var driverItem in item.Driver)
                             {
-                                @driverItem <br />
+                                 @driverItem <br />
                             }
                         </td>
-                        <td>
-                            @if (jobDesc.Length < textlimit)
-                            {
-                                @jobDesc
-                            }
-                            else
-                            {
-                                <span data-toggle="tooltip" data-placement="bottom" title="@item.Particulars / @item.Description">
-                                    @jobDesc.ToString().Substring(0, textlimit)
-                                    <text>...</text>
-                                </span>
-                            }
-                        </td>
+                       
                         <td>
                             @Decimal.Parse(item.ActualAmt.ToString()).ToString("N0")
                         </td>

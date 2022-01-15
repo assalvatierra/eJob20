@@ -1,6 +1,15 @@
 ﻿/*
     Trip Log Print Form Style
 */
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+    }
+
+    .rpt-table-bordered {
+        border: 2px solid black;
+    }
+}
 
 .rpt-table-bordered {
     border: 2px solid black;

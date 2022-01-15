@@ -218,7 +218,6 @@ namespace JobsV1.Controllers
             return JsonConvert.SerializeObject("500", Formatting.Indented);
         }
 
-        
         public ActionResult CashExpenses(int jobId)
         {
             IEnumerable<JobExpenses> jobExps = db.JobExpenses.Where(e => e.JobService.JobMainId == jobId).Include(e=>e.JobService).ToList();
