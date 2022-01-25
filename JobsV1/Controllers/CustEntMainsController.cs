@@ -566,6 +566,21 @@ namespace JobsV1.Controllers
             base.Dispose(disposing);
         }
 
+        [HttpGet]
+        public int GetDefaultContact(int id)
+        {
+            var company = db.CustEntMains.Find(id);
+
+            var defaultContact = company.CustEntities.FirstOrDefault();
+
+            if (defaultContact != null)
+            {
+                return defaultContact.CustomerId;
+            }
+
+            return 0;
+        }
+
         #region Address 
         [HttpPost]
         public bool CreateAddress(int custEntMainId, string line1, string line2, string line3, string line4, string isBilling, string isPrimary )

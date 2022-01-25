@@ -6,8 +6,10 @@
 //Change job desription bsed on the cutomer name
 $("#customerList").change(function () {
     var customer = $("#customerList option:selected").text();
+
     //console.log("customer : " + customer);
     //$("#jobdesc").val(customer);
+
     getEmail();
     getNumber();
     getCompany();

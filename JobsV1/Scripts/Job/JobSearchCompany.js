@@ -22,12 +22,24 @@ function SearchCompany() {
     }
 }
 
-function setCompanyValue(value) {
-    console.log(value);
-    $('#CompanyId').val(value);
+function setCompanyValue(companyId) {
+    //console.log(value);
+    $('#CompanyId').val(companyId);
     $('#company-textfield').val($("#CompanyId option:selected").text());
+
+    GetDefaultContact(companyId);
 
     //$('#customer-textfield').val($("#CompanyId option:selected").text());
     $('#CompanySearchModal').modal('hide');
 }
 
+
+//get company using ajax post
+function GetDefaultContact(companyId) {
+    $.get("/CustEntMains/GetDefaultContact",
+        { id: companyId }, (data, status) => {
+            console.log(data);
+            $('#customerList').val(data);
+            $('#customer-textfield').val($("#customerList option:selected").text());
+        });
+}
