@@ -8,7 +8,6 @@ using JobsV1.Areas.Personel.Models;
 using JobsV1.Models;
 using Microsoft.Ajax.Utilities;
 using JobsV1.Areas.Personel.Services;
-using JobsV1.Areas.Personel.Models;
 
 
 namespace JobsV1.Areas.Personel.Controllers
@@ -478,7 +477,8 @@ namespace JobsV1.Areas.Personel.Controllers
 
 
             // OTT trips
-            var OTTrips = tripLogs.ToList();
+            var OTTrips = tripLogs.OrderBy(t=>t.crLogUnit.OrderNo).ToList();
+
             OTTrips.ForEach((t) => {
                 double OTHrs = crServices.GetTripLogOTHours(t);
                 tripBilling.OTTrips.Add(new crBilling_OT

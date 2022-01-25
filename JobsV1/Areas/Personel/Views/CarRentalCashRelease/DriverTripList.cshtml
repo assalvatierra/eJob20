@@ -28,7 +28,7 @@
 <h2> @ViewBag.Driver </h2>
 <p>
     <b> Release : @ViewBag.DtRelease </b><br />
-    <b> Amount : @amount.ToString("#,##0.00") </b><br />
+    @*<b> Amount : @amount.ToString("#,##0.00") </b><br />*@
     <b> Remarks :  @ViewBag.Remarks </b><br />
 </p>
 <table class="table">
@@ -61,7 +61,11 @@
         }
 
         TotalDriverFee += log.DriverFee;
-        TotalDriverOT += log.DriverOT;
+
+        if (log.crLogCompany.Name != "Shimizu")
+        {
+            TotalDriverOT += log.DriverOT;
+        }
 
         <tr style="color:@color;">
             <td> @log.DtTrip.ToString("MMM dd yyyy (ddd)") @log.DtTrip.DayOfWeek.ToString()</td>
@@ -70,9 +74,13 @@
             <td> @log.Remarks    </td>
             <td> @log.Rate </td>
             <td> @log.DriverFee </td>
-            <td> @log.DriverOT </td>
+            <td>
+                @if (log.crLogCompany.Name != "Shimizu")
+                {
+                    @log.DriverOT
+                }
+            </td>
         </tr>
-
     }
 
 
@@ -90,7 +98,7 @@
             <td>
             </td>
             <td>
-              @*  @otherSalary.Amount.ToString("#,##0.00")*@
+                @otherSalary.Amount.ToString("#,##0.00")
             </td>
             <td></td>
         </tr>
@@ -212,17 +220,6 @@
         <td> <b>@total.ToString("#,##0.00")</b> </td>
     </tr>
 
-
-    @*<tr>
-            <td colspan="5">
-                <p class="pull-right"> Total </p>
-            </td>
-            <td>
-                @TotalSalary.ToString("N0")
-            </td>
-            <td>
-            </td>
-        </tr>*@
     @if (tripLogErr.Length > 0)
     {
         <tr>

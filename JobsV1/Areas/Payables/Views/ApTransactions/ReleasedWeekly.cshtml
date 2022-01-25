@@ -11,6 +11,7 @@
     decimal totalBalance = 0;
     decimal totalBudget = 0;
     decimal totalRelease = 0;
+    decimal totalChange = 0;
     decimal GrandTotal = 0;
 
     bool isAdmin = true;
@@ -35,6 +36,12 @@
             </div>
             <div class="input-group-btn" style="width:140px;">
                 <input type="text" class="form-control" name="dateEnd" value="@ViewBag.DateEnd" />
+            </div>
+            <div class="input-group-btn" style="padding-top:5px;">
+                <select class="form-control" name="transType" style="width:100px;">
+                    <option value="1"> Cash </option>
+                    <option value="2"> PO </option>
+                </select>
             </div>
             <div class="input-group-btn">
                 <button class="btn btn-default" type="submit" value="Search" id="SubmitSearchBtn">
@@ -125,16 +132,19 @@
             decimal varianceAmt = 0;
 
             //get total transaction payment
-            foreach (var transpayment in item.ApTransPayments)
-            {
-                if (transpayment.ApPayment.ApPaymentStatusId == 2)
+            if (item.ApTransTypeId != 2) {
+
+                foreach (var transpayment in item.ApTransPayments)
                 {
-                    totalTransPayment += transpayment.ApPayment.Amount;
+                    if (transpayment.ApPayment.ApPaymentStatusId == 2)
+                    {
+                        totalTransPayment += transpayment.ApPayment.Amount;
+                    }
                 }
             }
 
             //calculate change from budget and Payment amounts
-            if (item.ReleaseAmt != null && !(totalTransPayment == 0))
+            if (item.ReleaseAmt != null && !(totalTransPayment == 0) && item.ApTransTypeId == 1)
             {
                 transChange = (decimal)item.ReleaseAmt - totalTransPayment;
 
@@ -214,7 +224,8 @@
                         <span alt="repeating" title="Repeating Payables"> &#8635; </span>
                     }
 
-                    @Html.DisplayFor(modelItem => item.ApTransCategory.Name)
+                    @Html.DisplayFor(modelItem => item.ApTransCategory.Name)<br />
+                    @Html.DisplayFor(modelItem => item.ApTransType.Type)
                 </td>
                 <td>
                     @if (item.ApTransStatusId == 1)
@@ -267,18 +278,17 @@
                 <td>
                     @transChange.ToString("#,##0.00")
                 </td>
-
-               
             </tr>
             totalPayment += totalTransPayment;
             totalAmount += item.Amount;
             totalBudget += item.BudgetAmt ?? 0;
             totalRelease += item.ReleaseAmt ?? 0;
+            totalChange += transChange;
         }
 
 
         {
-            totalBalance = totalRelease - totalPayment;
+            //totalBalance = totalRelease - totalPayment;
             GrandTotal += totalAmount;
         }
         <tr>

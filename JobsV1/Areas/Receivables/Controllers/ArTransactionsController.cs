@@ -68,7 +68,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status");
             ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company");
             ViewBag.ArCategoryId = new SelectList(ar.CategoryMgr.GetCategories(), "Id", "Name");
-            ViewBag.ArAccContactId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name");
+            ViewBag.ArAccContactId = new SelectList(ar.AccountMgr.GetAccContacts(), "Id", "Name");
             return View(transaction);
         }
 
@@ -104,7 +104,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status");
                 ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company");
                 ViewBag.ArCategoryId = new SelectList(ar.CategoryMgr.GetCategories(), "Id", "Name");
-                ViewBag.ArAccContactId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name");
+                ViewBag.ArAccContactId = new SelectList(ar.AccountMgr.GetAccContacts(), "Id", "Name");
 
                 return View(arTransaction);
             }

@@ -399,26 +399,39 @@
                                 }
                                 else if (item.ApTransStatusId == STATUS_RELEASED)
                                 {
+                                    if (item.ApTransTypeId != TYPE_PO)
+                                    {
+
                                     <li>
                                         <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
                                     </li>
-                                    if (item.ApTransPayments.Count() != 0 || isAdmin)
-                                    {
-                                        //return
-                                        <li>
-                                            <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt)"> Return </a>
-                                        </li>
                                     }
-
+                                    else
+                                    {
+                                    <li>
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt)"> Return </a>
+                                    </li>
+                                    }
                                 }
+
+                                @if ((item.ApTransPayments.Count() != 0 || isAdmin) && item.ApTransTypeId != TYPE_PO)
+                                {
+                                    //return
+                                    <li>
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt)"> Admin Return </a>
+                                    </li>
+                                }
+
+
                                 else if (item.ApTransStatusId == STATUS_RETURNED && isAdmin)
                                 {
-                                    <li> 
+                                    <li>
                                         <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusClose(this, @item.Id)"> Paid & Close </a>
                                     </li>
                                 }
-                            </li>
-                            <li role="separator" class="divider"></li>
+                                </li>
+
+                                <li role="separator" class="divider"></li>
                                 @if (item.ApTransStatusId <= STATUS_REQUEST || item.ApTransStatusId >= STATUS_CANCELLED)
                                 {
                                     <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
@@ -433,7 +446,7 @@
                                 }
                                 <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
                                 @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                         </ul>
+                            </ul>
                     </div>
                 </td>
             </tr>

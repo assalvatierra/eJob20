@@ -129,10 +129,10 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.IsAdmin = User.IsInRole("Admin");
 
             //check and finalize trip every 6pm
-            if (string.IsNullOrEmpty(startDate))
-            {
+            //if (string.IsNullOrEmpty(startDate))
+            //{
                 crServices.CheckTripFinalizeRange(tripLogs);
-            }
+            //}
 
             return View(tripLogs);
 

@@ -537,7 +537,7 @@
             <td>
                 <a href="#" onclick="ShowTranferPassengerModal(@item.Id)"> Transfer </a> |
                 @Html.ActionLink("Edit", "EditPassTrip", new { id = item.Id }) |
-                <span class="cursor-hand" onclick="DeletePassenger(@item.Id, '@item.Name' )" style="color:dodgerblue;">
+                <span class="cursor-hand" onclick="DeletePassenger(this,@item.Id, '@item.Name' )" style="color:dodgerblue;">
                     Delete 
                 </span>
             </td>

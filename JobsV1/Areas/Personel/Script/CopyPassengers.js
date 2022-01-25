@@ -210,7 +210,7 @@ function MasterPassengerModal_CopyAll() {
     });
 }
 
-function DeletePassenger(passId, name) {
+function DeletePassenger(e, passId, name) {
     //DeletePassenger
 
     if (confirm("Delete " + name  + " from this trip? ")) {
@@ -219,9 +219,9 @@ function DeletePassenger(passId, name) {
 
             if (result == "True") {
 
-                //alert('Passenger removed.');
+                //location.reload();
 
-                location.reload();
+                $(e).parent().parent().hide("fast");
             } else {
                 alert('Unable to remove Passenger ' + name);
             }

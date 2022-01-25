@@ -139,11 +139,15 @@
         {
             _drivertrips += item.DriverFee;
         }
-        
-        if (item.DriverOT > 0 && item.DriverOT != 0)
+
+        if (item.crLogCompany.Name != "Shimizu")
         {
-            _driverOT += item.DriverOT;
+            if (item.DriverOT > 0 && item.DriverOT != 0)
+            {
+                _driverOT += item.DriverOT;
+            }
         }
+
         tripCount++;
         <tr name="summary-data" style="color:@color;">
             <td name="date">
@@ -169,7 +173,10 @@
                 @item.DriverFee
             </td>
             <td name="driversOT">
-                @item.DriverOT
+                @if (item.crLogCompany.Name != "Shimizu")
+                {
+                    @item.DriverOT
+                }
             </td>
             <td>
                 <input type="checkbox" class="item-checkbox" onclick="OnSelectCheckBox(this)" />

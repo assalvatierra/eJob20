@@ -693,11 +693,11 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
             today = cashRelease.DtRelease.Date;
-            var otherTrx = db.crLogCashReleases.Where(c=>
-                                    c.crLogDriverId == cashRelease.crLogDriverId
+
+            var otherTrx = db.crLogCashReleases.Where(c=> c.crLogDriverId == cashRelease.crLogDriverId
                                     && DbFunctions.TruncateTime(c.DtRelease) == today 
-                                    && c.crLogCashStatus.FirstOrDefault().crCashReqStatusId < (int)CASHREQ_STATUS.RELEASED
-                                    ).ToList();
+                                    && c.crLogCashStatus.FirstOrDefault().crCashReqStatusId < (int)CASHREQ_STATUS.RELEASED)
+                                    .ToList();
 
             ViewBag.Contributions = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.CONTRIBUTIONS).ToList();
             ViewBag.OtherSalary = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.SALARY && c.Id != id).ToList();
@@ -738,7 +738,7 @@ namespace JobsV1.Areas.Personel.Controllers
                    var tripLogs = db.crLogTrips.Where(c => c.crLogClosingId == cashRelease.crLogClosingId)
                         .ToList();
                     driversFee = tripLogs.Sum(c => c.DriverFee);
-                    driversOT = tripLogs.Sum(c => c.DriverOT);
+                    driversOT = tripLogs.Where(c=>c.crLogCompany.Name != "Shimizu").Sum(c => c.DriverOT);
                 }
                 else
                 {

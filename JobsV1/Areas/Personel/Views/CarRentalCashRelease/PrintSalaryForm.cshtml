@@ -83,7 +83,12 @@
 
                         @foreach (var trip in ViewBag.crLogTrips as List<JobsV1.Areas.Personel.Models.crLogTrip>)
                         {
-                            totalOT = totalOT + trip.DriverOT;
+
+                            if (trip.crLogCompany.Name != "Shimizu")
+                            {
+                                totalOT = totalOT + trip.DriverOT;
+                            }
+
                             subtotalSalary = subtotalSalary + trip.DriverFee;
                             tripCount = tripCount + 1;
                             <tr>
@@ -100,7 +105,11 @@
                                     @trip.DriverFee.ToString("#,##0.00")
                                 </td>
                                 <td>
-                                    @trip.DriverOT.ToString("#,##0.00")
+                                    @if (trip.crLogCompany.Name != "Shimizu")
+                                    {
+
+                                        @trip.DriverOT.ToString("#,##0.00")
+                                    }
                                 </td>
                             </tr>
                         }
@@ -165,7 +174,6 @@
                                 </td>
                             </tr>
                         }
-
 
                         @{
                             subtotalSalary +=  totalCA + totalOthSalary;
@@ -348,7 +356,10 @@
                                     @trip.DriverFee.ToString("#,##0.00")
                                 </td>
                                 <td>
-                                    @trip.DriverOT.ToString("#,##0.00")
+                                    @if (trip.crLogCompany.Name != "Shimizu")
+                                    {
+                                        @trip.DriverOT.ToString("#,##0.00")
+                                    }
                                 </td>
                             </tr>
                         }

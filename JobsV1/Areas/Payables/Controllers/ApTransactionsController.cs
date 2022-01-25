@@ -72,7 +72,7 @@ namespace JobsV1.Areas.Payables.Controllers
         }
 
         // GET: Payables/ApTransactions/ReleasedWeekly
-        public ActionResult ReleasedWeekly(DateTime? dateStart, DateTime? dateEnd)
+        public ActionResult ReleasedWeekly(DateTime? dateStart, DateTime? dateEnd, int? transType)
         {
             DateTime thisMonth = dt.GetCurrentDate();
             var startMonthDate = new DateTime(thisMonth.Year, thisMonth.Month, 1);
@@ -80,8 +80,9 @@ namespace JobsV1.Areas.Payables.Controllers
 
             dateStart = dateStart == null ? startMonthDate : dateStart;
             dateEnd = dateEnd == null ? endMonthDate : dateEnd;
+            transType = transType ?? 1;
 
-            var apTransactions = ap.TransactionMgr.GetDailyReleasedByDateRange((DateTime)dateStart, (DateTime)dateEnd);
+            var apTransactions = ap.TransactionMgr.GetDailyReleasedByDateRange((DateTime)dateStart, (DateTime)dateEnd, (int)transType);
 
             ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.Today = ap.DateClassMgr.GetCurrentDate();

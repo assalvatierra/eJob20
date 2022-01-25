@@ -183,7 +183,7 @@ namespace JobsV1.Areas.Personel.Services
             }
             catch (Exception ex )
             {
-                throw ex;
+                //throw ex;
                 return 0;
             }
         }
