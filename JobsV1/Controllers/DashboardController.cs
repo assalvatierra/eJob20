@@ -16,6 +16,10 @@ namespace JobsV1.Controllers
         // GET: Dashboard
         public ActionResult Index()
         {
+            var today = dt.GetCurrentDate();
+
+            ViewBag.Today = today.ToString("MMMM dd yyyy");
+            ViewBag.Month = today.ToString("MMMM");
             return View();
         }
 
@@ -24,22 +28,31 @@ namespace JobsV1.Controllers
         [HttpGet]
         public JsonResult GetSalesThisMonth()
         {
-            var monthToday = dt.GetCurrentDate().Month;
+            var today = dt.GetCurrentDate();
 
-            decimal sales = services.GetSalesByMonthNo(monthToday);
+            decimal sales = services.GetSalesByMonthNo(today.Month, today.Year);
 
-            return Json(sales, JsonRequestBehavior.AllowGet);
+            return Json(sales.ToString("#,##0"), JsonRequestBehavior.AllowGet);
         }
 
         //GET: Dashboard/GetExpensesThisMonth
         [HttpGet]
         public JsonResult GetExpensesThisMonth()
         {
-            var monthToday = dt.GetCurrentDate().Month;
+            var today = dt.GetCurrentDate();
 
-            decimal expenses = services.GetExpensesByMonthNo(monthToday);
+            decimal expenses = services.GetExpensesByMonthNo(today.Month, today.Year);
 
             return Json(expenses.ToString("#,##0"), JsonRequestBehavior.AllowGet);
+        }
+
+        //GET: Dashboard/GetActiveJobs
+        [HttpGet]
+        public JsonResult GetActiveJobsCount()
+        {
+            int activejobsCount = services.GetActiveJobsToday();
+
+            return Json(activejobsCount, JsonRequestBehavior.AllowGet);
         }
 
         //GET: Dashboard/GetActiveJobs
@@ -58,6 +71,51 @@ namespace JobsV1.Controllers
             var tripLogs = services.GetTripLogsToday();
 
             return Json(tripLogs, JsonRequestBehavior.AllowGet);
+        }
+
+        //GET: Dashboard/GetActiveExpenses
+        [HttpGet]
+        public JsonResult GetActiveExpenses()
+        {
+            var expenses = services.GetPayablesToday();
+
+            return Json(expenses, JsonRequestBehavior.AllowGet);
+        }
+
+        //GET: Dashboard/GetActiveReceivables
+        [HttpGet]
+        public JsonResult GetActiveReceivables()
+        {
+            var receivables = services.GetReceivablesToday();
+
+            return Json(receivables, JsonRequestBehavior.AllowGet);
+        }
+
+        //GET: Dashboard/GetNotifications
+        [HttpGet]
+        public JsonResult GetNotifications()
+        {
+            var notifications = services.GetNotifications();
+
+            return Json(notifications, JsonRequestBehavior.AllowGet);
+        }
+
+        //GET: Dashboard/GetNotifications
+        [HttpGet]
+        public JsonResult GetChartData()
+        {
+            var monthlyJobs = services.GetMonthlyJobsCount();
+
+            return Json(monthlyJobs, JsonRequestBehavior.AllowGet);
+        }
+
+        //GET: Dashboard/GetNotifications
+        [HttpGet]
+        public JsonResult GetChartData_TripLogs()
+        {
+            var monthlyJobs = services.GetMonthlyTripLogs();
+
+            return Json(monthlyJobs, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

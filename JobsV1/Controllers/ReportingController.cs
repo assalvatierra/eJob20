@@ -22,7 +22,8 @@ namespace JobsV1.Controllers
         
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbc = new DBClasses();
-
+        private JobOrderClass jobs = new JobOrderClass();
+        private DateClass dt = new DateClass();
 
         // GET: Reporting
         public ActionResult Index(int? id, string reportkey)
@@ -47,212 +48,52 @@ namespace JobsV1.Controllers
             return View();
         }
 
+        #region Jobs Report 
+        //public ActionResult JobSummary()
+        //{
+        //    var jobSummary = new List<DashboardViewModel.JobOrders>();
+
+        //    var today = dt.GetCurrentDate();
+
+        //    var jobsForThisMonth = jobs.GetJobOrderListingMonthly(1);
+
+        //    jobsForThisMonth.ForEach(j=> {
+        //        jobSummary.Add(new DashboardViewModel.JobOrders
+        //        {
+        //            Id = j.Id,
+        //            StartDate = j.DtStart.ToString("MMM dd yyyy"),
+        //            EndDate = j.DtEnd.ToString("MMM dd yyyy"),
+        //            Description = j.Description,
+        //            Amount = j.Amount,
+        //            Status = j.Status.ToString()
+        //        });
+        //    });
+
+        //    return View(jobSummary);
+        //}
+        #endregion
 
         #region Joblisting
 
         public PartialViewResult JobListing(int? id,string sDate, string eDate, int? sortid, int? serviceId, int? mainid, string company, string unitDriver)
         {
-            var data = getJobData(id, sDate, eDate, sortid, serviceId, mainid, company, unitDriver);
+            //var data = jobs getJobData(id, sDate, eDate, sortid, serviceId, mainid, company, unitDriver);
 
-            var jobmainId = serviceId != null ? db.JobServices.Find(serviceId).JobMainId : 0;
-            jobmainId = mainid != null ? (int)mainid : jobmainId;
+            //var jobmainId = serviceId != null ? db.JobServices.Find(serviceId).JobMainId : 0;
+            //jobmainId = mainid != null ? (int)mainid : jobmainId;
 
-            ViewBag.mainId = jobmainId;
-            ViewBag.sDate = sDate;
-            ViewBag.eDate = eDate;
-            
-            if ( id != null )
-            {
-                return PartialView("JobListing", data.Where(c=>c.Main.Id == id));
-            }
-            return PartialView("JobListing", data.OrderByDescending(d => d.Main.JobDate));
-            
+            //ViewBag.mainId = jobmainId;
+            //ViewBag.sDate = sDate;
+            //ViewBag.eDate = eDate;
+
+            //if ( id != null )
+            //{
+            //    return PartialView("JobListing", data.Where(c=>c.Main.Id == id));
+            //}
+            //return PartialView("JobListing", data.OrderByDescending(d => d.Main.JobDate));
+            return null;
         }
 
-        private List<cJobOrder> getJobData(int? id, string sDate, string eDate,int? sortid, int? serviceId, int? mainid, string company, string unitDriver)
-        {
-
-            if (sortid != null)
-                Session["FilterID"] = (int)sortid;
-            else
-            {
-                if (Session["FilterID"] != null)
-                    sortid = (int)Session["FilterID"];
-                else
-                    sortid = 1;
-            }
-
-            IEnumerable<Models.JobMain> jobMains = db.JobMains
-                .Include(j => j.Customer)
-                .Include(j => j.Branch)
-                .Include(j => j.JobStatus)
-                .Include(j => j.JobThru)
-                ;
-
-            List<cjobCounter> jobActionCntr = getJobActionCount(jobMains.Select(d => d.Id).ToList());
-            var data = new List<cJobOrder>();
-
-            DateTime today = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
-
-            ViewBag.today = today;
-            today = today.Date;
-            
-            foreach (var main in jobMains)
-            {
-                cJobOrder joTmp = new cJobOrder();
-                joTmp.Main = main;
-                joTmp.Services = new List<cJobService>();
-                joTmp.Main.AgreedAmt = 0;
-                joTmp.Payment = 0;
-
-                List<Models.JobServices> joSvc = db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).ToList();
-                foreach (var svc in joSvc)
-                {
-                    cJobService cjoTmp = new cJobService();
-                    cjoTmp.Service = svc;
-
-                    //var ActionDone = db.JobActions.Where(d => d.JobServicesId == svc.Id).Select(s => s.SrvActionItemId);
-
-                    //cjoTmp.SvcActions = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && !ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
-                    //cjoTmp.Actions = db.JobActions.Where(d => d.JobServicesId == svc.Id).Include(d => d.SrvActionItem);
-                    cjoTmp.SvcItems = db.JobServiceItems.Where(d => d.JobServicesId == svc.Id).Include(d => d.InvItem);
-                    cjoTmp.SupplierPos = db.SupplierPoDtls.Where(d => d.JobServicesId == svc.Id).Include(i => i.SupplierPoHdr);
-                    joTmp.Main.AgreedAmt += svc.ActualAmt;
-
-                    joTmp.Expenses += dbc.getJobExpensesBySVC(svc.Id);
-
-                    joTmp.Services.Add(cjoTmp);
-                    
-                }
-
-                joTmp.ActionCounter = jobActionCntr.Where(d => d.JobId == joTmp.Main.Id).ToList();
-                
-                //filter unit Driver
-                if (unitDriver != "all")
-                {
-                    var jsvc = db.JobServices.Where(s => s.JobMainId == main.Id)
-                        .Where(js=>js.JobServiceItems
-                        .Where(j=>j.InvItem.Description.ToLower().Contains(unitDriver.ToLower()) || j.InvItem.ItemCode.ToLower().Contains(unitDriver.ToLower()))
-                        .FirstOrDefault().JobServicesId == js.Id);
-
-                        foreach (var temp_items in jsvc)
-                        {
-                            
-                            data.Add(joTmp);
-                            break;
-                            
-                        }
-                }
-                else
-                {
-                    //add all/ no filter
-                    data.Add(joTmp);
-                }
-               
-                List<Models.JobPayment> jobPayment = db.JobPayments.Where(d => d.JobMainId == main.Id).ToList();
-                foreach (var payment in jobPayment)
-                {
-                    joTmp.Payment += payment.PaymentAmt;
-                }
-            }
-
-            //company filter
-            if (company != null)
-            {
-
-                if (company != "all")
-                {
-                    data = (List<cJobOrder>)data
-                        .Where(p => p.Main.Description.ToLower().Contains(company.ToLower()) || p.Main.Customer.Name.ToLower().Contains(company.ToLower()))
-                        .ToList();
-
-                }
-            }
-            /*
-            if (unitDriver != null)
-            {
-                if (unitDriver != "all" || unitDriver != "")
-                {
-                    data = (List<cJobOrder>)data
-                        .Where(j => j.Services.Where(s => s.Service.Service.JobServices.Where(js => js.JobServiceItems.Where(jsi => jsi.InvItem.Description.ToLower().Contains(unitDriver.ToLower())).ToList() != null) != null) != null)
-                        .ToList();
-                }
-            }
-            */
-            //Date filter
-            if (sDate != null || eDate != null)
-            {
-                DateTime startDateRange = DateTime.Parse(sDate.ToString());
-                DateTime endDateRange = DateTime.Parse(eDate.ToString());
-                data = (List<cJobOrder>)data
-                    .Where(p => (DateTime.Compare( MinJobDate(p.Main.Id).Date, startDateRange.Date) >= 0 && DateTime.Compare(MinJobDate(p.Main.Id).Date, endDateRange.Date) <= 0) ||
-                                (DateTime.Compare(MaxJobDate(p.Main.Id).Date, startDateRange.Date) >= 0 && DateTime.Compare(MaxJobDate(p.Main.Id).Date, endDateRange.Date) <= 0)) 
-                    .ToList();
-
-            }
-            else
-            {
-                
-                data = (List<cJobOrder>)data
-                    .Where(p => (DateTime.Compare(MinJobDate(p.Main.Id).Date, today) >= 0 && DateTime.Compare(MinJobDate(p.Main.Id).Date, today) <= 0) ||
-                                (DateTime.Compare(MaxJobDate(p.Main.Id).Date, today) >= 0 && DateTime.Compare(MaxJobDate(p.Main.Id).Date, today) <= 0))
-                    .ToList();
-            }
-
-
-            return data;
-        }
-
-        public DateTime MinJobDate(int mainId)
-        {
-            //update jobdate
-            var main = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault();
-
-            DateTime minDate = new DateTime(9999, 12, 30);
-            
-            //loop though all jobservices in the jobmain
-            //to get the latest date
-            foreach (var svc in db.JobServices.Where(s => s.JobMainId == mainId).OrderBy(s => s.DtStart))
-            {
-                var svcDtStart = (DateTime)svc.DtStart;
-                var svcDtEnd = (DateTime)svc.DtEnd;
-                //get min date
-                // minDate = (DateTime)svc.DtStart;
-                if (DateTime.Compare(minDate, svcDtStart.Date) >= 0)
-                {
-                    minDate = svcDtStart.Date; //if minDate > Dtstart
-                }
-            }
-            
-            //return main.JobDate;
-            return minDate;
-        }
-        
-        public DateTime MaxJobDate(int mainId)
-        {
-            //update jobdate
-            var main = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault();
-            
-            DateTime maxDate = new DateTime(1, 1, 1);
-
-            //loop though all jobservices in the jobmain
-            //to get the latest date
-            foreach (var svc in db.JobServices.Where(s => s.JobMainId == mainId).OrderBy(s => s.DtStart))
-            {
-                var svcDtStart = (DateTime)svc.DtStart;
-                var svcDtEnd = (DateTime)svc.DtEnd;
-
-                //get max date
-                if (DateTime.Compare(maxDate, svcDtEnd.Date) <= 0)
-                {
-                    maxDate = svcDtEnd.Date;
-                }
-            }
-            
-            //return main.JobDate;
-            return maxDate;
-        }
-        
         public List<cjobCounter> getJobActionCount(List<Int32> jobidlist)
         {
             #region sqlstr
@@ -286,28 +127,69 @@ order by x.jobid
             return jobcntr;
         }
 
-        /**
-         *  Joblist Printing View after filter
-         */ 
-        public ActionResult JobListingPrint(int? id, string sDate, string eDate, int? sortid, int? serviceId, int? mainid, string company,string unitDriver)
+        public ActionResult JobSummary()
         {
-            var data = getJobData(id, sDate, eDate, sortid, serviceId, mainid, company, unitDriver);
+            var today = dt.GetCurrentDate();
+            var month = today.Month;
+            var year = today.Year;
+            
+            var jobSummary = new List<ReportingViewModels.JobSummary>();
 
-            List<Customer> customers = db.Customers.ToList();
-            ViewBag.companyList = customers;
+            var jobByMonth= jobs.GetJobOrderListingMonthly((int)month, (int)year);
 
-            var jobmainId = serviceId != null ? db.JobServices.Find(serviceId).JobMainId : 0;
-            jobmainId = mainid != null ? (int)mainid : jobmainId;
+            jobByMonth.ForEach(job => {
+                jobSummary.Add(new ReportingViewModels.JobSummary
+                {
+                    Id          = job.Id,
+                    Description = job.Description,
+                    Contact     = job.Customer,
+                    Company     = job.Company,
+                    StartDate   = job.DtStart.ToString("MMM dd yyyy"),
+                    EndDate     = job.DtEnd.ToString("MMM dd yyyy"),
+                    Status      = job.StatusString,
+                    Amount      = job.Amount,
+                    Expenses    = job.ExpenseFromAP,
+                    Payment     = job.PaymentFromAR
+                });
+            });
 
-            ViewBag.mainId = jobmainId;
-            ViewBag.sDate = sDate;
-            ViewBag.eDate = eDate;
+            return View(jobSummary);
+        }
 
-            if (id != null)
+        [HttpPost]
+        public ActionResult JobSummary(int? monthId, int? year)
+        {
+            var today = dt.GetCurrentDate();
+            if (monthId == null)
             {
-                return View("JobListingPrint", data.Where(c => c.Main.Id == id));
+                monthId = today.Month;
             }
-            return View("JobListingPrint", data.OrderByDescending(d => d.Main.JobDate));
+            if (year == null)
+            {
+                year = today.Year;
+            }
+
+            var jobSummary = new List<ReportingViewModels.JobSummary>();
+
+            var jobByMonth = jobs.GetJobOrderListingMonthly((int)monthId, (int)year);
+
+            jobByMonth.ForEach(job => {
+                jobSummary.Add(new ReportingViewModels.JobSummary
+                {
+                    Id = job.Id,
+                    Description = job.Description,
+                    Contact = job.Customer,
+                    Company = job.Company,
+                    StartDate = job.DtStart.ToString("MMM dd yyyy"),
+                    EndDate = job.DtEnd.ToString("MMM dd yyyy"),
+                    Status = job.StatusString,
+                    Amount = job.Amount,
+                    Expenses = job.ExpenseFromAP,
+                    Payment = job.PaymentFromAR
+                });
+            });
+
+            return View(jobSummary);
         }
 
         #endregion 
@@ -432,7 +314,6 @@ order by x.jobid
         }
 
         #endregion
-
 
         #region Income
         public PartialViewResult JobIncome(int? id, string sDate, string eDate, int? sortid, int? serviceId, int? mainid, string type, string unit)

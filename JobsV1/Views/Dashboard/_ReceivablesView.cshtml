@@ -5,15 +5,20 @@
 
         <div class="panel-body-header">
             <h3>Receivables</h3>
+            <p> Showing tranasactions encoded, due today or for approval </p>
         </div>
 
         <table class="table">
             <tr>
+                <th>Account</th>
                 <th>Description</th>
-                <th>Status</th>
-                <th>Amount</th>
+                @*<th class="hidden-on-mobile">Status</th>*@
+                <th>Amount / Payment</th>
             </tr>
-            <tr>
+            <tbody id="ReceivablesTable">
+
+            </tbody>
+            @*<tr>
                 <td>
                     Awesome OS Billing
                 </td>
@@ -45,7 +50,7 @@
                 <td>
                     3000
                 </td>
-            </tr>
+            </tr>*@
         </table>
     </div>
 </div>

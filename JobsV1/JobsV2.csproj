@@ -49,21 +49,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ArDBLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\RealSysMods\Receivables\ArDBLayer.dll</HintPath>
-    </Reference>
-    <Reference Include="ArInterfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\RealSysMods\Receivables\ArInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="ArModels, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\RealSysMods\Receivables\ArModels.dll</HintPath>
-    </Reference>
-    <Reference Include="ArServices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\RealSysMods\Receivables\ArServices.dll</HintPath>
+    <Reference Include="ArDBLayer">
+      <HintPath>..\..\Receivable20\ArDBLayer\bin\Debug\ArDBLayer.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -367,6 +354,7 @@
     <Compile Include="Areas\Payables\Controllers\ApPaymentsController.cs" />
     <Compile Include="Areas\Payables\Controllers\ApTransactionsController.cs" />
     <Compile Include="Areas\Payables\Controllers\ApTransItemsController.cs" />
+    <Compile Include="Areas\Payables\Controllers\ApTransRepeatsController.cs" />
     <Compile Include="Areas\Payables\PayablesAreaRegistration.cs" />
     <Compile Include="Areas\Personel\Controllers\CarRentalCashReleaseController.cs" />
     <Compile Include="Areas\Personel\Controllers\CarRentalLogController.cs" />
@@ -408,6 +396,7 @@
     <Compile Include="Areas\Personel\Models\cCrLogCashReleases.cs" />
     <Compile Include="Areas\Personel\Models\cCrLogFuel.cs" />
     <Compile Include="Areas\Personel\Models\cCrLogReports.cs" />
+    <Compile Include="Areas\Personel\Models\cCrLogTripBilling.cs" />
     <Compile Include="Areas\Personel\Models\crCashReqStatus.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
@@ -564,7 +553,8 @@
     <Content Include="Areas\Payables\Scripts\ApTransactions\ReleasedWeekly.js" />
     <Content Include="Areas\Personel\Models\SQL\InitData.CarRentalLog.SQL" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
-    <Compile Include="Areas\Personel\Services\CarRentalLogSvc.cs" />
+    <Compile Include="Areas\Personel\Services\CrLogServices.cs" />
+    <Compile Include="Areas\Personel\Services\CrOTServices.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\Controllers\SmCategoriesController.cs" />
     <Compile Include="Areas\Products\Controllers\SmProdAdsController.cs" />
@@ -668,6 +658,7 @@
     <Compile Include="Controllers\CustNotifsController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomHelper.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DestinationsController.cs" />
     <Compile Include="Controllers\DriverInstructionsController.cs" />
     <Compile Include="Controllers\EmailBlasterController.cs" />
@@ -794,6 +785,7 @@
     <Compile Include="Models\Class\CompanyClass.cs" />
     <Compile Include="Models\Class\CustEntCode.cs" />
     <Compile Include="Models\Class\CustNotifClass.cs" />
+    <Compile Include="Models\Class\DashboardServices.cs" />
     <Compile Include="Models\Class\EmailBuilderClass.cs" />
     <Compile Include="Models\Class\JobPostSaleClass.cs" />
     <Compile Include="Models\Class\JobVehicleClass.cs" />
@@ -897,6 +889,7 @@
     <Compile Include="Models\CustSocialAcc.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DateClass.cs" />
     <Compile Include="Models\DBClasses.cs" />
     <Compile Include="Models\Destination.cs">
@@ -1104,6 +1097,7 @@
     <Compile Include="Models\RateGroup.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ReportingViewModels.cs" />
     <Compile Include="Models\RsvPayment.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1378,6 +1372,7 @@
     <Content Include="Areas\Personel\Script\CarRentalLogCreate.js" />
     <Content Include="Areas\Personel\Script\CarRentalLogFinalize.js" />
     <Content Include="Areas\Personel\Script\CarRentalLogReturn.js" />
+    <Content Include="Areas\Personel\Script\CashReleaseApprove.js" />
     <Content Include="Areas\Personel\Script\CashTransactions.js" />
     <Content Include="Areas\Personel\Script\CopyPassengers.js" />
     <Content Include="Areas\Personel\Script\DriverUpdateTime.js" />
@@ -1504,6 +1499,7 @@
     <Content Include="Content\CarBooking.css" />
     <Content Include="Content\CarRental.css" />
     <Content Include="Content\Chart.min.css" />
+    <Content Include="Content\Dashboard.css" />
     <Content Include="Content\datatables.min.css" />
     <Content Include="Content\daterangepicker.css" />
     <Content Include="Content\flickity.css" />
@@ -2171,6 +2167,7 @@
     <Content Include="Scripts\Cashier\CashierJobList.js" />
     <Content Include="Scripts\Cashier\CashierPayments.js" />
     <Content Include="Scripts\Chartjs\Chart.js" />
+    <Content Include="Scripts\Chartjs\utils.js" />
     <Content Include="Scripts\cleave.min.js" />
     <Content Include="Scripts\CustEntMain\CustEntMainDetails.js" />
     <Content Include="Scripts\CustEntMain\CustEntVehicle.js" />
@@ -2356,8 +2353,7 @@
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\Details.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\Index.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\DriverSummary.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\PaytoClose.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDrivers\PaytoClose.cshtml" />
     <Content Include="Areas\AutoCare\Views\Appointments\AppointmentSelect.cshtml" />
     <Content Include="Areas\AutoCare\Views\Appointments\Availability.cshtml" />
     <Content Include="Areas\AutoCare\Views\Appointments\_ScheduleItemsModal.cshtml" />
@@ -2403,7 +2399,7 @@
     <Content Include="Areas\AutoCare\Views\JobVehicles\Details.cshtml" />
     <Content Include="Areas\AutoCare\Views\JobVehicles\Edit.cshtml" />
     <Content Include="Areas\AutoCare\Views\JobVehicles\Index.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\_DriverSalaryReqModal.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDrivers\_DriverSalaryReqModal.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\_ReturnLogModal.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\PrevRecords.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\CreateDriverRelease.cshtml" />
@@ -2422,11 +2418,9 @@
     <Content Include="Areas\Personel\Views\CrRptUnits\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\CrRptUnits\Index.cshtml" />
     <Content Include="Areas\Personel\Views\Shared\_PrintLayout.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\UpdateTripLogOdo.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\_DriverPaymentModal.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\_DriverCAModal.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\EditCashTrx.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\EditOdo.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDrivers\_DriverPaymentModal.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDrivers\_DriverCAModal.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDrivers\EditCashTrx.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\_LogOdoUpdateModal.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\_VehicleSummaryFilter.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalReport\VehicleTripReport.cshtml" />
@@ -2452,7 +2446,6 @@
     <Content Include="Images\CarRental\Home\Vehicles\Realwheels-Toyota-Grandia-Tourer.webp" />
     <Content Include="Areas\Personel\Views\CarRentalReport\VehicleExpenseLogsReport.cshtml" />
     <Content Include="Areas\Personel\Views\crRptUnitExpenses\_ItemVehicleExpenseFilter.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\DriverTrxHistory.cshtml" />
     <Content Include="Areas\Personel\Views\crLogPassengers\Create.cshtml" />
     <Content Include="Areas\Personel\Views\crLogPassengers\Delete.cshtml" />
     <Content Include="Areas\Personel\Views\crLogPassengers\Details.cshtml" />
@@ -2540,7 +2533,6 @@
     <Content Include="Areas\Receivables\Views\ArActions\Edit.cshtml" />
     <Content Include="Areas\Receivables\Views\ArActions\Index.cshtml" />
     <Content Include="Areas\Receivables\Views\ArReports\Index.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\DriverExpenseHistory.cshtml" />
     <Content Include="Areas\Payables\Views\ApAccounts\Create.cshtml" />
     <Content Include="Areas\Payables\Views\ApAccounts\CreateTransAcc.cshtml" />
     <Content Include="Areas\Payables\Views\ApAccounts\Delete.cshtml" />
@@ -2565,7 +2557,6 @@
     <Content Include="Areas\Payables\Views\ApTransactions\ActionHistory.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\PrintSalaryForm.cshtml" />
     <Content Include="Areas\Payables\Views\ApTransactions\PrintRequestForm.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\DriverSummaryTripEdit.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\PrintFuelRequestForm.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\PrintPOForm.cshtml" />
     <Content Include="Areas\Personel\Views\crLogBilling\IndexBilling.cshtml" />
@@ -2624,6 +2615,16 @@
     <Content Include="Areas\Payables\Views\ApCashFlows\Edit.cshtml" />
     <Content Include="Areas\Payables\Views\ApCashFlows\Index.cshtml" />
     <Content Include="Areas\Payables\Views\ApTransactions\PrintPOForm.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransRepeats\Create.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransRepeats\Delete.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransRepeats\Details.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransRepeats\Edit.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransRepeats\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\IndexBillingDaily - Copy.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDrivers\DriverExpenseHistory.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDrivers\DriverSummary.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDrivers\DriverSummaryTripEdit.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDrivers\DriverTrxHistory.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
@@ -2976,7 +2977,6 @@
     <Content Include="Views\SalesActivities\Index.cshtml" />
     <Content Include="Views\SalesLeads\CompanyEdit.cshtml" />
     <Content Include="Views\SalesLeads\CompanyDetail.cshtml" />
-    <Content Include="Views\JobOrder\IndexSimplified.cshtml" />
     <Content Include="Views\JobOrder\PartialViewService.cshtml" />
     <Content Include="Views\JobOrder\PartialViewServiceList.cshtml" />
     <Content Include="Views\JobOrder\PartialViewJobServiceItems.cshtml" />
@@ -3542,6 +3542,16 @@
     <Content Include="Views\InvCarMntRcmds\Index.cshtml" />
     <Content Include="Views\InvItems\EditInvCrLogUnit.cshtml" />
     <Content Include="Views\SysAccessUsers\ManageRoles.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutDashboard.cshtml" />
+    <Content Include="Views\Dashboard\_SideMenuView.cshtml" />
+    <Content Include="Views\Dashboard\_JobOrdersView.cshtml" />
+    <Content Include="Views\Dashboard\_TripLogsView.cshtml" />
+    <Content Include="Views\Dashboard\_NotificationsView.cshtml" />
+    <Content Include="Views\Dashboard\_PayablesView.cshtml" />
+    <Content Include="Views\Dashboard\_ReceivablesView.cshtml" />
+    <Content Include="Views\Dashboard\_SummaryView.cshtml" />
+    <Content Include="Views\Reporting\JobSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -3576,6 +3586,18 @@
     <ProjectReference Include="..\..\Payable20\ApServices\ApServices.csproj">
       <Project>{D9E4457A-12F0-4E6F-A629-5043BAB5455A}</Project>
       <Name>ApServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Receivable20\ArInterfaces\ArInterfaces.csproj">
+      <Project>{8D86BA9C-D048-4484-A858-B3623587BCEB}</Project>
+      <Name>ArInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Receivable20\ArModels\ArModels.csproj">
+      <Project>{4B968B7D-9789-48B5-B8BE-D5ED78C36FF7}</Project>
+      <Name>ArModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Receivable20\ArServices\ArServices.csproj">
+      <Project>{70D3D823-762F-42B8-9D38-E5B7BF24B351}</Project>
+      <Name>ArServices</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

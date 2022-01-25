@@ -934,7 +934,7 @@ namespace JobsV1.Controllers
             try
             {
 
-                string sql = @" C * FROM AspNetRoles";
+                //string sql = @" C * FROM AspNetRoles";
 
                 //roles = db.Database.SqlQuery<AppRoles>(sql).ToList();
 
@@ -955,7 +955,7 @@ namespace JobsV1.Controllers
             try
             {
 
-                string sql = @" SELECT * FROM AspNetRoles";
+                //string sql = @" SELECT * FROM AspNetRoles";
 
                 //roles = db.Database.SqlQuery<AppRoles>(sql).ToList();
 

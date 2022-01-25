@@ -17,11 +17,13 @@ namespace JobsV1.Models
         public string Company { get; set; }
         public decimal Amount { get; set; }
         public decimal Payment { get; set; }
-        public decimal PaymentFromId { get; set; }
+        public decimal PaymentFromAR { get; set; }
+        public decimal ExpenseFromAP { get; set; }
         public DateTime JobDate { get; set; }
-        public int Status { get; set; }
         public DateTime DtStart { get; set; }
         public DateTime DtEnd { get; set; }
+        public int Status { get; set; }
+        public string StatusString { get; set; }
     }
 
     public class cJobOrderServices
@@ -291,26 +293,9 @@ namespace JobsV1.Models
             foreach (var main in confirmed)
             {
                 cJobOrderListing joTmp = main;
-                joTmp.Amount = 0;
-                joTmp.Payment = 0;
+                joTmp.Amount = GetJobSvcAmount(main.Id);
+                joTmp.Payment = GetJobSvcPayments(main.Id);
                 joTmp.Company = GetJobCompanyName(main.Id);
-
-                //get total amount
-                var totalAmountList = db.JobServices.Where(d => d.JobMainId == main.Id).ToList().Select(s => s.ActualAmt);
-                foreach (var amount in totalAmountList)
-                {
-                    joTmp.Amount += amount != null ? (decimal)amount : decimal.Zero;
-                }
-
-                //get total payment done
-                List<Models.JobPayment> jobPayment = db.JobPayments.Where(d => d.JobMainId == main.Id).ToList();
-                foreach (var payment in jobPayment)
-                {
-                    joTmp.Payment += payment.PaymentAmt;
-                }
-
-                //get jobdate
-                // joTmp.JobDate = TempJobDate(main.Id);
                 joTmp.JobDate = MinJobDate(main.DtStart, main.DtEnd);
 
                 data.Add(joTmp);
@@ -318,6 +303,108 @@ namespace JobsV1.Models
 
             data = data.Where(s => DateTime.Compare(s.JobDate, today) >= 0 && s.Status < 4).ToList();
             return data;
+        }
+
+        //GET : return list of ONGOING job listing
+        public List<cJobOrderListing> GetJobOrderListingMonthly(int month, int year)
+        {
+            var data = new List<cJobOrderListing>();
+
+            var jobs = GetJobOrderMonthlyQuery(month, year);
+            
+            foreach (var main in jobs)
+            {
+                cJobOrderListing joTmp = main;
+                joTmp.Amount = GetJobSvcAmount(main.Id);
+                joTmp.Payment = GetJobSvcPayments(main.Id);
+                joTmp.ExpenseFromAP = GetAPExpensesByJobId(main.Id);
+                joTmp.PaymentFromAR = GetARPaymentsByJobId(main.Id);
+                joTmp.Company = GetJobCompanyName(main.Id);
+                joTmp.JobDate = MinJobDate(main.DtStart, main.DtEnd);
+                joTmp.StatusString = GetJobStatusById(main.Status);
+                data.Add(joTmp);
+            }
+
+            return data;
+        }
+
+        private decimal GetJobSvcAmount(int jobId)
+        {
+            decimal totalAmount = 0;
+            //get total amount
+            var totalAmountList = db.JobServices.Where(d => d.JobMainId == jobId).ToList().Select(s => s.ActualAmt);
+            foreach (var amount in totalAmountList)
+            {
+                totalAmount += amount != null ? (decimal)amount : decimal.Zero;
+            }
+
+            return totalAmount;
+        }
+
+        private decimal GetJobSvcPayments(int jobId)
+        {
+            decimal totalPayment = 0;
+
+            //get total payment done
+            List<Models.JobPayment> jobPayment = db.JobPayments.Where(d => d.JobMainId == jobId).ToList();
+            foreach (var payment in jobPayment)
+            {
+                totalPayment += payment.PaymentAmt;
+            }
+
+            return totalPayment;
+        }
+
+        private decimal GetAPExpensesByJobId(int jobId)
+        {
+            try
+            {
+                decimal totalPayment = 0;
+
+                string sql = "";
+
+                sql = @"SELECT SUM(ap.Amount) FROM ApTransactions ap WHERE ap.JobRef = "+ jobId ;
+
+                //terminator
+                sql += ";";
+
+                totalPayment = db.Database.SqlQuery<decimal>(sql).FirstOrDefault();
+
+                return totalPayment;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        private decimal GetARPaymentsByJobId(int jobId)
+        {
+            try
+            {
+                decimal totalPayment = 0;
+
+                string sql = "";
+
+                sql = @"SELECT (SELECT SUM(p.Amount) FROM ArPayments p LEFT JOIN ArTransPayments atp ON atp.ArPaymentId =p.Id WHERE atp.ArTransactionId = ar.Id ) 
+                        FROM ArTransactions ar WHERE  ([InvoiceRef] LIKE '" + jobId + @"') ";
+
+                //terminator
+                sql += ";";
+
+                totalPayment = db.Database.SqlQuery<decimal>(sql).FirstOrDefault();
+
+                return totalPayment;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        public string GetJobStatusById(int id)
+        {
+            return db.JobStatus.Find(id).Status;
         }
 
         //GET : get the date of the job based on the date today
@@ -594,6 +681,32 @@ namespace JobsV1.Models
                     sql = "select * from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -30, GETDATE());";
                     break;
             }
+
+            //terminator
+            sql += ";";
+
+            joblist = db.Database.SqlQuery<cJobOrderListing>(sql).ToList();
+
+            return joblist;
+
+        }
+
+
+        //Get Job Order Listing based on the sort
+        public List<cJobOrderListing> GetJobOrderMonthlyQuery(int month, int year)
+        {
+            List<cJobOrderListing> joblist = new List<cJobOrderListing>();
+
+            string sql = "";
+
+            sql = @"SELECT Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MAX(job.DtEnd), 
+	                    Description = MIN(job.Description), Customer = MIN(job.Customer), Status = MIN(job.JobStatusId)  
+	                    FROM ( SELECT jm.Id,  jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
+		                Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
+		                FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
+
+		                WHERE month(job.DtStart) = "+ month + @" AND year(job.DtStart) = "+ year +@"
+		                GROUP BY job.Id ORDER BY DtStart";
 
             //terminator
             sql += ";";

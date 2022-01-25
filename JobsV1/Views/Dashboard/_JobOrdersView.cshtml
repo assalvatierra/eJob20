@@ -1,20 +1,25 @@
 ﻿
 
-<div class="panel panel-default dash-card-md" id="dash-panel-joborder" style="max-height:900px;">
+<div class="panel panel-default dash-card-md" id="dash-panel-joborder" style="max-height:1500px;">
     <div class="panel-body" style="padding: 0px;">
 
-        <div class="panel-body-header" >
+        <div class="panel-body-header">
             <h3>Jobs Orders</h3>
+            <p> Showing ongoing jobs for today </p>
         </div>
         <div class="table-scrollable">
-            <table class="table" id="JobsTable">
+            <table class="table">
 
                 <tr>
-                    <th >Id</th>
-                    <th >Description</th>
-                    <th >Status</th>
+                    <th>Id</th>
+                    <th>Description</th>
+                    @*<th class="hidden-on-mobile">Status</th>*@
+                    <th>Amount</th>
                 </tr>
 
+                <tbody id="JobsTable">
+
+                </tbody>
 
                 @*
                 <tr>
@@ -32,96 +37,7 @@
                     <td>
                     </td>
                 </tr>
-        <tr>
-            <td>
-                <span style="font-weight:600;">122</span>
-            </td>
-            <td>
-                <p class="no-margin-bottom text-bold"> Shimizu Monthly Car Rental</p>
-                <span class="text-muted">Jan 8 - Jan 8</span>
-            </td>
-            <td>
-                <span class="label label-primary ">Confirmed</span><br />
-                <span class="text-success"> P2,500 </span>
-            </td>
-            <td>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span style="font-weight:600;">121</span>
-            </td>
-            <td>
-                <p class="no-margin-bottom text-bold">Davao City Tour</p>
-                <span class="text-muted">Jan 4 - Jan 8</span>
-            </td>
-            <td>
-                <span class="label label-info">Inquiry</span><br />
-                <span class="text-success"> P8,500 </span>
-            </td>
-            <td>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span style="font-weight:600;">124</span>
-            </td>
-            <td>
-                <p class="no-margin-bottom text-bold">Davao City Car Rental 3 days</p>
-                <span class="text-muted">Jan 12 - Jan 15</span>
-            </td>
-            <td>
-                <span class="label label-primary">Confirmed</span><br />
-                <span class="text-success"> P9,000 </span>
-            </td>
-            <td>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span style="font-weight:600;">128</span>
-            </td>
-            <td>
-                <p class="no-margin-bottom text-bold"> Davao City Tour + Samal Tour</p>
-                <span class="text-muted">Jan 8 - Jan 10</span>
-            </td>
-            <td>
-                <span class="label label-info">Inquiry</span><br />
-                <span class="text-success"> P18,500 </span>
-            </td>
-            <td>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span style="font-weight:600;">129</span>
-            </td>
-            <td>
-                <p class="no-margin-bottom text-bold">Mati City Car Rental</p>
-                <span class="text-muted">Jan 15 - Jan 15</span>
-            </td>
-            <td>
-                <span class="label label-primary">Confirmed</span><br />
-                <span class="text-success"> P6,500 </span>
-            </td>
-            <td>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span style="font-weight:600;">132</span>
-            </td>
-            <td>
-                <p class="no-margin-bottom text-bold">Digos City Car Rental</p>
-                <span class="text-muted">Jan 17 - Jan 17</span>
-            </td>
-            <td>
-                <span class="label label-primary">Confirmed</span><br />
-                <span class="text-success"> P5,000 </span>
-            </td>
-            <td>
-            </td>
-        </tr>*@
+                *@
             </table>
         </div>
     </div>

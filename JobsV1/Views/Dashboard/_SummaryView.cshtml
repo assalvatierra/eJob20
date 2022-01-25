@@ -1,34 +1,39 @@
 ﻿
-<div class="col-sm-12 col-md-12 col-lg-6 ">
-    <div class="flex-inline-row dash-summary">
-        <div class="dash-card">
-            <p class="sub-desc">Total Sales</p>
-            <h3 id="Sales-TotalAmount">$65,000</h3>
-        </div>
-        <div class="dash-card">
-            <p class="sub-desc">Total Expenses</p>
-            <h3 id="Expenses-TotalAmount">$42,000</h3>
-        </div>
+<div class="col-md-12"  style="padding:0px;">
+    <div class="col-sm-12 col-md-12 col-lg-6 ">
+        <div class="flex-inline-row dash-summary">
+            <div class="dash-card">
+                <p class="sub-desc">Total Sales @ViewBag.Month</p>
+                <h3 id="Sales-TotalAmount">$0</h3>
+            </div>
+            <div class="dash-card">
+                <p class="sub-desc">Total Expenses @ViewBag.Month</p>
+                <h3 id="Expenses-TotalAmount">$0</h3>
+            </div>
 
-        <div class="dash-card">
-            <p class="sub-desc">Active Jobs Today</p>
-            <h3> 12 </h3>
+            <div class="dash-card">
+                <p class="sub-desc">Active Jobs Today</p>
+                <h3 id="ActiveJobsCount"> 0 </h3>
+            </div>
+            @*<div class="dash-card">
+                    <p class="sub-desc">Available Units</p>
+                    <h3> 5 of 12</h3>
+                </div>*@
         </div>
-        @*<div class="dash-card">
-            <p class="sub-desc">Available Units</p>
-            <h3> 5 of 12</h3>
-        </div>*@
-    </div>
-    <div class="flex-inline-row">
-        <div class="dash-card-lg sales-chart" style="flex-grow: 1;">
-            <canvas id="myChart"></canvas>
+        <div class="flex-inline-row">
+            @*<div class="dash-card-lg sales-chart" style="flex-grow: 1;">
+                    <canvas id="myChart-jobs"></canvas>
+                </div>*@
+            <div class="dash-card-lg sales-chart" style="flex-grow: 1;">
+                <canvas id="myChart-triplogs"></canvas>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="col-sm-12 col-md-12 col-lg-6">
-    <div class="flex-inline-row" style="margin-left: 0px; ">
-       
-        @{Html.RenderPartial("_JobOrdersView");}
+    <div class="col-sm-12 col-md-12 col-lg-6">
+        <div class="flex-inline-row">
+
+            @{Html.RenderPartial("_JobOrdersView");}
+        </div>
     </div>
 </div>

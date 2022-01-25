@@ -61,9 +61,10 @@
                     @if (Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Control Panel", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
                         @*
-                            <li>@Html.ActionLink("Jobs", "JobTable", "JobMains", new { span = 30 }, null)</li>
-                            <li>@Html.ActionLink("Accounting", "Index", "AsMain", new { Area = "Accounting", span = 30 }, null)</li>
+                        <li>@Html.ActionLink("Jobs", "JobTable", "JobMains", new { span = 30 }, null)</li>
+                        <li>@Html.ActionLink("Accounting", "Index", "AsMain", new { Area = "Accounting", span = 30 }, null)</li>
                         *@
                     }
                     <li>@Html.ActionLink("About", "About")</li>

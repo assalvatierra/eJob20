@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -23,5 +24,14 @@ namespace JobsV1.Models
 
             return _localTime;
         }
+
+        public string[] GetMonthsList()
+        {
+            string[] names = DateTimeFormatInfo.CurrentInfo.MonthNames;
+
+            return names;
+        }
+
+
     }
 }

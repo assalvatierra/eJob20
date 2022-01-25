@@ -88,7 +88,7 @@
         </footer>
         <hr />
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>*@
     @*<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>*@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
@@ -96,7 +96,7 @@
     @Scripts.Render("~/bundles/flickity")
     @Scripts.Render("~/bundles/DateRangePicker")
     @*<script type="text/javascript" src="~/Scripts/Job/Scroll.js"></script>*@
-    <script type="text/javascript" src="~/serviceworker.js"></script>
+    @*<script type="text/javascript" src="~/serviceworker.js"></script>
     <script>
         //For PWA
         if ('serviceWorker' in navigator) {
@@ -104,7 +104,7 @@
                 .register('/serviceworker.js')
                 .then(function () { console.log('Service Worker Registered'); });
         }
-    </script>
+    </script>*@
     @RenderSection("scripts", required: false)
 
     @*<script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>*@
