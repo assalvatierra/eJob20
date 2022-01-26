@@ -687,3 +687,33 @@ LEFT JOIN AspNetUsers users ON userRoles.UserId = users.Id
 --- USER ROLES ----
 SELECT * FROM AspNetRoles
 ;
+
+
+
+--- JOBS REPORT MONTHLY ----
+
+SELECT Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MAX(job.DtEnd), 
+	                    Description = MIN(job.Description), Customer = MIN(job.Customer), Status = MIN(job.JobStatusId)  
+	                    FROM ( SELECT jm.Id,  jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
+		                Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
+		                FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
+
+		                WHERE month(job.DtStart) = 1 AND year(job.DtStart) = 2020
+		                GROUP BY job.Id ORDER BY DtStart
+
+---- GET JOBS EXPENSES ----
+SELECT SUM(ap.Amount) FROM ApTransactions ap WHERE ap.JobRef = 7 ; 
+
+SELECT * FROM ApTransactions ap WHERE ap.JobRef = 7 ; 
+
+---- GET JOBS EXPENSES ----
+SELECT (SELECT SUM(p.Amount) FROM ArPayments p LEFT JOIN ArTransPayments atp ON atp.ArPaymentId =p.Id WHERE atp.ArTransactionId = ar.Id ) 
+FROM ArTransactions ar WHERE  ([InvoiceRef] LIKE '7') ; 
+
+SELECT *,
+Payment = (SELECT SUM(p.Amount) FROM ArPayments p)
+FROM ArTransactions ar WHERE ar.InvoiceRef = 7  
+
+--- 
+
+select * from ApTransactions WHERE DtRelease IS NOT NULL AND ApTransTypeId != 2

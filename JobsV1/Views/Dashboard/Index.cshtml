@@ -103,12 +103,15 @@
             console.log("Trip Logs Chart");
 
             const labels = datalabels;
-
+            let monthdays = 31;
+            
             let goal = 200;
-
+            let goalperday =Math.ceil(parseFloat(goal / monthdays ));
+            let goalTotal = 0;
             let goalDataset = new Array();
             for (var i = 0; i < 31; i++) {
-                goalDataset.push(goal);
+                goalTotal = goalTotal + goalperday;
+                goalDataset.push(goalTotal);
             }
 
             console.log("data goals: " + goalDataset);

@@ -423,10 +423,10 @@
                                 }
 
 
-                                else if (item.ApTransStatusId == STATUS_RETURNED && isAdmin)
+                                @if (item.ApTransStatusId == STATUS_RETURNED && isAdmin)
                                 {
                                     <li>
-                                        <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusClose(this, @item.Id)"> Paid & Close </a>
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusClose(this, @item.Id)">  Close </a>
                                     </li>
                                 }
                                 </li>

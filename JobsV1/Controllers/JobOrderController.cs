@@ -1979,6 +1979,8 @@ namespace JobsV1.Controllers
                     return "Kimberly Pangubatan";
                 case "tin.realbreeze@gmail.com":
                     return "Christine Cubelo";
+                case "ruel@gmail.com":
+                    return "Ruel Bigcas";
                 default:
                     return "Elvie S. Salvatierra ";
             }
@@ -2004,6 +2006,8 @@ namespace JobsV1.Controllers
                     return "/Images/Signature/KimSign.jpg";
                 case "tin.realbreeze@gmail.com":
                     return "/Images/Signature/TinSign.jpg";
+                case "ruel@gmail.com":
+                    return "/Images/Signature/RuelSign.jpg";
                 default:
                     return "/Images/Signature-1.png";
             }

@@ -554,6 +554,7 @@ namespace JobsV1.Models.Class
             {
                 List<DashboardViewModel.ChartDataTripLogs> data = new List<DashboardViewModel.ChartDataTripLogs>();
                 var today = dt.GetCurrentDate();
+
                 //get list of months
                 var daysOfMonth = Enumerable.Range(1, DateTime.DaysInMonth(today.Year, today.Month))  // Days: 1, 2 ... 31 etc.
                              .Select(day => day.ToString()) // Map each day to a date
@@ -561,31 +562,69 @@ namespace JobsV1.Models.Class
 
 
                 var tripForMonth = crdb.crLogTrips
-                    .Where(c => c.DtTrip.Month == today.Month && c.DtTrip.Year == today.Year && c.crLogCompany.Name != "Office")
+                    .Where(c => c.DtTrip.Month == today.Month && c.DtTrip.Year == today.Year 
+                            && c.crLogCompany.Name != "Office" 
+                            && c.crLogUnit.crLogOwner.Name == "Realbreeze")
                     .GroupBy(c=>c.DtTrip.Day).ToList();
+                
                 var totalCount = 0;
-                tripForMonth.ForEach( t => {
-                    if(daysOfMonth.Contains(t.Key.ToString())) {
 
-                            totalCount += t.Count();
+                daysOfMonth.ForEach(d=> {
+                    var trip = tripForMonth.Where(t => t.Key.ToString() == d).FirstOrDefault();
+                    if (trip != null)
+                    {
+                        if (d == trip.Key.ToString())
+                        {
+
+                            totalCount += trip.Count();
 
                             data.Add(new DashboardViewModel.ChartDataTripLogs
                             {
                                 Month = today.Month.ToString(),
                                 Count = totalCount,
-                                Day = t.Key.ToString()
+                                Day = trip.Key.ToString()
                             });
+                        }
                     }
                     else
                     {
-                        data.Add(new DashboardViewModel.ChartDataTripLogs
+                        if (today.Day >= int.Parse(d))
                         {
-                            Month = today.Month.ToString(),
-                            Count = 0,
-                            Day = t.Key.ToString()
-                        });
+                            data.Add(new DashboardViewModel.ChartDataTripLogs
+                            {
+                                Month = today.Month.ToString(),
+                                Count = totalCount,
+                                Day = d
+                            });
+                        }
+
                     }
+
                 });
+
+                //tripForMonth.ForEach( t => {
+
+                //    if(daysOfMonth.Contains(t.Key.ToString())) {
+
+                //            totalCount += t.Count();
+
+                //            data.Add(new DashboardViewModel.ChartDataTripLogs
+                //            {
+                //                Month = today.Month.ToString(),
+                //                Count = totalCount,
+                //                Day = t.Key.ToString()
+                //            });
+                //    }
+                //    else
+                //    {
+                //        data.Add(new DashboardViewModel.ChartDataTripLogs
+                //        {
+                //            Month = today.Month.ToString(),
+                //            Count = 0,
+                //            Day = t.Key.ToString()
+                //        });
+                //    }
+                //});
 
 
                 return data;

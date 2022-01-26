@@ -153,7 +153,7 @@
 <hr />
 
 <h4>Daily Rates </h4>
-<table class="table">
+<table class="table" style="width: 100%; border: 2px solid black;">
     <tr>
         <td>
             Driver
@@ -189,6 +189,10 @@
             <td colspan="7"></td>
         </tr>
 
+
+        decimal subtotalRate = 0;
+        decimal subtotalOTRate = 0;
+        decimal subtotalOTHrs = 0;
         foreach (var trip in tripGroup)
         {
             var dtcolor = "black";
@@ -204,10 +208,16 @@
             TotalOTRate += trip.OTRate;
             TotalOT += trip.OTHours;
 
+            subtotalRate += trip.Rate;
+            subtotalOTRate += trip.OTRate;
+            subtotalOTHrs += (decimal)trip.OTHours;
+
             <tr style=" font-family:Calibri !important;">
                 <td>@trip.Driver</td>
                 <td style="color:@dtcolor;">@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
-                <td>@trip.Unit</td>
+                <td>
+                    @*@trip.Unit*@
+                </td>
                 <td>@trip.Rate.ToString("#,##0") </td>
                 <td>
                     @if (trip.OTRate > 0)
@@ -229,13 +239,33 @@
                     @if (trip.OTHours > 0)
                     {
                         <span>
-                         Hrs
+                            Hrs
                         </span>
                     }
                 </td>
             </tr>
 
         }
+        <tr style="border-top: 1px solid black;" class="no-padding-child">
+            <td colspan="3">
+                <b class="pull-right" style="padding-right:15px;"> Subtotal </b>
+            </td>
+            <td>
+                <b> @subtotalRate.ToString("#,##0.00")</b>
+            </td>
+            <td>
+                @if (subtotalOTRate > 0)
+                {
+                    <b> @subtotalOTRate.ToString("#,##0.00")</b>
+                }
+            </td>
+            <td>
+                @if (subtotalOTHrs > 0)
+                {
+                    <b>@subtotalOTHrs.ToString("#,##0.0") Hrs</b>
+                }
+            </td>
+        </tr>
     }
 
     @{

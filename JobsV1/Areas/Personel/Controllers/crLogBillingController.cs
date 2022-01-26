@@ -597,7 +597,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 }
             }
             #endregion
-
+            var SOANum = "";
             var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby);
 
             crLogTripBilling tripBilling = new crLogTripBilling();
@@ -611,6 +611,7 @@ namespace JobsV1.Areas.Personel.Controllers
             var OTTrips = tripLogs.ToList();
             OTTrips.ForEach((t) => {
                 double OTHrs = crServices.GetTripLogOTHours(t);
+                SOANum = t.crLogTripJobMains.FirstOrDefault() != null ? t.crLogTripJobMains.FirstOrDefault().JobMainId.ToString() : "";
                 tripBilling.OTTrips.Add(new crBilling_OT
                 {
                     Id = t.Id,
@@ -632,8 +633,8 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
             ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
 
-            ViewBag.FilteredsDate = startDate;
-            ViewBag.FilteredeDate = endDate;
+            ViewBag.FilteredsDate = String.IsNullOrEmpty(startDate) ? dt.GetCurrentDate().ToString() : startDate;
+            ViewBag.FilteredeDate = String.IsNullOrEmpty(endDate) ? dt.GetCurrentDate().ToString() : endDate;
             ViewBag.FilteredUnit = unit ?? "all";
             ViewBag.FilteredDriver = driver ?? "all";
             ViewBag.FilteredCompany = company ?? "all";
@@ -642,6 +643,13 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogUnitList = dl.GetUnits().ToList();
             ViewBag.crLogDriverList = dl.GetDrivers().ToList();
             ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
+
+            ViewBag.CompanyBilling = "Shimizu-Ulticon-Takenata JV";
+            ViewBag.BillingAddress = "Shoppes at Woodlane, Unit 4A, 2nd Floor, Diversion Road, Brgy, Ma-a Talomo, Davao City";
+            ViewBag.SOANum = SOANum;
+            ViewBag.DateToday = dt.GetCurrentDate().ToString("MMM dd yyyy");
+            ViewBag.DueDate = dt.GetCurrentDate().AddDays(16).ToString("MMM dd yyyy");
+
 
             return View(tripBilling);
         }
