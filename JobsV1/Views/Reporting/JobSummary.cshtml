@@ -7,6 +7,7 @@
     decimal TotalAmount = 0;
     decimal TotalExpense = 0;
     decimal TotalPayments = 0;
+    decimal TotalDriversRate = 0;
     int TotalCount = 0;
 }
 
@@ -14,10 +15,12 @@
 <div>
     @using (Html.BeginForm())
     {
-    <form>
+
+
+<form>
         <div class="col-md-3" style="margin-bottom:5px;padding-left:0px;">
-            <select name="Month" class="form-control" aria-label="Default select example">
-                <option selected>Filter this Month</option>
+            <select name="month" class="form-control" aria-label="Select Month">
+                <option selected>Filter Month</option>
                 <option value="1">January</option>
                 <option value="2">Febuary</option>
                 <option value="3">March</option>
@@ -35,13 +38,15 @@
 
 
         <div class="col-md-3" style="margin-bottom:5px;">
-            <select name="Year" class="form-control" aria-label="Default select example">
-                <option selected>Filter this Year</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-                <option value="2020">2020</option>
-                <option value="2019">2019</option>
+            <select name="year" class="form-control" aria-label="Select Year">
+                <option selected>Filter Year</option>
+                @foreach (var year in ViewBag.Yearlist as List<int>)
+                {
+                    <option value="@year">@year</option>
+                }
+
             </select>
+
         </div>
         <div class="col-md-2" style="margin-bottom:10px;">
             <input class="btn btn-primary" type="submit" value="Filter" style="margin-top: 0px">
@@ -64,11 +69,14 @@
         <th>
             Rate
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Payment)
-        </th>
+        <td>
+            Drivers Rate
+        </td>
         <th>
             @Html.DisplayNameFor(model => model.Expenses)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Payment)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Status)
@@ -83,6 +91,7 @@
         TotalAmount += item.Amount;
         TotalExpense += item.Expenses;
         TotalPayments += item.Payment;
+        TotalDriversRate += item.DriversRate;
 
         <tr>
             <td>
@@ -105,16 +114,49 @@
                 @item.Amount.ToString("#,##0.00")
             </td>
             <td>
-                @item.Payment.ToString("#,##0.00")
+                @item.DriversRate.ToString("#,##0.00")
             </td>
             <td>
                 @item.Expenses.ToString("#,##0.00")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @item.Payment.ToString("#,##0.00")
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+
+                @if (item.Status == "INQUIRY")
+                {
+                    <span class="label label-default">
+                        @item.Status
+                    </span>
+                }
+                else if (item.Status == "RESERVATION")
+                {
+                    <span class="label label-info">
+                        @item.Status
+                    </span>
+                }
+                else if (item.Status == "CONFIRMED")
+                {
+                    <span class="label label-success">
+                        @item.Status
+                    </span>
+                }
+                else if (item.Status == "CLOSED")
+                {
+                    <span class="label label-primary">
+                            @item.Status
+                    </span>
+                }
+                else
+                {
+                    <span class="label label-warning pull-right">
+                            @item.Status
+                    </span>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Details", "JobSummaryDetails", new { id = item.Id })
             </td>
         </tr>
     }
@@ -127,12 +169,16 @@
             @TotalAmount.ToString("#,##0.00")
         </td>
         <td>
-            <span class="text-muted" style="font-size:10px;"> Total Payment </span><br />
-            @TotalPayments.ToString("#,##0.00")
+            <span class="text-muted" style="font-size:10px;"> Total Drivers Rate </span><br />
+            @TotalDriversRate.ToString("#,##0.00")
         </td>
         <td>
             <span class="text-muted" style="font-size:10px;"> Total Expense </span><br />
             @TotalExpense.ToString("#,##0.00")
+        </td>
+        <td>
+            <span class="text-muted" style="font-size:10px;"> Total Payment </span><br />
+            @TotalPayments.ToString("#,##0.00")
         </td>
         <td colspan="2">
 

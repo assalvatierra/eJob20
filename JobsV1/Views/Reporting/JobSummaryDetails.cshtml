@@ -1,0 +1,183 @@
+﻿@model JobsV1.Models.ReportingViewModels.JobSummaryDetails
+@{
+    ViewBag.Title = "Job Summary Details";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+    decimal Triplog_Rate = 0;
+    decimal Triplog_Driver = 0;
+
+    decimal Expenses_Amount = 0;
+    decimal Expenses_Payment = 0;
+
+
+    decimal Receivables_Amount = 0;
+    decimal Receivables_Payment = 0;
+}
+
+<h2>Job Summary Details</h2>
+<p>
+    @Html.ActionLink("Back to List", "JobSummary")
+</p>
+
+<h4> Job#: @Model.Id </h4>
+<h4> Account: @Model.Account </h4>
+<h4> STATUS: @Model.Status </h4>
+<h4> Rate: @Model.Amount </h4>
+
+<hr />
+
+
+<h4> Triplogs </h4>
+<table class="table">
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Driver
+        </th>
+        <th>
+            Drivers
+        </th>
+        <th>
+            OT
+        </th>
+    </tr>
+
+    @foreach (var trip in Model.TripLogs)
+    {
+
+        Triplog_Rate += trip.Rate + trip.Addon;
+        Triplog_Driver += trip.DriverFee + trip.DriverOT;
+
+        <tr>
+            <td>
+                @trip.Id
+            </td>
+            <td>
+                @trip.DtTrip.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @trip.crLogUnit.Description
+            </td>
+            <td>
+                @trip.crLogDriver.Name
+            </td>
+            <td>
+                @trip.DriverFee
+            </td>
+            <td>
+                @trip.DriverOT
+            </td>
+
+        </tr>
+    }
+    <tr>
+        <td colspan="4">
+        </td>
+        <td colspan="2">
+            Total Driver <br />
+            @Triplog_Driver
+        </td>
+    </tr>
+</table>
+
+<hr />
+
+<h4> Expenses </h4>
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>
+            Date
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Amount
+        </th>
+    </tr>
+
+    @foreach (var expense in Model.Expenses)
+    {
+        Expenses_Amount += expense.Amount;
+        Expenses_Payment += expense.ApTransPayments.Sum(c => c.ApPayment.Amount);
+        <tr>
+            <td>
+                @expense.Id
+            </td>
+            <td>
+                @expense.DtInvoice.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @expense.Description
+            </td>
+            <td>
+                @expense.ApTransPayments.Sum(c => c.ApPayment.Amount)
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="3">
+        </td>
+        <td>
+            Total <br />
+            @Expenses_Payment
+        </td>
+    </tr>
+</table>
+
+<hr />
+
+<h4> Receivables </h4>
+<table class="table">
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Amount
+        </th>
+    </tr>
+
+    @foreach (var receivables in Model.Receivables)
+    {
+        Receivables_Amount += receivables.Amount;
+        Receivables_Payment += receivables.ArTransPayments.Sum(c => c.ArPayment.Amount);
+        <tr>
+            <td>
+                @receivables.Id
+            </td>
+            <td>
+                @receivables.DtInvoice.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @receivables.Description
+            </td>
+            <td>
+                @receivables.ArTransPayments.Sum(c => c.ArPayment.Amount)
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="3">
+        </td>
+        <td>
+            Total <br />
+            @Receivables_Payment
+        </td>
+    </tr>
+</table>
