@@ -181,7 +181,7 @@ namespace JobsV1.Areas.Personel.Services
 
                 return CalcOTRate;
             }
-            catch (Exception ex )
+            catch 
             {
                 //throw ex;
                 return 0;
