@@ -522,6 +522,10 @@ values
 ('REGULAR',2,'/Images/Icons/Maintenance/icons-mid-priority.png'),
 ('HIGH',3,'/Images/Icons/Maintenance/icons-high-priority.png');
 
+
+insert into InvCarRcmdStatus([Status])
+values ('Request'),('Approved'),('Cancel');
+
 -- linking jobs vechiles to triplogs units
 insert into InvItemCrLogUnits([InvItemId], [CrLogUnitId]) 
 values 

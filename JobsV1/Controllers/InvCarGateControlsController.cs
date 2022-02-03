@@ -68,7 +68,7 @@ namespace JobsV1.Controllers
             
             invcar.dtControl = DateTime.Now;
 
-            var invItems = db.InvItems.Where(s => s.ViewLabel == "UNIT").Select(
+            var invItems = db.InvItems.Where(s => s.ViewLabel == "UNIT" && s.OrderNo == 100).Select(
                     s => new SelectListItem
                     {
                         Value = s.Id.ToString(),

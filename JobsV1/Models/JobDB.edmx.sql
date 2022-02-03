@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/27/2021 13:30:33
+-- Date Created: 02/03/2022 14:31:11
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -494,6 +494,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvCarMntPriorityInvCarMntRcmd]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvCarMntRcmds] DROP CONSTRAINT [FK_InvCarMntPriorityInvCarMntRcmd];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvCarMntRcmdInvCarRcmdRequest]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCarRcmdRequests] DROP CONSTRAINT [FK_InvCarMntRcmdInvCarRcmdRequest];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCarRcmdStatusInvCarRcmdRequest]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCarRcmdRequests] DROP CONSTRAINT [FK_InvCarRcmdStatusInvCarRcmdRequest];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -975,6 +981,12 @@ IF OBJECT_ID(N'[dbo].[InvCarMntRcmds]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvCarMntPriorities]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvCarMntPriorities];
+GO
+IF OBJECT_ID(N'[dbo].[InvCarRcmdStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCarRcmdStatus];
+GO
+IF OBJECT_ID(N'[dbo].[InvCarRcmdRequests]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCarRcmdRequests];
 GO
 
 -- --------------------------------------------------
@@ -2613,7 +2625,8 @@ CREATE TABLE [dbo].[InvCarMntRcmds] (
     [IsDone] bit  NOT NULL,
     [InvItemId] int  NOT NULL,
     [InvCarMntPriorityId] int  NOT NULL,
-    [DateDue] datetime  NULL
+    [DateDue] datetime  NULL,
+    [Remarks] nvarchar(120)  NULL
 );
 GO
 
@@ -2623,6 +2636,21 @@ CREATE TABLE [dbo].[InvCarMntPriorities] (
     [Priority] nvarchar(20)  NOT NULL,
     [Order] int  NOT NULL,
     [IconSrc] nvarchar(160)  NOT NULL
+);
+GO
+
+-- Creating table 'InvCarRcmdStatus'
+CREATE TABLE [dbo].[InvCarRcmdStatus] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Status] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'InvCarRcmdRequests'
+CREATE TABLE [dbo].[InvCarRcmdRequests] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [InvCarMntRcmdId] int  NOT NULL,
+    [InvCarRcmdStatusId] int  NOT NULL
 );
 GO
 
@@ -3581,6 +3609,18 @@ GO
 -- Creating primary key on [Id] in table 'InvCarMntPriorities'
 ALTER TABLE [dbo].[InvCarMntPriorities]
 ADD CONSTRAINT [PK_InvCarMntPriorities]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvCarRcmdStatus'
+ALTER TABLE [dbo].[InvCarRcmdStatus]
+ADD CONSTRAINT [PK_InvCarRcmdStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvCarRcmdRequests'
+ALTER TABLE [dbo].[InvCarRcmdRequests]
+ADD CONSTRAINT [PK_InvCarRcmdRequests]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5971,6 +6011,36 @@ GO
 CREATE INDEX [IX_FK_InvCarMntPriorityInvCarMntRcmd]
 ON [dbo].[InvCarMntRcmds]
     ([InvCarMntPriorityId]);
+GO
+
+-- Creating foreign key on [InvCarMntRcmdId] in table 'InvCarRcmdRequests'
+ALTER TABLE [dbo].[InvCarRcmdRequests]
+ADD CONSTRAINT [FK_InvCarMntRcmdInvCarRcmdRequest]
+    FOREIGN KEY ([InvCarMntRcmdId])
+    REFERENCES [dbo].[InvCarMntRcmds]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvCarMntRcmdInvCarRcmdRequest'
+CREATE INDEX [IX_FK_InvCarMntRcmdInvCarRcmdRequest]
+ON [dbo].[InvCarRcmdRequests]
+    ([InvCarMntRcmdId]);
+GO
+
+-- Creating foreign key on [InvCarRcmdStatusId] in table 'InvCarRcmdRequests'
+ALTER TABLE [dbo].[InvCarRcmdRequests]
+ADD CONSTRAINT [FK_InvCarRcmdStatusInvCarRcmdRequest]
+    FOREIGN KEY ([InvCarRcmdStatusId])
+    REFERENCES [dbo].[InvCarRcmdStatus]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvCarRcmdStatusInvCarRcmdRequest'
+CREATE INDEX [IX_FK_InvCarRcmdStatusInvCarRcmdRequest]
+ON [dbo].[InvCarRcmdRequests]
+    ([InvCarRcmdStatusId]);
 GO
 
 -- --------------------------------------------------

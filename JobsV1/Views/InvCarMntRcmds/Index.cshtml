@@ -8,6 +8,8 @@
     string status = ViewBag.Status;
     string sortBy = ViewBag.SortBy;
     string orderBy = ViewBag.OrderBy;
+    string show  = ViewBag.Show;
+    bool isAdmin = ViewBag.IsAdmin;
 
     var today = (DateTime)ViewBag.Today;
 
@@ -22,27 +24,37 @@
     @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
 </div>
 
-<div class="form-group" style="margin-bottom:5px;">
+<div class="form-group" style="margin-bottom:2px;">
     <div class="btn-group" role="group" style="margin:0px 15px;">
         <form class="form-group form-inline no-margin-bottom" style="white-space: nowrap;">
 
+            <select class="form-control" name="unitId" id="unitId">
+                <option value="0"> All </option>
+                @foreach (var unit in unitList)
+                {
+                    <option value="@unit.Id">
+                        @unit.ItemCode - @unit.Description
+                    </option>
+                }
+            </select>
+
+
             <button type="button" class="btn btn-default disabled"> Filter </button>
-                <select class="form-control" name="unitId" id="unitId">
-                    <option value="0"> All </option>
-                    @foreach (var unit in unitList)
-                    {
-                        <option value="@unit.Id">
-                            @unit.ItemCode - @unit.Description
-                        </option>
-                    }
-                </select>
-               
         </form>
     </div>
+
+
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default disabled"> Show </button>
+        <button type="button" class="btn btn-default" id="show-ALL" onclick="UpdateShow(this, 'ALL')"> All </button>
+        <button type="button" class="btn btn-default active" id="show-PENDING" onclick="UpdateShow(this, 'PENDING')"> Pending </button>
+        <button type="button" class="btn btn-default" id="show-DONE" onclick="UpdateShow(this, 'DONE')"> Done </button>
+    </div>
+
     <div class="btn-group" role="group">
         <button type="button" class="btn btn-default disabled"> Sort </button>
         <button type="button" class="btn btn-default active" id="sort-DateRec" onclick="UpdateSort(this, 'DateRec')"> Request Date </button>
-        <button type="button" class="btn btn-default active" id="sort-DueDate" onclick="UpdateSort(this, 'DueDate')"> Due Date </button>
+        @*<button type="button" class="btn btn-default active" id="sort-DueDate" onclick="UpdateSort(this, 'DueDate')"> Due Date </button>*@
         <button type="button" class="btn btn-default " id="sort-Vehicle" onclick="UpdateSort(this, 'Vehicle')"> Vehicle </button>
         <button type="button" class="btn btn-default " id="sort-Priority" onclick="UpdateSort(this, 'Priority')"> Priority </button>
     </div>
@@ -92,9 +104,11 @@
             <td>
                 <img src="@item.InvCarMntPriority.IconSrc" width="20" style="padding:1px;" />
 
+
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Recommendation)
+                @Html.DisplayFor(modelItem => item.Recommendation) <br />
+                @item.Remarks
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.InvItem.ItemCode)
@@ -112,6 +126,42 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsDone)
+            </td>
+            <td>
+
+                @if (item.InvCarRcmdRequests.Count != 0)
+                {
+                    var lastStatus = item.InvCarRcmdRequests.Last().InvCarRcmdStatu.Status;
+                   
+                    <span class="label label-default"> @lastStatus </span><br />
+                }
+            </td>
+            <td>
+
+                @if (item.InvCarRcmdRequests.Count != 0)
+                {
+                    var lastStatus = item.InvCarRcmdRequests.Last().InvCarRcmdStatu.Status;
+                    if (lastStatus == "Request")
+                    {
+                        @*<span> @lastStatus </span><br />*@
+
+                        if (isAdmin)
+                        {
+                            <a href="#" onclick="RequestPriorityStatus(@item.Id, 2)"> Approve </a> <span> | </span>
+                            <a href="#" onclick="RequestPriorityStatus(@item.Id, 3)"> Cancel </a>
+                        }
+                    }
+
+                    if (lastStatus == "Cancel")
+                    {
+                        <a href="#" onclick="RequestPriorityStatus(@item.Id, 1)"> Request </a>
+                    }
+
+                }
+                else
+                {
+                    <a href="#" onclick="RequestPriorityStatus(@item.Id, 1)"> Request </a>
+                }
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
@@ -146,12 +196,14 @@
     <script>
         var SORTBY  = "";
         var ORDERBY = "";
+        var SHOW = "";
 
         $(() => {
             //onload
             $("#unitId").val("@unitId");
             SORTBY = '@sortBy';
             ORDERBY = '@orderBy';
+            SHOW = '@show';
 
             if (SORTBY != '') {
                 $("#sort-" + SORTBY).addClass("active");
@@ -160,6 +212,10 @@
             if (ORDERBY != '') {
                 $("#order-" + ORDERBY).addClass("active");
                 $("#order-" + ORDERBY).siblings().removeClass("active");
+            }
+            if (SHOW != '') {
+                $("#show-" + SHOW).addClass("active");
+                $("#show-" + SHOW).siblings().removeClass("active");
             }
         });
 
@@ -189,16 +245,43 @@
             UpdatePageFilters();
         }
 
+
+        function UpdateShow(e, show) {
+
+            $(e).addClass("active");
+            $(e).siblings().removeClass("active");
+
+            SHOW = show;
+
+            UpdatePageFilters();
+        }
+
         function UpdatePageFilters() {
 
             var unit = $("#unitId").val();
             var sort = SORTBY;
             var order = ORDERBY;
+            var show = SHOW;
 
             window.location.href = "/InvCarMntRcmds?unitId=" + unit
                 + "&sortBy=" + sort
-                + "&orderBy=" + order;
+                + "&orderBy=" + order
+                + "&show=" + show;
         }
+
+        function RequestPriorityStatus(id, statusId) {
+            $.post("/InvCarMntRcmds/RequestPriorityStatus", { id: id, status: statusId }, (res) => {
+
+                console.log(res);
+
+                if (res == "True") {
+                    window.location.reload(false);
+                }
+
+            });
+        }
+
+
 
     </script>
 }

@@ -32,7 +32,15 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.InvCarMntPriorityId, "Priority",htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "120" } })
+            @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.InvCarMntPriorityId, "Priority", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList("InvCarMntPriorityId", null, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.InvCarMntPriorityId, "", new { @class = "text-danger" })
@@ -47,10 +55,10 @@
         </div>
     </div>
 
-    <div class="form-group" hidden>
+    <div class="form-group">
         @Html.LabelFor(model => model.DateRec, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.DateRec, new { htmlAttributes = new { @class = "form-control datePicker" } })
+            @Html.EditorFor(model => model.DateRec, new { htmlAttributes = new { @class = "form-control datePicker", @value= ViewBag.Today } })
             @Html.ValidationMessageFor(model => model.DateRec, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -84,7 +92,7 @@
     <script src="~/Scripts/Job/DefaultDate.js"></script>
     <script>
         $(() => {
-            //$(".datePicker").val(moment().format("MM/DD/YYYY"));
+            $(".datePicker").val(moment().format("MM/DD/YYYY"));
 
             $(".dateDue").val(moment().add(15,'days').format("MM/DD/YYYY"));
         })

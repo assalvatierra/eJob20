@@ -100,6 +100,11 @@
                             </tr>
                             @foreach (var rec in item.Recommendations)
                             {
+                                var lastStatus = "";
+                                if (rec.InvCarRcmdRequests.Count() > 0)
+                                {
+                                    lastStatus = rec.InvCarRcmdRequests.Last().InvCarRcmdStatu.Status;
+                                }
 
                                 var color = "black";
                                 if (rec.DateDue != null)
@@ -115,7 +120,15 @@
                                     <td>
                                         <img src="@rec.InvCarMntPriority.IconSrc" width="20" style="padding:1px;" />
                                     </td>
-                                    <td> @rec.Recommendation </td>
+                                    <td>
+                                        @rec.Recommendation <br />
+                                        <span style="font-size:10px;"> @rec.Remarks </span>
+                                        @if (rec.InvCarRcmdRequests.Count() > 0)
+                                        {
+                                            <br />
+                                            <span class="label label-default"> @lastStatus </span>
+                                        }
+                                    </td>
                                     <td>
                                         @if (rec.DateDue != null)
                                         {

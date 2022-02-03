@@ -698,7 +698,7 @@ SELECT Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MAX(job.DtEnd),
 		                Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
 		                FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
 
-		                WHERE month(job.DtStart) = 1 AND year(job.DtStart) = 2020
+		                WHERE job.StatusId > 1  AND month(job.DtStart) = 2 AND year(job.DtStart) = 2022
 		                GROUP BY job.Id ORDER BY DtStart
 
 ---- GET JOBS EXPENSES ----
@@ -717,3 +717,6 @@ FROM ArTransactions ar WHERE ar.InvoiceRef = 7
 --- 
 
 select * from ApTransactions WHERE DtRelease IS NOT NULL AND ApTransTypeId != 2
+
+-- Get TRIPLOGS details for report 
+SELECT SUM(cr.DriverFee + cr.DriverOT) FROM crLogTrips cr LEFT JOIN crLogTripJobMains jm ON jm.crLogTripId = cr.Id WHERE jm.JobMainId LIKE '5'

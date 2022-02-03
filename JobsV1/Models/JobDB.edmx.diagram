@@ -336,6 +336,10 @@
         <AssociationConnector Association="JobDB.InvItemInvCarMntRcmd" />
         <EntityTypeShape EntityType="JobDB.InvCarMntPriority" Width="1.5" PointX="51.75" PointY="21" />
         <AssociationConnector Association="JobDB.InvCarMntPriorityInvCarMntRcmd" />
+        <EntityTypeShape EntityType="JobDB.InvCarRcmdStatus" Width="1.5" PointX="51.75" PointY="18.375" />
+        <EntityTypeShape EntityType="JobDB.InvCarRcmdRequest" Width="1.5" PointX="49.25" PointY="18.125" />
+        <AssociationConnector Association="JobDB.InvCarMntRcmdInvCarRcmdRequest" />
+        <AssociationConnector Association="JobDB.InvCarRcmdStatusInvCarRcmdRequest" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

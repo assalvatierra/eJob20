@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using JobsV1.Areas.Personel.Models;
+using ArModels.Models;
+using ApModels.Models;
 
 namespace JobsV1.Models
 {
@@ -19,6 +22,7 @@ namespace JobsV1.Models
         public decimal Payment { get; set; }
         public decimal PaymentFromAR { get; set; }
         public decimal ExpenseFromAP { get; set; }
+        public decimal DriversRate { get; set; }
         public DateTime JobDate { get; set; }
         public DateTime DtStart { get; set; }
         public DateTime DtEnd { get; set; }
@@ -54,6 +58,10 @@ namespace JobsV1.Models
         private DBClasses dbc = new DBClasses();
         private JobDBContainer db = new JobDBContainer();
         private ActionTrailClass trail = new ActionTrailClass();
+        private CarRentalLogDBContainer crdb = new CarRentalLogDBContainer();
+        private ApDBContainer apdb = new ApDBContainer();
+        private ArDBContainer ardb = new ArDBContainer();
+        
 
         //GET : return list of jobs
         public List<cJobOrder> GetJobData(int sortid)
@@ -322,6 +330,7 @@ namespace JobsV1.Models
                 joTmp.Company = GetJobCompanyName(main.Id);
                 joTmp.JobDate = MinJobDate(main.DtStart, main.DtEnd);
                 joTmp.StatusString = GetJobStatusById(main.Status);
+                joTmp.DriversRate = GetTriplogRateByJobId(main.Id);
                 data.Add(joTmp);
             }
 
@@ -402,10 +411,56 @@ namespace JobsV1.Models
             }
         }
 
+
+        private decimal GetTriplogRateByJobId(int jobId)
+        {
+            try
+            {
+                decimal totalRate = 0;
+
+                string sql = "";
+
+                sql = @"SELECT  SUM(cr.DriverFee + cr.DriverOT) FROM crLogTrips cr LEFT JOIN crLogTripJobMains jm ON jm.crLogTripId = cr.Id WHERE jm.JobMainId LIKE '" + jobId + "' ";
+
+                //terminator
+                sql += ";";
+
+                totalRate = db.Database.SqlQuery<decimal>(sql).FirstOrDefault();
+
+                return totalRate;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+
         public string GetJobStatusById(int id)
         {
-            return db.JobStatus.Find(id).Status;
+            try
+            {
+                return db.JobStatus.Find(id).Status;
+            }
+            catch
+            {
+                return "";
+            }
         }
+
+
+        public string GetJobStatusByJobId(int id)
+        {
+            try
+            {
+                return db.JobMains.Find(id).JobStatus.Status;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
 
         //GET : get the date of the job based on the date today
         public DateTime TempJobDate(int mainId)
@@ -705,7 +760,7 @@ namespace JobsV1.Models
 		                Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
 		                FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
 
-		                WHERE month(job.DtStart) = "+ month + @" AND year(job.DtStart) = "+ year +@"
+		                WHERE month(job.DtStart) = " + month + @" AND year(job.DtStart) = "+ year +@"
 		                GROUP BY job.Id ORDER BY DtStart";
 
             //terminator
@@ -713,8 +768,24 @@ namespace JobsV1.Models
 
             joblist = db.Database.SqlQuery<cJobOrderListing>(sql).ToList();
 
-            return joblist;
+            return joblist.Where(c => c.Status > 1 && c.Status < 5).ToList();
 
+        }
+
+        public List<JobsV1.Models.ReportingViewModels.JobTripLogDetails> GetJobTripLogDetails()
+        {
+            List<ReportingViewModels.JobTripLogDetails> triplogs = new List<ReportingViewModels.JobTripLogDetails>();
+
+            string sql = "";
+
+            sql = @"";
+
+            //terminator
+            sql += ";";
+
+            triplogs = db.Database.SqlQuery<ReportingViewModels.JobTripLogDetails>(sql).ToList();
+
+            return triplogs;
         }
 
         //Get Job Order Listing based on the sort
@@ -1144,6 +1215,41 @@ namespace JobsV1.Models
             return totalExpenses;
         }
 
+        public List<crLogTrip> GetTriplogsByJobId(int id)
+        {
+            var triplogs = crdb.crLogTrips.Where(c => c.crLogTripJobMains.Select(t => t.JobMainId).Contains(id)).ToList();
 
+            if (triplogs == null)
+            {
+                return new List<crLogTrip>();
+            }
+
+            return triplogs;
+        }
+
+        public List<ApTransaction> GetExpensesByJobId(int id)
+        {
+            var expenses = apdb.ApTransactions.Where(c => c.JobRef == id).ToList();
+
+            if (expenses == null)
+            {
+                return new List<ApTransaction>();
+            }
+
+            return expenses;
+
+        }
+
+        public List<ArTransaction> GetReceivablesByJobId(int id)
+        {
+            var receivables = ardb.ArTransactions.Where(t => t.InvoiceId == id).ToList();
+
+            if (receivables == null)
+            {
+                return new List<ArTransaction>();
+            }
+
+            return receivables;
+        }
     }
 }

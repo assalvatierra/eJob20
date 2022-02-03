@@ -33,5 +33,18 @@ namespace JobsV1.Models
         }
 
 
+        public List<int> GetYearsList()
+        {
+            var yearToday = GetCurrentDate().Year;
+
+            var yearList = new List<int>();
+
+            for (var i = 0; i < 5; i++)
+            {
+                yearList.Add(yearToday - i);
+            }
+
+            return yearList;
+        }
     }
 }

@@ -21,9 +21,9 @@ namespace JobsV1.Controllers
         //private int JOBTEMPLATE = 6;
         
         private JobDBContainer db = new JobDBContainer();
-        private DBClasses dbc = new DBClasses();
         private JobOrderClass jobs = new JobOrderClass();
         private DateClass dt = new DateClass();
+        private DBClasses dbc = new DBClasses();
 
         // GET: Reporting
         public ActionResult Index(int? id, string reportkey)
@@ -48,51 +48,8 @@ namespace JobsV1.Controllers
             return View();
         }
 
-        #region Jobs Report 
-        //public ActionResult JobSummary()
-        //{
-        //    var jobSummary = new List<DashboardViewModel.JobOrders>();
-
-        //    var today = dt.GetCurrentDate();
-
-        //    var jobsForThisMonth = jobs.GetJobOrderListingMonthly(1);
-
-        //    jobsForThisMonth.ForEach(j=> {
-        //        jobSummary.Add(new DashboardViewModel.JobOrders
-        //        {
-        //            Id = j.Id,
-        //            StartDate = j.DtStart.ToString("MMM dd yyyy"),
-        //            EndDate = j.DtEnd.ToString("MMM dd yyyy"),
-        //            Description = j.Description,
-        //            Amount = j.Amount,
-        //            Status = j.Status.ToString()
-        //        });
-        //    });
-
-        //    return View(jobSummary);
-        //}
-        #endregion
 
         #region Joblisting
-
-        public PartialViewResult JobListing(int? id,string sDate, string eDate, int? sortid, int? serviceId, int? mainid, string company, string unitDriver)
-        {
-            //var data = jobs getJobData(id, sDate, eDate, sortid, serviceId, mainid, company, unitDriver);
-
-            //var jobmainId = serviceId != null ? db.JobServices.Find(serviceId).JobMainId : 0;
-            //jobmainId = mainid != null ? (int)mainid : jobmainId;
-
-            //ViewBag.mainId = jobmainId;
-            //ViewBag.sDate = sDate;
-            //ViewBag.eDate = eDate;
-
-            //if ( id != null )
-            //{
-            //    return PartialView("JobListing", data.Where(c=>c.Main.Id == id));
-            //}
-            //return PartialView("JobListing", data.OrderByDescending(d => d.Main.JobDate));
-            return null;
-        }
 
         public List<cjobCounter> getJobActionCount(List<Int32> jobidlist)
         {
@@ -149,20 +106,23 @@ order by x.jobid
                     Status      = job.StatusString,
                     Amount      = job.Amount,
                     Expenses    = job.ExpenseFromAP,
-                    Payment     = job.PaymentFromAR
+                    Payment     = job.PaymentFromAR,
+                   
                 });
             });
+
+            ViewBag.YearList = dt.GetYearsList();
 
             return View(jobSummary);
         }
 
         [HttpPost]
-        public ActionResult JobSummary(int? monthId, int? year)
+        public ActionResult JobSummary(int? month, int? year)
         {
             var today = dt.GetCurrentDate();
-            if (monthId == null)
+            if (month == null)
             {
-                monthId = today.Month;
+                month = today.Month;
             }
             if (year == null)
             {
@@ -171,7 +131,7 @@ order by x.jobid
 
             var jobSummary = new List<ReportingViewModels.JobSummary>();
 
-            var jobByMonth = jobs.GetJobOrderListingMonthly((int)monthId, (int)year);
+            var jobByMonth = jobs.GetJobOrderListingMonthly((int)month, (int)year);
 
             jobByMonth.ForEach(job => {
                 jobSummary.Add(new ReportingViewModels.JobSummary
@@ -185,9 +145,34 @@ order by x.jobid
                     Status = job.StatusString,
                     Amount = job.Amount,
                     Expenses = job.ExpenseFromAP,
-                    Payment = job.PaymentFromAR
+                    Payment = job.PaymentFromAR,
+                    DriversRate = job.DriversRate
                 });
             });
+
+            ViewBag.YearList = dt.GetYearsList();
+
+            return View(jobSummary);
+        }
+
+        public ActionResult JobSummaryDetails(int id)
+        {
+            var jobSummary = new ReportingViewModels.JobSummaryDetails();
+
+            var jobdetails = db.JobMains.Find(id);
+
+            if (jobdetails == null)
+            {
+                return HttpNotFound();
+            }
+
+            jobSummary.Id = id;
+            jobSummary.Account = jobs.GetJobCompany(id) + " / " + jobdetails.Customer.Name;
+            jobSummary.Amount = (decimal)db.JobServices.Where(c=>c.JobMainId == id).Sum(c=>c.ActualAmt);
+            jobSummary.TripLogs = jobs.GetTriplogsByJobId(id);
+            jobSummary.Expenses = jobs.GetExpensesByJobId(id);
+            jobSummary.Receivables = jobs.GetReceivablesByJobId(id);
+            jobSummary.Status = jobs.GetJobStatusByJobId(id);
 
             return View(jobSummary);
         }
@@ -311,125 +296,6 @@ order by x.jobid
             ViewBag.group = group;
 
             return View("PackageRatesPrint", unitPkgList);
-        }
-
-        #endregion
-
-        #region Income
-        public PartialViewResult JobIncome(int? id, string sDate, string eDate, int? sortid, int? serviceId, int? mainid, string type, string unit)
-        {
-            //Old Open jobs
-            var closedJobsIds = dbc.getAllClosedJobs(sDate,eDate,type,unit).Select(s => s.Id);  //get list of older jobs that are not closed
-            var closedJobsList = getJobListing(closedJobsIds);
-            
-            DateClass localTime = new DateClass();
-            ViewBag.sDate = localTime.GetCurrentDate().AddMonths(-1).ToShortDateString();
-            ViewBag.eDate = localTime.GetCurrentDate().ToShortDateString();
-
-            ViewBag.unitList = db.InvItems.ToList();
-
-            return PartialView(closedJobsList);
-        }
-
-
-        public PartialViewResult JobIncomePrint(int? id, string sDate, string eDate, int? sortid, int? serviceId, int? mainid, string type, string unit)
-        {
-            //Old Open jobs
-            var closedJobsIds = dbc.getAllClosedJobs(sDate, eDate, type, unit).Select(s => s.Id);  //get list of older jobs that are not closed
-            var closedJobsList = getJobListing(closedJobsIds);
-
-            DateClass localTime = new DateClass();
-            ViewBag.sDate = localTime.GetCurrentDate().AddMonths(-1).ToShortDateString();
-            ViewBag.eDate = localTime.GetCurrentDate().ToShortDateString();
-
-            ViewBag.unitList = db.InvItems.ToList();
-
-            return PartialView(closedJobsList);
-        }
-
-
-        public PartialViewResult JobIncomeReport()
-        {
-            
-            DateClass localTime = new DateClass();
-            ViewBag.sDate = localTime.GetCurrentDate().AddMonths(-1);
-            ViewBag.eDate = localTime.GetCurrentDate();
-
-            ViewBag.unitList = db.InvItems.ToList();
-
-            return PartialView();
-        }
-        private IEnumerable<cJobOrder> getJobListing(IEnumerable<int> joblist)
-        {
-            IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j => joblist.Contains(j.Id))
-                .Include(j => j.Customer)
-                .Include(j => j.Branch)
-                .Include(j => j.JobStatus)
-                .Include(j => j.JobThru)
-                .Include(j => j.JobEntMains)
-                ;
-            
-            List<cjobCounter> jobActionCntr = getJobActionCount(jobMains.Select(d => d.Id).ToList());
-            var data = new List<cJobOrder>();
-
-            DateClass localTime = new DateClass();
-            DateTime today = new DateTime();
-            ViewBag.today = today;
-            today = localTime.GetCurrentDate();
-
-            foreach (var main in jobMains)
-            {
-                cJobOrder joTmp = new cJobOrder();
-                joTmp.Main = main;
-                joTmp.Services = new List<cJobService>();
-                joTmp.Main.AgreedAmt = 0;
-                joTmp.Payment = 0;
-                joTmp.Id = main.Id;
-
-                List<Models.JobServices> joSvc = db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).ToList();
-                foreach (var svc in joSvc)
-                {
-                    cJobService cjoTmp = new cJobService();
-                    cjoTmp.Service = svc;
-                    
-                    joTmp.Main.AgreedAmt += svc.ActualAmt != null ? svc.ActualAmt : 0;
-                    joTmp.Company = db.JobEntMains.Where(j => j.JobMainId == svc.JobMainId).FirstOrDefault() != null ? db.JobEntMains.Where(j => j.JobMainId == svc.JobMainId).FirstOrDefault().CustEntMain.Name : "";
-                    joTmp.Expenses += dbc.getJobExpensesBySVC(svc.Id);
-                    
-                    joTmp.Services.Add(cjoTmp);
-                }
-
-                cjobIncome cIncome = new cjobIncome();
-                cIncome.Car = 0;
-                cIncome.Tour = 0;
-                cIncome.Others = 0;
-
-                var latestPosted = db.JobPosts.Where(j => j.JobMainId == main.Id).OrderByDescending(s => s.Id).FirstOrDefault();
-               
-                if (latestPosted == null)
-                {
-                    joTmp.isPosted = false;
-                }
-                else
-                {
-                    cIncome.Car    = latestPosted.CarRentalInc;
-                    cIncome.Tour   = latestPosted.TourInc ;
-                    cIncome.Others = latestPosted.OthersInc;
-                    joTmp.isPosted = true;
-                }
-
-                joTmp.PostedIncome = cIncome;
-
-                List<Models.JobPayment> jobPayment = db.JobPayments.Where(d => d.JobMainId == main.Id).ToList();
-                foreach (var payment in jobPayment)
-                {
-                    joTmp.Payment += payment.PaymentAmt;
-                }
-
-                data.Add(joTmp);
-
-            }
-            return data.OrderBy(d => d.Main.JobDate).OrderBy(d => d.Main.JobDate);
         }
 
         #endregion
@@ -583,7 +449,6 @@ order by x.jobid
             }
         }
         
-
         #endregion
     }
 }

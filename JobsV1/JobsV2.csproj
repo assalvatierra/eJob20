@@ -944,6 +944,12 @@
     <Compile Include="Models\InvCarMntRcmd.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvCarRcmdRequest.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvCarRcmdStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InvCarRecord.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -3156,12 +3162,9 @@
     <Content Include="Views\JobOrder\JobListing.cshtml" />
     <Content Include="Views\Customers\CompanyCreate.cshtml" />
     <Content Include="Views\Reporting\Index.cshtml" />
-    <Content Include="Views\Reporting\JobListing.cshtml" />
     <Content Include="Views\Reporting\PaymentsReport.cshtml" />
-    <Content Include="Views\Reporting\JobListingReport.cshtml" />
     <Content Include="Views\Reporting\Payments.cshtml" />
     <Content Include="Views\Reporting\PaymentsPrint.cshtml" />
-    <Content Include="Views\Reporting\JobListingPrint.cshtml" />
     <Content Include="Views\PaypalTransactions\Create.cshtml" />
     <Content Include="Views\PaypalTransactions\Delete.cshtml" />
     <Content Include="Views\PaypalTransactions\Details.cshtml" />
@@ -3253,13 +3256,10 @@
     <Content Include="Views\JobPosts\Details.cshtml" />
     <Content Include="Views\JobPosts\Edit.cshtml" />
     <Content Include="Views\JobPosts\Index.cshtml" />
-    <Content Include="Views\Reporting\JobIncome.cshtml" />
-    <Content Include="Views\Reporting\JobIncomeReport.cshtml" />
     <Content Include="Views\JobOrder\JobDetails.cshtml" />
     <Content Include="Views\EmailBlaster\EmailBlastList.cshtml" />
     <Content Include="Views\Reporting\UnitIncomeReport.cshtml" />
     <Content Include="Views\Reporting\UnitIncome.cshtml" />
-    <Content Include="Views\Reporting\JobIncomePrint.cshtml" />
     <Content Include="Views\Reporting\UnitIncomePrint.cshtml" />
     <Content Include="Views\JobOrder\BrowseTemplate.cshtml" />
     <Content Include="Views\OnlineReservations\Create.cshtml" />
@@ -3553,6 +3553,7 @@
     <Content Include="Views\Dashboard\_ReceivablesView.cshtml" />
     <Content Include="Views\Dashboard\_SummaryView.cshtml" />
     <Content Include="Views\Reporting\JobSummary.cshtml" />
+    <Content Include="Views\Reporting\JobSummaryDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

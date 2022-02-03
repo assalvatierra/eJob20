@@ -17,7 +17,7 @@ namespace JobsV1.Controllers
         private DateClass dt = new DateClass();
 
         // GET: InvCarMntRcmds
-        public ActionResult Index(int? unitId, string sortBy, string orderBy)
+        public ActionResult Index(int? unitId, string sortBy, string orderBy, string show)
         {
             #region Session
             if (unitId != null)
@@ -43,7 +43,6 @@ namespace JobsV1.Controllers
                 sortBy = "DateRec";
             }
 
-
             if (orderBy == null)
             {
                 orderBy = "DESC";
@@ -54,6 +53,30 @@ namespace JobsV1.Controllers
             if (unitId != null && unitId != 0)
             {
                 invCarMntRcmds = invCarMntRcmds.Where(c => c.InvItemId == unitId);
+            }
+
+
+            if (show != null)
+            {
+                if (show == "ALL")
+                {
+                }
+                else if (show == "DONE")
+                {
+                    invCarMntRcmds = invCarMntRcmds.Where(r => r.IsDone);
+                }
+                else if (show == "PENDING")
+                {
+                    invCarMntRcmds = invCarMntRcmds.Where(r => !r.IsDone);
+                }
+                else
+                {
+                    invCarMntRcmds = invCarMntRcmds.Where(r => !r.IsDone);
+                }
+            }
+            else
+            {
+                invCarMntRcmds = invCarMntRcmds.Where(r => !r.IsDone);
             }
 
             if (orderBy == "DESC")
@@ -97,11 +120,14 @@ namespace JobsV1.Controllers
                 }
             }
 
+
             ViewBag.InvItemsList = db.InvItems.Where(s => s.ViewLabel == "UNIT" && s.OrderNo == 100).ToList();
             ViewBag.UnitId = unitId;    //selected unit for filter
             ViewBag.SortBy = sortBy;
             ViewBag.OrderBy = orderBy;
+            ViewBag.Show = show;
             ViewBag.Today = dt.GetCurrentDate();
+            ViewBag.IsAdmin = User.IsInRole("Admin");
 
             return View(invCarMntRcmds.ToList());
         }
@@ -124,7 +150,7 @@ namespace JobsV1.Controllers
         // GET: InvCarMntRcmds/Create
         public ActionResult Create()
         {
-            var invItems = db.InvItems.Where(s => s.ViewLabel == "UNIT").Select(
+            var invItems = db.InvItems.Where(s => s.ViewLabel == "UNIT").OrderBy(c => c.OrderNo).Select(
                     s => new SelectListItem
                     {
                         Value = s.Id.ToString(),
@@ -133,7 +159,8 @@ namespace JobsV1.Controllers
                 );
 
             ViewBag.InvItemId = new SelectList(invItems, "Value", "Text");
-            ViewBag.InvCarMntPriorityId = new SelectList(db.InvCarMntPriorities, "Id", "Priority");
+            ViewBag.InvCarMntPriorityId = new SelectList( db.InvCarMntPriorities, "Id", "Priority");
+            ViewBag.Today = dt.GetCurrentDate();
             return View();
         }
 
@@ -142,12 +169,16 @@ namespace JobsV1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Recommendation,DateRec,DateDue,IsDone,InvItemId,InvCarMntPriorityId")] InvCarMntRcmd invCarMntRcmd)
+        public ActionResult Create([Bind(Include = "Id,Recommendation,DateRec,DateDue,IsDone,InvItemId,InvCarMntPriorityId,Remarks")] InvCarMntRcmd invCarMntRcmd)
         {
             if (ModelState.IsValid)
             {
                 db.InvCarMntRcmds.Add(invCarMntRcmd);
                 db.SaveChanges();
+
+                //REQUEST
+                RequestPriorityStatus(invCarMntRcmd.Id, 1);
+
                 return RedirectToAction("Index");
             }
 
@@ -188,7 +219,7 @@ namespace JobsV1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Recommendation,DateRec,DateDue,IsDone,InvItemId,InvCarMntPriorityId")] InvCarMntRcmd invCarMntRcmd)
+        public ActionResult Edit([Bind(Include = "Id,Recommendation,DateRec,DateDue,IsDone,InvItemId,InvCarMntPriorityId,Remarks")] InvCarMntRcmd invCarMntRcmd)
         {
             if (ModelState.IsValid)
             {
@@ -256,5 +287,29 @@ namespace JobsV1.Controllers
                 StatusCode = HttpStatusCode.OK
             };
         }
+
+        [HttpPost]
+        public bool RequestPriorityStatus(int id, int status)
+        {
+            try
+            {
+                var rcmd = db.InvCarMntRcmds.Find(id);
+
+                InvCarRcmdRequest rcmdRequest = new InvCarRcmdRequest();
+                rcmdRequest.InvCarMntRcmdId = id;
+                rcmdRequest.InvCarRcmdStatusId = status; // REQUEST
+
+                db.InvCarRcmdRequests.Add(rcmdRequest);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
     }
 }

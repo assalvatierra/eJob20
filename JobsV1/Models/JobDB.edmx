@@ -165,6 +165,8 @@
     <EntitySet Name="InvItemCrLogUnits" EntityType="JobDB.Store.InvItemCrLogUnits" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvCarMntRcmds" EntityType="JobDB.Store.InvCarMntRcmds" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvCarMntPriorities" EntityType="JobDB.Store.InvCarMntPriorities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvCarRcmdStatus" EntityType="JobDB.Store.InvCarRcmdStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvCarRcmdRequests" EntityType="JobDB.Store.InvCarRcmdRequests" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -800,6 +802,14 @@
     <AssociationSet Name="InvCarMntPriorityInvCarMntRcmd" Association="JobDB.Store.InvCarMntPriorityInvCarMntRcmd">
       <End Role="InvCarMntPriority" EntitySet="InvCarMntPriorities" />
       <End Role="InvCarMntRcmd" EntitySet="InvCarMntRcmds" />
+    </AssociationSet>
+    <AssociationSet Name="InvCarMntRcmdInvCarRcmdRequest" Association="JobDB.Store.InvCarMntRcmdInvCarRcmdRequest">
+      <End Role="InvCarMntRcmd" EntitySet="InvCarMntRcmds" />
+      <End Role="InvCarRcmdRequest" EntitySet="InvCarRcmdRequests" />
+    </AssociationSet>
+    <AssociationSet Name="InvCarRcmdStatusInvCarRcmdRequest" Association="JobDB.Store.InvCarRcmdStatusInvCarRcmdRequest">
+      <End Role="InvCarRcmdStatus" EntitySet="InvCarRcmdStatus" />
+      <End Role="InvCarRcmdRequest" EntitySet="InvCarRcmdRequests" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -2437,6 +2447,7 @@
     <Property Name="InvItemId" Type="int" Nullable="false" />
     <Property Name="InvCarMntPriorityId" Type="int" Nullable="false" />
     <Property Name="DateDue" Type="datetime" Nullable="true" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="120" />
   </EntityType>
   <EntityType Name="InvCarMntPriorities">
     <Key>
@@ -2446,6 +2457,21 @@
     <Property Name="Priority" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="Order" Type="int" Nullable="false" />
     <Property Name="IconSrc" Type="nvarchar" Nullable="false" MaxLength="160" />
+  </EntityType>
+  <EntityType Name="InvCarRcmdStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvCarRcmdRequests">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvCarMntRcmdId" Type="int" Nullable="false" />
+    <Property Name="InvCarRcmdStatusId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -4355,6 +4381,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="InvCarMntRcmdInvCarRcmdRequest">
+    <End Role="InvCarMntRcmd" Type="JobDB.Store.InvCarMntRcmds" Multiplicity="1" />
+    <End Role="InvCarRcmdRequest" Type="JobDB.Store.InvCarRcmdRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvCarMntRcmd">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvCarRcmdRequest">
+        <PropertyRef Name="InvCarMntRcmdId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvCarRcmdStatusInvCarRcmdRequest">
+    <End Role="InvCarRcmdStatus" Type="JobDB.Store.InvCarRcmdStatus" Multiplicity="1" />
+    <End Role="InvCarRcmdRequest" Type="JobDB.Store.InvCarRcmdRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvCarRcmdStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvCarRcmdRequest">
+        <PropertyRef Name="InvCarRcmdStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -5154,6 +5204,16 @@
           <AssociationSet Name="InvCarMntPriorityInvCarMntRcmd" Association="JobDB.InvCarMntPriorityInvCarMntRcmd">
             <End Role="InvCarMntPriority" EntitySet="InvCarMntPriorities" />
             <End Role="InvCarMntRcmd" EntitySet="InvCarMntRcmds" />
+          </AssociationSet>
+          <EntitySet Name="InvCarRcmdStatus" EntityType="JobDB.InvCarRcmdStatus" />
+          <EntitySet Name="InvCarRcmdRequests" EntityType="JobDB.InvCarRcmdRequest" />
+          <AssociationSet Name="InvCarMntRcmdInvCarRcmdRequest" Association="JobDB.InvCarMntRcmdInvCarRcmdRequest">
+            <End Role="InvCarMntRcmd" EntitySet="InvCarMntRcmds" />
+            <End Role="InvCarRcmdRequest" EntitySet="InvCarRcmdRequests" />
+          </AssociationSet>
+          <AssociationSet Name="InvCarRcmdStatusInvCarRcmdRequest" Association="JobDB.InvCarRcmdStatusInvCarRcmdRequest">
+            <End Role="InvCarRcmdStatus" EntitySet="InvCarRcmdStatus" />
+            <End Role="InvCarRcmdRequest" EntitySet="InvCarRcmdRequests" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -8994,6 +9054,8 @@
           <NavigationProperty Name="InvCarMntPriority" Relationship="JobDB.InvCarMntPriorityInvCarMntRcmd" FromRole="InvCarMntRcmd" ToRole="InvCarMntPriority" />
           <Property Name="InvCarMntPriorityId" Type="Int32" Nullable="false" />
           <Property Name="DateDue" Type="DateTime" Nullable="true" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="120" />
+          <NavigationProperty Name="InvCarRcmdRequests" Relationship="JobDB.InvCarMntRcmdInvCarRcmdRequest" FromRole="InvCarMntRcmd" ToRole="InvCarRcmdRequest" />
         </EntityType>
         <Association Name="InvItemInvCarMntRcmd">
           <End Type="JobDB.InvItem" Role="InvItem" Multiplicity="1" />
@@ -9026,6 +9088,48 @@
             </Principal>
             <Dependent Role="InvCarMntRcmd">
               <PropertyRef Name="InvCarMntPriorityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvCarRcmdStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" Nullable="false" />
+          <NavigationProperty Name="InvCarRcmdRequests" Relationship="JobDB.InvCarRcmdStatusInvCarRcmdRequest" FromRole="InvCarRcmdStatus" ToRole="InvCarRcmdRequest" />
+        </EntityType>
+        <EntityType Name="InvCarRcmdRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="InvCarMntRcmd" Relationship="JobDB.InvCarMntRcmdInvCarRcmdRequest" FromRole="InvCarRcmdRequest" ToRole="InvCarMntRcmd" />
+          <Property Name="InvCarMntRcmdId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InvCarRcmdStatu" Relationship="JobDB.InvCarRcmdStatusInvCarRcmdRequest" FromRole="InvCarRcmdRequest" ToRole="InvCarRcmdStatus" />
+          <Property Name="InvCarRcmdStatusId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="InvCarMntRcmdInvCarRcmdRequest">
+          <End Type="JobDB.InvCarMntRcmd" Role="InvCarMntRcmd" Multiplicity="1" />
+          <End Type="JobDB.InvCarRcmdRequest" Role="InvCarRcmdRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvCarMntRcmd">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvCarRcmdRequest">
+              <PropertyRef Name="InvCarMntRcmdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="InvCarRcmdStatusInvCarRcmdRequest">
+          <End Type="JobDB.InvCarRcmdStatus" Role="InvCarRcmdStatus" Multiplicity="1" />
+          <End Type="JobDB.InvCarRcmdRequest" Role="InvCarRcmdRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvCarRcmdStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvCarRcmdRequest">
+              <PropertyRef Name="InvCarRcmdStatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10826,6 +10930,7 @@
           <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
           <ScalarProperty Name="InvCarMntPriorityId" ColumnName="InvCarMntPriorityId" />
           <ScalarProperty Name="DateDue" ColumnName="DateDue" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -10836,6 +10941,23 @@
           <ScalarProperty Name="Priority" ColumnName="Priority" />
           <ScalarProperty Name="Order" ColumnName="Order" />
           <ScalarProperty Name="IconSrc" ColumnName="IconSrc" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvCarRcmdStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.InvCarRcmdStatus)">
+        <MappingFragment StoreEntitySet="InvCarRcmdStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvCarRcmdRequests">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.InvCarRcmdRequest)">
+        <MappingFragment StoreEntitySet="InvCarRcmdRequests">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvCarMntRcmdId" ColumnName="InvCarMntRcmdId" />
+          <ScalarProperty Name="InvCarRcmdStatusId" ColumnName="InvCarRcmdStatusId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
