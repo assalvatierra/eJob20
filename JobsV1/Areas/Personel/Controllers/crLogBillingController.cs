@@ -19,12 +19,13 @@ namespace JobsV1.Areas.Personel.Controllers
         private DateClass dt = new DateClass();
         private crDriverData dd = new crDriverData();
         private CrLogServices crServices;
+        private CrOTServices OTServices;
 
 
         public crLogBillingController()
         {
-            crServices = new CrLogServices(db); 
-             
+            crServices = new CrLogServices(db);
+            OTServices = new CrOTServices(db);
         }
 
         // GET: Personel/crLogBilling
@@ -134,9 +135,9 @@ namespace JobsV1.Areas.Personel.Controllers
             });
 
             // OTT trips
-            var OTTrips = tripLogs.Where(c => crServices.GetTripLogOTHours(c) > 0).ToList();
+            var OTTrips = tripLogs.Where(c => OTServices.GetTripLogOTHours(c) > 0).ToList();
             OTTrips.ForEach((t) => {
-                double OTHrs = crServices.GetTripLogOTHours(t);
+                double OTHrs = OTServices.GetTripLogOTHours(t);
                 tripBilling.OTTrips.Add(new crBilling_OT
                 {
                     Id = t.Id,
@@ -147,7 +148,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     EndTime = t.EndTime,
                     CompanyRate = t.Rate,
                     OTHours = OTHrs,
-                    OTRate = crServices.GetTripLogOTCompanyRate(t, OTHrs)
+                    OTRate = OTServices.GetTripLogOTCompanyRate(t, OTHrs)
                 });
             });
 
@@ -277,9 +278,9 @@ namespace JobsV1.Areas.Personel.Controllers
             });
 
             // OTT trips
-            var OTTrips = tripLogs.Where(c => crServices.GetTripLogOTHours(c) > 0).ToList();
+            var OTTrips = tripLogs.Where(c => OTServices.GetTripLogOTHours(c) > 0).ToList();
             OTTrips.ForEach((t) => {
-                double OTHrs = crServices.GetTripLogOTHours(t);
+                double OTHrs = OTServices.GetTripLogOTHours(t);
                 tripBilling.OTTrips.Add(new crBilling_OT
                 {
                     Id = t.Id,
@@ -290,7 +291,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     EndTime = t.EndTime,
                     CompanyRate = t.Rate,
                     OTHours = OTHrs,
-                    OTRate = crServices.GetTripLogOTCompanyRate(t, OTHrs)
+                    OTRate = OTServices.GetTripLogOTCompanyRate(t, OTHrs)
                 });
             });
 
@@ -480,7 +481,7 @@ namespace JobsV1.Areas.Personel.Controllers
             var OTTrips = tripLogs.OrderBy(t=>t.crLogUnit.OrderNo).ToList();
 
             OTTrips.ForEach((t) => {
-                double OTHrs = crServices.GetTripLogOTHours(t);
+                double OTHrs = OTServices.GetTripLogOTHours(t);
                 tripBilling.OTTrips.Add(new crBilling_OT
                 {
                     Id = t.Id,
@@ -491,7 +492,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     EndTime = t.EndTime,
                     Rate = t.Rate,
                     OTHours = OTHrs,
-                    OTRate = crServices.GetTripLogOTCompanyRate(t, OTHrs)
+                    OTRate = OTServices.GetTripLogOTCompanyRate(t, OTHrs)
                 });
             });
 
@@ -610,7 +611,7 @@ namespace JobsV1.Areas.Personel.Controllers
             // OTT trips
             var OTTrips = tripLogs.ToList();
             OTTrips.ForEach((t) => {
-                double OTHrs = crServices.GetTripLogOTHours(t);
+                double OTHrs = OTServices.GetTripLogOTHours(t);
                 SOANum = t.crLogTripJobMains.FirstOrDefault() != null ? t.crLogTripJobMains.FirstOrDefault().JobMainId.ToString() : "";
                 tripBilling.OTTrips.Add(new crBilling_OT
                 {
@@ -622,7 +623,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     EndTime = t.EndTime,
                     Rate = t.Rate,
                     OTHours = OTHrs,
-                    OTRate = crServices.GetTripLogOTCompanyRate(t, OTHrs)
+                    OTRate = OTServices.GetTripLogOTCompanyRate(t, OTHrs)
                 });
             });
 
@@ -744,9 +745,9 @@ namespace JobsV1.Areas.Personel.Controllers
             });
 
             // OTT trips
-            var OTTrips = tripLogs.Where(c => crServices.GetTripLogOTHours(c) > 0 && c.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
+            var OTTrips = tripLogs.Where(c => OTServices.GetTripLogOTHours(c) > 0 && c.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
             OTTrips.ForEach((t) => {
-                double OTHrs = crServices.GetTripLogOTHours(t);
+                double OTHrs = OTServices.GetTripLogOTHours(t);
                 tripBilling.OTTrips.Add(new crBilling_OT
                 {
                     Id = t.Id,
@@ -757,7 +758,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     EndTime = t.EndTime,
                     CompanyRate = t.Rate,
                     OTHours = OTHrs,
-                    OTRate = crServices.GetTripLogOTCompanyRate(t, OTHrs)
+                    OTRate = OTServices.GetTripLogOTCompanyRate(t, OTHrs)
                 });
             });
 
@@ -872,9 +873,9 @@ namespace JobsV1.Areas.Personel.Controllers
             });
 
             // OTT trips
-            var OTTrips = tripLogs.Where(c => crServices.GetTripLogOTHours(c) > 0 && c.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
+            var OTTrips = tripLogs.Where(c => OTServices.GetTripLogOTHours(c) > 0 && c.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
             OTTrips.ForEach((t) => {
-                double OTHrs = crServices.GetTripLogOTHours(t);
+                double OTHrs = OTServices.GetTripLogOTHours(t);
                 tripBilling.OTTrips.Add(new crBilling_OT
                 {
                     Id = t.Id,
@@ -885,7 +886,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     EndTime = t.EndTime,
                     CompanyRate = t.Rate,
                     OTHours = OTHrs,
-                    OTRate = crServices.GetTripLogOTCompanyRate(t, OTHrs)
+                    OTRate = OTServices.GetTripLogOTCompanyRate(t, OTHrs)
                 });
             });
 

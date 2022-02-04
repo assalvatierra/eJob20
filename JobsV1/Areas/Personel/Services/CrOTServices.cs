@@ -37,7 +37,7 @@ namespace JobsV1.Areas.Personel.Services
                 DateTime EndTime = DateTime.Parse(trip.EndTime);
 
                 // if night shift
-                if (StartTime.Hour > EndTime.Hour)
+                if (StartTime.Hour >= EndTime.Hour)
                 {
                     EndTime = EndTime.AddDays(1);
                 }
@@ -76,7 +76,7 @@ namespace JobsV1.Areas.Personel.Services
                 DateTime EndTime = DateTime.Parse(trip.EndTime);
 
                 // if night shift
-                if (StartTime.Hour > EndTime.Hour)
+                if (StartTime.Hour >= EndTime.Hour)
                 {
                     EndTime = EndTime.AddDays(1);
                 }

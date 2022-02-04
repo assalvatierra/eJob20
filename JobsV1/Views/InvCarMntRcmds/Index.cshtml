@@ -147,20 +147,20 @@
 
                         if (isAdmin)
                         {
-                            <a href="#" onclick="RequestPriorityStatus(@item.Id, 2)"> Approve </a> <span> | </span>
-                            <a href="#" onclick="RequestPriorityStatus(@item.Id, 3)"> Cancel </a>
+                            <a class="cursor-hand" onclick="RequestPriorityStatus(@item.Id, 2)"> Approve </a> <span> | </span>
+                            <a class="cursor-hand"  onclick="RequestPriorityStatus(@item.Id, 3)"> Cancel </a>
                         }
                     }
 
                     if (lastStatus == "Cancel")
                     {
-                        <a href="#" onclick="RequestPriorityStatus(@item.Id, 1)"> Request </a>
+                        <a class="cursor-hand"  onclick="RequestPriorityStatus(@item.Id, 1)"> Request </a>
                     }
 
                 }
                 else
                 {
-                    <a href="#" onclick="RequestPriorityStatus(@item.Id, 1)"> Request </a>
+                    <a class="cursor-hand"   onclick="RequestPriorityStatus(@item.Id, 1)"> Request </a>
                 }
             </td>
             <td>
