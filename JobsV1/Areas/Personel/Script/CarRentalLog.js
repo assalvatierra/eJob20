@@ -1,4 +1,5 @@
-﻿
+﻿const { parseJSON } = require("jquery");
+
 /**
  *  Car Rental Logs
  *  /Personel/CarRentalLog
@@ -187,6 +188,57 @@ function Submit_OTUpdateForm() {
 } 
 
 
+/*
+ * Expense Update Modal
+ */
+function Show_ExpenseUpdateModal(tripId) {
+    $("#LogExpenseUpdateModal").modal("show");
+    $("#ExpenseUpdate-Id").val(tripId);
+
+    //request odo details
+    GetExpenseDetails(tripId);
+}
+
+function GetExpenseDetails(tripId) {
+    if (tripId != null && tripId != 0) {
+        $.get("/Personel/CarRentalLog/GetTripOdo", { id: parseInt(tripId) }, (response) => {
+            //console.log(response);
+            if (response != null) {
+                $("#ExpenseUpdate-Date").text(response.Date);
+                $("#ExpenseUpdate-Driver").text(response.Driver);
+                $("#ExpenseUpdate-Unit").text(response.Unit);
+                $("#ExpenseUpdate-Company").text(response.Company);
+            } else {
+                alert('Unable to get trip Expense details');
+            }
+        });
+    } else {
+        alert('Unable to get trip Expense details');
+    }
+}
+
+function Submit_ExpenseUpdateForm() {
+    var tripId = parseInt($("#ExpenseUpdate-Id").val());
+    var expense = parseInt($("#ExpenseUpdate-Expense").val());
+
+    var expenseData = {
+        Id: tripId,
+        expense: expense
+    }
+    //console.log(odoData)
+
+    $.post("/Personel/CarRentalLog/SetTripExpense", expenseData, (data, status, headers, config) => {
+        console.log(status);
+        console.log(status);
+        if (status == "success") {
+            $("#LogOdoUpdateModal").modal("hide");
+            window.location.reload(false);
+        } else {
+            alert("An error occured while updating the trip Expense details.");
+            $("#LogOdoUpdateModal").modal("hide");
+        }
+    });
+}
 
 /**
  *  Reports Filters
@@ -373,7 +425,7 @@ function AllowEdit(e, id){
     $.post('/Personel/CarRentalLog/AllowEditTripLog', { id: id })
         .done((res) => {
             console.log('Allowed edit on triplog ' + id);
-            //window.location.reload(false);
+            window.location.reload(false);
             //$(e).parent().append('<a style="cursor:not-allowed;color:gray;"> OT Calculated </a>');
             $(e).remove();
         })

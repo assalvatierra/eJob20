@@ -378,7 +378,7 @@
                     <ul class="dropdown-menu">
                         @if (item.AllowEdit)
                         {
-                              <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                            <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                         }
                         else
                         {
@@ -390,25 +390,29 @@
                             }
                         }
 
-                          @if (isAdmin)
+                        @if (isAdmin)
+                        {
+                            <li>@Html.ActionLink("Admin Edit", "Edit", new { id = item.Id }) </li>
+
+                            if (item.crLogTripJobMains.Count != 0)
                             {
-                                <li>@Html.ActionLink("Admin Edit", "Edit", new { id = item.Id }) </li>
+                                var jobId = @item.crLogTripJobMains.LastOrDefault().JobMainId;
 
-                                if (item.crLogTripJobMains.Count != 0)
-                                {
-                                    var jobId = @item.crLogTripJobMains.LastOrDefault().JobMainId;
+                                <li> <a class="cursor-pointer" onclick="RemoveTripJobLink(@item.Id, @jobId)"> Remove Existing Link  </a> </li>
 
-                                    <li > <a class="cursor-pointer" onclick="RemoveTripJobLink(@item.Id, @jobId)"> Remove Existing Link  </a> </li>
-
-                                }
                             }
+                        }
 
                         @if (String.IsNullOrEmpty(item.StartTime))
                         {
                             <li role="separator" class="divider"></li>
                             <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')">  Update Odo  </a></li>
                             <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')">   Update OT   </a></li>
+                        }
 
+                        @if (true)
+                        {
+                            <li><a class="cursor-pointer" onclick="Show_ExpenseUpdateModal('@item.Id')">   Update Expense   </a></li>
                         }
 
 
@@ -423,7 +427,9 @@
                             if (!item.AllowEdit)
                             {
                                 <li> <a class="cursor-pointer" onclick="AllowEdit(this, '@item.Id')"> Allow Edit </a> </li>
-                            } else {
+                            }
+                            else
+                            {
                                 <li> <a class="cursor-pointer" onclick="CloseForEdit(this, '@item.Id')"> Close For Edit </a> </li>
                             }
                             <li>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) </li>
@@ -467,6 +473,8 @@
 @Html.Partial("_LogOdoUpdateModal")
 
 @Html.Partial("_LogOTUpdateModal")
+
+@Html.Partial("_LogExpenseUpdateModal")
 
 @Html.Partial("_VehicleSummaryFilter")
 

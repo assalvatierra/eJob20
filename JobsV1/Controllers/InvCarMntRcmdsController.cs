@@ -252,6 +252,8 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            DeleteRcmdRequests(id);
+
             InvCarMntRcmd invCarMntRcmd = db.InvCarMntRcmds.Find(id);
             db.InvCarMntRcmds.Remove(invCarMntRcmd);
             db.SaveChanges();
@@ -310,6 +312,25 @@ namespace JobsV1.Controllers
             }
         }
 
+        private bool DeleteRcmdRequests(int id)
+        {
+            try
+            {
+                var rcmdReqs = db.InvCarRcmdRequests.Where(r => r.InvCarMntRcmdId == id).ToList();
 
+                if (rcmdReqs != null)
+                {
+                    db.InvCarRcmdRequests.RemoveRange(rcmdReqs);
+                    db.SaveChanges();
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;   
+            }
+           
+        }
     }
 }

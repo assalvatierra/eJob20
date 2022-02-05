@@ -753,6 +753,30 @@ namespace JobsV1.Areas.Personel.Controllers
             return false;
         }
 
+
+        [HttpPost]
+        public HttpResponseMessage SetTripExpense(int id, decimal expense)
+        {
+            try
+            {
+                //find trip
+                var triplog = db.crLogTrips.Find(id);
+
+                //set trip as final, cannot be edited
+                triplog.Expenses = expense;
+
+                //save changes
+                db.Entry(triplog).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            catch
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+        }
+
         //POST: CarRentalLog/SetTripFinalize
         [HttpPost]
         public HttpResponseMessage SetTripFinalize(int id)

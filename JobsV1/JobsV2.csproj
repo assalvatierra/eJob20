@@ -2632,6 +2632,7 @@
     <Content Include="Areas\Personel\Views\crLogDrivers\DriverSummary.cshtml" />
     <Content Include="Areas\Personel\Views\crLogDrivers\DriverSummaryTripEdit.cshtml" />
     <Content Include="Areas\Personel\Views\crLogDrivers\DriverTrxHistory.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\_LogExpenseUpdateModal.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
