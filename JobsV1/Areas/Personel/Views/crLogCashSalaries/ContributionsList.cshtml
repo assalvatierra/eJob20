@@ -1,0 +1,35 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogCashRelease>
+@{
+    ViewBag.Title = "ContributionsList";
+    int salaryId = ViewBag.SalaryId;
+}
+
+<h2>Contributions List</h2>
+
+
+<div class="row">
+    <div class="list-group col-md-6">
+
+        @foreach (var item in Model)
+        {
+            <a href="/Personel/crLogCashSalaries/AddContSelect/@salaryId?remarks=@item.Remarks&amount=@item.Amount" class="list-group-item list-group-item-action">
+
+                @Html.DisplayFor(modelItem => item.crLogDriver.Name)
+
+                <span class="text-muted">
+                    &nbsp;
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </span>
+                &nbsp;
+                <span class="pull-right" style="color:green">
+                    @item.Amount.ToString("#,##0.00")
+                </span>
+
+
+            </a>
+        }
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Details", new { id = ViewBag.SalaryId })
+</div>

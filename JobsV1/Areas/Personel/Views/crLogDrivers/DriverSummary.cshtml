@@ -24,9 +24,9 @@
     </div>
 </div>
 
-<a href="~/Personel/CarRentalCashRelease" id="request-success-message" hidden>
+<a href="~/Personel/crLogCashSalaries" id="request-success-message" hidden>
     <div class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
         <strong> Salary Request Added!</strong> Click here to go Request Transactions
     </div>
 </a>
@@ -34,23 +34,21 @@
 
 <a href="~/Personel/CarRentalCashRelease" id="ca-success-message" hidden>
     <div class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
         <strong> CA Request Added!</strong> Click here to go Request Transactions and request for approval
     </div>
 </a>
 
-
-
 <a id="closeTRx-success-message" hidden>
     <div class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
         <strong> CA and Payments Closed!</strong> All Cash Advance and Payment Transactions are now closed.
     </div>
 </a>
 
 <a id="closeTRx-error-message" hidden>
     <div class="alert alert-danger alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
         <strong> Error!</strong> Unable to close all CA and Payments Transactions
     </div>
 </a>
@@ -111,6 +109,7 @@
             Driver
         </th>
         <th>
+            <input type="checkbox" id="select-ot-checkbox" onclick="SelectAllOTCheckBox()" />
             OT
         </th>
         <th>
@@ -422,13 +421,15 @@
 <br />
 
 <p>
-    @Html.ActionLink("Drivers Salary", "DriverTrxHistory", new { id = ViewBag.DriverId }) 
+    @Html.ActionLink("Drivers Salary", "DriverTrxHistory", new { id = ViewBag.DriverId })
     <span> | </span>
-    @Html.ActionLink("Drivers Expenses", "DriverExpenseHistory", new { id = ViewBag.DriverId })
+    @Html.ActionLink("Drivers Expenses", "DriverExpenseHistory", new { id = ViewBag.DriverId }) |
+    @Html.ActionLink("Contributions", "Index", "crLogDriverPayments", new { id = ViewBag.DriverId }, null) |
 </p>
 <p>
-    @Html.ActionLink("Go to Trip Log", "Index") | @Html.ActionLink("Go to Cash Trx", "Index", "CarRentalCashRelease") |
-
+    @Html.ActionLink("Go to Trip Log", "Index") |
+    @Html.ActionLink("Go to Cash Trx", "Index", "CarRentalCashRelease") |
+    @Html.ActionLink("Go to Salary Requests", "Index", "crLogCashSalaries") |
     @Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = ViewBag.DriverId }, null)
 </p>
 
@@ -444,9 +445,8 @@
 
         $(() => {
             Initialize(@reqStatus);
-            Initialize_Date(@ViewBag.DtStart, @ViewBag.DtEnd, @ViewBag.driverId);
+            //Initialize_Date(@ViewBag.DtStart, @ViewBag.DtEnd, @ViewBag.driverId);
         })
-
 
     </script>
 }

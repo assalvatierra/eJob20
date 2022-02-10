@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using JobsV1.Areas.Personel.Models;
-using JobsV1.Models;
 using Microsoft.Ajax.Utilities;
 using JobsV1.Areas.Personel.Services;
 

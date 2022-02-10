@@ -27,12 +27,18 @@ function CalculateTotalSalary() {
         Amount: 0,
         DriverId: driverId,
         TripIds: [],
-        Remarks: ""
+        Remarks: "",
+        CalculateOT: $("#select-ot-checkbox").is(":checked")
     }
+
+    var isOTChecked = $("#select-ot-checkbox").is(":checked");
+
+    console.log("isOTChecked: " + isOTChecked);
 
     //run through each row
     var TotalSalary = 0;
     var TotalSelected = 0;
+
     $('#summary-table tr[name="summary-data"]').each(function (i, row) {
 
         // reference all the stuff you need first
@@ -47,12 +53,12 @@ function CalculateTotalSalary() {
 
                 TotalSalary = TotalSalary + parseFloat($driverfee);
 
-                if (parseFloat($driverOT) > 0) {
-                    TotalSalary = TotalSalary + parseFloat($driverOT);
+                if (isOTChecked) {
+                    if (parseFloat($driverOT) > 0) {
+                        TotalSalary = TotalSalary + parseFloat($driverOT);
+                    }
                 }
-
                 jsonReqData.TripIds.push($tripId);
-
             }
             TotalSelected++;
         }
@@ -136,8 +142,6 @@ function SubmitCAForm(driverId) {
         Remarks: $("#CA-Remarks").val()
     }
 
-
-
     $.post("/Personel/CarRentalCashRelease/CreateDriverCA", data, (result) => {
         //console.log(result);
         if (result == 'True') {
@@ -201,4 +205,9 @@ function Initialize_Date(dtStart, dtEnd, driver) {
 function DriverSummaryFilter_AddDays(days) {
 
     $("#DtStart").val(moment().add(days, 'days').format("MM/DD/YYYY"));
+}
+
+
+function SelectAllOTCheckBox() {
+    CalculateTotalSalary();
 }

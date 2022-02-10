@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Areas.Personel.Models;
-using JobsV1.Models;
+using JobsV1.Areas.Personel.Services;
 
 namespace JobsV1.Areas.Personel.Controllers
 {
@@ -359,6 +359,11 @@ namespace JobsV1.Areas.Personel.Controllers
                 //add status
                 AddLogStatus(crtrx.Id, 1);
 
+                var excludeOT = !releaseRequest.CalculateOT;
+
+                //add cash salary request group
+                CreateCashSalaryRequest(crtrx.Id, excludeOT);
+
                 return true;
 
             }
@@ -370,7 +375,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
 
 
-        // POST: Personel/CarRentalCashRelease/CreateDriverRelease
+        // POST: Personel/CarRentalCashRelease/CreateDriverPayment
         [HttpPost]
         public bool CreateDriverPayment(int DriverId, decimal Amount, string Remarks)
         {
@@ -402,7 +407,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
 
 
-        // POST: Personel/CarRentalCashRelease/CreateDriverRelease
+        // POST: Personel/CarRentalCashRelease/CreateDriverCA
         [HttpPost]
         public bool CreateDriverCA(int DriverId, decimal Amount, string Remarks)
         {
@@ -814,8 +819,8 @@ namespace JobsV1.Areas.Personel.Controllers
             var payments = driverCashReleases.Where(d => d.crLogDriverId == DriverId
                                                     && d.crLogClosing == null && d.crLogCashTypeId == 3)
                                                     .OrderBy(s => s.DtRelease).ToList();
-
             CABalance = cashAdvance.Sum(c => c.Amount) - payments.Sum(c => c.Amount);
+
             if (CABalance > 0)
             {
                 return CABalance;
@@ -858,6 +863,35 @@ namespace JobsV1.Areas.Personel.Controllers
             
         }
 
+        //CreateCashSalaryRequest
+        //id = crLogCashRelease.Id
+        private void CreateCashSalaryRequest(int id, bool excludeOT)
+        {
+            try
+            {
+                var cashTrx = db.crLogCashReleases.Find(id);
+
+                //create salary request
+                crLogCashSalary cashSalary = new crLogCashSalary();
+                cashSalary.crLogDriverId = cashTrx.crLogDriverId;
+                cashSalary.Date = cashTrx.DtRelease.Date.ToShortDateString();
+                cashSalary.ExcludeOT = excludeOT;
+
+                cashSalary.crLogCashGroups.Add(new crLogCashGroup
+                {
+                    crLogCashReleaseId = id,
+                    crLogCashSalaryId = cashTrx.Id
+                });
+
+                db.crLogCashSalaries.Add(cashSalary);
+                db.SaveChanges();
+            }
+            catch 
+            {
+               //do nothing
+            }
+        }
+
     }
 }
 
@@ -869,5 +903,6 @@ public class DriverReleaseRequest
     public ICollection<int> TripIds { get; set; }
     public string Remarks { get; set; }
     public int CashTypeId { get; set; }
+    public bool CalculateOT { get; set; }
 }
 

@@ -1,0 +1,420 @@
+﻿@model JobsV1.Areas.Personel.Controllers.crLogCashSalariesController.crLogCashSalaryViewModel
+
+@{
+    ViewBag.Title = "Print Cash Release Form";
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+
+    decimal TotalSalary = 0;
+    decimal TotalDeductions = 0;
+    decimal TotalOT = 0;
+
+    decimal SubTotalSalary = 0;
+    decimal SubTotalCA = 0;
+    decimal SubTotalCAPayment = 0;
+    decimal SubTotalContributions = 0;
+    decimal SubTotalOthers = 0;
+    decimal SubTotalDeductions = 0;
+    decimal SubTotalOT = 0;
+}
+
+@{
+    <style>
+        .normal-table td {
+            border-top: 0px solid gray !important;
+            padding: 4px !important;
+        }
+
+        .normal-table {
+            border: 1px solid darkgray !important;
+        }
+
+            .normal-table th {
+                border: 1px solid darkgray !important;
+            }
+    </style>
+}
+
+<div style="display:flex;flex-direction:column;margin-top:-50px;margin-right:20px;">
+    <div class="print-form-size">
+        <table class="table rpt-table-bordered" style="max-width:670px;">
+            <tr>
+                <td>
+                    <h3 class="pull-left"> Salary Release </h3>
+                </td>
+            </tr>
+            <tr style="font-size:16px;">
+                <td colspan="3">
+                    <span> Driver: </span>
+                    <span>@Model.Driver</span>
+                </td>
+                <td colspan="1">
+                    <span class="pull-right">
+                        <span> Date: </span>
+                        <span>@Model.Date</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <table class="table normal-table" style="margin-bottom:0px;">
+                        <tr>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Company / Unit
+                            </th>
+                            <th>
+                                Type
+                            </th>
+                            <th>
+                                Rate
+                            </th>
+                            <th>
+                                OT
+                            </th>
+                        </tr>
+
+                        @foreach (var salary in Model.SalaryTrips)
+                        {
+
+                            foreach (var trip in salary.crLogClosing.crLogTrips)
+                            {
+
+                                if (trip.crLogCompany.Name == "Shimizu")
+                                {
+                                    trip.DriverOT = 0;
+                                }
+
+                                SubTotalSalary += trip.DriverFee;
+                                SubTotalOT += trip.DriverOT;
+
+                                <tr>
+                                    <td> @trip.DtTrip.ToString("MMM dd yyyy (ddd)") </td>
+                                    <td> @trip.crLogCompany.Name / @trip.crLogUnit.Description   </td>
+                                    <td> </td>
+                                    <td> @trip.DriverFee </td>
+                                    <td>
+                                        @if (!Model.ExcludeOT)
+                                        {
+                                            @trip.DriverOT
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                        }
+
+                        @foreach (var CA in Model.CA)
+                        {
+                            SubTotalCA += CA.Amount;
+
+                            <tr>
+                                <td> @CA.DtRelease.ToString("MMM dd yyyy (ddd)") </td>
+                                <td> @CA.Remarks  </td>
+                                <td> @CA.crLogCashType.Description </td>
+                                <td> @CA.Amount.ToString("#,##0") </td>
+                                <td>  </td>
+                            </tr>
+                        }
+
+                        @{
+                            SubTotalSalary += SubTotalCA;
+                        }
+                        <tr style="border-top:1px solid gray !important;">
+                            <td colspan="2">
+                            </td>
+                            <td>
+                                Subtotal
+                            </td>
+                            <td>
+                                @SubTotalSalary.ToString("#,##0.00")
+                            </td>
+                            <td>
+                                @if (!Model.ExcludeOT)
+                                {
+                                    @SubTotalOT.ToString("#,##0.00")
+                                }
+                            </td>
+                        </tr>
+                        @{
+                            if (!Model.ExcludeOT)
+                            {
+                                SubTotalSalary += SubTotalOT;
+                            }
+                        }
+
+                        <!-- Contributions / Deductions / Payments / Others -->
+
+                        <tr style="border-top:1px solid gray !important;">
+                            <td colspan="5">
+                                <b> Deductions</b>
+                            </td>
+                        </tr>
+                        @foreach (var contribution in Model.Contributions)
+                        {
+                            SubTotalContributions += contribution.Amount;
+                            <tr>
+                                <td> @contribution.DtRelease.ToString("MMM dd yyyy (ddd)") </td>
+                                <td> @contribution.Remarks  </td>
+                                <td> @contribution.crLogCashType.Description </td>
+                                <td> - @contribution.Amount </td>
+                                <td>  </td>
+                            </tr>
+                        }
+
+                        @foreach (var payment in Model.CAPayment)
+                        {
+                            SubTotalCAPayment += payment.Amount;
+                            <tr>
+                                <td> @payment.DtRelease.ToString("MMM dd yyyy (ddd)") </td>
+                                <td> @payment.Remarks  </td>
+                                <td> @payment.crLogCashType.Description </td>
+                                <td> - @payment.Amount </td>
+                                <td>  </td>
+                            </tr>
+                        }
+
+
+                        @foreach (var other in Model.Others)
+                        {
+                            SubTotalOthers += other.Amount;
+                            <tr>
+                                <td> @other.DtRelease.ToString("MMM dd yyyy (ddd)") </td>
+                                <td> @other.Remarks  </td>
+                                <td> @other.crLogCashType.Description </td>
+                                <td> - @other.Amount </td>
+                                <td>  </td>
+                            </tr>
+                        }
+
+                        @{
+                            TotalDeductions = SubTotalCAPayment + SubTotalContributions + SubTotalOthers;
+                        }
+                        <tr style="border-top:1px solid gray !important;">
+                            <td colspan="2">
+                            </td>
+                            <td>
+                                Subtotal
+                            </td>
+                            <td>
+                                - @TotalDeductions.ToString("#,##0.00")
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        @{
+                            TotalSalary = SubTotalSalary - TotalDeductions;
+                        }
+                        <tr style="border-top:1px solid gray !important;">
+                            <td colspan="2">
+                            </td>
+                            <td>
+                                <b> Total</b>
+                            </td>
+                            <td>
+                                <b>@TotalSalary.ToString("#,##0.00")</b>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="border-top:0px !important;">
+                    <span> Remarks </span>
+                    <p> </p>
+                    <p> CA Balance: @ViewBag.CABalance </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-top:0px !important;">
+                    <span>Released by: _________________________________</span>
+                </td>
+                <td colspan="2" style="border-top:0px !important;">
+                    <span>Recieved by: _________________________________</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="border-top:2px solid black;margin-bottom:10px;"></div>
+    <!--  Drivers Copy -->
+    <div class="print-form-size">
+        <table class="table rpt-table-bordered" style="max-width:670px;">
+            <tr>
+                <td>
+                    <h3 class="pull-left"> Salary Release </h3>
+                </td>
+            </tr>
+            <tr style="font-size:16px;">
+                <td colspan="3">
+                    <span> Driver: </span>
+                    <span>@Model.Driver</span>
+                </td>
+                <td colspan="1">
+                    <span class="pull-right">
+                        <span> Date: </span>
+                        <span>@Model.Date</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <table class="table normal-table" style="margin-bottom:0px;">
+                        <tr>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Company / Unit
+                            </th>
+                            <th>
+                                Type
+                            </th>
+                            <th>
+                                Rate
+                            </th>
+                            <th>
+                                OT
+                            </th>
+                        </tr>
+
+                        @foreach (var salary in Model.SalaryTrips)
+                        {
+
+                            foreach (var trip in salary.crLogClosing.crLogTrips)
+                            {
+                                <tr>
+                                    <td> @trip.DtTrip.ToString("MMM dd yyyy (ddd)") </td>
+                                    <td> @trip.crLogCompany.Name / @trip.crLogUnit.Description   </td>
+                                    <td> </td>
+                                    <td> @trip.DriverFee </td>
+                                    <td>
+                                        @if (!Model.ExcludeOT)
+                                        {
+                                            @trip.DriverOT
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                        }
+
+                        @foreach (var CA in Model.CA)
+                        {
+                            <tr>
+                                <td> @CA.DtRelease.ToString("MMM dd yyyy (ddd)") </td>
+                                <td> @CA.Remarks  </td>
+                                <td> @CA.crLogCashType.Description </td>
+                                <td> @CA.Amount.ToString("#,##0") </td>
+                                <td>  </td>
+                            </tr>
+                        }
+
+                        <tr style="border-top:1px solid gray !important;">
+                            <td colspan="2">
+                            </td>
+                            <td>
+                                Subtotal
+                            </td>
+                            <td>
+                                @SubTotalSalary.ToString("#,##0.00")
+                            </td>
+                            <td>
+                                @if (!Model.ExcludeOT)
+                                {
+                                    @SubTotalOT.ToString("#,##0.00")
+                                }
+                            </td>
+                        </tr>
+
+                        <!-- Contributions / Deductions / Payments / Others -->
+
+                        <tr style="border-top:1px solid gray !important;">
+                            <td colspan="5">
+                                <b> Deductions</b>
+                            </td>
+                        </tr>
+                        @foreach (var contribution in Model.Contributions)
+                        {
+                            <tr>
+                                <td> @contribution.DtRelease.ToString("MMM dd yyyy (ddd)") </td>
+                                <td> @contribution.Remarks  </td>
+                                <td> @contribution.crLogCashType.Description </td>
+                                <td> - @contribution.Amount </td>
+                                <td>  </td>
+                            </tr>
+                        }
+
+                        @foreach (var payment in Model.CAPayment)
+                        {
+                            <tr>
+                                <td> @payment.DtRelease.ToString("MMM dd yyyy (ddd)") </td>
+                                <td> @payment.Remarks  </td>
+                                <td> @payment.crLogCashType.Description </td>
+                                <td> - @payment.Amount </td>
+                                <td>  </td>
+                            </tr>
+                        }
+
+
+                        @foreach (var other in Model.Others)
+                        {
+                            <tr>
+                                <td> @other.DtRelease.ToString("MMM dd yyyy (ddd)") </td>
+                                <td> @other.Remarks  </td>
+                                <td> @other.crLogCashType.Description </td>
+                                <td> - @other.Amount </td>
+                                <td>  </td>
+                            </tr>
+                        }
+
+                        <tr style="border-top:1px solid gray !important;">
+                            <td colspan="2">
+                            </td>
+                            <td>
+                                Subtotal
+                            </td>
+                            <td>
+                                - @TotalDeductions.ToString("#,##0.00")
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr style="border-top:1px solid gray !important;">
+                            <td colspan="2">
+                            </td>
+                            <td>
+                                <b> Total</b>
+                            </td>
+                            <td>
+                                <b>@TotalSalary.ToString("#,##0.00")</b>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="border-top:0px !important;">
+                    <span> Remarks </span>
+                    <p> </p>
+                    <p> CA Balance: @ViewBag.CABalance </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-top:0px !important;">
+                    <span>Released by: _________________________________</span>
+                </td>
+                <td colspan="2" style="border-top:0px !important;">
+                    <span>Recieved by: _________________________________</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

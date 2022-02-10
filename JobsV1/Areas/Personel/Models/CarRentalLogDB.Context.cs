@@ -48,5 +48,9 @@ namespace JobsV1.Areas.Personel.Models
         public virtual DbSet<crLogPassRemarks> crLogPassRemarks { get; set; }
         public virtual DbSet<crLogOwner> crLogOwners { get; set; }
         public virtual DbSet<crLogTripJobMain> crLogTripJobMains { get; set; }
+        public virtual DbSet<crLogCompanyRate> crLogCompanyRates { get; set; }
+        public virtual DbSet<crLogCashGroup> crLogCashGroups { get; set; }
+        public virtual DbSet<crLogCashSalary> crLogCashSalaries { get; set; }
+        public virtual DbSet<crLogDriverPayment> crLogDriverPayments { get; set; }
     }
 }

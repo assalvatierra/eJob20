@@ -1,0 +1,238 @@
+﻿@model JobsV1.Areas.Personel.Controllers.crLogCashSalariesController.crLogCashSalaryViewModel
+
+@{
+    ViewBag.Title = "Salary Details";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+    decimal TotalSalary = 0;
+    decimal TotalDeductions = 0;
+    //decimal TotalOT = 0;
+
+    decimal SubTotalSalary = 0;
+    decimal SubTotalCA = 0;
+    decimal SubTotalCAPayment = 0;
+    decimal SubTotalContributions = 0;
+    decimal SubTotalOthers = 0;
+    //decimal SubTotalDeductions = 0;
+    decimal SubTotalOT = 0;
+}
+
+<h2>Salary Details</h2>
+
+<div>
+    <h2>
+        @Html.DisplayFor(model => model.Driver)
+    </h2>
+    <p>
+        @if (Model.ExcludeOT)
+        {
+            <span> Exclude OT </span>
+        }
+    </p>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
+@Html.ActionLink("Add Salary", "AddSalary", new { id = Model.Id }) |
+@Html.ActionLink("Add CA", "AddCashTransaction", new { id = Model.Id, cashtype = 2 }) |
+@Html.ActionLink("Add Payment", "AddCashTransaction", new { id = Model.Id, cashtype = 3 }) |
+@Html.ActionLink("Add Contributions", "AddCashTransaction", new { id = Model.Id, cashtype = 4 })|
+@Html.ActionLink("Add Other Trx", "AddCashTransaction", new { id = Model.Id, cashtype = 5 })|
+@Html.ActionLink("Select Contributions", "ContributionsList", new { id = Model.Id })
+
+<table class="table">
+    <thead>
+        <tr>
+            <th> Date </th>
+            <th> Company</th>
+            <th> Desription </th>
+            <th> Remarks </th>
+            <th> Amount </th>
+            <th> OT </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td colspan="7">
+                Salary
+            </td>
+        </tr>
+
+        @foreach (var salary in Model.SalaryTrips)
+        {
+
+            foreach (var trip in salary.crLogClosing.crLogTrips)
+            {
+
+                if (trip.crLogCompany.Name == "Shimizu")
+                {
+                    trip.DriverOT = 0;
+                }
+
+                SubTotalSalary += trip.DriverFee;
+                SubTotalOT += trip.DriverOT;
+
+                <tr>
+                    <td> @trip.DtTrip.ToString("MMM dd yyyy (ddd)") </td>
+                    <td> @trip.crLogCompany.Name </td>
+                    <td> @trip.crLogUnit.Description   </td>
+                    <td> </td>
+                    <td> @trip.DriverFee </td>
+                    <td>
+                        @if (!Model.ExcludeOT)
+                        {
+                            @trip.DriverOT
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Remove", "RemoveSalaryGroup", new { id = salary.crLogCashGroups.First().Id })
+                    </td>
+                </tr>
+            }
+
+        }
+
+        @foreach (var CA in Model.CA)
+        {
+            SubTotalCA += CA.Amount;
+
+            <tr>
+                <td> @CA.DtRelease.ToString("MMM dd yyyy (ddd)") </td>
+                <td colspan="2"> @CA.Remarks  </td>
+                <td> @CA.crLogCashType.Description </td>
+                <td> @CA.Amount.ToString("#,##0") </td>
+                <td>  </td>
+                <td>
+                    @Html.ActionLink("Delete", "DeleteSalaryGroup", new { id = CA.crLogCashGroups.First().Id })
+                </td>
+            </tr>
+        }
+
+        @{
+            SubTotalSalary += SubTotalCA;
+        }
+        <tr>
+            <td colspan="3">
+            </td>
+            <td>
+                Subtotal
+            </td>
+            <td>
+                @SubTotalSalary.ToString("#,##0.00")
+            </td>
+            <td>
+                @if (!Model.ExcludeOT)
+                {
+                    <span> @SubTotalOT.ToString("#,##0.00")</span>
+                }
+            </td>
+            <td></td>
+        </tr>
+        @{
+            if (!Model.ExcludeOT)
+            {
+                SubTotalSalary += SubTotalOT;
+            }
+        }
+
+        <!-- Contributions / Deductions / Payments / Others -->
+
+        <tr>
+            <td colspan="7">
+                Deductions
+            </td>
+        </tr>
+        @foreach (var contribution in Model.Contributions)
+        {
+            SubTotalContributions += contribution.Amount;
+            <tr>
+                <td> @contribution.DtRelease.ToString("MMM dd yyyy") </td>
+                <td colspan="2"> @contribution.Remarks  </td>
+                <td> @contribution.crLogCashType.Description </td>
+                <td> - @contribution.Amount </td>
+                <td>  </td>
+                <td>
+                    @Html.ActionLink("Delete", "DeleteSalaryGroup", new { id = contribution.crLogCashGroups.First().Id })
+                </td>
+            </tr>
+        }
+
+        @foreach (var payment in Model.CAPayment)
+        {
+            SubTotalCAPayment += payment.Amount;
+            <tr>
+                <td> @payment.DtRelease.ToString("MMM dd yyyy") </td>
+                <td colspan="2"> @payment.Remarks  </td>
+                <td> @payment.crLogCashType.Description </td>
+                <td> - @payment.Amount </td>
+                <td>  </td>
+                <td>
+                    @Html.ActionLink("Delete", "DeleteSalaryGroup", new { id = payment.crLogCashGroups.First().Id })
+                </td>
+            </tr>
+        }
+
+
+        @foreach (var other in Model.Others)
+        {
+            SubTotalOthers += other.Amount;
+            <tr>
+                <td> @other.DtRelease.ToString("MMM dd yyyy") </td>
+                <td colspan="2"> @other.Remarks  </td>
+                <td> @other.crLogCashType.Description </td>
+                <td> - @other.Amount </td>
+                <td>  </td>
+                <td>
+                    @Html.ActionLink("Delete", "DeleteSalaryGroup", new { id = other.crLogCashGroups.First().Id })
+                </td>
+            </tr>
+        }
+
+        @{
+            TotalDeductions = SubTotalCAPayment + SubTotalContributions + SubTotalOthers;
+        }
+        <tr>
+            <td colspan="3">
+            </td>
+            <td>
+                Subtotal
+            </td>
+            <td>
+                - @TotalDeductions.ToString("#,##0.00")
+            </td>
+            <td>
+            </td>
+            <td></td>
+        </tr>
+        @{
+            TotalSalary = SubTotalSalary - TotalDeductions;
+        }
+        <tr>
+            <td colspan="3">
+            </td>
+            <td>
+                Total
+            </td>
+            <td>
+                @TotalSalary.ToString("#,##0.00")
+            </td>
+            <td>
+            </td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td colspan="7">
+                <span> Remarks </span> <br />
+                <span>
+                    CA Balance: @ViewBag.CABalance
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</table>

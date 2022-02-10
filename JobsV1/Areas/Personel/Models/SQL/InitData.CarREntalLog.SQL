@@ -20,17 +20,14 @@ values
 
 
 
-Insert into crLogDrivers([Name])
+Insert into crLogDrivers([Name],[OrderNo],[Status])
 values
-('Peter'),
-('Kelvin'),
-('Nick'),
-('Danny'),
-('Wilfredo'),
-('Jehiel'),
-('Lemwel'),
-('Jeremiah'),
-('Jonald');
+('Peter', 100, 'ACT'),
+('Kelvin', 100, 'ACT'),
+('Nick', 100, 'ACT'),
+('Danny', 100, 'ACT'),
+('Jehiel', 100, 'ACT'),
+('Jeremiah', 100, 'ACT');
 
 Insert into crLogCompanies([Name],[isShuttle],[IsInternal])
 values
@@ -55,6 +52,10 @@ insert into crLogPaymentTypes([Type]) values
 
 insert into crLogCashTypes([Code],[Description]) values 
 ('SAL','Salary'), ('CA','CA'),('PAY','Payment');
+
+
+insert into crLogCashTypes([Code],[Description]) values 
+('CONT','Contributions'), ('OTH','Others');
 
 insert into crLogPassengerMasters ([Name],[Contact],[PassAddress],[PickupPoint],[PickupTime],[DropPoint],[DropTime],[Remarks],[RestDays],[Area],[NextDay]) values 
 ('John','0912 654 8798','Matina','Centerpoint, Matina','7:30 PM','MTS','9:30 PM','','Sun,Sat','Matina',0),

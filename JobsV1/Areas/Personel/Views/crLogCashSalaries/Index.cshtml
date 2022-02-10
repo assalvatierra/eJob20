@@ -1,0 +1,89 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogCashSalary>
+
+@{
+    ViewBag.Title = "Salaries";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>Salary Request</h2>
+<p>
+    @Html.ActionLink("Back to Trip Log", "Index", "CarRentalLog") |
+    @Html.ActionLink("Drivers", "Index", "crLogDrivers", null, null) |
+    @Html.ActionLink("Cash Transactions ", "Index", "CarRentalCashRelease", null, null) |
+    @Html.ActionLink("Salary Summary", "SalarySummary", "CarRentalCashRelease", null, null) | 
+    Salary Request
+</p>
+<p>
+    @Html.ActionLink("Create New", "Create") |
+    @Html.ActionLink("Current Request", "Index") |
+    @Html.ActionLink("Previous Records", "Index", new { Filter = 1 })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.crLogDriver.Name)
+        </th>
+        <th>
+            Amount
+        </th>
+        <th width="100">
+
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+
+        var salary = item.crLogCashGroups.Where(c=>c.crLogCashRelease.crLogCashTypeId <= 2)
+                .Sum(c => c.crLogCashRelease.Amount);
+        var deductions = item.crLogCashGroups.Where(c => c.crLogCashRelease.crLogCashTypeId > 2)
+                .Sum(c => c.crLogCashRelease.Amount);
+        var driverSalary = salary - deductions;
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogDriver.Name)
+            </td>
+            <td>
+                @driverSalary.ToString("#,##0.00")
+            </td>
+            <td>
+                @if (item.crLogCashGroups.FirstOrDefault() != null) {
+                    var StatusRequest = item.crLogCashGroups.FirstOrDefault().crLogCashRelease.crLogCashStatus
+                        .OrderByDescending(s => s.crCashReqStatusId).First().crCashReqStatusId;
+                    if (StatusRequest == 1)
+                    {
+                        <a class="cursor-hand" onclick="ApproveSalary(this, @item.Id)"> Approve </a>
+                    }
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Salary Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Print", "PrintSalary", new { id = item.Id }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section Scripts{
+    
+    <script>
+        //POST Tripticket flag to true
+        function ApproveSalary(e, id) {
+            $(e).text("Loading");
+            $.post('/Personel/crLogCashSalaries/ApproveSalary', { id: id }, (data, status) => {
+                if (status == "success") {
+                    $(e).fadeOut();
+                }
+            }).fail((status) => {
+                alert("Unable to approve salary.");
+                $(e).text("Approve");
+            });
+        }
+
+    </script>
+    }

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/01/2021 12:02:18
+-- Date Created: 02/09/2022 15:17:44
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
 -- --------------------------------------------------
 
@@ -86,6 +86,21 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_crLogTripcrLogTripJobMain]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[crLogTripJobMains] DROP CONSTRAINT [FK_crLogTripcrLogTripJobMain];
 GO
+IF OBJECT_ID(N'[dbo].[FK_crLogCompanycrLogCompanyRate]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[crLogCompanyRates] DROP CONSTRAINT [FK_crLogCompanycrLogCompanyRate];
+GO
+IF OBJECT_ID(N'[dbo].[FK_crLogDrivercrLogCashSalary]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[crLogCashSalaries] DROP CONSTRAINT [FK_crLogDrivercrLogCashSalary];
+GO
+IF OBJECT_ID(N'[dbo].[FK_crLogCashGroupcrLogCashSalary]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[crLogCashGroups] DROP CONSTRAINT [FK_crLogCashGroupcrLogCashSalary];
+GO
+IF OBJECT_ID(N'[dbo].[FK_crLogCashReleasecrLogCashGroup]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[crLogCashGroups] DROP CONSTRAINT [FK_crLogCashReleasecrLogCashGroup];
+GO
+IF OBJECT_ID(N'[dbo].[FK_crLogDrivercrLogDriverPayment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[crLogDriverPayments] DROP CONSTRAINT [FK_crLogDrivercrLogDriverPayment];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -160,6 +175,18 @@ GO
 IF OBJECT_ID(N'[dbo].[crLogTripJobMains]', 'U') IS NOT NULL
     DROP TABLE [dbo].[crLogTripJobMains];
 GO
+IF OBJECT_ID(N'[dbo].[crLogCompanyRates]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogCompanyRates];
+GO
+IF OBJECT_ID(N'[dbo].[crLogCashGroups]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogCashGroups];
+GO
+IF OBJECT_ID(N'[dbo].[crLogCashSalaries]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogCashSalaries];
+GO
+IF OBJECT_ID(N'[dbo].[crLogDriverPayments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogDriverPayments];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -219,7 +246,8 @@ CREATE TABLE [dbo].[crLogTrips] (
     [DriverOTRate] decimal(18,0)  NULL,
     [AddonOT] decimal(18,0)  NULL,
     [IsFinal] bit  NOT NULL,
-    [AllowEdit] bit  NOT NULL
+    [AllowEdit] bit  NOT NULL,
+    [TripTicket] bit  NULL
 );
 GO
 
@@ -415,6 +443,45 @@ CREATE TABLE [dbo].[crLogTripJobMains] (
 );
 GO
 
+-- Creating table 'crLogCompanyRates'
+CREATE TABLE [dbo].[crLogCompanyRates] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [TripRate] decimal(18,0)  NOT NULL,
+    [OTRate] decimal(18,0)  NOT NULL,
+    [TripHours] int  NOT NULL,
+    [DriverDailyRate] decimal(18,0)  NOT NULL,
+    [DriverOTRate] decimal(18,0)  NOT NULL,
+    [crLogCompanyId] int  NOT NULL
+);
+GO
+
+-- Creating table 'crLogCashGroups'
+CREATE TABLE [dbo].[crLogCashGroups] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [crLogCashSalaryId] int  NOT NULL,
+    [crLogCashReleaseId] int  NOT NULL
+);
+GO
+
+-- Creating table 'crLogCashSalaries'
+CREATE TABLE [dbo].[crLogCashSalaries] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Date] nvarchar(max)  NOT NULL,
+    [crLogDriverId] int  NOT NULL,
+    [ExcludeOT] bit  NOT NULL
+);
+GO
+
+-- Creating table 'crLogDriverPayments'
+CREATE TABLE [dbo].[crLogDriverPayments] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Description] nvarchar(80)  NOT NULL,
+    [Amount] decimal(18,0)  NOT NULL,
+    [Remarks] nvarchar(80)  NULL,
+    [crLogDriverId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -554,6 +621,30 @@ GO
 -- Creating primary key on [Id] in table 'crLogTripJobMains'
 ALTER TABLE [dbo].[crLogTripJobMains]
 ADD CONSTRAINT [PK_crLogTripJobMains]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crLogCompanyRates'
+ALTER TABLE [dbo].[crLogCompanyRates]
+ADD CONSTRAINT [PK_crLogCompanyRates]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crLogCashGroups'
+ALTER TABLE [dbo].[crLogCashGroups]
+ADD CONSTRAINT [PK_crLogCashGroups]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crLogCashSalaries'
+ALTER TABLE [dbo].[crLogCashSalaries]
+ADD CONSTRAINT [PK_crLogCashSalaries]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crLogDriverPayments'
+ALTER TABLE [dbo].[crLogDriverPayments]
+ADD CONSTRAINT [PK_crLogDriverPayments]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -904,6 +995,81 @@ GO
 CREATE INDEX [IX_FK_crLogTripcrLogTripJobMain]
 ON [dbo].[crLogTripJobMains]
     ([crLogTripId]);
+GO
+
+-- Creating foreign key on [crLogCompanyId] in table 'crLogCompanyRates'
+ALTER TABLE [dbo].[crLogCompanyRates]
+ADD CONSTRAINT [FK_crLogCompanycrLogCompanyRate]
+    FOREIGN KEY ([crLogCompanyId])
+    REFERENCES [dbo].[crLogCompanies]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_crLogCompanycrLogCompanyRate'
+CREATE INDEX [IX_FK_crLogCompanycrLogCompanyRate]
+ON [dbo].[crLogCompanyRates]
+    ([crLogCompanyId]);
+GO
+
+-- Creating foreign key on [crLogDriverId] in table 'crLogCashSalaries'
+ALTER TABLE [dbo].[crLogCashSalaries]
+ADD CONSTRAINT [FK_crLogDrivercrLogCashSalary]
+    FOREIGN KEY ([crLogDriverId])
+    REFERENCES [dbo].[crLogDrivers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_crLogDrivercrLogCashSalary'
+CREATE INDEX [IX_FK_crLogDrivercrLogCashSalary]
+ON [dbo].[crLogCashSalaries]
+    ([crLogDriverId]);
+GO
+
+-- Creating foreign key on [crLogCashSalaryId] in table 'crLogCashGroups'
+ALTER TABLE [dbo].[crLogCashGroups]
+ADD CONSTRAINT [FK_crLogCashGroupcrLogCashSalary]
+    FOREIGN KEY ([crLogCashSalaryId])
+    REFERENCES [dbo].[crLogCashSalaries]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_crLogCashGroupcrLogCashSalary'
+CREATE INDEX [IX_FK_crLogCashGroupcrLogCashSalary]
+ON [dbo].[crLogCashGroups]
+    ([crLogCashSalaryId]);
+GO
+
+-- Creating foreign key on [crLogCashReleaseId] in table 'crLogCashGroups'
+ALTER TABLE [dbo].[crLogCashGroups]
+ADD CONSTRAINT [FK_crLogCashReleasecrLogCashGroup]
+    FOREIGN KEY ([crLogCashReleaseId])
+    REFERENCES [dbo].[crLogCashReleases]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_crLogCashReleasecrLogCashGroup'
+CREATE INDEX [IX_FK_crLogCashReleasecrLogCashGroup]
+ON [dbo].[crLogCashGroups]
+    ([crLogCashReleaseId]);
+GO
+
+-- Creating foreign key on [crLogDriverId] in table 'crLogDriverPayments'
+ALTER TABLE [dbo].[crLogDriverPayments]
+ADD CONSTRAINT [FK_crLogDrivercrLogDriverPayment]
+    FOREIGN KEY ([crLogDriverId])
+    REFERENCES [dbo].[crLogDrivers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_crLogDrivercrLogDriverPayment'
+CREATE INDEX [IX_FK_crLogDrivercrLogDriverPayment]
+ON [dbo].[crLogDriverPayments]
+    ([crLogDriverId]);
 GO
 
 -- --------------------------------------------------

@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Areas.Personel.Models;
-using JobsV1.Models;
 using Microsoft.Ajax.Utilities;
 using JobsV1.Areas.Personel.Services;
 
@@ -25,6 +24,15 @@ namespace JobsV1.Areas.Personel.Controllers
                 new SelectListItem { Value = "INC", Text = "Inactive" }
                 };
 
+        private List<SelectListItem> OrderList = new List<SelectListItem> {
+                new SelectListItem { Value = "100", Text = "Realbreeze" },
+                new SelectListItem { Value = "200", Text = "Office" },
+                new SelectListItem { Value = "300", Text = "3rd Party" },
+                new SelectListItem { Value = "400", Text = "AJ3s Drivers" },
+                new SelectListItem { Value = "500", Text = "Kabacan Group" },
+                new SelectListItem { Value = "600", Text = "Others" },
+                new SelectListItem { Value = "900", Text = "Inactive" }
+                };
         // GET: Personel/crLogDrivers
         public ActionResult Index()
         {
@@ -52,6 +60,7 @@ namespace JobsV1.Areas.Personel.Controllers
             crLogDriver crLogDriver = new crLogDriver();
             crLogDriver.OrderNo = 100;
 
+            ViewBag.OrderNo = new SelectList(OrderList, "value", "text");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
             return View(crLogDriver);
         }
@@ -70,6 +79,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.OrderNo = new SelectList(OrderList, "value", "text", crLogDriver.OrderNo);
             ViewBag.Status = new SelectList(StatusList, "value", "text", crLogDriver.Status);
             return View(crLogDriver);
         }
@@ -86,6 +96,7 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.OrderNo = new SelectList(OrderList, "value", "text", crLogDriver.OrderNo);
             ViewBag.Status = new SelectList(StatusList, "value", "text", crLogDriver.Status);
             return View(crLogDriver);
         }
@@ -103,6 +114,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.OrderNo = new SelectList(OrderList, "value", "text", crLogDriver.OrderNo);
             ViewBag.Status = new SelectList(StatusList, "value", "text", crLogDriver.Status);
             return View(crLogDriver);
         }
@@ -274,7 +286,6 @@ namespace JobsV1.Areas.Personel.Controllers
             List<crLogCashRelease> noStatus = driverCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 1).OrderBy(s => s.DtRelease).ToList();
             List<crLogCashRelease> cashtrx = driverCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId != 1).OrderBy(s => s.DtRelease).ToList();
 
-
             crDriverSummary driversummary = new crDriverSummary();
             driversummary.Driver = driver;
             driversummary.DriverTrips = trips;
@@ -295,7 +306,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.DtStart = DtStart;
             ViewBag.DtEnd = DtEnd;
             ViewBag.DriverId = id;
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers.OrderBy(d => d.OrderNo), "Id", "Name", id);
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers().Where(d => d.OrderNo <= 200).ToList(), "Id", "Name", id);
             ViewBag.reqStatus = reqStatus ?? 0;
             ViewBag.IsAdmin = User.IsInRole("Admin");
 

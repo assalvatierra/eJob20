@@ -44,6 +44,7 @@ namespace JobsV1.Areas.Personel.Models
         public Nullable<decimal> AddonOT { get; set; }
         public bool IsFinal { get; set; }
         public bool AllowEdit { get; set; }
+        public Nullable<bool> TripTicket { get; set; }
     
         public virtual crLogDriver crLogDriver { get; set; }
         public virtual crLogUnit crLogUnit { get; set; }

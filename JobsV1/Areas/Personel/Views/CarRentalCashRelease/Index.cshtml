@@ -21,7 +21,9 @@
 <p>
     @Html.ActionLink("Back to Trip Log", "Index", "CarRentalLog") |
     @Html.ActionLink("Previous Records", "PrevRecords") |
-    @Html.ActionLink("Salary Summary", "SalarySummary")
+    @Html.ActionLink("Drivers", "Index", "crLogDrivers", null, null) |
+    @Html.ActionLink("Salary Summary", "SalarySummary") |
+    @Html.ActionLink("Salary Request", "Index", "crLogCashSalaries", null, null)
 </p>
 <p id="status-list">
     <span class="text-muted"> Status Filter:  </span>
@@ -92,7 +94,12 @@
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)
             </td>
             <td>
+                @if (item.crLogCashGroups.Count() > 0)
+                {
+                    <i class="fa fa-chain" title="Linked to Salary Group"></i>
+                }
                 @Html.DisplayFor(modelItem => item.crLogCashType.Description)
+
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Remarks)
@@ -169,7 +176,7 @@
             <td>
                 @TotalAmount.ToString("#,##0.00")
             </td>
-            <td colspan="4">
+            <td colspan="5">
             </td>
         </tr>
     }

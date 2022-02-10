@@ -21,6 +21,8 @@ namespace JobsV1.Areas.Personel.Models
             this.crLogCashReleases = new HashSet<crLogCashRelease>();
             this.crLogFuels = new HashSet<crLogFuel>();
             this.crLogOdoes = new HashSet<crLogOdo>();
+            this.crLogCashSalaries = new HashSet<crLogCashSalary>();
+            this.crLogDriverPayments = new HashSet<crLogDriverPayment>();
         }
     
         public int Id { get; set; }
@@ -38,5 +40,9 @@ namespace JobsV1.Areas.Personel.Models
         public virtual ICollection<crLogFuel> crLogFuels { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<crLogOdo> crLogOdoes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<crLogCashSalary> crLogCashSalaries { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<crLogDriverPayment> crLogDriverPayments { get; set; }
     }
 }
