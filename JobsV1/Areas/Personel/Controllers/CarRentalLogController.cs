@@ -9,7 +9,6 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Areas.Personel.Models;
-using JobsV1.Models;
 using Microsoft.Ajax.Utilities;
 using JobsV1.Areas.Personel.Services;
 
@@ -232,7 +231,7 @@ namespace JobsV1.Areas.Personel.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses," +
             "DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, " +
-            "AddonOT, IsFinal, AllowEdit")] crLogTrip crLogTrip)
+            "AddonOT, IsFinal, AllowEdit, TripTicket")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {
@@ -645,6 +644,16 @@ namespace JobsV1.Areas.Personel.Controllers
                 return null;
             }
 
+            //default
+            crLogCompanyRate companyRate = new crLogCompanyRate();
+            companyRate.TripHours = 10;
+            companyRate.DriverOTRate = 50;
+
+            if (crLogTrip.crLogCompany.crLogCompanyRates.Count() > 0)
+            {
+                companyRate = crLogTrip.crLogCompany.crLogCompanyRates.FirstOrDefault();
+            }
+
             //get trip log
             var triplog = db.crLogTrips.Find(id);
 
@@ -656,9 +665,9 @@ namespace JobsV1.Areas.Personel.Controllers
 
             odoDetails.StartTime = triplog.StartTime;
             odoDetails.EndTime = triplog.EndTime;
-            odoDetails.TripHours = triplog.TripHours ?? 10;
+            odoDetails.TripHours = companyRate.TripHours;
             odoDetails.OTRate = triplog.OTRate ?? 200;
-            odoDetails.DriverOTRate = triplog.DriverOTRate ?? 50;
+            odoDetails.DriverOTRate = companyRate.DriverOTRate;
             odoDetails.Remarks = triplog.Remarks;
 
 
@@ -1202,6 +1211,31 @@ namespace JobsV1.Areas.Personel.Controllers
             return false;
         }
 
+        //POST
+        [HttpPost]
+        public HttpResponseMessage PostTripTicketFlag(int id)
+        {
+            try
+            {
+                var crLogTrip = db.crLogTrips.Find(id);
+
+                if (crLogTrip == null)
+                {
+                    return new HttpResponseMessage(HttpStatusCode.NotFound);
+                }
+
+                crLogTrip.TripTicket = true;
+
+                db.Entry(crLogTrip).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            catch
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+        }
         #endregion
 
         private class TripOdoRequest

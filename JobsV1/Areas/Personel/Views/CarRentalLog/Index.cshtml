@@ -310,13 +310,18 @@
                 @if (item.IsFinal)
                 {
                     <!-- Lock img icon -->
-                    <i class="fa fa-lock"></i>
+                    <i class="fa fa-lock" title="Locked"></i>
                 }
 
                 @if (item.AllowEdit)
                 {
                     <!-- Lock img icon -->
-                    <i class="fa fa-check"></i>
+                    <i class="fa fa-check" title="Allow Edit"></i>
+                }
+
+                @if (item.TripTicket == true)
+                {
+                    <i class="fa fa-ticket" title="Trip Ticket"></i>
                 }
             </td>
             <td>
@@ -410,9 +415,14 @@
                             <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')">   Update OT   </a></li>
                         }
 
-                        @if (true)
+                        @if (item.Expenses == 0)
                         {
                             <li><a class="cursor-pointer" onclick="Show_ExpenseUpdateModal('@item.Id')">   Update Expense   </a></li>
+                        }
+
+                        @if (item.TripTicket == null || item.TripTicket == false)
+                        {
+                            <li><a class="cursor-pointer" onclick="SetTripTicket(this, '@item.Id')">   Trip Ticket Received  </a></li>
                         }
 
 

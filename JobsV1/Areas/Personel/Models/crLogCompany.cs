@@ -18,6 +18,7 @@ namespace JobsV1.Areas.Personel.Models
         public crLogCompany()
         {
             this.crLogTrips = new HashSet<crLogTrip>();
+            this.crLogCompanyRates = new HashSet<crLogCompanyRate>();
         }
     
         public int Id { get; set; }
@@ -28,5 +29,7 @@ namespace JobsV1.Areas.Personel.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<crLogTrip> crLogTrips { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<crLogCompanyRate> crLogCompanyRates { get; set; }
     }
 }

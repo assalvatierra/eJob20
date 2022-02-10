@@ -147,5 +147,51 @@ namespace JobsV1.Areas.Personel.Controllers
 
             return isValid;
         }
+
+        public ActionResult UpdateCompanyRates(int id)
+        {
+            var companyRate = db.crLogCompanyRates.Where(r => r.crLogCompanyId == id).FirstOrDefault();
+            ViewBag.crLogCompanyId = new SelectList(db.crLogCompanies, "Id", "Name", id);
+            return View(companyRate);
+        }
+
+        // POST: Personel/crLogCompanies/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateCompanyRates([Bind(Include = "Id, TripRate, OTRate, TripHours, DriverDailyRate, DriverOTRate, crLogCompanyId")] crLogCompanyRate crLogCompanyRate)
+        {
+            if (ModelState.IsValid)
+            {
+                var companyId = crLogCompanyRate.crLogCompanyId;
+                var companyRateCount = db.crLogCompanyRates.Where(r => r.crLogCompanyId == companyId).Count();
+                if (companyRateCount == 0)
+                {
+                    //Add Rate
+                    db.crLogCompanyRates.Add(crLogCompanyRate);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    var companyRate = db.crLogCompanyRates.Where(r => r.crLogCompanyId == companyId).FirstOrDefault();
+                    companyRate.crLogCompanyId = crLogCompanyRate.crLogCompanyId;
+                    companyRate.TripRate = crLogCompanyRate.TripRate;
+                    companyRate.TripHours = crLogCompanyRate.TripHours;
+                    companyRate.DriverDailyRate = crLogCompanyRate.DriverDailyRate;
+                    companyRate.DriverOTRate = crLogCompanyRate.DriverOTRate;
+                    companyRate.OTRate = crLogCompanyRate.OTRate;
+
+                    //Update
+                    db.Entry(companyRate).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.crLogCompanyId = new SelectList(db.crLogCompanies, "Id", "Name", crLogCompanyRate.crLogCompanyId);
+            return View(crLogCompanyRate);
+        }
     }
 }

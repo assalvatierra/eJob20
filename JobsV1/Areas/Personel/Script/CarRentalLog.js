@@ -1,5 +1,4 @@
-﻿const { parseJSON } = require("jquery");
-
+﻿
 /**
  *  Car Rental Logs
  *  /Personel/CarRentalLog
@@ -513,3 +512,16 @@ function CheckDriverRecordToday(e, tripid, tripdate) {
     });
 }
 
+ 
+//POST Tripticket flag to true
+function SetTripTicket(e,tripid) {
+    $.post('/Personel/CarRentalLog/PostTripTicketFlag', { id: tripid }, (data, status) => {
+        if (status == "success") {
+            $(e).attr('disabled', 'disabled');
+            $(e).parent('li').parent('ul').parent('div').parent('td').siblings('.td-date').append('<i class="fa fa-ticket"></i>')
+        } else {
+        }
+    }).fail((status) => {
+        alert("Unable to update trip ticket flag.");
+    });
+}

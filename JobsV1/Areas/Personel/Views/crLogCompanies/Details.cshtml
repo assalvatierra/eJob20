@@ -41,8 +41,48 @@
             @Html.DisplayFor(model => model.IsInternal)
         </dd>
 
-
     </dl>
+</div>
+
+<div>
+    <h4>Rates </h4>
+    <hr />
+    @if (Model.crLogCompanyRates.FirstOrDefault() != null) {
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.crLogCompanyRates.FirstOrDefault().TripRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.crLogCompanyRates.FirstOrDefault().TripRate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.crLogCompanyRates.FirstOrDefault().TripHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.crLogCompanyRates.FirstOrDefault().TripHours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.crLogCompanyRates.FirstOrDefault().DriverDailyRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.crLogCompanyRates.FirstOrDefault().DriverDailyRate)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.crLogCompanyRates.FirstOrDefault().DriverOTRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.crLogCompanyRates.FirstOrDefault().DriverOTRate)
+        </dd>
+    </dl>
+    }
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
