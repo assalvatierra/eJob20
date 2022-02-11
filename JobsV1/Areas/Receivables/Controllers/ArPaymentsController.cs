@@ -221,7 +221,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTransPayment([Bind(Include = "Id,DtPayment,Amount,Remarks,Reference,ArAccountId,ArPaymentTypeId,IsDeposited")] ArPayment arPayment, int transId)
+        public ActionResult EditTransPayment([Bind(Include = "Id,DtPayment,Amount,Remarks,Reference,ArAccountId,ArPaymentTypeId,IsDeposited,DtDeposit")] ArPayment arPayment, int transId)
         {
             if (ModelState.IsValid && InputValidation(arPayment))
             {
