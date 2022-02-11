@@ -17,25 +17,37 @@ namespace JobsV1.Controllers
 
     public class InvItemsController : Controller
     {
+        private DateClass dt = new DateClass();
         private JobDBContainer db = new JobDBContainer();
         private CarRentalLogDBContainer crlogdb = new CarRentalLogDBContainer();
-
-        private DateClass dt = new DateClass();
-
         private MaintenanceServices mtServices = new MaintenanceServices();
+
+        private List<SelectListItem> OrderList = new List<SelectListItem> {
+                new SelectListItem { Value = "100", Text = "Realbreeze" },
+                new SelectListItem { Value = "200", Text = "Driver" },
+                new SelectListItem { Value = "300", Text = "3rd Party" },
+                new SelectListItem { Value = "400", Text = "AJ3s Drivers" },
+                new SelectListItem { Value = "500", Text = "Kabacan Group" },
+                new SelectListItem { Value = "600", Text = "Others" },
+                new SelectListItem { Value = "900", Text = "Inactive" }
+                };
+        private List<SelectListItem> ImgList = new List<SelectListItem> {
+                new SelectListItem { Value = "/Images/CarRental/placeholder.png", Text = "Default" },
+                new SelectListItem { Value = "/Images/CarRental/innova/toyotainnova_front.jpg", Text = "Toyota Innova" },
+                new SelectListItem { Value = "/Images/CarRental/glgrandia/glgrandia_frontview.jpg", Text = "Toyota Super Grandia" },
+                new SelectListItem { Value = "/Images/CarRental/nissanpremium/nissanpremium_sideview.jpg", Text = "Toyota Tourer" },
+                new SelectListItem { Value = "/Images/CarRental/fortuner/fortuner_frontview.jpg", Text = "Toyota Fortuner" },
+                new SelectListItem { Value = "/Images/CarRental/rush/Toyota-Rush-2019.jpg", Text = "Toyota Rush" },
+                new SelectListItem { Value = "/Images/CarRental/nissanpremium/nissanpremium_sideview.jpg", Text = "Nissan Premium" },
+                new SelectListItem { Value = "/Images/CarRental/ford/fordeverest_front side view.jpg", Text = "Ford Everest" },
+                new SelectListItem { Value = "/Images/CarRental/fortuner/fortuner_frontview.jpg", Text = "Montero Sport" }
+                };
 
         private string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
 
         // GET: InvItems
         public ActionResult Index(int? showAll)
         {
-            //List<InvItemCat> InvCats = db.InvItemCats.ToList();
-
-            //include latest odo, coopMembers list
-            //ViewBag.SupplierList = db.Suppliers.ToList();
-            //ViewBag.CatList = InvCats;
-
-
             //inventory items
             var itemList = db.InvItems.Include(s => s.SupplierInvItems)
                 .Include(s => s.InvCarRecords)
@@ -103,9 +115,10 @@ namespace JobsV1.Controllers
             InvItem item = new InvItem();
             item.OrderNo = 999;
 
-
+            ViewBag.ImgPath = new SelectList(ImgList, "value", "text");
+            ViewBag.OrderNo = new SelectList(OrderList, "value", "text");
             ViewBag.ViewLabel = new SelectList(GetViewListItems(), "Value", "Text");
-
+               
             return View(item);
         }
 
@@ -129,6 +142,8 @@ namespace JobsV1.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.ImgPath = new SelectList(ImgList, "value", "text");
+            ViewBag.OrderNo = new SelectList(OrderList, "value", "text");
             ViewBag.ViewLabel = new SelectList(GetViewListItems(), "Value", "Text");
             return View(invItem);
         }
@@ -164,6 +179,8 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ImgPath = new SelectList(ImgList, "value", "text");
+            ViewBag.OrderNo = new SelectList(OrderList, "value", "text");
             ViewBag.ViewLabel = new SelectList(GetViewListItems(), "Value", "Text");
             return View(invItem);
         }
@@ -181,6 +198,8 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ImgPath = new SelectList(ImgList, "value", "text");
+            ViewBag.OrderNo = new SelectList(OrderList, "value", "text");
             ViewBag.ViewLabel = new SelectList(GetViewListItems(), "Value", "Text");
             return View(invItem);
         }
