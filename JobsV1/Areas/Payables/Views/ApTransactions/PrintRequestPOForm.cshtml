@@ -1,0 +1,148 @@
+﻿@model IEnumerable<ApModels.Models.ApTransaction>
+
+@{
+    ViewBag.Title = "Print Request Form";
+
+    decimal totalAmount = 0;
+}
+
+<style>
+    .table-print {
+        border:2px solid black;
+    }
+    .table-print tr:first-child  {
+        border-top:1px solid black !important;
+    }
+
+    .table-print > tbody > th > td {
+        padding:10px;
+    }
+
+    .important-border-top{
+        border-top:2px solid black !important
+    }
+
+    .payables-items-table tr th{
+        background-color:lightgray;
+    }
+</style>
+
+<div style="padding:20px;width:920px;display:flex;margin:auto;">
+
+    <table class="table table-print">
+        <tr>
+            <td colspan="2">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="pull-left">
+                            <h3 style="margin-top:20px;margin-bottom:0px;"> RealBreeze Davao </h3>
+                            <p style="margin-top:5px;margin-left:0px;padding-left:0px;margin-bottom:0px;"> Door 1, Travellers Inn, Matina Davao City </p>
+                            <p style="margin-top:5px;margin-left:0px;padding-left:0px;margin-bottom:0px;"> Tel: (082) 333-5157 / +63 995-450-8517  </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="text-align:right;">
+                        <div class="pull-right">
+                            <h2> Purchase Order </h2>
+                            <p> PO No : @ViewBag.PONo.ToString("D4") </p>
+                            <p> Date  : @ViewBag.dtRequest</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-xs-12">
+                    <div class="col-md-6" style="text-align:left;margin-left:-10px;">
+                        <div class="col-md-10 col-xs-10" style="border:0px dotted black;margin-top:10px;padding:0px;">
+                            <p style="margin-bottom:0px;"> <b>To:</b> </p>
+
+                            <p style="font-weight:400;font-size:20px;margin-bottom:0px;"> @ViewBag.Name </p>
+                            <p style="font-weight:400;margin-bottom:0px;"> @ViewBag.Address </p>
+                            <p style="font-weight:400;margin-bottom:0px;"> Tel : @ViewBag.Landline </p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <p class="col-md-6">
+                    </p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding:10px;" class="important-border-top">
+               
+                <table class="table payables-items-table">
+                    <tr>
+                        <th width="50">
+                            No
+                        </th>
+                        <th>
+                            Desc
+                        </th>
+                        <th>
+                            Qty
+                        </th>
+                        <th>
+                            Amount
+                        </th>
+                    </tr>
+
+                    <!-- Iterate Payable Items here -->
+
+                    @foreach (var payable in Model)
+                    {
+                        decimal budgetRequest = payable.BudgetAmt ?? 0;
+
+                        totalAmount += budgetRequest;
+                        <tr>
+                            <td>
+                                @payable.Id
+                            </td>
+                            <td>
+                                @payable.Description <br /> 
+                                @payable.Remarks
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                @budgetRequest.ToString("#,##0.00")
+                            </td>
+                        </tr>
+
+                    }
+                    <tr>
+                        <td colspan="3">
+                            <b class="pull-right" style="margin-right:20px;">Total</b>
+                        </td>
+                        <td>
+                            <b>@totalAmount.ToString("#,##0.00") </b>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="important-border-top" colspan="2">
+                <span> Remarks</span>
+                <p></p><br /><br />
+            </td>
+        </tr>
+
+        <tr>
+            <td class="important-border-top">
+                Requested by: ________________ ________
+            </td>
+            <td class="important-border-top">
+                Approved by: _________________ ________
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Released by: _________________ ________
+            </td>
+            <td >
+                Recieved by:__________________ ________
+            </td>
+        </tr>
+
+    </table>
+</div>

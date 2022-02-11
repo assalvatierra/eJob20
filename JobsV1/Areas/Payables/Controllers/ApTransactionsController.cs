@@ -18,7 +18,7 @@ namespace JobsV1.Areas.Payables.Controllers
         private DateClassMgr dt = new DateClassMgr();
         private ApDBContainer db = new ApDBContainer();
 
-        private enum STATUS: int {
+        private enum STATUS : int {
             NEW = 6,
             REQUEST = 1,
             APPROVED = 2,
@@ -27,8 +27,15 @@ namespace JobsV1.Areas.Payables.Controllers
             CLOSED = 4
         };
 
+        private enum PAYMENTSTATUS : int
+        {
+            REQUEST = 1,
+            APPROVED = 2,
+            CANCELLED = 3,
+        };
 
-        private enum CASHFLOWTYPE: int
+
+        private enum CASHFLOWTYPE : int
         {
             DEBIT = 1,
             CREDIT = 2,
@@ -72,7 +79,7 @@ namespace JobsV1.Areas.Payables.Controllers
         }
 
         // GET: Payables/ApTransactions/ReleasedWeekly
-        public ActionResult ReleasedWeekly(DateTime? dateStart, DateTime? dateEnd, int? transType)
+        public ActionResult ReleasedWeekly(DateTime? dateStart, DateTime? dateEnd, int? transType, int? category)
         {
             DateTime thisMonth = dt.GetCurrentDate();
             var startMonthDate = new DateTime(thisMonth.Year, thisMonth.Month, 1);
@@ -81,8 +88,11 @@ namespace JobsV1.Areas.Payables.Controllers
             dateStart = dateStart == null ? startMonthDate : dateStart;
             dateEnd = dateEnd == null ? endMonthDate : dateEnd;
             transType = transType ?? 1;
+            category = category ?? 0;
 
-            var apTransactions = ap.TransactionMgr.GetDailyReleasedByDateRange((DateTime)dateStart, (DateTime)dateEnd, (int)transType);
+            var apTransactions = ap.TransactionMgr
+                .GetDailyReleasedByDateRange((DateTime)dateStart, (DateTime)dateEnd, (int)transType, (int)category );
+
 
             ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.Today = ap.DateClassMgr.GetCurrentDate();
@@ -575,8 +585,23 @@ namespace JobsV1.Areas.Payables.Controllers
             ViewBag.Today = dt.GetCurrentDateTime().ToShortDateString();
             ViewBag.PrintGroupId = id;
 
+            return View(payables);
+        }
 
-            return View();
+        public ActionResult PrintRequestPOForm(int id)
+        {
+            var payables = ap.TransactionMgr.GetPrintGroup(id);
+            var today = dt.GetCurrentDateTime().ToShortDateString();
+
+            ViewBag.PONo = id;
+            ViewBag.Today = today;
+            ViewBag.dtRequest = dt.GetCurrentDateTime().ToString("MMM dd yyyy");
+            ViewBag.PrintGroupId = payables.First().Id;
+            ViewBag.Name = "ONE STOP SHELL STATION";
+            ViewBag.Address = "Km 4 Quimpo Blvd., Ecoland, Davao City";
+            ViewBag.Landline = "299-2010";
+
+            return View(payables);
         }
 
         [HttpPost]

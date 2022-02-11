@@ -180,6 +180,32 @@ function CheckSelected_Print() {
 
 }
 
+//print checked payables
+function CheckSelected_PrintPO() {
+    let ForPrintIds = GetSelectedPayables_ForPrint();
+
+    console.log("ForPrint");
+    console.log(ForPrintIds);
+
+    if (ForPrintIds.length > 0) {
+
+        var res = $.post('/Payables/ApTransactions/SendPrintRequest', { transIds: ForPrintIds }, (response) => {
+            if (response > 0) {
+                console.log(response);
+                alert("Generating Print Request form");
+                window.location.href = "/Payables/ApTransactions/PrintRequestPOForm/" + response;
+            } else {
+                alert("Unable to update payables print status.");
+                console.log(response);
+            }
+        });
+
+    } else {
+        console.log("Please select atleast 1 payable to print.");
+    }
+
+}
+
 //click on payables 
 function CheckAllPayableItems() {
     $("#payables-table").find("input[type=checkbox]").map(function () {
