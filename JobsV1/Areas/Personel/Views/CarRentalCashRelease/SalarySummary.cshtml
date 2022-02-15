@@ -19,7 +19,9 @@
 <h2>Salary Summary</h2>
 <p>
     @Html.ActionLink("Back to Trip Log", "Index", "CarRentalLog") |
-    @Html.ActionLink("Cash Transactions ", "Index")
+    @Html.ActionLink("Cash Transactions ", "Index") |
+    <span> Salary Summary </span> |
+    @Html.ActionLink("Salary Request", "Index", "crLogCashSalaries", null, null)
 </p>
 <table class="table">
     <tr>

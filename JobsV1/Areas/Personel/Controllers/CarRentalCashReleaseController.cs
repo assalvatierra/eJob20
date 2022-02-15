@@ -257,10 +257,12 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             if (DeleteStatusRecords(id))
             {
-                crLogCashRelease crLogCashRelease = db.crLogCashReleases.Find(id);
+                var crLogCashRelease = db.crLogCashReleases.Find(id);
 
                 //remove closing id on trip logs
                 RemoveTripClosingId(crLogCashRelease);
+
+                RemoveSalaryGroup(crLogCashRelease);
 
                 db.crLogCashReleases.Remove(crLogCashRelease);
                 db.SaveChanges();
@@ -271,6 +273,25 @@ namespace JobsV1.Areas.Personel.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+        }
+
+        private void RemoveSalaryGroup(crLogCashRelease crLogCashRelease)
+        {
+            try
+            {
+                var linkedGroup = crLogCashRelease.crLogCashGroups.ToList();
+
+                foreach (var group in linkedGroup)
+                {
+                    //remove salary group
+                    db.crLogCashGroups.Remove(group);
+                }
+                db.SaveChanges();
+
+            }
+            catch
+            {
+            }
         }
 
         public bool RemoveTripClosingId(crLogCashRelease crLogCashRelease)
@@ -859,8 +880,6 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return 0;
             }
-
-            
         }
 
         //CreateCashSalaryRequest

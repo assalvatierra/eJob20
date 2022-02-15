@@ -15,6 +15,7 @@
     decimal SubTotalOthers = 0;
     //decimal SubTotalDeductions = 0;
     decimal SubTotalOT = 0;
+    bool ExcludeOT = !Model.ExcludeOT;
 }
 
 <h2>Salary Details</h2>
@@ -24,7 +25,7 @@
         @Html.DisplayFor(model => model.Driver)
     </h2>
     <p>
-        @if (Model.ExcludeOT)
+        @if (ExcludeOT)
         {
             <span> Exclude OT </span>
         }
@@ -51,7 +52,7 @@
             <th> Desription </th>
             <th> Remarks </th>
             <th> Amount </th>
-            <th> OT </th>
+            <th> OT - @ExcludeOT </th>
             <th></th>
         </tr>
     </thead>
@@ -65,36 +66,55 @@
 
         @foreach (var salary in Model.SalaryTrips)
         {
-
-            foreach (var trip in salary.crLogClosing.crLogTrips)
-            {
-
-                if (trip.crLogCompany.Name == "Shimizu")
+             if (salary.crLogClosing.crLogTrips.Count() > 0 )
+             {
+                foreach (var trip in salary.crLogClosing.crLogTrips.Where(c=>c.crLogClosingId != null))
                 {
-                    trip.DriverOT = 0;
+
+                    if (trip.crLogCompany.Name == "Shimizu")
+                    {
+                        trip.DriverOT = 0;
+                    }
+
+                    SubTotalSalary += trip.DriverFee;
+                    SubTotalOT += trip.DriverOT;
+
+                    <tr>
+                        <td> @trip.DtTrip.ToString("MMM dd yyyy (ddd)") </td>
+                        <td> @trip.crLogCompany.Name </td>
+                        <td> @trip.crLogUnit.Description   </td>
+                        <td> </td>
+                        <td> @trip.DriverFee </td>
+                        <td>
+                            @if (ExcludeOT)
+                            {
+                                @trip.DriverOT
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Remove", "RemoveSalaryGroup", new { id = salary.crLogCashGroups.First().Id })
+                        </td>
+                    </tr>
                 }
 
-                SubTotalSalary += trip.DriverFee;
-                SubTotalOT += trip.DriverOT;
-
-                <tr>
-                    <td> @trip.DtTrip.ToString("MMM dd yyyy (ddd)") </td>
-                    <td> @trip.crLogCompany.Name </td>
-                    <td> @trip.crLogUnit.Description   </td>
-                    <td> </td>
-                    <td> @trip.DriverFee </td>
-                    <td>
-                        @if (!Model.ExcludeOT)
-                        {
-                            @trip.DriverOT
-                        }
-                    </td>
-                    <td>
-                        @Html.ActionLink("Remove", "RemoveSalaryGroup", new { id = salary.crLogCashGroups.First().Id })
-                    </td>
-                </tr>
             }
+        }
 
+        @foreach (var CA in Model.OtherSalary)
+        {
+            SubTotalCA += CA.Amount;
+
+            <tr>
+                <td> @CA.DtRelease.ToString("MMM dd yyyy (ddd)") </td>
+                <td colspan="2"> @CA.Remarks  </td>
+                <td> @CA.crLogCashType.Description </td>
+                <td> @CA.Amount.ToString("#,##0") </td>
+                <td>  </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = CA.crLogCashGroups.First().Id }) |
+                    @Html.ActionLink("Delete", "DeleteSalaryGroup", new { id = CA.crLogCashGroups.First().Id })
+                </td>
+            </tr>
         }
 
         @foreach (var CA in Model.CA)
@@ -108,6 +128,7 @@
                 <td> @CA.Amount.ToString("#,##0") </td>
                 <td>  </td>
                 <td>
+                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = CA.crLogCashGroups.First().Id }) |
                     @Html.ActionLink("Delete", "DeleteSalaryGroup", new { id = CA.crLogCashGroups.First().Id })
                 </td>
             </tr>
@@ -126,7 +147,7 @@
                 @SubTotalSalary.ToString("#,##0.00")
             </td>
             <td>
-                @if (!Model.ExcludeOT)
+                @if (ExcludeOT)
                 {
                     <span> @SubTotalOT.ToString("#,##0.00")</span>
                 }
@@ -134,7 +155,7 @@
             <td></td>
         </tr>
         @{
-            if (!Model.ExcludeOT)
+            if (ExcludeOT)
             {
                 SubTotalSalary += SubTotalOT;
             }
@@ -157,6 +178,7 @@
                 <td> - @contribution.Amount </td>
                 <td>  </td>
                 <td>
+                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = contribution.crLogCashGroups.First().Id }) |
                     @Html.ActionLink("Delete", "DeleteSalaryGroup", new { id = contribution.crLogCashGroups.First().Id })
                 </td>
             </tr>
@@ -172,6 +194,7 @@
                 <td> - @payment.Amount </td>
                 <td>  </td>
                 <td>
+                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = payment.crLogCashGroups.First().Id }) |
                     @Html.ActionLink("Delete", "DeleteSalaryGroup", new { id = payment.crLogCashGroups.First().Id })
                 </td>
             </tr>
@@ -188,6 +211,7 @@
                 <td> - @other.Amount </td>
                 <td>  </td>
                 <td>
+                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = other.crLogCashGroups.First().Id }) |
                     @Html.ActionLink("Delete", "DeleteSalaryGroup", new { id = other.crLogCashGroups.First().Id })
                 </td>
             </tr>

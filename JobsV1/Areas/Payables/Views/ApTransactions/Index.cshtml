@@ -9,25 +9,25 @@
     string orderBy = ViewBag.OrderBy;
     DateTime today = ViewBag.Today;
 
-    decimal totalAmount = 0;
+    decimal totalAmount  = 0;
     decimal totalPayment = 0;
     decimal totalBalance = 0;
-    decimal totalBudget = 0;
+    decimal totalBudget  = 0;
     decimal totalRelease = 0;
-    decimal GrandTotal = 0;
+    decimal GrandTotal   = 0;
 
     bool isAdmin = ViewBag.IsAdmin;
 
     int TYPE_CASH = 1;
     int TYPE_BANK = 3;
-    int TYPE_PO = 2;
+    int TYPE_PO   = 2;
 
-    int STATUS_REQUEST = 1;
+    int STATUS_REQUEST  = 1;
     int STATUS_APPROVED = 2;
     int STATUS_RELEASED = 3;
-    int STATUS_CLOSED = 4;
+    int STATUS_CLOSED   = 4;
     int STATUS_RETURNED = 5;
-    int STATUS_NEW = 7;
+    int STATUS_NEW      = 7;
     int STATUS_CANCELLED = 6;
 }
 
@@ -233,6 +233,13 @@
                 </td>
                 <td>
                     <a href="/JobOrder/JobServices?JobMainId=@item.JobRef"> @item.JobRef </a>
+
+
+                    @if (item.ApTransCategory.Name == "Job Expense" && item.JobRef == null)
+                    {
+                        <img src="~/Images/SalesLead/high-importance.png" width="20"
+                             title="Please Provide Job Reference" />
+                    }
                 </td>
                 <td>
                     @item.DtInvoice.ToString("MMM dd yyyy")<br />

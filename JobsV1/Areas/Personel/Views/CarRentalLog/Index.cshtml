@@ -233,6 +233,9 @@
             Rate
         </th>
         <th>
+            OT
+        </th>
+        <th>
             Addon
         </th>
         <th>
@@ -254,6 +257,7 @@
         var count = 0;
         decimal totalRate = 0;
         decimal totalAddon = 0;
+        decimal totalOTRate = 0;
         decimal totalExpenses = 0;
         decimal totalDriverFee = 0;
         decimal totalDriverOT = 0;
@@ -359,6 +363,18 @@
                 @item.Rate.ToString("#,##0.00")
             </td>
             <td>
+                @if (item.AddonOT != null)
+                {
+
+                var AddOnOT = (decimal)item.AddonOT;
+                totalOTRate = totalOTRate + AddOnOT;
+
+                <span>
+                    @AddOnOT.ToString("#,##0.00")
+                </span>
+                }
+            </td>
+            <td>
                 @item.Addon.ToString("#,##0.00")
             </td>
             <td>
@@ -457,18 +473,27 @@
                 <p> Total Count: @count </p>
             </td>
             <td>
+                <span style="font-size:9px;color:gray;"> Rate </span><br />
                 @totalRate.ToString("#,##0.00")
             </td>
             <td>
+                <span style="font-size:9px;color:gray;"> OT Rate </span><br />
+                @totalOTRate.ToString("#,##0.00")
+            </td>
+            <td>
+                <span style="font-size:9px;color:gray;"> Addon </span><br />
                 @totalAddon.ToString("#,##0.00")
             </td>
             <td>
+                <span style="font-size:9px;color:gray;"> Expense </span><br />
                 @totalExpenses.ToString("#,##0.00")
             </td>
             <td>
+                <span style="font-size:9px;color:gray;"> Driver Fee </span><br />
                 @totalDriverFee.ToString("#,##0.00")
             </td>
             <td>
+                <span style="font-size:9px;color:gray;"> Driver OT </span><br />
                 @totalDriverOT.ToString("#,##0.00")
             </td>
             <td colspan="3"></td>

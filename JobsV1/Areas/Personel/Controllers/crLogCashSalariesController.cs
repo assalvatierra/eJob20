@@ -16,6 +16,7 @@ namespace JobsV1.Areas.Personel.Controllers
     {
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
         private DateClass dt = new DateClass();
+        private CrDataLayer dl = new CrDataLayer();
 
         // GET: Personel/crLogCashSalaries
         public ActionResult Index(int? filter)
@@ -83,12 +84,13 @@ namespace JobsV1.Areas.Personel.Controllers
             crLogCashSalaryViewModel salary = new crLogCashSalaryViewModel();
             salary.Id = crLogCashSalary.Id;
             salary.Driver = crLogCashSalary.crLogDriver.Name;
-            salary.Amount = 0;
             salary.Date = dt.GetCurrentDate().ToString("MMM dd yyyy");
             salary.ExcludeOT = crLogCashSalary.ExcludeOT;
+            salary.Amount = 0;
 
             salary.SalaryTrips = crLogCashSalary.crLogCashGroups
-                .Where(c => c.crLogCashRelease.crLogCashType.Description == "Salary")
+                .Where(c => c.crLogCashRelease.crLogCashType.Description == "Salary" 
+                && c.crLogCashRelease.crLogClosingId != null)
                 .Select(c => c.crLogCashRelease).ToList();
 
             salary.CA = crLogCashSalary.crLogCashGroups
@@ -107,6 +109,11 @@ namespace JobsV1.Areas.Personel.Controllers
 
             salary.Others = crLogCashSalary.crLogCashGroups
                 .Where(c => c.crLogCashRelease.crLogCashType.Description == "Others")
+                .Select(c => c.crLogCashRelease).ToList();
+
+            salary.OtherSalary = crLogCashSalary.crLogCashGroups
+                .Where(c => c.crLogCashRelease.crLogCashType.Description == "Salary" 
+                && c.crLogCashRelease.crLogClosingId == null)
                 .Select(c => c.crLogCashRelease).ToList();
 
             return salary;
@@ -237,7 +244,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 ViewBag.SalaryId = id;
                 ViewBag.crLogDriverId = new SelectList(db.crLogDrivers.OrderBy(c=>c.OrderNo).ToList(), "Id", "Name", cashSalary.crLogDriverId);
                 ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id");
-                ViewBag.crLogCashTypeId = new SelectList(db.crLogCashTypes, "Id", "Description", 2);
+                ViewBag.crLogCashTypeId = new SelectList(db.crLogCashTypes, "Id", "Description", cashtype);
                 return View(crtrx);
             }
             catch
@@ -279,6 +286,9 @@ namespace JobsV1.Areas.Personel.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
+
+
+
 
         public ActionResult AddSalarySelect(int id, int CashReleaseId)
         {
@@ -368,6 +378,42 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
+        // GET: Personel/CarRentalCashRelease/Edit/5
+        public ActionResult EditCashTransaction(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            crLogCashRelease crLogCashRelease = db.crLogCashReleases.Find(id);
+            if (crLogCashRelease == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogCashRelease.crLogDriverId);
+            ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogCashRelease.crLogClosingId);
+            ViewBag.crLogCashTypeId = new SelectList(db.crLogCashTypes, "Id", "Description", crLogCashRelease.crLogCashTypeId);
+            return View(crLogCashRelease);
+        }
+
+        // POST: Personel/CarRentalCashRelease/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCashTransaction([Bind(Include = "Id,DtRelease,Amount,Remarks,crLogDriverId,crLogClosingId,crLogCashTypeId")] crLogCashRelease crLogCashRelease)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(crLogCashRelease).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details", new { crLogCashRelease.crLogCashGroups.FirstOrDefault().crLogCashSalaryId });
+            }
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogCashRelease.crLogDriverId);
+            ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogCashRelease.crLogClosingId);
+            ViewBag.crLogCashTypeId = new SelectList(db.crLogCashTypes, "Id", "Description", crLogCashRelease.crLogCashTypeId);
+            return View(crLogCashRelease);
+        }
 
         public ActionResult RemoveSalaryGroup(int id)
         {
@@ -555,6 +601,7 @@ namespace JobsV1.Areas.Personel.Controllers
             public List<crLogCashRelease> CAPayment { get; set; }
             public List<crLogCashRelease> Contributions { get; set; }
             public List<crLogCashRelease> Others { get; set; }
+            public List<crLogCashRelease> OtherSalary { get; set; }
         }
     }
 }

@@ -21,6 +21,7 @@
 <h2>Driver Trip List</h2>
 <p>
     @Html.ActionLink("Back to Cash Transactions", "Index") |
+    @Html.ActionLink("Back to Salary Summary", "SalarySummary") |
     @Html.ActionLink("Driver Summary", "DriverSummary", "CarRentallog", new { id = ViewBag.DriverId }, null) |
     @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Id }, null)
 </p>
@@ -28,7 +29,6 @@
 <h2> @ViewBag.Driver </h2>
 <p>
     <b> Release : @ViewBag.DtRelease </b><br />
-    @*<b> Amount : @amount.ToString("#,##0.00") </b><br />*@
     <b> Remarks :  @ViewBag.Remarks </b><br />
 </p>
 <table class="table">

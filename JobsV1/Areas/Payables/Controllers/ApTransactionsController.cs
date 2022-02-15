@@ -686,6 +686,33 @@ namespace JobsV1.Areas.Payables.Controllers
             ViewBag.TransId = (int)id;
             return View(actionList.ApActions.ToList());
         }
+
+        // GET: Payables/ApTransactions/ActionHistoryDelete/5
+        public ActionResult ActionHistoryDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApTransaction apTransaction = ap.TransactionMgr.GetTransactionById((int)id);
+            if (apTransaction == null)
+            {
+                return HttpNotFound();
+            }
+            return View(apTransaction);
+        }
+
+        // POST: Payables/ApTransactions/Delete/5
+        [HttpPost, ActionName("ActionHistoryDelete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult ActionHistoryDeleteConfirmed(int id)
+        {
+            var action = db.ApActions.Find(id);
+            //add action log for transaction delete 
+            ap.ActionMgr.DeleteAction(action);
+
+            return RedirectToAction("Index");
+        }
         #endregion
 
     }

@@ -511,7 +511,7 @@ namespace JobsV1.Areas.Personel.Services
 
                 //18 == 6:00pm
                 //finalize trips
-                if (dateTimeNow.Hour >= 18)
+                if (dateTimeNow.Hour >= 17)
                 {
                     var result = false;
                     foreach (var trip in trips)

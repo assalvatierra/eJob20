@@ -15,6 +15,8 @@
     decimal SubTotalOthers = 0;
     decimal SubTotalDeductions = 0;
     decimal SubTotalOT = 0;
+
+    bool ExcludeOT = !Model.ExcludeOT;
 }
 
 @{
@@ -71,7 +73,7 @@
                                 Rate
                             </th>
                             <th>
-                                OT
+                                OT 
                             </th>
                         </tr>
 
@@ -95,7 +97,7 @@
                                     <td> </td>
                                     <td> @trip.DriverFee </td>
                                     <td>
-                                        @if (!Model.ExcludeOT)
+                                        @if (ExcludeOT)
                                         {
                                             @trip.DriverOT
                                         }
@@ -131,14 +133,14 @@
                                 @SubTotalSalary.ToString("#,##0.00")
                             </td>
                             <td>
-                                @if (!Model.ExcludeOT)
+                                @if (ExcludeOT)
                                 {
                                     @SubTotalOT.ToString("#,##0.00")
                                 }
                             </td>
                         </tr>
                         @{
-                            if (!Model.ExcludeOT)
+                            if (ExcludeOT)
                             {
                                 SubTotalSalary += SubTotalOT;
                             }
