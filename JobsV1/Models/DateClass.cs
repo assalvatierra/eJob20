@@ -46,5 +46,12 @@ namespace JobsV1.Models
 
             return yearList;
         }
+
+        public string GetMonthName(int month)
+        {
+            return CultureInfo.CurrentCulture.
+                DateTimeFormat.GetMonthName
+                (month);
+        }
     }
 }

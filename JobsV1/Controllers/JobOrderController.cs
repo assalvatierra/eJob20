@@ -575,7 +575,9 @@ namespace JobsV1.Controllers
             var service = db.JobServices.Find(serviceId);
 
             //job trail
-            trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Assign " + itemName.Description + " to jobID " + service.JobMainId + " ", serviceId.ToString());
+            trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, 
+                "Assign " + itemName.Description + " to jobID " + service.JobMainId + " ", 
+                serviceId.ToString());
 
             var mainId = db.JobServices.Find(serviceId).JobMainId;
             return RedirectToAction("JobServices", new { JobMainId = mainId });

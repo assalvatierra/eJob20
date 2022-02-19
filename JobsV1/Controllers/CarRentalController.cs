@@ -63,7 +63,9 @@ namespace JobsV1.Controllers
             ViewBag.NavBarTitle = "Real Wheels Rent-A-Car";
             ViewBag.Copyright = "RealBreeze Travel & Tours, Davao Philippines 8000";
             
-            return View("Index", db.CarUnits.Include(c => c.CarRates).Include(m=>m.CarUnitMetas).ToList().OrderBy(s=>s.SortOrder) );
+            return View("Index", db.CarUnits.Where(c=>c.Status != "INACTIVE")
+                .Include(c => c.CarRates).Include(m=>m.CarUnitMetas)
+                .ToList().OrderBy(s=>s.SortOrder) );
 
         }
 

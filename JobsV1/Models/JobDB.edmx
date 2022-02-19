@@ -1046,6 +1046,7 @@
     <Property Name="CarCategoryId" Type="int" Nullable="false" />
     <Property Name="SelfDrive" Type="int" Nullable="true" />
     <Property Name="SortOrder" Type="int" Nullable="true" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="CarDestinations">
     <Key>
@@ -5771,6 +5772,7 @@
           <NavigationProperty Name="CarUnitMetas" Relationship="JobDB.CarUnitCarUnitMeta" FromRole="CarUnit" ToRole="CarUnitMeta" />
           <Property Name="SortOrder" Type="Int32" Nullable="true" />
           <NavigationProperty Name="CarDetails" Relationship="JobDB.CarDetailCarUnit" FromRole="CarUnit" ToRole="CarDetail" />
+          <Property Name="Status" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="CarCategoryCarUnit">
           <End Type="JobDB.CarCategory" Role="CarCategory" Multiplicity="1" />
@@ -9391,6 +9393,7 @@
           <ScalarProperty Name="CarCategoryId" ColumnName="CarCategoryId" />
           <ScalarProperty Name="SelfDrive" ColumnName="SelfDrive" />
           <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

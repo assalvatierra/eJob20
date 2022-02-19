@@ -139,10 +139,10 @@
 
         <div class="col-lg-12 details-container dtls-gallery">
             <p class="text-lg text-primary">Gallery</p>
-            <a href="~/Images/CarRental/nissanPremium/Nissan-Premium-2018.jpg" target="_blank" title="Nissan Premium For Rent"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/Nissan-Premium-2018.jpg" alt="nissan-premium-car-rental-davao" /></a>
+            <a href="~/Images/CarRental/nissanPremium/Nissan-Premium-front.jpg" target="_blank" title="Nissan Premium For Rent"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/Nissan-Premium-2018.jpg" alt="nissan-premium-car-rental-davao" /></a>
             <a href="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-front-seat.jpg" target="_blank" title="Nissan Premium Side For Rent"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-front-seat.jpg" alt="nissan-premium-car-rental-davao" /></a>
             <a href="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back-seat.jpg" target="_blank" title="Nissan Premium Back Seat For Rent"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back-seat.jpg" alt="nissan-premium-car-rental-davao" /></a>
-            <a href="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back.jpg" target="_blank" title="Nissan Premium Back For Rent"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back.jpg" alt="nissan-premium-car-rental-davao" /></a>
+            <a href="~/Images/CarRental/nissanPremium/Nissan-Premium-side.jpg" target="_blank" title="Nissan Premium Back For Rent"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back.jpg" alt="nissan-premium-car-rental-davao" /></a>
         </div>
 
         <div class="col-lg-12 details-container" style="display:none;">
@@ -171,8 +171,8 @@
             @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 1 }, new { @class = "list-group-item details-container-list", @title = "Request Reservations" })
             @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 1 }, new { @class = "list-group-item details-container-list", @title = "Request Reservations" })
         </div>
-        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 1 },null)" class="list-group-item  details-container-list" title="Van Details">  Van (10 seater) </a>
-        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 },null)" class="list-group-item  details-container-list active" title="Van Details">  Van (14 seater)   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 },null)" class="list-group-item  details-container-list" title="Van Details">  Van (10 seater) </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 1 },null)" class="list-group-item  details-container-list active" title="Van Details">  Van (14 seater)   </a>
         <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 3 },null)" class="list-group-item  details-container-list" title="SUV Details">  SUV   </a>
         <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 4 },null)" class="list-group-item  details-container-list" title="MPV Details">  MPV   </a>
         <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 5 },null)" class="list-group-item  details-container-list" title="Sedan Details">  Sedan   </a>
