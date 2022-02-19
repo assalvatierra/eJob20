@@ -3,6 +3,7 @@
     ViewBag.Title = "Dashboard";
     //title and description defined in controller
     Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+
 }
 
 <div class="row dashboard">
@@ -53,54 +54,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @*<script src="~/Scripts/Chartjs/Chart.js"></script>*@
     <script>
-
-        function jobsChart(datalabels, dataset) {
-            const labels = datalabels;
-
-            const data = {
-                labels: labels,
-                datasets: [{
-                    label: 'Jobs Count',
-                    backgroundColor: 'rgb(30,144,255)',
-                    borderColor: 'rgb(30,144,255)',
-                    data: dataset,
-                }]
-            };
-
-            const config = {
-                type: 'line',
-                data: data,
-                options: {
-                    tension: 0.3,
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            grid: {
-                                display: false
-                            },
-
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        },
-                    }
-                },
-
-            };
-
-            new Chart(
-                document.getElementById('myChart-jobs'),
-                config
-            );
-        }
-
-
+        var chart;
         function triplogsChart(datalabels, dataset) {
-            console.log("Trip Logs Chart");
 
             const labels = datalabels;
             let monthdays = 31;
@@ -109,12 +64,11 @@
             let goalperday =Math.ceil(parseFloat(goal / monthdays ));
             let goalTotal = 0;
             let goalDataset = new Array();
+
             for (var i = 0; i < 31; i++) {
                 goalTotal = goalTotal + goalperday;
                 goalDataset.push(goalTotal);
             }
-
-            console.log("data goals: " + goalDataset);
 
             const data = {
                 labels: labels,
@@ -159,69 +113,113 @@
 
             };
 
-            new Chart(
+            chart = new Chart(
                 document.getElementById('myChart-triplogs'),
                 config
             );
         }
 
+        $('#trip-chart-Month, #trip-chart-Year').on('change', (e) => {
+            // Destroy old graph
+            if (chart) {
+                chart.destroy();
+            }
 
+            GetChartData_TripLogs_Month();  
 
-        function expenseChart() {
-            const DATA_COUNT = 5;
-            const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
+        })
 
-            const data = {
-                labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
-                datasets: [
-                    {
-                        label: 'Dataset 1',
-                        data: [5, 20, 40, 30, 10],
-                        backgroundColor: ['red', 'orange', 'yellow', 'green', 'blue'],
-                    }
-                ]
-            };
-
-            const config = {
-                type: 'doughnut',
-                data: data,
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'right'
-                        },
-                        title: {
-                            display: false,
-                            text: 'Chart.js Doughnut Chart'
-                        }
-                    }
-                },
-            };
-
-            new Chart(
-                document.getElementById('expenseChart'),
-                config
-            );
+        function SetMonthDefault() {
+            let dateToday = new Date();
+            $("#trip-chart-Month").val(dateToday.getMonth() + 1);
+            $("#trip-chart-Year").val(dateToday.getFullYear());
         }
 
-        $(() => {
-            // CHARTS CONFIG
-            // === include 'setup' then 'config' above ===
-            //jobsChart();
-            expenseChart();
-        });
+        function GetChartData() {
+            $.get('/Dashboard/GetChartData', null, (jobs) => {
 
+                var months = new Array();
+                for (i = 0; i < jobs.length; i++) {
+                    months.push(jobs[i]["Month"])
+                }
 
-        $("#sidenav-toggle").click(() => {
-            //toggle side navigation (hide/show)
-            $(".dashboard-sidebar").toggle(300);
-        });
+                var data = new Array();
+
+                for (i = 0; i < jobs.length; i++) {
+                    data.push(jobs[i]["Count"])
+                }
+
+                jobsChart(months, data);
+            });
+        }
+
+        function GetChartData_TripLogs() {
+
+            $.get('/Dashboard/GetChartData_TripLogs', null, (jobs) => {
+
+                var days = new Array();
+                for (i = 0; i < jobs.length; i++) {
+                    days.push(jobs[i]["Day"])
+                }
+
+                var data = new Array();
+
+                for (i = 0; i < jobs.length; i++) {
+                    if (jobs[i]["Count"] == 0) {
+                        data.push(NaN)
+                    } else {
+                        data.push(jobs[i]["Count"])
+                    }
+                }
+
+                triplogsChart(days, data);
+            });
+        }
+
+        function GetChartData_TripLogs_Month() {
+
+            var month = $('#trip-chart-Month :selected').val()
+            var year = $('#trip-chart-Year :selected').val()
+            $.get('/Dashboard/GetChartData_TripLogs', { month: month, year: year }, (jobs) => {
+
+                var days = new Array();
+                for (i = 0; i < jobs.length; i++) {
+                    days.push(jobs[i]["Day"])
+                }
+
+                var data = new Array();
+
+                for (i = 0; i < jobs.length; i++) {
+                    if (jobs[i]["Count"] == 0) {
+                        data.push(NaN)
+                    } else {
+                        data.push(jobs[i]["Count"])
+                    }
+                }
+
+                triplogsChart(days, data);
+            });
+        }
     </script>
 
     <script>
-      function sidebarMenu (menu) {
+        $(() => {
+            GetTotalSales();
+            GetTotalExpenses();
+            GetJobOrders();
+            GetTripLogs();
+            GetExpenses();
+            GetReceivables();
+            GetNotifications();
+            GetJobOrdersCount();
+
+            GetChartData_TripLogs();
+            SetMonthDefault();
+
+            sidebarMenu($('.sidebar-menu'));
+        });
+
+        function sidebarMenu(menu) {
             var animationSpeed = 300,
                 subMenuSelector = '.sidebar-submenu';
 
@@ -261,66 +259,11 @@
                 }
             });
         }
-        sidebarMenu($('.sidebar-menu'));
-    </script>
 
-    <script>
-        $(() => {
-            GetTotalSales();
-            GetTotalExpenses();
-            GetJobOrders();
-            GetTripLogs();
-            GetExpenses();
-            GetReceivables();
-            GetNotifications();
-            GetJobOrdersCount();
-
-           // GetChartData();
-            GetChartData_TripLogs();
+        $("#sidenav-toggle").click(() => {
+            //toggle side navigation (hide/show)
+            $(".dashboard-sidebar").toggle(300);
         });
-
-        function GetChartData() {
-            $.get('/Dashboard/GetChartData', null, (jobs) => {
-                console.log("Chart Jobs");
-                console.log(jobs);
-
-                //$('#ActiveJobsCount').text(jobs);
-                var months = new Array();
-                for (i = 0; i < jobs.length; i++) {
-                    months.push(jobs[i]["Month"])
-                }
-
-                var data = new Array();
-
-                for (i = 0; i < jobs.length; i++) {
-                    data.push(jobs[i]["Count"])
-                }
-
-                jobsChart(months, data);
-            });
-        }
-
-
-        function GetChartData_TripLogs() {
-            $.get('/Dashboard/GetChartData_TripLogs', null, (jobs) => {
-                console.log("Chart Trip Logs");
-                console.log(jobs);
-
-                //$('#ActiveJobsCount').text(jobs);
-                var days = new Array();
-                for (i = 0; i < jobs.length; i++) {
-                    days.push(jobs[i]["Day"])
-                }
-
-                var data = new Array();
-
-                for (i = 0; i < jobs.length; i++) {
-                    data.push(jobs[i]["Count"])
-                }
-
-                triplogsChart(days, data);
-            });
-        }
 
         function GetTotalSales() {
             $.get('/Dashboard/GetSalesThisMonth', null, (sales) => {
@@ -483,7 +426,6 @@
                 }
             }
         }
-
 
         function AddNotificationsToList(notification) {
             if (notification.length > 0) {

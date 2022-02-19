@@ -107,7 +107,8 @@ order by x.jobid
                     Amount      = job.Amount,
                     Expenses    = job.ExpenseFromAP,
                     Payment     = job.PaymentFromAR,
-                   
+                    DriversRate = job.DriversRate
+
                 });
             });
 

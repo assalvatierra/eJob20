@@ -120,7 +120,7 @@
                 @expense.Description
             </td>
             <td>
-                @expense.ApTransPayments.Sum(c => c.ApPayment.Amount)
+                @expense.Amount
             </td>
         </tr>
     }
@@ -129,7 +129,7 @@
         </td>
         <td>
             Total <br />
-            @Expenses_Payment
+            @Expenses_Amount
         </td>
     </tr>
 </table>

@@ -20,12 +20,14 @@ namespace JobsV1.Models.Class
         private DateClass dt = new DateClass();
         private CarRentalLogDBContainer crdb;
         private CrLogServices crLog;
+        private SysDBContainer sysDb;
 
         public DashboardServices()
         {
             db = new JobDBContainer(); 
             crdb = new CarRentalLogDBContainer();
             crLog = new CrLogServices(crdb);
+            sysDb = new SysDBContainer();
         }
 
         public decimal GetSalesByMonthNo(int month, int year)
@@ -77,7 +79,7 @@ namespace JobsV1.Models.Class
 
                 JobOrderClass jobSvc = new JobOrderClass();
 
-                var activejobCount = jobSvc.GetJobOrderListing(1).Count();
+                var activejobCount = jobSvc.GetJobOrderListing(1).Where(c=>c.Status > 1).Count();
 
                 return activejobCount;
             }
@@ -548,21 +550,21 @@ namespace JobsV1.Models.Class
         }
 
 
-        public List<DashboardViewModel.ChartDataTripLogs> GetMonthlyTripLogs()
+        public List<DashboardViewModel.ChartDataTripLogs> GetMonthlyTripLogs(int month, int year)
         {
             try
             {
                 List<DashboardViewModel.ChartDataTripLogs> data = new List<DashboardViewModel.ChartDataTripLogs>();
                 var today = dt.GetCurrentDate();
 
+
                 //get list of months
-                var daysOfMonth = Enumerable.Range(1, DateTime.DaysInMonth(today.Year, today.Month))  // Days: 1, 2 ... 31 etc.
+                var daysOfMonth = Enumerable.Range(1, DateTime.DaysInMonth(year, month))  // Days: 1, 2 ... 31 etc.
                              .Select(day => day.ToString()) // Map each day to a date
                              .ToList();
 
-
                 var tripForMonth = crdb.crLogTrips
-                    .Where(c => c.DtTrip.Month == today.Month && c.DtTrip.Year == today.Year 
+                    .Where(c => c.DtTrip.Month == month && c.DtTrip.Year == year
                             && c.crLogCompany.Name != "Office" 
                             && c.crLogUnit.crLogOwner.Name == "Realbreeze")
                     .GroupBy(c=>c.DtTrip.Day).ToList();
@@ -575,12 +577,11 @@ namespace JobsV1.Models.Class
                     {
                         if (d == trip.Key.ToString())
                         {
-
                             totalCount += trip.Count();
 
                             data.Add(new DashboardViewModel.ChartDataTripLogs
                             {
-                                Month = today.Month.ToString(),
+                                Month = dt.GetMonthName(month),
                                 Count = totalCount,
                                 Day = trip.Key.ToString()
                             });
@@ -588,50 +589,61 @@ namespace JobsV1.Models.Class
                     }
                     else
                     {
-                        if (today.Day >= int.Parse(d))
+                        if (today.Day >= int.Parse(d) && today.Month == month && today.Year == year)
                         {
                             data.Add(new DashboardViewModel.ChartDataTripLogs
                             {
-                                Month = today.Month.ToString(),
+                                Month = dt.GetMonthName(month),
                                 Count = totalCount,
                                 Day = d
                             });
                         }
-
+                        else
+                        {
+                            if (today.Month == month && today.Year == year)
+                            {
+                                data.Add(new DashboardViewModel.ChartDataTripLogs
+                                {
+                                    Month = dt.GetMonthName(month),
+                                    Count = 0,
+                                    Day = d
+                                });
+                            }
+                            else
+                            {
+                                data.Add(new DashboardViewModel.ChartDataTripLogs
+                                {
+                                    Month = dt.GetMonthName(month),
+                                    Count = totalCount,
+                                    Day = d
+                                });
+                            }
+                        }
                     }
-
                 });
-
-                //tripForMonth.ForEach( t => {
-
-                //    if(daysOfMonth.Contains(t.Key.ToString())) {
-
-                //            totalCount += t.Count();
-
-                //            data.Add(new DashboardViewModel.ChartDataTripLogs
-                //            {
-                //                Month = today.Month.ToString(),
-                //                Count = totalCount,
-                //                Day = t.Key.ToString()
-                //            });
-                //    }
-                //    else
-                //    {
-                //        data.Add(new DashboardViewModel.ChartDataTripLogs
-                //        {
-                //            Month = today.Month.ToString(),
-                //            Count = 0,
-                //            Day = t.Key.ToString()
-                //        });
-                //    }
-                //});
-
 
                 return data;
             }
             catch
             {
                 return new List<DashboardViewModel.ChartDataTripLogs>();
+            }
+
+        }
+
+        public List<SysMenu> GetUserMenu(string user)
+        {
+
+            try
+            {
+                var menuList = sysDb.SysAccessUsers.Where(s => s.UserId == user).Select(c => c.SysMenu).ToList();
+
+                return menuList;
+            }
+            catch
+            {
+                return new List<SysMenu>();
+                throw new EntityException("Dashboard Services: Unable to process GetUserMenu service");
             }
         }
     }

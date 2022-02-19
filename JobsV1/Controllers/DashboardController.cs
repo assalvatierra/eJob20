@@ -14,13 +14,21 @@ namespace JobsV1.Controllers
         DashboardServices services = new DashboardServices();
 
         // GET: Dashboard
+        [Authorize]
         public ActionResult Index()
         {
             var today = dt.GetCurrentDate();
 
             ViewBag.Today = today.ToString("MMMM dd yyyy");
             ViewBag.Month = today.ToString("MMMM");
+            ViewBag.Years = dt.GetYearsList();
+            ViewBag.Menu = services.GetUserMenu(GetUser());
             return View();
+        }
+
+        private string GetUser()
+        {
+            return HttpContext.User.Identity.Name;
         }
 
         #region API
@@ -111,9 +119,18 @@ namespace JobsV1.Controllers
 
         //GET: Dashboard/GetNotifications
         [HttpGet]
-        public JsonResult GetChartData_TripLogs()
+        public JsonResult GetChartData_TripLogs(int? month, int? year)
         {
-            var monthlyJobs = services.GetMonthlyTripLogs();
+            if(month == null)
+            {
+                month = dt.GetCurrentDate().Month;
+            }
+
+            if (year == null)
+            {
+                year = dt.GetCurrentDate().Year;
+            }
+            var monthlyJobs = services.GetMonthlyTripLogs((int)month,(int)year);
 
             return Json(monthlyJobs, JsonRequestBehavior.AllowGet);
         }

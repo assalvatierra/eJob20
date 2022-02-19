@@ -420,7 +420,7 @@ namespace JobsV1.Models
 
                 string sql = "";
 
-                sql = @"SELECT  SUM(cr.DriverFee + cr.DriverOT) FROM crLogTrips cr LEFT JOIN crLogTripJobMains jm ON jm.crLogTripId = cr.Id WHERE jm.JobMainId LIKE '" + jobId + "' ";
+                sql = @"SELECT  SUM(cr.DriverFee + cr.DriverOT) FROM crLogTrips cr LEFT JOIN crLogTripJobMains jm ON jm.crLogTripId = cr.Id WHERE jm.JobMainId LIKE " + jobId + " ";
 
                 //terminator
                 sql += ";";
