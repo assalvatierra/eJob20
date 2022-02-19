@@ -23,6 +23,9 @@
 <table class="table">
     <tr>
         <th>
+            Date
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.crLogDriver.Name)
         </th>
         <th>
@@ -43,6 +46,9 @@
         var driverSalary = salary - deductions;
         TotalSalary = TotalSalary + driverSalary;
         <tr>
+            <td>
+                @item.Date
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)
             </td>
@@ -69,7 +75,7 @@
     }
 
     <tr>
-        <td> </td>
+        <td colspan="2"> </td>
         <td>
             @TotalSalary.ToString("#,##0.00")
         </td>

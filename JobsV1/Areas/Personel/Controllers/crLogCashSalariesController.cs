@@ -23,10 +23,11 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             var crLogCashSalaries = new List<crLogCashSalary>();
 
-            var today = dt.GetCurrentDate().ToShortDateString();
+            var today = dt.GetCurrentDate().ToString("M/dd/yyyy");
             if (filter == 1)
             {
                 crLogCashSalaries = db.crLogCashSalaries.Include(c => c.crLogDriver)
+                    .Where(c => c.Date != today)
                     .ToList();
             }
             else
@@ -121,10 +122,10 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         // GET: Personel/crLogCashSalaries/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.Date = dt.GetCurrentDate().ToString("MM/dd/yyyy");
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name");
+            ViewBag.Date = dt.GetCurrentDate().ToString("M/dd/yyyy");
+            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", id);
             return View();
         }
 
@@ -200,6 +201,7 @@ namespace JobsV1.Areas.Personel.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             crLogCashSalary crLogCashSalary = db.crLogCashSalaries.Find(id);
+            db.crLogCashGroups.RemoveRange(crLogCashSalary.crLogCashGroups);
             db.crLogCashSalaries.Remove(crLogCashSalary);
             db.SaveChanges();
             return RedirectToAction("Index");

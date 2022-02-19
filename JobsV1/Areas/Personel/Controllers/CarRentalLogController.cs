@@ -248,10 +248,12 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     //disable edit on finalized
                     crLogTrip.AllowEdit = false;
+                
                 }
 
                 db.Entry(crLogTrip).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);

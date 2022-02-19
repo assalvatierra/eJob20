@@ -10,7 +10,7 @@
 <h2>Driver Payments : @ViewBag.Driver </h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create") |
+    @Html.ActionLink("Create New", "Create", new { id = ViewBag.DriverId }) |
     @Html.ActionLink("Back to Driver Summary", "DriverSummary", "crLogDrivers", new { id = driverId }, null)
 </p>
 <table class="table">

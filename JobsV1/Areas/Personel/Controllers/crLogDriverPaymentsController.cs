@@ -41,9 +41,9 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         // GET: Personel/crLogDriverPayments/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name");
+            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", id);
             return View();
         }
 
