@@ -719,4 +719,5 @@ FROM ArTransactions ar WHERE ar.InvoiceRef = 7
 select * from ApTransactions WHERE DtRelease IS NOT NULL AND ApTransTypeId != 2
 
 -- Get TRIPLOGS details for report 
-SELECT SUM(cr.DriverFee + cr.DriverOT) FROM crLogTrips cr LEFT JOIN crLogTripJobMains jm ON jm.crLogTripId = cr.Id WHERE jm.JobMainId LIKE '5'
+SELECT SUM(cr.DriverFee + cr.DriverOT) FROM crLogTrips cr LEFT JOIN crLogTripJobMains jm ON jm.crLogTripId = cr.Id WHERE jm.JobMainId LIKE 5
+

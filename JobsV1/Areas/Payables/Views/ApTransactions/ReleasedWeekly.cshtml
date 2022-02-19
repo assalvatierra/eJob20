@@ -14,16 +14,19 @@
     decimal totalChange = 0;
     decimal GrandTotal = 0;
 
-    bool isAdmin = true;
+    bool isAdmin = ViewBag.IsAdmin;
+
+    int TransType = (int)ViewBag.TransType;
+    int Category = (int)ViewBag.Category;
 }
 
 <h2>Monthly Expense Report </h2>
 <p>
     @Html.ActionLink("Create New", "Create", null, new { @class = " btn btn-primary" })
-    <a href="/Payables/ApTransactions/"> <button class="btn btn-default"> Expenses </button></a>
-    <a href="/Payables/ApTransactions/ReleasedDaily"> <button class="btn btn-default"> Daily Expenses </button></a>
-    <a href="/Payables/ApTransactions/ReleasedWeekly"> <button class="btn btn-default" disabled> Monthly Expenses </button></a>
-    <a href="/Payables/ApTransactions/PrintRequestList"> <button class="btn btn-default"> Print Requests </button></a>
+    <a href="/Payables/ApTransactions/"> <span class="btn btn-default"> Expenses </span></a>
+    <a href="/Payables/ApTransactions/ReleasedDaily"> <span class="btn btn-default"> Daily Expenses </span></a>
+    <a href="/Payables/ApTransactions/ReleasedWeekly"> <span class="btn btn-default" disabled> Monthly Expenses </span></a>
+    <a href="/Payables/ApTransactions/PrintRequestList"> <span class="btn btn-default"> Print Requests </span></a>
 </p>
 
 
@@ -32,19 +35,22 @@
         @using (Html.BeginForm())
         {
             <div class="input-group-btn" style="width:140px;">
+                <input name="search" type="text" width="100" style="margin-left:0px" class="form-control" placeholder="Search" />
+            </div>
+            <div class="input-group-btn" style="width:140px;">
                 <input type="text" class="form-control" name="dateStart" value="@ViewBag.DateStart" />
             </div>
             <div class="input-group-btn" style="width:140px;">
                 <input type="text" class="form-control" name="dateEnd" value="@ViewBag.DateEnd" />
             </div>
             <div class="input-group-btn" style="padding-top:5px;">
-                <select class="form-control" name="transType" style="width:100px;">
+                <select class="form-control" name="transType" style="width:100px;" id="TransType">
                     <option value="1"> Cash </option>
                     <option value="2"> PO </option>
                 </select>
             </div>
             <div class="input-group-btn" style="padding-top:5px;">
-                <select class="form-control" name="category" style="width:100px;">
+                <select class="form-control" name="category" style="width:100px;" id="Category">
                     <option value="0"> All </option>
                     <option value="1"> Overhead </option>
                     <option value="2"> Job Expense </option>
@@ -369,10 +375,25 @@
     </div>
 </div>
 
-
-
 @section Scripts{
     <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransaction.js"></script>
     <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ReleasedWeekly.js"></script>
+    <script>
+
+
+        $(Initialize());
+
+        function Initialize() {
+
+            if (@TransType != "") {
+                $("#TransType").val("@TransType");
+            }
+
+
+            if (@Category != "") {
+                $("#Category").val("@Category");
+            }
+        }
+    </script>
 
 }

@@ -79,7 +79,7 @@ namespace JobsV1.Areas.Payables.Controllers
         }
 
         // GET: Payables/ApTransactions/ReleasedWeekly
-        public ActionResult ReleasedWeekly(DateTime? dateStart, DateTime? dateEnd, int? transType, int? category)
+        public ActionResult ReleasedWeekly(DateTime? dateStart, DateTime? dateEnd, int? transType, int? category, string search)
         {
             DateTime thisMonth = dt.GetCurrentDate();
             var startMonthDate = new DateTime(thisMonth.Year, thisMonth.Month, 1);
@@ -91,13 +91,15 @@ namespace JobsV1.Areas.Payables.Controllers
             category = category ?? 0;
 
             var apTransactions = ap.TransactionMgr
-                .GetDailyReleasedByDateRange((DateTime)dateStart, (DateTime)dateEnd, (int)transType, (int)category );
+                .GetDailyReleasedByDateRange((DateTime)dateStart, (DateTime)dateEnd, (int)transType, (int)category, search);
 
 
             ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.Today = ap.DateClassMgr.GetCurrentDate();
             ViewBag.DateStart = dateStart;
             ViewBag.DateEnd = dateEnd;
+            ViewBag.TransType = transType ?? 0;
+            ViewBag.Category = category ?? 0;
 
             return View(apTransactions);
         }
@@ -231,7 +233,6 @@ namespace JobsV1.Areas.Payables.Controllers
                         }
 
                         return RedirectToAction("Details", new { id = apTransaction.Id });
-
                     }
 
                     ap.TransactionMgr.EditTransaction(apTransaction);

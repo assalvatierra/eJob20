@@ -685,13 +685,13 @@ values	('03-05-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 25000
 insert into CarCategories (Description, Remarks)
 values ('Van',''),('SUV',''),('MPV',''),('Sedan',''),('Pickup','');
 
-insert into CarUnits ( Description, Remarks, CarCategoryId , SelfDrive, SortOrder) 
+insert into CarUnits ( Description, Remarks, CarCategoryId , SelfDrive, SortOrder, Status) 
 values 
 	   ('Van (14 seater)','Nissan Premium'		,1,1,1),
 	   ('Van (10 seater)','Gl Grandia'			,1,1,2),
 	   ('SUV'            ,'Ford Everest'		,2,0,3),
 	   ('MPV/AUV/MiniVan','Toyota Innova'		,3,0,4),
-	   ('Sedan'          ,'Honda City'			,4,0,5),
+	   ('Sedan'          ,'Honda City'			,4,0,5, 'INACTIVE'),
 	   ('Pickup'         ,'Pickups'				,5,0,6),
 	   ('Van (14 seater)','GL Grandia Tourer'	,1,1,1),
 	   ('MPV'			 ,'Toyota Rush'			,3,0,3);

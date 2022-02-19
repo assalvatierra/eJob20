@@ -360,7 +360,9 @@
     <Compile Include="Areas\Personel\Controllers\CarRentalLogController.cs" />
     <Compile Include="Areas\Personel\Controllers\CarRentalReportController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogBillingController.cs" />
+    <Compile Include="Areas\Personel\Controllers\crLogCashSalariesController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogCompaniesController.cs" />
+    <Compile Include="Areas\Personel\Controllers\crLogDriverPaymentsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogDriversController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogFuelsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogOdoesController.cs" />
@@ -403,7 +405,13 @@
     <Compile Include="Areas\Personel\Models\CrDataLayer.cs" />
     <Compile Include="Areas\Personel\Models\crDriverData.cs" />
     <Compile Include="Areas\Personel\Models\crDriverSummary.cs" />
+    <Compile Include="Areas\Personel\Models\crLogCashGroup.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Personel\Models\crLogCashRelease.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogCashSalary.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\crLogCashStatus.cs">
@@ -418,7 +426,13 @@
     <Compile Include="Areas\Personel\Models\crLogCompany.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Models\crLogCompanyRate.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Personel\Models\crLogDriver.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogDriverPayment.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\crLogFuel.cs">
@@ -555,6 +569,7 @@
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
     <Compile Include="Areas\Personel\Services\CrLogServices.cs" />
     <Compile Include="Areas\Personel\Services\CrOTServices.cs" />
+    <Compile Include="Areas\Personel\Services\DateClass.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\Controllers\SmCategoriesController.cs" />
     <Compile Include="Areas\Products\Controllers\SmProdAdsController.cs" />
@@ -1674,6 +1689,9 @@
     <Content Include="Images\CarRental\CarViews\VanRental\VanSeats.jpg" />
     <Content Include="Images\CarRental\Driver101.png" />
     <Content Include="Images\CarRental\Driver102x.png" />
+    <Content Include="Images\CarRental\estrada\Mitsubishi-Estrada-2022-back.jpg" />
+    <Content Include="Images\CarRental\estrada\Mitsubishi-Estrada-2022-seats.jpg" />
+    <Content Include="Images\CarRental\estrada\Mitsubishi-Estrada-2022.jpg" />
     <Content Include="Images\CarRental\ford\Ford-Everest-front-side.jpg" />
     <Content Include="Images\CarRental\ford\Ford-Everest-seat-back.jpg" />
     <Content Include="Images\CarRental\ford\Ford-Everest-seat-front.jpg" />
@@ -1688,6 +1706,11 @@
     <Content Include="Images\CarRental\fortuner\fortuner_frontview.jpg" />
     <Content Include="Images\CarRental\fortuner\fortuner_interior.jpg" />
     <Content Include="Images\CarRental\fortuner\fortuner_sideview.jpg" />
+    <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-2022-back.jpg" />
+    <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-2022-interior-back.jpg" />
+    <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-2022-interior.jpg" />
+    <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-2022-side.jpg" />
+    <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-2022.jpg" />
     <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-back-seat.jpg" />
     <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-back.jpg" />
     <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-front-seat.jpg" />
@@ -1703,6 +1726,7 @@
     <Content Include="Images\CarRental\glgrandia\Toyota-Grandia-seats.jpg" />
     <Content Include="Images\CarRental\glgrandia\Toyota-Grandia-side.jpg" />
     <Content Include="Images\CarRental\glgrandia\Toyota-Grandia.jpg" />
+    <Content Include="Images\CarRental\hilux\Toyota-Hilux-Main.jpg" />
     <Content Include="Images\CarRental\Home\email-contact-us.png" />
     <Content Include="Images\CarRental\Home\Article\Article-car-beach.jpg" />
     <Content Include="Images\CarRental\Home\Article\Article-Car-Dashboard.jpg" />
@@ -1825,6 +1849,8 @@
     <Content Include="Images\CarRental\innova\Toyota-Innova-2020-side.jpg" />
     <Content Include="Images\CarRental\innova\toyota-innova-2020-sm.jpg" />
     <Content Include="Images\CarRental\innova\toyota-innova-2020.jpg" />
+    <Content Include="Images\CarRental\innova\Toyota-Innova-2021-Back.jpg" />
+    <Content Include="Images\CarRental\innova\Toyota-Innova-2021-Front.jpg" />
     <Content Include="Images\CarRental\innova\toyota-innova-back-seat.jpg" />
     <Content Include="Images\CarRental\innova\toyota-innova-front-seat.jpg" />
     <Content Include="Images\CarRental\innova\Toyota-Innova-sm.jpg" />
@@ -2633,6 +2659,24 @@
     <Content Include="Areas\Personel\Views\crLogDrivers\DriverSummaryTripEdit.cshtml" />
     <Content Include="Areas\Personel\Views\crLogDrivers\DriverTrxHistory.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\_LogExpenseUpdateModal.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogCompanies\UpdateCompanyRates.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogCashSalaries\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogCashSalaries\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogCashSalaries\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogCashSalaries\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogCashSalaries\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogCashSalaries\AddSalary.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogCashSalaries\AddCashTransaction.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogCashSalaries\ContributionsList.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDriverPayments\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDriverPayments\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDriverPayments\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDriverPayments\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDriverPayments\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogCashSalaries\PrintSalary.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransactions\PrintRequestPOForm.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogCashSalaries\EditCashTransaction.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransactions\ActionHistoryDelete.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
