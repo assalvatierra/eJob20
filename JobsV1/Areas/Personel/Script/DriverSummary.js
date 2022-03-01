@@ -49,12 +49,12 @@ function CalculateTotalSalary() {
             $checkedBoxStatus = $row.find('input:checked').is(":checked");
 
         if ($checkedBoxStatus) {
-            if (parseFloat($driverfee) > 0 ) {
+            if (parseFloat($driverfee) >= 0 ) {
 
                 TotalSalary = TotalSalary + parseFloat($driverfee);
 
                 if (isOTChecked) {
-                    if (parseFloat($driverOT) > 0) {
+                    if (parseFloat($driverOT) >= 0) {
                         TotalSalary = TotalSalary + parseFloat($driverOT);
                     }
                 }

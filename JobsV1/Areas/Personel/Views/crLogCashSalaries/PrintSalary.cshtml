@@ -73,7 +73,7 @@
                                 Rate
                             </th>
                             <th>
-                                OT 
+                                OT
                             </th>
                         </tr>
 
@@ -106,6 +106,20 @@
                             }
 
                         }
+
+                        @foreach (var CA in Model.OtherSalary)
+                        {
+                            SubTotalCA += CA.Amount;
+
+                            <tr>
+                                <td> @CA.DtRelease.ToString("MMM dd yyyy (ddd)") </td>
+                                <td colspan="1"> @CA.Remarks  </td>
+                                <td> </td>
+                                <td> @CA.Amount.ToString("#,##0.00") </td>
+                                <td>  </td>
+                            </tr>
+                        }
+
 
                         @foreach (var CA in Model.CA)
                         {
@@ -305,6 +319,17 @@
 
                         }
 
+                        @foreach (var CA in Model.OtherSalary)
+                        {
+
+                            <tr>
+                                <td> @CA.DtRelease.ToString("MMM dd yyyy (ddd)") </td>
+                                <td colspan="1"> @CA.Remarks  </td>
+                                <td>  </td>
+                                <td> @CA.Amount.ToString("#,##0.00") </td>
+                                <td>  </td>
+                            </tr>
+                        }
                         @foreach (var CA in Model.CA)
                         {
                             <tr>

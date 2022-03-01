@@ -166,8 +166,12 @@ namespace JobsV1.Areas.Personel.Controllers
             trip.IsFinal = false;
             trip.AllowEdit = false;
 
+            var unitList = dl.GetUnits().Select(c => new {
+                Id = c.Id,
+                Description = c.Description + " (" + c.crLogOwner.Name + ")"
+            }).ToList();
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name");
-            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description");
+            ViewBag.crLogUnitId = new SelectList(unitList, "Id", "Description");
             ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name");
             //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id");
             return View(trip);
@@ -219,8 +223,13 @@ namespace JobsV1.Areas.Personel.Controllers
                 crLogTrip.DriverOTRate = 50;
             }
 
+            var unitList = dl.GetUnits().Select(c => new {
+                Id = c.Id,
+                Description = c.Description + " (" + c.crLogOwner.Name + ")"
+            }).ToList();
+
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
-            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
+            ViewBag.crLogUnitId = new SelectList(unitList, "Id", "Description", crLogTrip.crLogUnitId);
             ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
             //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
             return View(crLogTrip);
@@ -256,8 +265,14 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 return RedirectToAction("Index");
             }
+
+            var unitList = dl.GetUnits().Select(c => new {
+                Id = c.Id,
+                Description = c.Description + " ("+ c.crLogOwner.Name +")"
+            }).ToList();
+
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
-            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
+            ViewBag.crLogUnitId = new SelectList(unitList, "Id", "Description", crLogTrip.crLogUnitId);
             ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
             //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
             return View(crLogTrip);

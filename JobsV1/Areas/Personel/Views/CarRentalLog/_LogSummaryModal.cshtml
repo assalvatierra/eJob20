@@ -3,6 +3,10 @@
     var DriversLogSummary = ViewBag.DriversLogSummary as List<JobsV1.Areas.Personel.Models.CrDriverLogs>;
     var CompaniesLogSummary = ViewBag.CompaniesLogSummary as List<JobsV1.Areas.Personel.Models.CrCompanyLogs>;
     var UnitsLogSummary = ViewBag.UnitsLogSummary as List<JobsV1.Areas.Personel.Models.CrUnitLogs>;
+
+    var totalCount_ByCompany = 0;
+    var totalCount_ByDriver = 0;
+    var totalCount_ByUnit = 0;
 }
 
 <div class="modal fade" role="dialog" id="SummaryModal" data-keyboard="false" data-backdrop="static">
@@ -27,30 +31,49 @@
                     </tr>
                     @foreach (var log in CompaniesLogSummary)
                     {
+                        totalCount_ByCompany += log.JobCount;
                         <tr>
                             <td> <span style="margin-left:15px;"> @log.Company </span> </td>
                             <td> @log.JobCount </td>
                             <td> @log.TotalAmount.ToString("#,##0.00") </td>
                         </tr>
                     }
+                <tr>
+                    <td>
+                        Total Count:
+                    </td>
+                    <td colspan="2">
+                        @totalCount_ByCompany
+                    </td>
+                </tr>
 
                     <tr>
                         <td colspan="3"> <span class="text-muted" style="margin-left:0px;">By Driver</span> </td>
                     </tr>
                     @foreach (var log in DriversLogSummary)
                     {
+                        totalCount_ByDriver += log.JobCount;
                         <tr>
                             <td> <span style="margin-left:15px;"> @log.Driver </span> </td>
                             <td> @log.JobCount </td>
                             <td> @log.TotalDriverFee.ToString("#,##0.00") </td>
                         </tr>
                     }
+                <tr>
+                    <td>
+                        Total Count:
+                    </td>
+                    <td colspan="2">
+                        @totalCount_ByDriver
+                    </td>
+                </tr>
 
                     <tr>
                         <td colspan="3"> <span class="text-muted" style="margin-left:0px;">By Unit </span> </td>
                     </tr>
                     @foreach (var log in UnitsLogSummary)
                     {
+                        totalCount_ByUnit += log.JobCount;
                         <tr>
                             <td> <span style="margin-left:15px;"> @log.Unit </span> </td>
                             <td> @log.JobCount </td>
@@ -58,6 +81,14 @@
                         </tr>
                     }
 
+                    <tr>
+                        <td >
+                            Total Count: 
+                        </td>
+                        <td colspan="2">
+                            @totalCount_ByUnit
+                        </td>
+                    </tr>
                 </table>
             </div>
             <div class="modal-footer">
