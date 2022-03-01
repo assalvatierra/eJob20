@@ -606,14 +606,45 @@ namespace JobsV1.Areas.Receivables.Controllers
         [HttpPost]
         public bool CloseTransctions(int[] TransIds)
         {
-            var arTransIds = new List<int>(TransIds);
-
-            foreach (var artransId in arTransIds)
+            try
             {
-                UpdateTransStatus(artransId, 6); //close transaction
-            }
 
-            return true;
+                var arTransIds = new List<int>(TransIds);
+
+                foreach (var artransId in arTransIds)
+                {
+                    UpdateTransStatus(artransId, 6); //close transaction
+                }
+
+                return true;
+            }
+            catch
+            {
+
+                return false;
+            }
+        }
+
+        public bool UpdateInvoiceId(int id, int invoiceId)
+        {
+            try
+            {
+                if (id == 0 || invoiceId == 0)
+                {
+                    return false;
+                }
+
+                var arTrans = ar.TransactionMgr.GetTransactionById(id);
+                arTrans.InvoiceId = invoiceId;
+                arTrans.InvoiceRef = invoiceId.ToString();
+                ar.TransactionMgr.EditTransaction(arTrans);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         #endregion

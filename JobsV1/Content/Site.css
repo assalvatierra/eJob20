@@ -676,6 +676,10 @@ rental-type-wdriver {
     font-size:10px;
 }
 
+.text-red{
+    color:darkred;
+}
+
 /* PC 1080p Screens */
 @media only screen and (max-width: 1200px) {
     .nav-submenu-home {

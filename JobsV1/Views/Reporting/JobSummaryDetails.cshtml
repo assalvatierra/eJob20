@@ -22,7 +22,6 @@
 <h4> Job#: @Model.Id </h4>
 <h4> Account: @Model.Account </h4>
 <h4> STATUS: @Model.Status </h4>
-<h4> Rate: @Model.Amount </h4>
 
 <hr />
 
@@ -58,7 +57,7 @@
 
         <tr>
             <td>
-                @trip.Id
+                <a href="/Personel/CarRentalLog/Details/@trip.Id">@trip.Id</a>
             </td>
             <td>
                 @trip.DtTrip.ToString("MMM dd yyyy")
@@ -111,7 +110,7 @@
         Expenses_Payment += expense.ApTransPayments.Sum(c => c.ApPayment.Amount);
         <tr>
             <td>
-                @expense.Id
+                <a href="/Payables/ApTransactions/Details/@expense.Id">@expense.Id</a>
             </td>
             <td>
                 @expense.DtInvoice.ToString("MMM dd yyyy")
@@ -159,7 +158,7 @@
         Receivables_Payment += receivables.ArTransPayments.Sum(c => c.ArPayment.Amount);
         <tr>
             <td>
-                @receivables.Id
+                <a href="/Receivables/ArTransactions/Details/@receivables.Id"> @receivables.Id</a>
             </td>
             <td>
                 @receivables.DtInvoice.ToString("MMM dd yyyy")
@@ -181,3 +180,13 @@
         </td>
     </tr>
 </table>
+
+<hr />
+
+<div style="padding:25px;background-color:#e8e8e8;">
+    <h2> Summary </h2>
+    <h3> Invoice Amount: <b>@Model.Amount.ToString("#,##0.00")</b></h3>
+    <h3> Collected Amount:  <b>@Receivables_Payment.ToString("#,##0.00")</b></h3>
+    <h3> Expense Amount:  <b>@Expenses_Amount.ToString("#,##0.00")</b></h3>
+    <h3> Drivers Amount:  <b>@Triplog_Driver.ToString("#,##0.00")</b></h3>
+</div>

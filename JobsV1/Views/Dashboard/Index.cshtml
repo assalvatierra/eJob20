@@ -57,16 +57,44 @@
         var chart;
         function triplogsChart(datalabels, dataset) {
 
+            let dateToday = new Date();
+            //$("#trip-chart-Month").val(dateToday.getMonth() + 1);
+            //$("#trip-chart-Year").val(dateToday.getFullYear());
+
+            chartMonth = $("#trip-chart-Month").val();
+            chartYear = $("#trip-chart-Year").val();
             const labels = datalabels;
             let monthdays = 31;
+
+            monthdays = DaysInMonth($("#trip-chart-Month").val() , $("#trip-chart-Year").val());
+
+            console.log("monthdays: " + monthdays);
             
             let goal = 200;
-            let goalperday =Math.ceil(parseFloat(goal / monthdays ));
+            let goalperday =Math.floor(parseFloat(goal / monthdays ));
             let goalTotal = 0;
             let goalDataset = new Array();
 
-            for (var i = 0; i < 31; i++) {
-                goalTotal = goalTotal + goalperday;
+            console.log("goalperday: " + goalperday);
+
+            for (var i = 0; i <= monthdays; i++) {
+
+                if (i > 20) {
+                    goalperday = 7;
+                }
+
+                if (i > 26) {
+                    goalperday = 8;
+                }
+
+                if (goalTotal < goal) {
+                    goalTotal = goalTotal + (goalperday);
+                }
+
+                if (i == ( monthdays - 1)) {
+                    goalTotal = goalTotal + (goal - goalTotal);
+                }
+
                 goalDataset.push(goalTotal);
             }
 
@@ -200,6 +228,11 @@
                 triplogsChart(days, data);
             });
         }
+
+        function DaysInMonth(month, year) {
+            return new Date(year, month, 0).getDate();
+        }
+
     </script>
 
     <script>

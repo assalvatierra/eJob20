@@ -2677,6 +2677,8 @@
     <Content Include="Areas\Payables\Views\ApTransactions\PrintRequestPOForm.cshtml" />
     <Content Include="Areas\Personel\Views\crLogCashSalaries\EditCashTransaction.cshtml" />
     <Content Include="Areas\Payables\Views\ApTransactions\ActionHistoryDelete.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransactions\IndexTodayTrans.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArTransactions\_ModalJobLink.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />

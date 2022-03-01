@@ -69,9 +69,9 @@
         <th>
             Rate
         </th>
-        <td>
+        <th>
             Drivers Rate
-        </td>
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Expenses)
         </th>
@@ -93,9 +93,11 @@
         TotalPayments += item.Payment;
         TotalDriversRate += item.DriversRate;
 
+        decimal amountVariance = item.Amount * (decimal)0.1;
+        var paymentAmount = item.Payment;
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                <a href="/JobOrder/JobServices?JobMainId=@item.Id">@Html.DisplayFor(modelItem => item.Id)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Company) <br />
@@ -103,6 +105,10 @@
 
                 @if (!String.Equals(item.Contact.ToLower(), item.Description.ToLower()))
                 {
+                    if (item.Contact != item.Description)
+                    {
+
+                    }
                     <br />@Html.DisplayFor(modelItem => item.Description)
                 }
             </td>
@@ -111,16 +117,25 @@
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
             <td>
-                @item.Amount.ToString("#,##0.00")
+                <b>@item.Amount.ToString("#,##0.00")</b>
             </td>
             <td>
                 @item.DriversRate.ToString("#,##0.00")
             </td>
             <td>
-                @item.Expenses.ToString("#,##0.00")
+                <span class="text-red">@item.Expenses.ToString("#,##0.00")</span>
             </td>
             <td>
-                @item.Payment.ToString("#,##0.00")
+
+                @if ((paymentAmount < (item.Amount - amountVariance) ||
+                      paymentAmount > (item.Amount + amountVariance)))
+                {
+                    <img src="~/Images/SalesLead/high-importance.png" width="20"
+                         alt="Payment Amount  reached a 10% variance of the Invoice Amount"
+                         title="Payment Amount  reached a 10% variance of the  Invoice Amount" />
+                }
+
+                <span class="text-success">@item.Payment.ToString("#,##0.00")</span>
             </td>
             <td>
 
@@ -166,19 +181,19 @@
         </td>
         <td>
             <span class="text-muted" style="font-size:10px;"> Total Amount </span><br />
-            @TotalAmount.ToString("#,##0.00")
+            <b class="text-bold">@TotalAmount.ToString("#,##0.00")</b>
         </td>
         <td>
             <span class="text-muted" style="font-size:10px;"> Total Drivers Rate </span><br />
-            @TotalDriversRate.ToString("#,##0.00")
+            <span class="text-nowrap">@TotalDriversRate.ToString("#,##0.00")</span>
         </td>
         <td>
             <span class="text-muted" style="font-size:10px;"> Total Expense </span><br />
-            @TotalExpense.ToString("#,##0.00")
+            <span class="text-red">@TotalExpense.ToString("#,##0.00")</span>
         </td>
         <td>
             <span class="text-muted" style="font-size:10px;"> Total Payment </span><br />
-            @TotalPayments.ToString("#,##0.00")
+            <span class="text-success">@TotalPayments.ToString("#,##0.00")</span>
         </td>
         <td colspan="2">
 
