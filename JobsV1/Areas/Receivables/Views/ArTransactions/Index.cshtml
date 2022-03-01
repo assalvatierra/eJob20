@@ -18,6 +18,15 @@
     decimal GrandTotal   = 0;
     decimal GrandPayment = 0;
     decimal GrandBalance = 0;
+
+
+    int STATUS_NEW = 1;
+    int STATUS_APPROVAL = 2;
+    int STATUS_APPROVED = 3;
+    int STATUS_BILLINGSENT = 4;
+    int STATUS_SETTLEMENT = 5;
+    int STATUS_CANCELLED = 7;
+    int STATUS_CLOSED = 6;
 }
 
 <h2>Receivables Transactions</h2>
@@ -205,6 +214,9 @@
             string textcolor = "black";
             string bgcolor = "none";
 
+            decimal amountVariance = item.Amount * (decimal)0.1;
+            var paymentAmount = item.ArTransPayments.Sum(p => p.ArPayment.Amount);
+
             if (item.ArTransStatusId < 5)
             {
 
@@ -234,13 +246,14 @@
 
             <tr style="color:@textcolor;background-color:@bgcolor;">
                 <td>
+                    
                     @item.DtInvoice.ToString("MMM dd yyyy")
+
                 </td>
                 <td>
                     @item.Id
                 </td>
                 <td>
-
                     @if (item.InvoiceId != 0 && item.InvoiceRef != null)
                     {
                         @Html.ActionLink(item.InvoiceRef, "JobServices", "JobOrder", new { area = "", jobMainId = item.InvoiceId }, new { target = "_blank" })
@@ -256,29 +269,9 @@
                         @Html.ActionLink(item.ArAccount.Company + " ", "Details", "ArAccounts", new { id = item.ArAccountId }, null)
                     </span>
                     <br>
-
-                    @if (item.ArAccContactId != 1)
+                    @if (item.ArAccContact != null)
                     {
-                        if (item.ArAccContact != null )
-                        {
-                            if (item.ArAccContact.Name.Trim() != item.Description.Trim())
-                            {
-                                <span style="font-size:12px;color:gray;"> @Html.DisplayFor(modelItem => item.ArAccContact.Name)</span>
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (item.ArAccount.Name.Trim() != "Personal Account")
-                        {
-                            if (item.ArAccount != null)
-                            {
-                                if (item.ArAccount.Name.Trim() != item.Description.Trim())
-                                {
-                                    <span style="font-size:12px;color:gray;"> @Html.DisplayFor(modelItem => item.ArAccount.Name)</span>
-                                }
-                            }
-                        }
+                        <span> @item.ArAccContact.Name </span>
                     }
                     <br />
                 </td>
@@ -358,6 +351,15 @@
                         }
                     }
                     <span>
+                        @if ((item.ArTransStatusId >= STATUS_SETTLEMENT) &&
+                        (paymentAmount < (item.Amount - amountVariance) || paymentAmount > (item.Amount + amountVariance)))
+                        {
+                            <img src="~/Images/SalesLead/high-importance.png" width="15"
+                                 alt="Amount paid reached a 10% variance of the invoice amount"
+                                 title="Amount paid reached a 10% variance of the invoice amount" />
+                        }
+
+
                         @totalTransPayment.ToString("#,##0.00")<br />
                         <span style="font-size:11px;color:gray;">@paymentType</span>
 
@@ -415,6 +417,7 @@
                             @if (item.ArTransStatusId < 5)
                             {
                                 <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                                <li> <span class="btn btn-default" onclick="ShowJobLinkModal(@item.Id, '@item.ArAccount.Name - @item.Description')"> Update joblink </span> </li>
                             }
                             else
                             {
@@ -481,6 +484,8 @@
 </div>
 
 
+@Html.Partial("_ModalJobLink");
+
 @section Scripts{
     <script>
 
@@ -489,16 +494,16 @@
             var result = $.post("/Receivables/ArTransactions/UpdateTransStatus", {
                 transId: transId,
                 statusId: statusId
-            }, (response) => {
-                console.log("Update Status : " + response);
-                if (response == "True") {
-                    $("#overlay").hide();
-                    window.location.reload(false);
-                } else {
-                    alert("Unable to Update transaction.");
-                    $("#overlay").hide();
+                }, (response) => {
+                    console.log("Update Status : " + response);
+                    if (response == "True") {
+                        $("#overlay").hide();
+                        window.location.reload(false);
+                    } else {
+                        alert("Unable to Update transaction.");
+                        $("#overlay").hide();
+                    }
                 }
-            }
             );
 
             console.log(result);
@@ -511,7 +516,7 @@
 
 
         function UpdateStatusAndDeposit(id) {
-            var result = $.post("/Receivables/ArMgt/UpdatePaymentAsDeposited",
+             $.post("/Receivables/ArMgt/UpdatePaymentAsDeposited",
                 {
                     transId: id
                 },
@@ -521,6 +526,34 @@
                         window.location.reload(false);
                     } else {
                         alert("Unable to Update Deposit.");
+                    }
+                }
+            );
+        }
+
+        function ShowJobLinkModal(id, desc) {
+            $("#JobLink-TripLogId").val(id);
+            $("#JobLink-Description").val(desc);
+
+            $("#LogJobLinkModal").modal("show");
+        }
+
+        function UpdateInvoiceId() {
+
+            let id = $("#JobLink-TripLogId").val();
+            let invoiceId = $("#JobLink-JobMainId").val();
+
+            $.post("/Receivables/ArTransactions/UpdateInvoiceId",
+                {
+                    id: id,
+                    invoiceId: invoiceId
+                },
+                (response) => {
+                    console.log("Update Status : " + response);
+                    if (response == "True") {
+                        window.location.reload(false);
+                    } else {
+                        alert("Unable to Update Invoice Id.");
                     }
                 }
             );

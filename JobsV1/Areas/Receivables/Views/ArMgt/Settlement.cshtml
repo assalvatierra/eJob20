@@ -58,6 +58,10 @@
             textColor = "ForestGreen";
         }
 
+        //variance 10%
+        decimal amountVariance = totalAmount * (decimal)0.1;
+        var paymentAmount = paymentTotal;
+
         <tr>
             <th>
                 <input value="@transaction.Id" type="checkbox" class="print-Checkbox" onclick="CheckRepeatItems(this)" />
@@ -93,12 +97,9 @@
             <td>
                 <b>@transaction.ArAccount.Company</b>
 
-                @if (transaction.ArAccount != null)
+                @if (transaction.ArAccContact != null)
                 {
-                    if (transaction.ArAccount.Name != "Personal Account" && transaction.ArAccount.Name.Trim() != @transaction.Description.Trim())
-                    {
-                        <span> / </span> @transaction.ArAccount.Name
-                    }
+                    <span> / @transaction.ArAccContact.Name </span>
                 }
 
                 <br />
@@ -145,9 +146,15 @@
                 }
                 <br />
                 <span style="font-size:11px;color:gray;">
-                        @paymentRemarks
+                    @paymentRemarks
                 </span>
 
+                @if ((paymentTotal < (totalAmount - amountVariance) || paymentTotal > (totalAmount + amountVariance)))
+                {
+                    <img src="~/Images/SalesLead/high-importance.png" width="15"
+                         alt="Amount paid reached a 10% variance of the invoice amount"
+                         title="Amount paid reached a 10% variance of the invoice amount" />
+                }
             </td>
             <td>
                 <a class="btn btn-default" onclick="UpdateStatus(@transaction.Id, 6)"> Close </a>
