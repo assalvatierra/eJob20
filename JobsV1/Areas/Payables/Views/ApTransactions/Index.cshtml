@@ -8,26 +8,27 @@
     string sortBy = ViewBag.Sort;
     string orderBy = ViewBag.OrderBy;
     DateTime today = ViewBag.Today;
+    List<ApModels.Models.ApTransaction> apTransToday = ViewBag.ApTansToday as List<ApModels.Models.ApTransaction>;
 
-    decimal totalAmount  = 0;
+    decimal totalAmount = 0;
     decimal totalPayment = 0;
     decimal totalBalance = 0;
-    decimal totalBudget  = 0;
+    decimal totalBudget = 0;
     decimal totalRelease = 0;
-    decimal GrandTotal   = 0;
+    decimal GrandTotal = 0;
 
     bool isAdmin = ViewBag.IsAdmin;
 
     int TYPE_CASH = 1;
     int TYPE_BANK = 3;
-    int TYPE_PO   = 2;
+    int TYPE_PO = 2;
 
-    int STATUS_REQUEST  = 1;
+    int STATUS_REQUEST = 1;
     int STATUS_APPROVED = 2;
     int STATUS_RELEASED = 3;
-    int STATUS_CLOSED   = 4;
+    int STATUS_CLOSED = 4;
     int STATUS_RETURNED = 5;
-    int STATUS_NEW      = 7;
+    int STATUS_NEW = 7;
     int STATUS_CANCELLED = 6;
 }
 
@@ -58,7 +59,6 @@
     <button class="btn btn-default" id="status-4" onclick="UpdateFilter( @STATUS_CLOSED, '@sortBy')"> Closed   </button>
 </div>
 
-
 <div class="btn-group" style="margin-bottom:5px;">
     <button class="btn btn-default" disabled> Sort by </button>
     <button class="btn btn-default active" id="sort-DueDate" onclick="UpdateFilter( @status, 'DueDate')"> Due Date </button>
@@ -67,7 +67,6 @@
     <button class="btn btn-default" id="sort-Amount" onclick="UpdateFilter( @status, 'Amount')"> Amount </button>
 </div>
 
-
 <div class="btn-group" style="margin-bottom:5px;">
     @if (status == 2)
     {
@@ -75,6 +74,10 @@
         <button class="btn btn-default" onclick="CheckSelected_PrintPO()"> <i class="glyphicon glyphicon-print"></i> Print PO </button>
     }
 </div>
+
+@if (status == 0) {
+    @Html.Partial("IndexTodayTrans")
+}
 
 <table class="table" id="payables-table">
     <tr>
@@ -162,46 +165,46 @@
                 }
             }
 
-            //calculate change from budget and Payment amounts
-            if (item.ReleaseAmt != null && !(totalTransPayment == 0))
+        //calculate change from budget and Payment amounts
+        if (item.ReleaseAmt != null && !(totalTransPayment == 0))
+        {
+            transChange = (decimal)item.ReleaseAmt - totalTransPayment;
+        }
+
+        //handle text color based on due date
+        string textcolor = "black";
+        string bgcolor = "none";
+
+        if (item.ApTransStatusId < STATUS_CLOSED)
+        {
+
+            if (today.CompareTo(item.DtDue) == 0)
             {
-                transChange = (decimal)item.ReleaseAmt - totalTransPayment;
+                textcolor = "black";
+                bgcolor = "lightgray";
             }
-
-            //handle text color based on due date
-            string textcolor = "black";
-            string bgcolor = "none";
-
-            if (item.ApTransStatusId < STATUS_CLOSED)
+            else if (today.CompareTo(item.DtDue) > 0)
             {
-
-                if (today.CompareTo(item.DtDue) == 0)
-                {
-                    textcolor = "black";
-                    bgcolor = "lightgray";
-                }
-                else if (today.CompareTo(item.DtDue) > 0)
-                {
-                    textcolor = "darkred";
-                }
-                else if (today.CompareTo(item.DtDue) < 0)
-                {
-                    textcolor = "black";
-                }
-                else
-                {
-                    textcolor = "black";
-                }
-
+                textcolor = "darkred";
             }
-            else if (item.ApTransStatusId > STATUS_CANCELLED)
+            else if (today.CompareTo(item.DtDue) < 0)
             {
-                textcolor = "gray";
+                textcolor = "black";
             }
             else
             {
-                textcolor = "darkgreen";
+                textcolor = "black";
             }
+
+        }
+        else if (item.ApTransStatusId > STATUS_CANCELLED)
+        {
+            textcolor = "gray";
+        }
+        else
+        {
+            textcolor = "darkgreen";
+        }
 
 
             <tr style="color:@textcolor;background-color:@bgcolor;">
@@ -214,12 +217,12 @@
                     }
 
                     @if ((item.ApTransStatusId == STATUS_RETURNED && item.ApTransTypeId != TYPE_PO) &&
-                         (item.Amount < (item.BudgetAmt - amountVariance) ||
-                          item.Amount > (item.BudgetAmt + amountVariance)) )
+                            (item.Amount < (item.BudgetAmt - amountVariance) ||
+                            item.Amount > (item.BudgetAmt + amountVariance)))
                     {
-                        <img src="~/Images/SalesLead/high-importance.png" width="20" 
-                             alt="Amount returned reached a 30% variance of the budget amount" 
-                             title="Amount returned reached a 30% variance of the budget amount"  />
+                        <img src="~/Images/SalesLead/high-importance.png" width="20"
+                                alt="Amount returned reached a 30% variance of the budget amount"
+                                title="Amount returned reached a 30% variance of the budget amount" />
                     }
 
                     @if (!item.IsPrinted && status == STATUS_APPROVED)
@@ -238,7 +241,7 @@
                     @if (item.ApTransCategory.Name == "Job Expense" && item.JobRef == null)
                     {
                         <img src="~/Images/SalesLead/high-importance.png" width="20"
-                             title="Please Provide Job Reference" />
+                                title="Please Provide Job Reference" />
                     }
                 </td>
                 <td>
@@ -327,7 +330,8 @@
                     @{ var budget = item.BudgetAmt ?? 0; }
 
                     @budget.ToString("#,##0.00")
-                </td>
+                 </td>
+
                 <td>
                     @{ var released = item.ReleaseAmt ?? 0; }
 
@@ -335,7 +339,7 @@
 
                     @if (item.DtRelease != null)
                     {
-                        var dtRelease = (DateTime)item.DtRelease;
+                    var dtRelease = (DateTime)item.DtRelease;
                         <br />
                         <span style="font-size:11px;color:gray;">
                             @dtRelease.ToString("MMM dd yyyy")
@@ -396,7 +400,7 @@
                                     <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_CANCELLED)"> Cancel </a>
                                 }
                                 else if (item.ApTransStatusId == STATUS_APPROVED)
-                                {
+{
                                     <a class="cursor-link" style="cursor:pointer;" onclick="ShowReleaseModal(@item.Id,'@item.Description', @item.BudgetAmt, '@item.ApTransType.Type')"> Release </a>
 
                                     if (!item.IsPrinted && item.ApTransTypeId == TYPE_PO)
@@ -413,9 +417,9 @@
                                     <li>
                                         <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
                                     </li>
-                                    }
-                                    else
-                                    {
+                                }
+                                else
+{
                                     <li>
                                         <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt)"> Return </a>
                                     </li>
@@ -429,7 +433,6 @@
                                         <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt)"> Admin Return </a>
                                     </li>
                                 }
-
 
                                 @if (item.ApTransStatusId == STATUS_RETURNED && isAdmin)
                                 {
@@ -445,9 +448,9 @@
                                     <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                                 }
                                 else
+{
+                                if (isAdmin)
                                 {
-                                    if (isAdmin)
-                                    {
                                         <li> @Html.ActionLink("Admin Edit", "Edit", new { id = item.Id }) </li>
                                         <li> @Html.ActionLink("History", "ActionHistory", new { id = item.Id }) </li>
                                     }
@@ -455,17 +458,15 @@
                                 <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
                                 @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                             </ul>
-                    </div>
-                </td>
-            </tr>
-            totalPayment += totalTransPayment;
-            totalAmount += item.Amount;
+                        </div>
+                    </td>
+                </tr>
+                totalPayment += totalTransPayment;
+                totalAmount += item.Amount;
 
-            totalBudget += item.BudgetAmt ?? 0;
-            totalRelease += item.ReleaseAmt ?? 0;
-
+                totalBudget += item.BudgetAmt ?? 0;
+                totalRelease += item.ReleaseAmt ?? 0;
             }
-
 
             {
                 totalBalance = totalRelease - totalPayment;
@@ -496,290 +497,287 @@
                 </td>
                 <td></td>
             </tr>
+            }
+     </table>
 
-        }
-
-
-</table>
-
-<div>
-    <h3>
-        <span>Grand Total :</span> @GrandTotal.ToString("#,##0.00")
-    </h3>
-</div>
-
-<!-- Repeating Payables Modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="RepeatingPayables-Modal">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"> Repeating Payables </h4>
-            </div>
-            <div class="modal-body">
-                <p id="RepeatingPayables-loading"> Showing Repeating Payables &hellip;</p>
-
-                <p> Select payables to be repeated </p>
-
-                <table class="table" id="RepeatingPayables-table">
-                    <tr>
-                        <th>
-                            <a href="#" onclick="CheckAllRepeatItems()"> All </a>
-                        </th>
-                        <th>
-                            Account
-                        </th>
-                        <th>
-                            Description
-                        </th>
-                        <th>
-                            Amount
-                        </th>
-                        <th>
-                            Interval
-                        </th>
-                        <th style="min-width:100px;">
-                            DueDate
-                        </th>
-                        <th>
-                        </th>
-                        <th style="min-width:100px;">
-                            Next DueDate
-                        </th>
-                        <th style="min-width:150px;"></th>
-                    </tr>
-
-                    <!-- Repeating Payables are added here -->
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="RepeatSelected(this)">Repeat Selected</button>
-            </div>
+        <div>
+            <h3>
+                <span>Grand Total :</span> @GrandTotal.ToString("#,##0.00")
+            </h3>
         </div>
-    </div>
-</div>
 
-<!-- Due Payables Modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="DuePayables-Modal">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"> Due Payables </h4>
-            </div>
-            <div class="modal-body">
-                <p> Displaying Payables that are due in 3 days or overdue. </p>
-                <table class="table">
-                    <tbody id="DuePayables-table">
-                        <tr>
-                            <th>
-                                Invoice Date
-                            </th>
-                            <th>
-                                Invoice
-                            </th>
-                            <th>
-                                Account
-                            </th>
-                            <th>
-                                Description
-                            </th>
-                            <th>
-                                Due Date
-                            </th>
-                            <th>
-                                Amount
-                            </th>
-                            <th>
-                                Payment
-                            </th>
-                            <th>
-                                Status
-                            </th>
-                            <th style="min-width:150px;"></th>
-                        </tr>
-                        <!-- Repeating Payables are added here -->
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                @*<button type="button" class="btn btn-primary" onclick="RepeatSelected(this)">Repeat Selected</button>*@
-            </div>
-        </div>
-    </div>
-</div>
+        <!-- Repeating Payables Modal -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="RepeatingPayables-Modal">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"> Repeating Payables </h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="RepeatingPayables-loading"> Showing Repeating Payables &hellip;</p>
 
-<!-- Release Payment Modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="ReleasePayment-Modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"> Release Payment </h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-md-2"> Id  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="ReleasePayment-Id" class="form-control" readonly />
-                        </div>
+                        <p> Select payables to be repeated </p>
+
+                        <table class="table" id="RepeatingPayables-table">
+                            <tr>
+                                <th>
+                                    <a href="#" onclick="CheckAllRepeatItems()"> All </a>
+                                </th>
+                                <th>
+                                    Account
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+                                <th>
+                                    Interval
+                                </th>
+                                <th style="min-width:100px;">
+                                    DueDate
+                                </th>
+                                <th>
+                                </th>
+                                <th style="min-width:100px;">
+                                    Next DueDate
+                                </th>
+                                <th style="min-width:150px;"></th>
+                            </tr>
+
+                            <!-- Repeating Payables are added here -->
+                        </table>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">  Date  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="ReleasePayment-Date" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">  Description  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="ReleasePayment-Description" class="form-control" readonly />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">  Budget  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="ReleasePayment-Budget" class="form-control" readonly />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">  Amount  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="ReleasePayment-Amount" class="form-control" />
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="RepeatSelected(this)">Repeat Selected</button>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="ReleasePayment(this)">Release </button>
-            </div>
         </div>
-    </div>
-</div>
 
-<!-- Add Payment Modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="Payment-Modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"> Add Payment </h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-md-2"> Id  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="Payment-Id" class="form-control" readonly />
-                        </div>
+        <!-- Due Payables Modal -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="DuePayables-Modal">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"> Due Payables </h4>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">  Date  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="Payment-Date" class="form-control" readonly />
-                        </div>
+                    <div class="modal-body">
+                        <p> Displaying Payables that are due in 3 days or overdue. </p>
+                        <table class="table">
+                            <tbody id="DuePayables-table">
+                                <tr>
+                                    <th>
+                                        Invoice Date
+                                    </th>
+                                    <th>
+                                        Invoice
+                                    </th>
+                                    <th>
+                                        Account
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Due Date
+                                    </th>
+                                    <th>
+                                        Amount
+                                    </th>
+                                    <th>
+                                        Payment
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th style="min-width:150px;"></th>
+                                </tr>
+                                <!-- Repeating Payables are added here -->
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">  Description  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="Payment-Description" class="form-control" readonly />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">  Amount  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="Payment-TmpAmount" class="form-control" readonly />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2"> Payment  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="Payment-Amount" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">  Remarks  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="80" id="Payment-Remarks" class="form-control" />
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        @*<button type="button" class="btn btn-primary" onclick="RepeatSelected(this)">Repeat Selected</button>*@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="Payment(this)">Add Payment</button>
-            </div>
         </div>
-    </div>
-</div>
 
-<!-- Return Amount Modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="ReturnAmount-Modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"> Return Amount </h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-md-2"> Id  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="ReturnAmount-Id" class="form-control" readonly />
+        <!-- Release Payment Modal -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="ReleasePayment-Modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"> Release Payment </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-2"> Id  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="ReleasePayment-Id" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">  Date  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="ReleasePayment-Date" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">  Description  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="ReleasePayment-Description" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">  Budget  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="ReleasePayment-Budget" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">  Amount  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="ReleasePayment-Amount" class="form-control" />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">  Description  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="ReturnAmount-Description" class="form-control" readonly />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">  Budget  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="ReturnAmount-BudgetAmount" class="form-control" readonly />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">  Amount  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="ReturnAmount-PreAmount" class="form-control" readonly />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2"> Actual Amount  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" id="ReturnAmount-Amount" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2"> Returned Remarks  </label>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="80" id="ReturnAmount-Remarks" class="form-control" />
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="ReleasePayment(this)">Release </button>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="ReturnAmount(this)">Return</button>
+        </div>
+
+        <!-- Add Payment Modal -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="Payment-Modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"> Add Payment </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-2"> Id  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="Payment-Id" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">  Date  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="Payment-Date" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">  Description  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="Payment-Description" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">  Amount  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="Payment-TmpAmount" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2"> Payment  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="Payment-Amount" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">  Remarks  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="80" id="Payment-Remarks" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="Payment(this)">Add Payment</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+
+        <!-- Return Amount Modal -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="ReturnAmount-Modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"> Return Amount </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-2"> Id  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="ReturnAmount-Id" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">  Description  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="ReturnAmount-Description" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">  Budget  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="ReturnAmount-BudgetAmount" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">  Amount  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="ReturnAmount-PreAmount" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2"> Actual Amount  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="20" id="ReturnAmount-Amount" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2"> Returned Remarks  </label>
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="80" id="ReturnAmount-Remarks" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="ReturnAmount(this)">Return</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
-<a href="#" onclick="GetRepeatingPayables()"> Show Repeating Payables </a>
+        <a href="#" onclick="GetRepeatingPayables()"> Show Repeating Payables </a>
 
-@section Scripts{
-    <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransaction.js"></script>
-    <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransRepeating.js"></script>
-    <script>
+        @section Scripts{
+            <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransaction.js"></script>
+            <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransRepeating.js"></script>
+            <script>
         $(Initialize('@status','@sortBy'));
-    </script>
-}
+            </script>
+        }

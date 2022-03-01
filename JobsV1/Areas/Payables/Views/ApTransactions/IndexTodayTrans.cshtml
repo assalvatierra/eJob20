@@ -1,0 +1,398 @@
+﻿
+@{
+
+
+    List<ApModels.Models.ApTransaction> apTransToday = ViewBag.ApTansToday as List<ApModels.Models.ApTransaction>;
+
+    int status = ViewBag.Status;
+    string sortBy = ViewBag.Sort;
+    string orderBy = ViewBag.OrderBy;
+    DateTime today = ViewBag.Today;
+    bool isAdmin = ViewBag.IsAdmin;
+
+    int TYPE_CASH = 1;
+    int TYPE_BANK = 3;
+    int TYPE_PO = 2;
+
+    int STATUS_REQUEST = 1;
+    int STATUS_APPROVED = 2;
+    int STATUS_RELEASED = 3;
+    int STATUS_CLOSED = 4;
+    int STATUS_RETURNED = 5;
+    int STATUS_NEW = 7;
+    int STATUS_CANCELLED = 6;
+}
+
+@if (apTransToday.Count > 0)
+{
+    <h4> Requests for Today </h4>
+}
+
+    <table class="table">
+        <tr>
+            <th class="header" scope="col">
+
+            </th>
+            <th class="header" scope="col">
+                Id
+            </th>
+            <th class="header" scope="col">
+                JobRef
+            </th>
+            <th class="header" scope="col">
+                Invoice&nbsp;Date
+            </th>
+            <th class="header" scope="col">
+                Account
+            </th>
+            <th style="min-width:160px;" class="header" scope="col">
+                Descriptoin
+            </th>
+            <th class="header" scope="col">
+                Due&nbsp;Date
+            </th>
+            <th style="min-width:100px;" class="header" scope="col">
+                Category
+            </th>
+            <th class="header" scope="col">
+                Status
+            </th>
+            <th class="header" scope="col">
+                Budget
+            </th>
+            <th class="header" scope="col">
+                Released
+            </th>
+            <th class="header" scope="col">
+                Amount
+            </th>
+            <th class="header" scope="col">
+                Payment
+            </th>
+            <th class="header" scope="col">
+                Change
+            </th>
+            <th class="header" scope="col">
+            </th>
+        </tr>
+
+
+            @foreach (var item in apTransToday)
+            {
+                decimal totalTransPayment = 0;
+                decimal transChange = 0;
+                string paymentDate = "";
+
+                decimal budgetAmount = item.BudgetAmt ?? 0;
+                decimal amountVariance = budgetAmount * (decimal)0.3;
+
+                //get total transaction payment
+                foreach (var transpayment in item.ApTransPayments)
+                {
+                    if (transpayment.ApPayment.ApPaymentStatusId == STATUS_APPROVED)
+                    {
+                        totalTransPayment += transpayment.ApPayment.Amount;
+                        paymentDate = transpayment.ApPayment.DtPayment.ToString("MMM dd yyyy");
+                    }
+                }
+
+                //calculate change from budget and Payment amounts
+                if (item.ReleaseAmt != null && !(totalTransPayment == 0))
+                {
+                    transChange = (decimal)item.ReleaseAmt - totalTransPayment;
+                }
+
+                //handle text color based on due date
+                string textcolor = "black";
+                string bgcolor = "none";
+
+                if (item.ApTransStatusId < STATUS_CLOSED)
+                {
+
+                    if (today.CompareTo(item.DtDue) == 0)
+                    {
+                        textcolor = "black";
+                        bgcolor = "lightgray";
+                    }
+                    else if (today.CompareTo(item.DtDue) > 0)
+                    {
+                        textcolor = "darkred";
+                    }
+                    else if (today.CompareTo(item.DtDue) < 0)
+                    {
+                        textcolor = "black";
+                    }
+                    else
+                    {
+                        textcolor = "black";
+                    }
+
+                }
+                else if (item.ApTransStatusId > STATUS_CANCELLED)
+                {
+                    textcolor = "gray";
+                }
+                else
+                {
+                    textcolor = "darkgreen";
+                }
+
+
+                <tr style="color:@textcolor;background-color:@bgcolor;">
+                    <td>
+                        @if (item.ApTransStatusId == STATUS_RELEASED
+                            && (item.ReleaseAmt == 0 || item.ReleaseAmt == null)
+                            && item.ApTransTypeId != TYPE_PO)
+                        {
+                            <img src="~/Images/SalesLead/high-importance.png" width="20" alt="Release Amount is 0 or null" title="Release Amount is 0 or null" />
+                        }
+
+                        @if ((item.ApTransStatusId == STATUS_RETURNED && item.ApTransTypeId != TYPE_PO) &&
+                             (item.Amount < (item.BudgetAmt - amountVariance) ||
+                              item.Amount > (item.BudgetAmt + amountVariance)))
+                        {
+                            <img src="~/Images/SalesLead/high-importance.png" width="20"
+                                 alt="Amount returned reached a 30% variance of the budget amount"
+                                 title="Amount returned reached a 30% variance of the budget amount" />
+                        }
+
+                        @if (!item.IsPrinted && status == STATUS_APPROVED)
+                        {
+                            <input value="@item.Id" type="checkbox" class="print-Checkbox" onclick="CheckRepeatItems(this)" />
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        <a href="/JobOrder/JobServices?JobMainId=@item.JobRef"> @item.JobRef </a>
+
+
+                        @if (item.ApTransCategory.Name == "Job Expense" && item.JobRef == null)
+                        {
+                            <img src="~/Images/SalesLead/high-importance.png" width="20"
+                                 title="Please Provide Job Reference" />
+                        }
+                    </td>
+                    <td>
+                        @item.DtInvoice.ToString("MMM dd yyyy")<br />
+                        @Html.DisplayFor(modelItem => item.InvoiceNo)
+                    </td>
+                    <td>
+                        <b> @Html.DisplayFor(modelItem => item.ApAccount.Name)</b>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)<br />
+                        <span style="font-size:11px;color:gray;">
+                            @item.DtService.ToString("MMM dd yyyy") -
+                            @item.DtServiceTo.ToString("MMM dd yyyy")
+                        </span>
+
+                        @if (!String.IsNullOrEmpty(item.Remarks))
+                        {
+                            <br />
+                            <span style="font-size:11px;color:gray;">
+                                @Html.DisplayFor(modelItem => item.Remarks)
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        <span>
+                            @item.DtDue.ToString("MMM dd yyyy")
+                        </span>
+                    </td>
+                    <td>
+                        @if (item.IsRepeating)
+                        {
+                            <span alt="repeating" title="Repeating Payables"> &#8635; </span>
+                        }
+
+                        @Html.DisplayFor(modelItem => item.ApTransCategory.Name)
+                        @Html.DisplayFor(modelItem => item.ApTransType.Type)
+                    </td>
+                    <td>
+                        @if (item.ApTransStatusId == STATUS_REQUEST)
+                        {
+
+
+                            if (item.Amount == 0 || item.BudgetAmt == 0)
+                            {
+                                <span class="label label-default">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+                            }
+                            else
+                            {
+
+                                <span class="label label-primary">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+                            }
+                        }
+                        else if (item.ApTransStatusId == STATUS_APPROVED)
+                        {
+                            <span class="label label-info">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+
+                        }
+                        else if (item.ApTransStatusId == STATUS_RELEASED)
+                        {
+                            <span class="label label-warning">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+
+                        }
+                        else if (item.ApTransStatusId == STATUS_RETURNED)
+                        {
+                            <span class="label label-success">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+
+                        }
+                        else if (item.ApTransStatusId == STATUS_CANCELLED)
+                        {
+                            <span class="label label-default">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+
+                        }
+                        else if (item.ApTransStatusId == STATUS_NEW)
+                        {
+                            <span class="label label-default">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+
+                        }
+                        else
+                        {
+                            <span class="label label-primary">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+                        }
+
+                    </td>
+                    <td>
+                        @{ var budget = item.BudgetAmt ?? 0; }
+
+                        @budget.ToString("#,##0.00")
+                    </td>
+                    <td>
+                        @{ var released = item.ReleaseAmt ?? 0; }
+
+                        @released.ToString("#,##0.00")
+
+                        @if (item.DtRelease != null)
+                        {
+                            var dtRelease = (DateTime)item.DtRelease;
+                            <br />
+                            <span style="font-size:11px;color:gray;">
+                                @dtRelease.ToString("MMM dd yyyy")
+                            </span>
+                        }
+                    </td>
+
+                    <td style="background-color:lightgray;">
+                        @item.Amount.ToString("#,##0.00")
+                    </td>
+
+                    <td style="background-color:lightgray;">
+                        <span class="text-success">
+                            @totalTransPayment.ToString("#,##0.00")
+                        </span>
+                        <br />
+                        <span style="font-size:11px;color:gray;">
+                            @paymentDate
+                        </span>
+
+                    </td>
+
+                    <td>
+                        @if (totalTransPayment != 0 && item.ApTransTypeId != TYPE_PO)
+                        {
+                            <span>
+                                @transChange.ToString("#,##0.00")
+                            </span>
+                        }
+
+                        @if ((totalTransPayment == 0) && item.ApTransStatusId >= 5
+                            && item.ApTransPayments.Count() != 0
+                            && item.ApTransTypeId != TYPE_PO)
+                        {
+                            <span>
+                                @released.ToString("#,##0.00")
+                            </span>
+                        }
+                    </td>
+
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-actions" data-toggle="dropdown">
+                                Actions
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdown-actions">
+                                <li>
+                                    @if (item.ApTransStatusId == STATUS_NEW || item.ApTransStatusId == 8)
+                                    {
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_REQUEST)"> Request </a>
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_CANCELLED)"> Cancel </a>
+                                    }
+
+                                    @if (item.ApTransStatusId == STATUS_REQUEST && isAdmin)
+                                    {
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_APPROVED)"> Approve </a>
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_CANCELLED)"> Cancel </a>
+                                    }
+                                    else if (item.ApTransStatusId == STATUS_APPROVED)
+                                    {
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowReleaseModal(@item.Id,'@item.Description', @item.BudgetAmt, '@item.ApTransType.Type')"> Release </a>
+
+                                        if (!item.IsPrinted && item.ApTransTypeId == TYPE_PO)
+                                        {
+                                            @Html.ActionLink("Print PO", "PrintPOForm", "ApTransactions", new { id = item.Id }, new { @target = "_blank" })
+                                        }
+
+                                    }
+                                    else if (item.ApTransStatusId == STATUS_RELEASED)
+                                    {
+                                        if (item.ApTransTypeId != TYPE_PO)
+                                        {
+
+                                        <li>
+                                            <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt)"> Return </a>
+                                        </li>
+                                    }
+                                }
+
+                                    @if ((item.ApTransPayments.Count() != 0 || isAdmin) && item.ApTransTypeId != TYPE_PO)
+                                    {
+                                        //return
+                                        <li>
+                                            <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt)"> Admin Return </a>
+                                        </li>
+                                    }
+
+
+                                    @if (item.ApTransStatusId == STATUS_RETURNED && isAdmin)
+                                    {
+                                        <li>
+                                            <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusClose(this, @item.Id)">  Close </a>
+                                        </li>
+                                    }
+                                    </li>
+
+                                    <li role="separator" class="divider"></li>
+                                    @if (item.ApTransStatusId <= STATUS_REQUEST || item.ApTransStatusId >= STATUS_CANCELLED)
+                                    {
+                                        <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                                    }
+                                    else
+                                    {
+                                        if (isAdmin)
+                                        {
+                                            <li> @Html.ActionLink("Admin Edit", "Edit", new { id = item.Id }) </li>
+                                            <li> @Html.ActionLink("History", "ActionHistory", new { id = item.Id }) </li>
+                                        }
+                                    }
+                                    <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
+                                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+    </table>
+

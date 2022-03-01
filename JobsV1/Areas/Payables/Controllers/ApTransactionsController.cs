@@ -50,9 +50,9 @@ namespace JobsV1.Areas.Payables.Controllers
 
             ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.Today = ap.DateClassMgr.GetCurrentDate();
-            ViewBag.Status = status;
-            ViewBag.Sort = sort;
-
+            ViewBag.Status= status;
+            ViewBag.Sort  = sort;
+            ViewBag.ApTansToday = ap.TransactionMgr.GetDailyTransactions(ap.DateClassMgr.GetCurrentDate());
             return View(apTransactions);
         }
 
@@ -65,7 +65,6 @@ namespace JobsV1.Areas.Payables.Controllers
             {
                 dateSrch = dt.GetCurrentDate();
             }
-
 
             var apTransactions = ap.TransactionMgr.GetDailyReleasedTransactions(sort, (DateTime)dateSrch);
 
@@ -220,17 +219,19 @@ namespace JobsV1.Areas.Payables.Controllers
 
             try
             {
-
                 var isAdmin = User.IsInRole("Admin");
 
                 if (ModelState.IsValid)
                 {
-                    if (apTransaction.ApTransStatusId > 1 && apTransaction.ApTransStatusId < 5)
+                    if (apTransaction.ApTransStatusId > 2 && apTransaction.ApTransStatusId < 5)
                     {
                         if (isAdmin)
                         {
                             ap.TransactionMgr.EditTransaction(apTransaction);
                         }
+
+                        //add action log for transaction edit 
+                        ap.ActionMgr.AddAction(GetUser(), apTransaction.Id, 11);
 
                         return RedirectToAction("Details", new { id = apTransaction.Id });
                     }
@@ -242,6 +243,7 @@ namespace JobsV1.Areas.Payables.Controllers
 
                     return RedirectToAction("Details", new { id = apTransaction.Id });
                 }
+
                 ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name", apTransaction.ApAccountId);
                 ViewBag.ApTransCategoryId = new SelectList(ap.TransactionMgr.GetTransCategories(), "Id", "Name", apTransaction.ApTransCategoryId);
                 ViewBag.ApTransStatusId = new SelectList(ap.TransactionMgr.GetTransStatus(), "Id", "Status", apTransaction.ApTransStatusId);
@@ -250,7 +252,6 @@ namespace JobsV1.Areas.Payables.Controllers
             }
             catch(Exception ex)
             {
-
                 throw ex;
             }
         }
