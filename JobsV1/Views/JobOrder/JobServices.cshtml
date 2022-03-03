@@ -77,8 +77,9 @@
                 <!-- Change Status -->
                 if (ViewBag.JobStatus == "INQUIRY")
                 {
-                    @Html.ActionLink("(Reserve Job) | ", "ReserveJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
-                    @Html.ActionLink("(Confirm Job)", "ConfirmJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
+                    @Html.ActionLink("(Reserve Job) ", "ReserveJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
+                    @Html.ActionLink("(Confirm Job) ", "ConfirmJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
+                    @Html.ActionLink("(Cancel Job) ", "CancelJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
                 }
 
                 if (ViewBag.JobStatus == "RESERVATION")
@@ -96,42 +97,42 @@
             <!-- Updated 8-8-2020 -->
             <br />
             @*@if (jobstatusId < 4 && isAllowedEdit)
+        {
+            if (isAdmin)
+            {
+
+                if (isOwner)
                 {
-                    if (isAdmin)
-                    {
-
-                        if (isOwner)
-                        {
-                            @Html.ActionLink("Admin Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
-                            <span> | </span>
-                        }
-                        else
-                        {
-
-                            @Html.ActionLink("Admin Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null) <span> | </span>
-                            <span> <a href="" data-toggle="modal" data-target="#EditJob-PermissionModal" onclick="SetEditJobPermissionId('@ViewBag.JobMainId')"> Edit </a> |</span>
-                        }
-                    }
-                    else
-                    {
-
-                        if (isOwner)
-                        {
-                            @Html.ActionLink("Admin Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
-                            <span> | </span>
-                        }
-                        <span> <a href="" data-toggle="modal" data-target="#EditJob-PermissionModal" onclick="SetEditJobPermissionId('@ViewBag.JobMainId')"> Edit </a> |</span>
-                    }
-
+                    @Html.ActionLink("Admin Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
+                    <span> | </span>
                 }
                 else
                 {
-                    if (isOwner)
-                    {
-                        @Html.ActionLink("Admin Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
-                        <span> | </span>
-                    }
-                }*@
+
+                    @Html.ActionLink("Admin Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null) <span> | </span>
+                    <span> <a href="" data-toggle="modal" data-target="#EditJob-PermissionModal" onclick="SetEditJobPermissionId('@ViewBag.JobMainId')"> Edit </a> |</span>
+                }
+            }
+            else
+            {
+
+                if (isOwner)
+                {
+                    @Html.ActionLink("Admin Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
+                    <span> | </span>
+                }
+                <span> <a href="" data-toggle="modal" data-target="#EditJob-PermissionModal" onclick="SetEditJobPermissionId('@ViewBag.JobMainId')"> Edit </a> |</span>
+            }
+
+        }
+        else
+        {
+            if (isOwner)
+            {
+                @Html.ActionLink("Admin Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
+                <span> | </span>
+            }
+        }*@
 
 
             @Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null) |

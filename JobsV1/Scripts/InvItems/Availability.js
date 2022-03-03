@@ -24,15 +24,38 @@ function ajax_LoadItemDetails(itemId, itemDesc, date) {
         for (var i = 0; i < result.length; i++) {
             var company = result[i]["Company"] != null ? " ( " + result[i]["Company"] + " ) " : "";
             var jobId = result[i]["JobId"];
-            var item = "<a href='/JobOrder/JobServices?JobMainId=" + jobId + "' class='list-group-item'> " + result[i]["Customer"] + company + " - " + result[i]["JobDescription"] + " <br> "
-                + result[i]["ServiceDesc"] + " ( " + result[i]["Service"] + " ) " + " </a>";
+
+            var jobStatus = GetStatus(result[i]["Status"]);
+
+            var jobService = result[i]["Service"];
+
+            var item = "<a href='/JobOrder/JobServices?JobMainId=" + jobId + "' class='list-group-item'> " +
+                " <b>" + result[i]["Customer"] + company + " </b><br> " +
+                result[i]["ServiceDesc"] +  " <br>" + 
+                jobStatus + " - " +  jobService + " </a>";
 
             $("#Itemmodal-categorylist").append(item);
         }
-
     });
 
     $("#ItemDetailsModal").modal('show');
+}
+
+function GetStatus(jobStatus) {
+    switch (jobStatus) {
+        case 'CONFIRMED':
+            return " <span class='label label-success'>" + jobStatus + "</span>";
+        case 'INQUIRY':
+            return " <span class='label label-primary'>" + jobStatus + "</span>";
+        case 'RESERVATION':
+            return " <span class='label label-info'>" + jobStatus + "</span>";
+        case 'CANCELLED':
+            return " <span class='label label-default'>" + jobStatus + "</span>";
+        case 'CLOSED':
+            return " <span class='label label-success'>" + jobStatus + "</span>";
+        default:
+            return " <span class='label label-default'>" + jobStatus + "</span>";
+    }
 }
 
 //load table content on search btn click

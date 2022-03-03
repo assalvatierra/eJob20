@@ -365,22 +365,33 @@
                     var jobRow = "";
 
                     if (jobs[i]["Status"] == "CONFIRMED") {
+                        color = "success";
+                    } else if (jobs[i]["Status"] == "INQUIRY"){
                         color = "primary";
+                    } else if (jobs[i]["Status"] == "RESERVATION") {
+                        color = "info";
                     } else {
                         color = "default";
                     }
 
+                    console.log("JobEncodeDate: " + jobs[i]["JobEncodeDate"])
+                    console.log("Date: " + new Date())
+                    var newJobToday = "";
+                    if (jobs[i]["JobEncodeDate"] == new Date()) {
+                        newJobToday = "<span class='label label-succes'> New </span>";
+                    }
+
+
                     console.log(window.mobileCheck());
+
 
                     if (window.mobileCheck()) {
 
                         jobRow = "<tr>" +
                             "<td><span style='font-weight:600;'>" + jobs[i]["Id"] + "</span> <br> " +
-                            "<span class='label label-" + color + " show-on-mobile-only'>" + jobs[i]["Status"] + "</span> </td>" +
+                            "<span class='label label-" + color + " show-on-mobile-only'>" + newJobToday + " " + jobs[i]["Status"] + "</span> </td>" +
                             "<td><span class='no-margin-bottom text-bold'>" + jobs[i]["Description"] + "</span><br>" +
                             "<span class='text-muted'>" + jobs[i]["StartDate"] + " - " + jobs[i]["EndDate"] + "</span></td>";
-
-                        //jobRow = jobRow + "<td class='hidden-on-mobile'><span class='label label-" + color + "'>" + jobs[i]["Status"] + "</span></td>";
 
                         jobRow = jobRow + "<td><span class='text-success'>" + jobs[i]["Amount"].toLocaleString() + "</span></td>" +
                             "</tr>";
@@ -392,7 +403,7 @@
                             "<td><span class='no-margin-bottom text-bold'>" + jobs[i]["Description"] + "</span><br>" +
                             "<span class='text-muted'>" + jobs[i]["StartDate"] + " - " + jobs[i]["EndDate"] + "</span></td>";
 
-                        jobRow = jobRow + "<td class='hidden-on-mobile'><span class='label label-" + color + "'>" + jobs[i]["Status"] + "</span></td>";
+                        jobRow = jobRow + "<td class='hidden-on-mobile'><span class='label label-" + color + "'>" + newJobToday + " " + jobs[i]["Status"] + "</span></td>";
 
                         jobRow = jobRow + "<td><span class='text-success'>" + jobs[i]["Amount"].toLocaleString() + "</span></td>" +
                             "</tr>";
@@ -400,6 +411,24 @@
                      
                     $("#JobsTable").append(jobRow);
                 }
+            }
+        }
+
+
+        function GetStatus(jobStatus) {
+            switch (jobStatus) {
+                case 'CONFIRMED':
+                    return " <span class='label label-success'>" + jobStatus + "</span>";
+                case 'INQUIRY':
+                    return " <span class='label label-primary'>" + jobStatus + "</span>";
+                case 'RESERVATION':
+                    return " <span class='label label-info'>" + jobStatus + "</span>";
+                case 'CANCELLED':
+                    return " <span class='label label-default'>" + jobStatus + "</span>";
+                case 'CLOSED':
+                    return " <span class='label label-success'>" + jobStatus + "</span>";
+                default:
+                    return " <span class='label label-default'>" + jobStatus + "</span>";
             }
         }
 

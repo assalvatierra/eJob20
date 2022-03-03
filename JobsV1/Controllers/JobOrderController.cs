@@ -2371,6 +2371,19 @@ namespace JobsV1.Controllers
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
         }
 
+        public ActionResult CancelJobStatus(int? id)
+        {
+            var Job = db.JobMains.Find(id);
+            Job.JobStatusId = 5;
+            db.Entry(Job).State = EntityState.Modified;
+            db.SaveChanges();
+
+            //job trail
+            trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CANCELLED", id.ToString());
+
+            return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
+        }
+
         public bool AjaxCloseJobStatus(int? id)
         {
             try

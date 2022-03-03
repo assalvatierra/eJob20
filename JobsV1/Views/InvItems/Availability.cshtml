@@ -66,6 +66,8 @@
                 { sBgColor = "darkgray"; }
                 if (dt.status > 1)
                 { sBgColor = "red"; }
+                if (dt.status == 0 && dt.jobcount > 0)
+                { sBgColor = "none"; }
 
                 <td style="border:1px solid red; font:300 8px arial; background-color:@sBgColor;">
 
@@ -75,10 +77,23 @@
                         @if (dt.status > 0)
                         {
 
-                            <a class="cursor-pointer" onclick="ajax_LoadItemDetails('@item.ItemId','@item.Item.Description','@dt.Date')">
+                            <a class="cursor-pointer" onclick="ajax_LoadItemDetails('@item.ItemId','@item.Item.Description','@dt.Date')" style="position:relative;">
                                 <img src="~/Images/CarRental/settings.png" width="20" height="20" />
+                                @if (dt.status > 1)
+                                {
+                                    <span class="label label-success" style="position: absolute; top: 10px; font-size: 8px; left:11px"> @dt.jobcount </span>
+                                }
                             </a>
 
+                        }
+                        else
+                        {
+                            if (dt.jobcount > 0)
+                            {
+                                <a class="cursor-pointer" onclick="ajax_LoadItemDetails('@item.ItemId','@item.Item.Description','@dt.Date')">
+                                    <img src="~/Images/CarRental/settings.png" width="20" height="20" />
+                                </a>
+                            }
                         }
                     </p>
 
@@ -119,52 +134,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<!--
-<a href="#" id="catbtn" data-toggle="modal" data-target="#(dt.Day)-(item.ItemId)" style="margin-bottom:10px;">
-      <img src="~/Images/CarRental/settings.png" width="20" height="20" />
-</a>
 
-
-<div class="modal fade" id="(dt.Day)-(item.ItemId)" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Item List</h4>
-
-                <span>Html.DisplayFor(modelItemday => dt.Date.Day)</span>-
-                <span>Html.DisplayFor(modelItemday => item.ItemId)</span>-
-                <span>Html.DisplayFor(modelItemday => item.Item.Description)</span>
-            </div>
-
-            <div class="modal-body" id="modal2-content">
-
-                <div class="list-group" id="categorylist" style="font:500 14px arial, verdana;">
-                    foreach (var svc2 in dt.svc)
-                    {
-                        <a href="Url.Action("JobServices", "JobOrder", new {
-                                                                JobMainId = Html.DisplayFor(modelItemday =>
-                                                                item.Item.JobServiceItems.Where(j => j.InvItemId == item.Item.Id)
-                                                                .Where(s => s.JobService.Id == svc2.Id).FirstOrDefault().JobService.JobMainId) })"
-                           class="list-group-item">
-
-                            Html.DisplayFor(modelItem => item.Item.JobServiceItems.Where(s => s.JobServicesId == svc2.Id).FirstOrDefault().JobService.JobMain.Customer.Name)
-                            -
-                            Html.DisplayFor(modelItem => item.Item.JobServiceItems.Where(s => s.JobServicesId == svc2.Id).FirstOrDefault().JobService.JobMain.Description)
-                            -
-                            Html.DisplayFor(modelItem => item.Item.JobServiceItems.Where(s => s.JobServicesId == svc2.Id).FirstOrDefault().JobService.Particulars)
-
-                        </a>
-                    }
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
--->
 
 @section Scripts{
     <script src="~/Scripts/InvItems/Availability.js" type="text/javascript"></script>

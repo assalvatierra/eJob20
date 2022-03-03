@@ -23,6 +23,7 @@ namespace JobsV1.Models
         public decimal PaymentFromAR { get; set; }
         public decimal ExpenseFromAP { get; set; }
         public decimal DriversRate { get; set; }
+        public DateTime JobEncodeDate { get; set; }
         public DateTime JobDate { get; set; }
         public DateTime DtStart { get; set; }
         public DateTime DtEnd { get; set; }
@@ -305,6 +306,7 @@ namespace JobsV1.Models
                 joTmp.Payment = GetJobSvcPayments(main.Id);
                 joTmp.Company = GetJobCompanyName(main.Id);
                 joTmp.JobDate = MinJobDate(main.DtStart, main.DtEnd);
+                joTmp.JobEncodeDate = main.JobDate;
 
                 data.Add(joTmp);
             }

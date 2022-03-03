@@ -84,6 +84,7 @@ namespace JobsV1.Models
         public int Hour { get; set; }
         public DateTime Date { get; set; }
         public int status { get; set; }
+        public int jobcount { get; set; }
         public List<JobServices> svc { get; set; }
     }
 
@@ -91,7 +92,7 @@ namespace JobsV1.Models
     {
         [Key]
         public int ItemId { get; set; }
-        public int? JobId { get; set; }
+        public int? JobMainId { get; set; }
         public int? ServiceId { get; set; }
         public DateTime? DtStart { get; set; }
         public DateTime? DtEnd { get; set; }
@@ -379,6 +380,7 @@ namespace JobsV1.Models
                     dsTmp.Date = dtStart.AddDays(i);
                     dsTmp.Day = i + 1;
                     dsTmp.status = 0;
+                    dsTmp.jobcount = 0;
 
                     //Check if your Messages collection exists
                     if (dsTmp.svc == null)
@@ -398,7 +400,16 @@ namespace JobsV1.Models
 
                         if (istart >= 0 && iend <= 0)
                         {
-                            dsTmp.status += 1;
+                            var jobStatus = db.JobMains.Find(jsTmp.JobMainId).JobStatusId;
+
+                            //3 == CONFIRMED
+                            if (jobStatus == 3)
+                            {
+                                dsTmp.status += 1;
+                            }
+
+                            dsTmp.jobcount += 1;
+
                             JobServices js = db.JobServices.Where(j => j.Id == jsTmp.ServiceId).FirstOrDefault();
                             dsTmp.svc.Add(js);
                         }

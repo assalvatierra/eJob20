@@ -407,7 +407,7 @@ namespace JobsV1.Controllers
 
                 var endDate = selectedDate.AddDays(1);
                 var jsitemIds = db.JobServiceItems.Where(s => s.InvItemId == itemid).Select(s => s.JobServicesId).ToList();
-                var jsitems = db.JobServices.Where(s => jsitemIds.Contains(s.Id)).ToList();
+                var jsitems = db.JobServices.Where(s => jsitemIds.Contains(s.Id) && s.JobMain.JobStatusId < 4).ToList();
 
                 List<ItemDetailsList> data = new List<ItemDetailsList>();
 
@@ -431,7 +431,9 @@ namespace JobsV1.Controllers
                         tempData.ServiceDesc = item.Particulars;
                         tempData.Customer = item.JobMain.Customer.Name;
                         tempData.Company = GetJobCustCompany(item.JobMainId);
-
+                        tempData.Status = item.JobMain.JobStatus.Status;
+                        
+                        
                         data.Add(tempData);
 
                     }
@@ -558,4 +560,5 @@ public class ItemDetailsList
     public string Service { get; set; }
     public string ServiceDesc { get; set; }
     public string Company { get; set; }
+    public string Status { get; set; }
 }
