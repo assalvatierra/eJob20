@@ -5,6 +5,8 @@
 
     decimal Triplog_Rate = 0;
     decimal Triplog_Driver = 0;
+    decimal Triplog_DriverOT = 0;
+    decimal Triplog_DriverRate = 0;
 
     decimal Expenses_Amount = 0;
     decimal Expenses_Payment = 0;
@@ -19,7 +21,10 @@
     @Html.ActionLink("Back to List", "JobSummary")
 </p>
 
-<h4> Job#: @Model.Id </h4>
+<h4>
+    Job#:
+    <a href="/JobOrder/JobServices?JobMainId=@Model.Id">@Model.Id</a> 
+</h4>
 <h4> Account: @Model.Account </h4>
 <h4> STATUS: @Model.Status </h4>
 
@@ -54,6 +59,8 @@
 
         Triplog_Rate += trip.Rate + trip.Addon;
         Triplog_Driver += trip.DriverFee + trip.DriverOT;
+        Triplog_DriverRate += trip.DriverFee;
+        Triplog_DriverOT += trip.DriverOT;
 
         <tr>
             <td>
@@ -69,20 +76,33 @@
                 @trip.crLogDriver.Name
             </td>
             <td>
-                @trip.DriverFee
+                @trip.DriverFee.ToString("#,##0.00")
             </td>
             <td>
-                @trip.DriverOT
+                @trip.DriverOT.ToString("#,##0.00")
             </td>
 
         </tr>
     }
+<tr>
+    <td colspan="4">
+    </td>
+    <td>
+        @Triplog_DriverRate.ToString("#,##0.00")
+    </td>
+    <td>
+        @Triplog_DriverOT.ToString("#,##0.00")
+    </td>
+</tr>
     <tr>
         <td colspan="4">
         </td>
         <td colspan="2">
-            Total Driver <br />
-            @Triplog_Driver
+
+            Total <br />
+            <b>
+                @Triplog_Driver.ToString("#,##0.00")
+            </b>
         </td>
     </tr>
 </table>
@@ -119,7 +139,7 @@
                 @expense.Description
             </td>
             <td>
-                @expense.Amount
+                @expense.Amount.ToString("#,##0.00")
             </td>
         </tr>
     }
@@ -128,7 +148,9 @@
         </td>
         <td>
             Total <br />
-            @Expenses_Amount
+            <b>
+                @Expenses_Amount.ToString("#,##0.00")
+            </b>
         </td>
     </tr>
 </table>
@@ -150,6 +172,9 @@
         <th>
             Amount
         </th>
+        <th>
+            Payment
+        </th>
     </tr>
 
     @foreach (var receivables in Model.Receivables)
@@ -167,16 +192,19 @@
                 @receivables.Description
             </td>
             <td>
-                @receivables.ArTransPayments.Sum(c => c.ArPayment.Amount)
+                @receivables.Amount.ToString("#,##0.00")
+            </td>
+            <td>
+                @receivables.ArTransPayments.Sum(c => c.ArPayment.Amount).ToString("#,##0.00")
             </td>
         </tr>
     }
     <tr>
-        <td colspan="3">
+        <td colspan="4">
         </td>
         <td>
             Total <br />
-            @Receivables_Payment
+           <b>@Receivables_Payment.ToString("#,##0.00")</b>
         </td>
     </tr>
 </table>
