@@ -3,7 +3,10 @@
  *   Availability
  *   InvItems/Availability
  *   7/2/2020
- */ 
+ */
+const { TRUE } = require("node-sass");
+
+ 
 
 //Open modal and display jobs on that selected date and item
 function ajax_LoadItemDetails(itemId, itemDesc, date) {
@@ -61,38 +64,49 @@ function GetStatus(jobStatus) {
 //load table content on search btn click
 //request data from server using ajax call
 //then clear and add contents to the table
+var shownAllUnits = true;
 function ajax_loadUnits() {
 
-    //build json object
-    var data = {
-        search: ""
-    };
 
-    //console.log(query);
-    //request data from server using ajax call
-    $.ajax({
-        url: '/JobOrder/getMoreItems',
-        type: "GET",
-        data: JSON.stringify(data),
-        dataType: 'application/json; charset=utf-8',
-        success: function (data) {
-            //console.log("SUCCESS");
+    //toggle hide units
+    if (shownAllUnits == true) {
+        hideUnits();
+        shownAllUnits = false;
+    } else {
+        shownAllUnits = true;
 
-        },
-        error: function (data) {
-            // console.log("ERROR");
-            console.log(data);
-            //console.log(data['responseText']);
-            SimpleTable(data);
-        }
-    });
+        //build json object
+        var data = {
+            search: ""
+        };
+
+        //console.log(query);
+        //request data from server using ajax call
+        $.ajax({
+            url: '/JobOrder/getMoreItems',
+            type: "GET",
+            data: JSON.stringify(data),
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                //console.log("SUCCESS");
+
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                //console.log(data['responseText']);
+                SimpleTable(data);
+            }
+        });
+    }
+
 }
 
 //display simple/limited information
 //of inventory items of sort order more
-//than 110.
+//than 200.
 function SimpleTable(data) {
-    //console.log("SimpleTable");
+
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
 

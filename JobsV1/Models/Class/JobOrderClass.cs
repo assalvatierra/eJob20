@@ -1244,7 +1244,9 @@ namespace JobsV1.Models
 
         public List<ArTransaction> GetReceivablesByJobId(int id)
         {
-            var receivables = ardb.ArTransactions.Where(t => t.InvoiceId == id).ToList();
+            var receivables = ardb.ArTransactions
+                .Where(t => t.InvoiceId == id && t.ArTransStatusId >= 3 && t.ArTransStatusId <= 6)
+                .ToList();
 
             if (receivables == null)
             {
