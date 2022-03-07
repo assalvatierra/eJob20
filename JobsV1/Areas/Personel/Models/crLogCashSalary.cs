@@ -21,7 +21,7 @@ namespace JobsV1.Areas.Personel.Models
         }
     
         public int Id { get; set; }
-        public string Date { get; set; }
+        public System.DateTime Date { get; set; }
         public int crLogDriverId { get; set; }
         public bool ExcludeOT { get; set; }
     

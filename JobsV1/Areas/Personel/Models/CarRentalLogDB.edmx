@@ -422,7 +422,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Date" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="crLogDriverId" Type="int" Nullable="false" />
     <Property Name="ExcludeOT" Type="bit" Nullable="false" />
   </EntityType>
@@ -1535,7 +1535,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="crLogDriver" Relationship="CarRentalLogDB.crLogDrivercrLogCashSalary" FromRole="crLogCashSalary" ToRole="crLogDriver" />
-          <Property Name="Date" Type="String" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
           <Property Name="crLogDriverId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="crLogCashGroups" Relationship="CarRentalLogDB.crLogCashGroupcrLogCashSalary" FromRole="crLogCashSalary" ToRole="crLogCashGroup" />
           <Property Name="ExcludeOT" Type="Boolean" Nullable="false" />

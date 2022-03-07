@@ -893,7 +893,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 //create salary request
                 crLogCashSalary cashSalary = new crLogCashSalary();
                 cashSalary.crLogDriverId = cashTrx.crLogDriverId;
-                cashSalary.Date = cashTrx.DtRelease.Date.ToShortDateString();
+                cashSalary.Date = cashTrx.DtRelease.Date;
                 cashSalary.ExcludeOT = excludeOT;
 
                 cashSalary.crLogCashGroups.Add(new crLogCashGroup
