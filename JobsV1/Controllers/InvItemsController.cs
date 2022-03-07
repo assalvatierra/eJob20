@@ -25,12 +25,15 @@ namespace JobsV1.Controllers
         private List<SelectListItem> OrderList = new List<SelectListItem> {
                 new SelectListItem { Value = "100", Text = "Realbreeze" },
                 new SelectListItem { Value = "200", Text = "Driver" },
-                new SelectListItem { Value = "300", Text = "3rd Party" },
+                new SelectListItem { Value = "300", Text = "3rd Party Driver" },
+                new SelectListItem { Value = "301", Text = "3rd Party Units" },
                 new SelectListItem { Value = "400", Text = "AJ3s Drivers" },
+                new SelectListItem { Value = "401", Text = "AJ3s Units" },
                 new SelectListItem { Value = "500", Text = "Kabacan Group" },
                 new SelectListItem { Value = "600", Text = "Others" },
                 new SelectListItem { Value = "900", Text = "Inactive" }
                 };
+
         private List<SelectListItem> ImgList = new List<SelectListItem> {
                 new SelectListItem { Value = "/Images/CarRental/placeholder.png", Text = "Default" },
                 new SelectListItem { Value = "/Images/CarRental/innova/toyotainnova_front.jpg", Text = "Toyota Innova" },
@@ -66,6 +69,8 @@ namespace JobsV1.Controllers
             ViewBag.coopList = db.CoopMembers.Where(c => c.Status == "ACT").ToList();
             ViewBag.SiteConfig = SITECONFIG;
             ViewBag.showAll = showAll ?? 0;
+            ViewBag.otherItemCount = db.InvItems.Where(s => s.OrderNo >= 500).Count();
+
             return View(itemList.OrderBy(s => s.OrderNo).ToList());
         }
 
@@ -531,7 +536,8 @@ namespace JobsV1.Controllers
             DBClasses dbclass = new DBClasses();
             Models.getItemSchedReturn gret = dbclass.ItemSchedules();
             ViewBag.dtLabel = gret.dLabel;
-            
+            ViewBag.otherItemCount = db.InvItems.Where(s => s.OrderNo > 200).Count();
+
             return View(gret.ItemSched);
         }
 

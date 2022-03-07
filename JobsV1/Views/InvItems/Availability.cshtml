@@ -106,9 +106,13 @@
 
 <table class="table" id="moreItemsTable">
     <tr>
-        <td>
-            <a onclick="ajax_loadUnits();">More Items</a> |
-            <a onclick="hideUnits();">Hide Items</a>
+        <td class="text-center">
+            <a class="cursor-hand" onclick="ajax_loadUnits();"> Click to Show More Items / Units 
+                <span class="label label-success">
+                    @ViewBag.otherItemCount
+                </span>
+            </a>
+            @*<a onclick="hideUnits();">Hide Items</a>*@
         </td>
     </tr>
 </table>
