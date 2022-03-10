@@ -40,13 +40,16 @@
                 JobRef
             </th>
             <th class="header" scope="col">
-                Invoice&nbsp;Date
+                Date
+            </th>
+            <th class="header" scope="col">
+                Invoice
             </th>
             <th class="header" scope="col">
                 Account
             </th>
             <th style="min-width:160px;" class="header" scope="col">
-                Descriptoin
+                Description
             </th>
             <th class="header" scope="col">
                 Due&nbsp;Date
@@ -176,6 +179,9 @@
                         }
                     </td>
                     <td>
+                        @item.DtEncoded.ToString("MMM dd yyyy")
+                    </td>
+                    <td>
                         @item.DtInvoice.ToString("MMM dd yyyy")<br />
                         @Html.DisplayFor(modelItem => item.InvoiceNo)
                     </td>
@@ -279,6 +285,14 @@
 
                     <td style="background-color:lightgray;">
                         @item.Amount.ToString("#,##0.00")
+
+                        <span style="font-size:11px;color:gray;">
+                            @{ var returnedApAction = item.ApActions.Where(ap => ap.ApActionItem.Action == "Payables Returned").FirstOrDefault();}
+                            @if (returnedApAction != null && item.ApTransStatusId == 5)
+                            {
+                                <br />@returnedApAction.DtPerformed.ToString("MMM dd yyyy")
+                            }
+                        </span>
                     </td>
 
                     <td style="background-color:lightgray;">

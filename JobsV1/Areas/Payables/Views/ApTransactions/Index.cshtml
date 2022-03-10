@@ -95,7 +95,10 @@
             JobRef
         </th>
         <th class="header" scope="col">
-            Invoice&nbsp;Date
+            Encoded
+        </th>
+        <th class="header" scope="col">
+            Invoice
         </th>
         <th class="header" scope="col">
             @Html.DisplayNameFor(model => model.ApAccount.Name)
@@ -131,7 +134,7 @@
         </th>
     </tr>
 
-    @foreach (var payablesGroup in Model.GroupBy(p => p.DtDue.ToString("MMMM", null)))
+    @foreach (var payablesGroup in Model.GroupBy(p => p.DtDue.ToString("MMMM yyyy", null)))
     {
 
         totalAmount = 0;
@@ -141,7 +144,7 @@
         totalBudget = 0;
 
         <tr>
-            <td colspan="15">
+            <td colspan="16">
                 <span style="font-weight:bold;">@payablesGroup.Key</span>
             </td>
         </tr>
@@ -245,6 +248,9 @@
                     }
                 </td>
                 <td>
+                    @item.DtEncoded.ToString("MMM dd yyyy")
+                </td>
+                <td>
                     @item.DtInvoice.ToString("MMM dd yyyy")<br />
                     @Html.DisplayFor(modelItem => item.InvoiceNo)
                 </td>
@@ -254,8 +260,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)<br />
                     <span style="font-size:11px;color:gray;">
-                        @item.DtService.ToString("MMM dd yyyy") -
-                        @item.DtServiceTo.ToString("MMM dd yyyy")
+                        @item.DtService.ToString("MMM dd yyyy") - @item.DtServiceTo.ToString("MMM dd yyyy")
                     </span>
 
                     @if (!String.IsNullOrEmpty(item.Remarks))
@@ -283,8 +288,6 @@
                 <td>
                     @if (item.ApTransStatusId == STATUS_REQUEST)
                     {
-
-
                         if (item.Amount == 0 || item.BudgetAmt == 0)
                         {
                             <span class="label label-default">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
@@ -349,6 +352,14 @@
 
                 <td style="background-color:lightgray;">
                     @item.Amount.ToString("#,##0.00")
+
+                    <span style="font-size:11px;color:gray;">
+                        @{ var returnedApAction = item.ApActions.Where(ap => ap.ApActionItem.Action == "Payables Returned").FirstOrDefault();}
+                        @if (returnedApAction != null && item.ApTransStatusId == 5)
+                        {
+                            <br />@returnedApAction.DtPerformed.ToString("MMM dd yyyy")
+                        }
+                    </span>
                 </td>
 
                 <td style="background-color:lightgray;">
@@ -400,55 +411,45 @@
                                     <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_CANCELLED)"> Cancel </a>
                                 }
                                 else if (item.ApTransStatusId == STATUS_APPROVED)
-{
+                                {
                                     <a class="cursor-link" style="cursor:pointer;" onclick="ShowReleaseModal(@item.Id,'@item.Description', @item.BudgetAmt, '@item.ApTransType.Type')"> Release </a>
 
                                     if (!item.IsPrinted && item.ApTransTypeId == TYPE_PO)
                                     {
                                         @Html.ActionLink("Print PO", "PrintPOForm", "ApTransactions", new { id = item.Id }, new { @target = "_blank" })
                                     }
-
                                 }
                                 else if (item.ApTransStatusId == STATUS_RELEASED)
                                 {
                                     if (item.ApTransTypeId != TYPE_PO)
                                     {
-
-                                    <li>
-                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
-                                    </li>
-                                }
-                                else
-{
-                                    <li>
-                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt)"> Return </a>
-                                    </li>
+                                       <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
+                                    }
+                                    else
+                                    {
+                                       <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt, '@item.DtInvoice.ToString("MM/dd/yyyy")')">PO Return </a>
                                     }
                                 }
 
-                                @if ((item.ApTransPayments.Count() != 0 || isAdmin) && item.ApTransTypeId != TYPE_PO)
+                                @if ((item.ApTransPayments.Count() != 0) && item.ApTransTypeId != TYPE_PO)
                                 {
                                     //return
-                                    <li>
-                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt)"> Admin Return </a>
-                                    </li>
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt, '@item.DtInvoice.ToString("MM/dd/yyyy")')"> Return </a>
+                                    
                                 }
 
                                 @if (item.ApTransStatusId == STATUS_RETURNED && isAdmin)
                                 {
-                                    <li>
-                                        <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusClose(this, @item.Id)">  Close </a>
-                                    </li>
+                                   <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusClose(this, @item.Id)">  Close </a>
                                 }
-                                </li>
-
-                                <li role="separator" class="divider"></li>
+                            </li>
+                             <li role="separator" class="divider"></li>
                                 @if (item.ApTransStatusId <= STATUS_REQUEST || item.ApTransStatusId >= STATUS_CANCELLED)
                                 {
                                     <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                                 }
                                 else
-{
+                                {
                                 if (isAdmin)
                                 {
                                         <li> @Html.ActionLink("Admin Edit", "Edit", new { id = item.Id }) </li>
@@ -473,7 +474,7 @@
                 GrandTotal += totalAmount;
             }
             <tr>
-                <td colspan="9">
+                <td colspan="10">
                 </td>
                 <td>
                     <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Budget </span><br />
@@ -750,6 +751,12 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="control-label col-md-2"> Invoice Date  </label>
+                                <div class="col-md-10">
+                                    <input type="text" id="ReturnAmount-Date" class="form-control" name="DtInvoice" />
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="control-label col-md-2"> Actual Amount  </label>
                                 <div class="col-md-10">
                                     <input type="text" maxlength="20" id="ReturnAmount-Amount" class="form-control" />
@@ -777,7 +784,8 @@
         @section Scripts{
             <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransaction.js"></script>
             <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransRepeating.js"></script>
+            <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransCreate.js"></script>
             <script>
-        $(Initialize('@status','@sortBy'));
+                $(Initialize('@status','@sortBy'));
             </script>
         }

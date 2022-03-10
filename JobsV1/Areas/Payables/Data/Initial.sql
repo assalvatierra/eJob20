@@ -1,6 +1,6 @@
 ﻿
 insert into ApTransStatus([Status],[Code]) values
-('Requested', 1),('Approved', 2),('Released', 3),('Closed', 5),('Returned', 4),('Cancelled', 6);
+('Requested', 1),('Approved', 2),('Released', 3),('Closed', 5),('Returned', 4),('New', 6),('Cancelled', 6);
 
 insert into ApAccStatus([Status]) values
 ('Active'),('Inactive'),('OnHold');
@@ -15,7 +15,8 @@ insert into ApActionItems([Action],[Remarks],[SortNo]) values
 ('Payables Request','',1),('Payables Approved','',2),('Payables Released','',3),('Payables Closed','',4),('Payables Cancelled','',5),
 ('Payment Pending','',6),('Payment Approved','',7),('Payment Cancelled','',8),('Payment Edit','',9),('Payment Delete','',10),
 ('Payables Edit','',11), ('Payables Deleted','',12),
-('Payables Repeat Created','',13), ('Payables Repeat Canclled','',14);
+('Payables Repeat Created','',13), ('Payables Repeat Canclled','',14), 
+('Payables Returned','',14);
 
 insert into ApAccounts([Name],[Landline],[Email],[Mobile],[ContactPerson],[Address],[Remarks],[ApAccStatusId]) values
 ('< New Account >', null, 'NA', 'NA', null, null, null, 1);

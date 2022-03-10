@@ -285,6 +285,14 @@
                 </td>
                 <td style="background-color:lightgray;">
                     @item.Amount.ToString("#,##0.00")
+
+                    <span style="font-size:11px;color:gray;">
+                        @{ var returnedApAction = item.ApActions.Where(ap => ap.ApActionItem.Action == "Payables Returned").FirstOrDefault();}
+                        @if (returnedApAction != null && item.ApTransStatusId == 5)
+                        {
+                            <br />@returnedApAction.DtPerformed.ToString("MMM dd yyyy")
+                        }
+                    </span>
                 </td>
 
                 <td style="background-color:lightgray;">

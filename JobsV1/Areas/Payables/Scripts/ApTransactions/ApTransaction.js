@@ -249,14 +249,17 @@ function ShowReleaseModal(Id, Desription, Budget, Type) {
 }
 
 //release payment amount
-function ReleasePayment() {
+function ReleasePayment(e) {
     var amount = $("#ReleasePayment-Amount").val();
     var id = $("#ReleasePayment-Id").val();
     var date = $("#ReleasePayment-Date").val();
 
+    $(e).prop('disabled', true);
+
     $.post("/Payables/ApTransactions/ReleasePayment", { id: id, amount: amount, date: date }, (res) => {
         if (res == "OK") {
             UpdateStatus(id, 3); //update to release
+            $(e).prop('disabled', false);
         }
     });
 }
@@ -267,26 +270,29 @@ function ReleasePayment() {
 function ReturnAmount(e) {
     var remarks = $("#ReturnAmount-Remarks").val();
     var amount = $("#ReturnAmount-Amount").val();
+    var invoiceDate = $("#ReturnAmount-Date").val();
     var id = $("#ReturnAmount-Id").val();
 
     var budgetAmount = $("#ReturnAmount-BudgetAmount").val();
     var varianceCheck = CheckAmountVarianceIsPass(budgetAmount, amount);
 
+    $(e).prop('disabled', true);
+
     if (varianceCheck) {
-        POST_ReturnAmount(id, amount, remarks);
+        POST_ReturnAmount(id, amount, remarks, invoiceDate);
     } else {
         if (confirm("The Returned Amount " + amount 
             + " have reached the 30% variance of Budget Amount "
             + budgetAmount + ". Do you want to return?")) {
-            POST_ReturnAmount(id, amount, remarks);
+            POST_ReturnAmount(id, amount, remarks, invoiceDate);
         }
     }
 }
 
-function POST_ReturnAmount(id, amount, remarks) {
+function POST_ReturnAmount(id, amount, remarks, invoiceDate) {
 
     $.post("/Payables/ApTransactions/ReturnAmount",
-        { id: id, amount: amount, remarks: remarks },
+        { id: id, amount: amount, remarks: remarks, invoiceDate: invoiceDate },
         (res) => {
             if (res == "OK") {
                 UpdateStatus(id, 5); //update to return
@@ -295,14 +301,17 @@ function POST_ReturnAmount(id, amount, remarks) {
     });
 }
 
-function ShowReturnAmountModal(id, Description, amount, budget) {
+function ShowReturnAmountModal(id, Description, amount, budget, invoiceDate) {
+
     $("#ReturnAmount-Id").val(id);
+    $("#ReturnAmount-Date").val(invoiceDate);
     $("#ReturnAmount-PreAmount").val(amount);
     $("#ReturnAmount-BudgetAmount").val(budget);
     $("#ReturnAmount-Amount").val(0);
     $("#ReturnAmount-Remarks").val('');
     $("#ReturnAmount-Description").val(Description);
     $("#ReturnAmount-Modal").modal('show');
+
 }
 
 function CheckAmountVarianceIsPass(budgetAmount, returnedAmount) {
@@ -333,17 +342,20 @@ function ShowPaymentModal(Id, Description, Amount) {
 }
 
 //submit add payment amount
-function Payment() {
+function Payment(e) {
     var amount = $("#Payment-Amount").val();
     var id = $("#Payment-Id").val();
     var date = $("#Payment-Date").val();
     var remarks = $("#Payment-Remarks").val();
+
+    $(e).prop('disabled', true);
 
     $.post("/Payables/ApTransactions/AddPayment", { id: id, amount: amount, date: date, remarks: remarks }, (res) => {
         if (res == "OK") {
             //reload page
             $("#overlay").hide();
             window.location.reload(false);
+            $(e).prop('disabled', false);
         }
     });
 }

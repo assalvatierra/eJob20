@@ -34,7 +34,6 @@ namespace JobsV1.Areas.Payables.Controllers
             CANCELLED = 3,
         };
 
-
         private enum CASHFLOWTYPE : int
         {
             DEBIT = 1,
@@ -80,6 +79,7 @@ namespace JobsV1.Areas.Payables.Controllers
         // GET: Payables/ApTransactions/ReleasedWeekly
         public ActionResult ReleasedWeekly(DateTime? dateStart, DateTime? dateEnd, int? transType, int? category, string search)
         {
+            List<ApTransaction> apTransactions;
             DateTime thisMonth = dt.GetCurrentDate();
             var startMonthDate = new DateTime(thisMonth.Year, thisMonth.Month, 1);
             var endMonthDate = startMonthDate.AddMonths(1).AddDays(-1);
@@ -87,11 +87,18 @@ namespace JobsV1.Areas.Payables.Controllers
             dateStart = dateStart == null ? startMonthDate : dateStart;
             dateEnd = dateEnd == null ? endMonthDate : dateEnd;
             transType = transType ?? 1;
-            category = category ?? 0;
+            category = category ?? 0; 
 
-            var apTransactions = ap.TransactionMgr
-                .GetDailyReleasedByDateRange((DateTime)dateStart, (DateTime)dateEnd, (int)transType, (int)category, search);
-
+            if (transType == 2)
+            {
+                apTransactions = ap.TransactionMgr
+                    .GetDailyReleasedByDateReturned((DateTime)dateStart, (DateTime)dateEnd, (int)category, search);
+            }
+            else
+            {
+                apTransactions = ap.TransactionMgr
+                    .GetDailyReleasedByDateRange((DateTime)dateStart, (DateTime)dateEnd, (int)category, search);
+            }
 
             ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.Today = ap.DateClassMgr.GetCurrentDate();
@@ -102,7 +109,6 @@ namespace JobsV1.Areas.Payables.Controllers
 
             return View(apTransactions);
         }
-
 
         // GET: Payables/ApTransactions/Details/5
         public ActionResult Details(int? id)
@@ -293,8 +299,6 @@ namespace JobsV1.Areas.Payables.Controllers
             }
             base.Dispose(disposing);
         }
-
-
 
         #region API
         [HttpPost]
@@ -535,11 +539,11 @@ namespace JobsV1.Areas.Payables.Controllers
         }
 
         [HttpPost]
-        public string ReturnAmount(int? id, decimal? amount, string remarks)
+        public string ReturnAmount(int? id, decimal? amount, string remarks, DateTime invoiceDate)
         {
             if (id != null && amount != null)
             {
-                ap.TransactionMgr.UpdateReturnAmount((int)id, (decimal)amount, remarks);
+                ap.TransactionMgr.UpdateReturnAmount((int)id, (decimal)amount, remarks, invoiceDate);
                 return "OK";
             }
 
@@ -574,8 +578,6 @@ namespace JobsV1.Areas.Payables.Controllers
 
             return "Unable to Release Payment";
         }
-
-
 
         #endregion 
 
