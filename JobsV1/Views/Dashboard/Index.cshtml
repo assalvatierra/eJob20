@@ -336,8 +336,6 @@
 
         function GetExpenses() {
             $.get('/Dashboard/GetActiveExpenses', null, (expenses) => {
-                //console.log("expenses");
-                //console.log(expenses);
                 AddExpensesToList(expenses);
             });
         }
@@ -352,8 +350,6 @@
 
         function GetNotifications() {
             $.get('/Dashboard/GetNotifications', null, (notifications) => {
-                //console.log("notifications");
-                //console.log(notifications);
                 AddNotificationsToList(notifications);
             });
         }
@@ -374,22 +370,20 @@
                         color = "default";
                     }
 
+                    var dateToday = moment(new Date()).format("MM/DD/YYYY");
                     console.log("JobEncodeDate: " + jobs[i]["JobEncodeDate"])
-                    console.log("Date: " + new Date())
+                    console.log("Date: " + dateToday)
+
                     var newJobToday = "";
-                    if (jobs[i]["JobEncodeDate"] == new Date()) {
-                        newJobToday = "<span class='label label-succes'> New </span>";
+                    if (jobs[i]["JobEncodeDate"] == dateToday) {
+                        newJobToday = "<span class='label label-info'> NEW </span> ";
                     }
-
-
-                    console.log(window.mobileCheck());
-
 
                     if (window.mobileCheck()) {
 
                         jobRow = "<tr>" +
-                            "<td><span style='font-weight:600;'>" + jobs[i]["Id"] + "</span> <br> " +
-                            "<span class='label label-" + color + " show-on-mobile-only'>" + newJobToday + " " + jobs[i]["Status"] + "</span> </td>" +
+                            "<td><span style='font-weight:600;'>" + jobs[i]["Id"] + "</span> <br> " + newJobToday +
+                            "<span class='label label-" + color + " show-on-mobile-only'>" + jobs[i]["Status"] + "</span> </td>" +
                             "<td><span class='no-margin-bottom text-bold'>" + jobs[i]["Description"] + "</span><br>" +
                             "<span class='text-muted'>" + jobs[i]["StartDate"] + " - " + jobs[i]["EndDate"] + "</span></td>";
 
@@ -403,7 +397,8 @@
                             "<td><span class='no-margin-bottom text-bold'>" + jobs[i]["Description"] + "</span><br>" +
                             "<span class='text-muted'>" + jobs[i]["StartDate"] + " - " + jobs[i]["EndDate"] + "</span></td>";
 
-                        jobRow = jobRow + "<td class='hidden-on-mobile'><span class='label label-" + color + "'>" + newJobToday + " " + jobs[i]["Status"] + "</span></td>";
+                        jobRow = jobRow + "<td class='hidden-on-mobile'> " + newJobToday
+                            + " &nbsp; <span class='label label-" + color + "'>" + jobs[i]["Status"] + "</span></td>";
 
                         jobRow = jobRow + "<td><span class='text-success'>" + jobs[i]["Amount"].toLocaleString() + "</span></td>" +
                             "</tr>";
@@ -478,7 +473,6 @@
                         "<td> <span> " + receivables[i]["Transaction"] + "</span> <br />" +
                         " <span class='text-muted'>" + moment(receivables[i]["StartDate"]).format("MMM DD YYYY") + 
                         " - " + moment(receivables[i]["EndDate"]).format("MMM DD YYYY")  +"</span></td>" +
-                        //"<td class='hidden-on-mobile'> <span class='label label-primary'>" + receivables[i]["Status"] + "</span></td>" +
                         "<td>" + receivables[i]["Amount"].toLocaleString() + " / <span class='text-success'>" + receivables[i]["Payment"].toLocaleString() + " </span> " +
                         "<br> <span class='label label-primary '>" + receivables[i]["Status"] + "</span>" + " </td>" +
 

@@ -692,14 +692,26 @@ SELECT * FROM AspNetRoles
 
 --- JOBS REPORT MONTHLY ----
 
-SELECT Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MAX(job.DtEnd), 
+
+SELECT Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MAX(job.DtEnd), jobDate ,
 	                    Description = MIN(job.Description), Customer = MIN(job.Customer), Status = MIN(job.JobStatusId)  
-	                    FROM ( SELECT jm.Id,  jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
+	                    FROM ( SELECT jm.Id,  jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd, jm.jobDate,
 		                Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
 		                FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
 
-		                WHERE job.StatusId > 1  AND month(job.DtStart) = 2 AND year(job.DtStart) = 2022
+		                WHERE month(job.DtStart) = 2 AND year(job.DtStart) = 2022
 		                GROUP BY job.Id ORDER BY DtStart
+
+                        SELECT Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MIN(job.DtEnd), JobDate = MIN(job.jobDate),
+	                                Description = MIN(job.Description), Customer = MIN(job.Customer), Status = MIN(job.JobStatusId)  
+	                                
+                                    FROM ( SELECT jm.Id,  jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd, jm.jobDate,
+		                            Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
+		                            FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
+
+		                            WHERE job.DtStart >= convert(datetime, GETDATE()) 
+                                    OR (job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE()))
+		                            AND job.JobStatusId < 4 GROUP BY job.Id ORDER BY DtStart
 
 ---- GET JOBS EXPENSES ----
 SELECT SUM(ap.Amount) FROM ApTransactions ap WHERE ap.JobRef = 7 ; 
@@ -721,3 +733,14 @@ select * from ApTransactions WHERE DtRelease IS NOT NULL AND ApTransTypeId != 2
 -- Get TRIPLOGS details for report 
 SELECT SUM(cr.DriverFee + cr.DriverOT) FROM crLogTrips cr LEFT JOIN crLogTripJobMains jm ON jm.crLogTripId = cr.Id WHERE jm.JobMainId LIKE 5
 
+--- Payables PO Report ---
+SELECT a.Id FROM (SELECT *, DtReturned = (SELECT TOP (1) act.DtPerformed FROM ApActions act 
+             LEFT JOIN ApActionItems actItem ON actItem.Id = act.ApActionItemId  WHERE act.ApActionItemId = 5 AND act.ApTransactionId = ap.Id) 
+       FROM ApTransactions ap
+       WHERE ApTransStatusId = 5 AND ApTransTypeId = 2) as a
+       WHERE cast(a.DtReturned as date) >= cast('02/01/2022' as date) 
+       AND cast(a.DtReturned as date) <= cast('03/28/2022' as date)
+
+
+SELECT TOP (1) act.DtPerformed FROM ApActions act 
+             LEFT JOIN ApActionItems actItem ON actItem.Id = act.ApActionItemId  WHERE act.ApActionItemId = 5

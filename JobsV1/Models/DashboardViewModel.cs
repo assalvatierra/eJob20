@@ -31,6 +31,7 @@ namespace JobsV1.Models
             public string Status { get; set; }
             public int Order { get; set; }
             public decimal Amount { get; set; }
+            public string JobEncodeDate { get; set; }
         }
 
         public class TripLogs

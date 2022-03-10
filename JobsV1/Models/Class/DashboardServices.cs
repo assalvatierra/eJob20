@@ -109,7 +109,9 @@ namespace JobsV1.Models.Class
                         StartDate = j.DtStart.ToString("MMM dd"),
                         EndDate = j.DtEnd.ToString("MMM dd"),
                         Status = jobSvc.GetJobStatus(j.Status),
-                        Order = j.Status
+                        Order = j.Status,
+                        JobEncodeDate = j.JobEncodeDate.ToString("MM/dd/yyyy")
+                     
                     });
                 });
 
@@ -297,6 +299,20 @@ namespace JobsV1.Models.Class
                 }
 
 
+                var newjobs = GetNewJobsCount();
+
+                if (newjobs > 0)
+                {
+                    notifications.Add(new DashboardViewModel.Notifications
+                    {
+                        Date = dt.GetCurrentDate(),
+                        Header = "JobOrders",
+                        Message = newjobs + " new Jobs ",
+                        Link = "../JobOrder/JobListing"
+                    });
+                }
+
+
                 //triplogs notifications
                 var triplogsNoJobs = GetTipLogsNoJobs();
 
@@ -377,6 +393,23 @@ namespace JobsV1.Models.Class
                 unassignedCount = tripLogsToday.Where(c => c.crLogTripJobMains.Count() == 0).Count();
 
                 return unassignedCount;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+
+
+        public int GetNewJobsCount()
+        {
+            try
+            {
+                var today = dt.GetCurrentDate();
+                var tripLogsToday = db.JobMains.Where(c=> DbFunctions.TruncateTime(c.JobDate) == today).Count();
+
+                return tripLogsToday;
             }
             catch
             {

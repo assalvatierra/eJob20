@@ -306,7 +306,7 @@ namespace JobsV1.Models
                 joTmp.Payment = GetJobSvcPayments(main.Id);
                 joTmp.Company = GetJobCompanyName(main.Id);
                 joTmp.JobDate = MinJobDate(main.DtStart, main.DtEnd);
-                joTmp.JobEncodeDate = main.JobDate;
+                joTmp.JobEncodeDate = main.JobEncodeDate;
 
                 data.Add(joTmp);
             }
@@ -719,9 +719,9 @@ namespace JobsV1.Models
             switch (sortid)
             {
                 case 1: //OnGoing
-                    sql = @"SELECT Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MIN(job.DtEnd), 
+                    sql = @"SELECT Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MIN(job.DtEnd), JobEncodeDate = MIN(job.jobDate),
 	                                Description = MIN(job.Description), Customer = MIN(job.Customer), Status = MIN(job.JobStatusId)  
-	                                FROM ( SELECT jm.Id,  jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
+	                                FROM ( SELECT jm.Id,  jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,  jm.jobDate,
 		                            Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
 		                            FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
 		                            WHERE job.DtStart >= convert(datetime, GETDATE()) 
