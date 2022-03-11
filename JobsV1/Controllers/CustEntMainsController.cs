@@ -1148,7 +1148,6 @@ namespace JobsV1.Controllers
 
         #endregion
 
-
         #region Vehicles 
         [HttpPost]
         public bool AddCustomerVehicle(int vehicleModelId, string yearModel, string plateNo, string conduction, string engineNo, string chassisNo, string color, int customerId, int custEntMainId, string remarks)

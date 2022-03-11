@@ -12,6 +12,7 @@
     var isOwner = ViewBag.IsOwner;
     bool isAllowedEdit = ViewBag.IsAllowedEdit;
     var jobOrder = ViewBag.JobOrder as JobsV1.Models.JobMain;
+    bool isJobPosted = ViewBag.IsJobPosted;
 }
 
 
@@ -475,16 +476,19 @@
 
     </p>
 
-    @if (jobstatusId > 2)
+    @if (jobstatusId > 2 && !isJobPosted)
     {
-
         <p>
             <button class="btn btn-default" data-toggle="modal" data-target="#PostJobRecievables"
                     onclick="ShowPostReceivablesModal(@ViewBag.JobOrder.Id)">
                 Post to Receivables
             </button>
-        </p>
-    }
+        </p>     
+      } else { 
+         <p>
+            Posted to Receivables
+         </p>
+      }
 </div>
 
 

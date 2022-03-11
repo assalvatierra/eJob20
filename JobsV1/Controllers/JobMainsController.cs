@@ -833,7 +833,6 @@ namespace JobsV1.Controllers
             }
         }
 
-
         public ActionResult JobTable2(int? span = 30) //2017 version
         {
             System.DateTime dtNow = this.GetCurrentTime();
@@ -975,6 +974,7 @@ namespace JobsV1.Controllers
 
             return true;
         }
+
 
         #region Job Notes
         public ActionResult JobNotes(int? id)

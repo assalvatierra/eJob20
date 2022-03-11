@@ -398,7 +398,6 @@ namespace JobsV1.Controllers
             }
         }
 
-
         #region Inventory Items
         public ActionResult InventoryItemList(int serviceId)
         {
@@ -949,7 +948,6 @@ namespace JobsV1.Controllers
             return View(jobMain);
         }
 
-
         public bool JobCreateValidation(JobMain jobMain)
         {
             bool isValid = true;
@@ -1014,7 +1012,6 @@ namespace JobsV1.Controllers
             }
         }
 
-
         public bool EditJobPaymentStatus(int id, int jobId)
         {
             try
@@ -1046,7 +1043,6 @@ namespace JobsV1.Controllers
             }
         }
 
-
         public ActionResult ChangeCompany(int id, int newId) {
 
             JobMain jobMain = db.JobMains.Find(id);
@@ -1056,6 +1052,7 @@ namespace JobsV1.Controllers
 
             return RedirectToAction("Index", new { mainid = jobMain.Id });
         }
+
         #endregion
 
         #region Supplier Po
@@ -1578,6 +1575,7 @@ namespace JobsV1.Controllers
                 .Include(j => j.SupplierItem).Include(j => j.JobServicePickups).Where(d => d.JobMainId == JobMainId);
 
             System.Collections.ArrayList providers = new System.Collections.ArrayList();
+
             foreach (var item in jobServices)
             {
                 if (item.Supplier != null)
@@ -1626,7 +1624,7 @@ namespace JobsV1.Controllers
             ViewBag.isOwner = User.IsInRole("Owner");
             ViewBag.JobMainId = (int)JobMainId;
             ViewBag.JobOrder = Job;
-            ViewBag.JobItems = jobServices;
+            ViewBag.Company = jo.GetJobCompany((int)JobMainId);
             ViewBag.Providers = providers;
             ViewBag.JobStatus = Job.JobStatus.Status;
             ViewBag.JobStatusId = Job.JobStatusId;
@@ -1638,6 +1636,7 @@ namespace JobsV1.Controllers
             ViewBag.JobVehicle = jvc.GetJobVehicle((int)JobMainId);
             ViewBag.PaymentStatus = jo.GetJobPaymentStatus((int)JobMainId);
             ViewBag.SiteConfig = SITECONFIG;
+            ViewBag.IsJobPosted = Job.JobPosts.Count() > 0 ? true : false;
 
             var veh = jvc.GetCustomerVehicleList((int)JobMainId);
             return View(jobServices.OrderBy(d => d.DtStart).ToList());
@@ -2595,11 +2594,6 @@ namespace JobsV1.Controllers
                 JsonRequestBehavior.AllowGet);
         }
 
-        //ajax test
-        public ActionResult AjaxTest()
-        {
-            return Json("insomia", JsonRequestBehavior.AllowGet);
-        }
         #endregion
 
         #region Daily Status Updates
@@ -3274,7 +3268,6 @@ namespace JobsV1.Controllers
             return JsonConvert.SerializeObject(services, Formatting.Indented);
         }
 
-
         public string GetJobServicePickup(int svcId)
         {
 
@@ -3290,6 +3283,12 @@ namespace JobsV1.Controllers
 
             return pickupInstructions;
 
+        }
+
+        //Get the company name of the job in triplogs
+        public string GetJobCompanyName(int id)
+        {
+             return jo.GetJobCompany(id);
         }
         #endregion
 
