@@ -351,7 +351,15 @@
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.crLogCompany.Name)
+
+                @if (item.crLogTripJobMains.Count() > 0 && item.crLogCompany.Name.TrimEnd() == "Real Breeze")
+                {
+                    @Html.Action("GetJobCompanyName", "JobORder", new { @area = "", id = item.crLogTripJobMains.First().JobMainId })
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.crLogCompany.Name)
+                }
             </td>
             <td class="td-unit">
                 @Html.DisplayFor(modelItem => item.crLogUnit.Description)

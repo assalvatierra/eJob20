@@ -1253,6 +1253,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
         }
+
         #endregion
 
         private class TripOdoRequest
