@@ -7,6 +7,7 @@
     var transPayments = ViewBag.Payments as IEnumerable<ArModels.Models.ArTransPayment>;
     decimal totalAmount = Model.Amount;
     decimal totalPaid = 0;
+    decimal totalDeposit = 0;
     decimal totalBalance = 0;
     bool isClosed = ViewBag.IsClosed;
 }
@@ -80,10 +81,6 @@
         <p>
             <b class="text-muted"> Encoded Date: </b>
             <span> @Model.DtEncoded.ToString("MMM dd yyyy") </span>
-        </p>
-        <p>
-            <b class="text-muted"> Interval: </b>
-            <span> @Model.Interval </span>
         </p>
         <p>
             <b class="text-muted"> Is Repeating: </b>
@@ -174,29 +171,97 @@
             </td>
         </tr>
     </table>
-    @{
-        totalBalance = totalAmount - totalPaid;
-    }
-    <h3>
-        Balance: @totalBalance.ToString("#,##0.00")
-    </h3>
-    <p>
-        @if (isClosed)
-        {
-            <span>This transaction is closed </span>
-        }
-        else
-        {
 
-            if (totalPaid >= totalAmount)
+
+    <div class="col-lg-12">
+
+        <hr />
+        <h3>
+            Deposits
+        </h3>
+        <p>
+            @if (!isClosed && Model.ArTransStatusId < 4)
             {
-                @Html.ActionLink("Post and Close", "PostAndCloseTransaction", new { id = Model.Id }, null)
+                @Html.ActionLink("Add Deposit", "CreateTransDeposit", "ArDeposits", new { transId = Model.Id }, null)
+            }
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Reference
+                </th>
+                <th>
+                    Remarks
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            @foreach (var deposit in Model.ArTransDeposits)
+            {
+                totalDeposit += deposit.ArDeposit.Amount;
+                <tr>
+                    <td>
+                        @deposit.ArDeposit.DtDeposit.ToString("MMM dd yyyy")
+                    </td>
+                    <td>
+                        @deposit.ArDeposit.Reference
+                    </td>
+                    <td>
+                        @deposit.ArDeposit.Remarks
+                    </td>
+                    <td>
+                        @deposit.ArDeposit.Amount.ToString("#,##0.00")
+                    </td>
+                    <td>
+                        @if (Model.ArTransStatusId < 3)
+                        {
+                            @Html.ActionLink("Edit", "Edit", "ArDeposits", new { id = deposit.Id, transId = Model.Id }, null)
+                        }
+
+                        @Html.ActionLink("Edit", "Edit", "ArDeposits", new { id = deposit.Id, transId = Model.Id }, null)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="3">
+                    <span class="pull-right">Total</span>
+                </td>
+                <td colspan="2">
+                    @totalDeposit.ToString("#,##0.00")
+                </td>
+            </tr>
+        </table>
+
+        @{
+            totalBalance = totalAmount - totalPaid;
+        }
+        <h3>
+            Balance: @totalBalance.ToString("#,##0.00")
+        </h3>
+        <p>
+            @if (isClosed)
+            {
+                <span>This transaction is closed </span>
             }
             else
             {
-                <span> Please settle the balance to close this transaction. </span>
-            }
-        }
-    </p>
 
-</div>
+                if (totalPaid >= totalAmount)
+                {
+                    @Html.ActionLink("Post and Close", "PostAndCloseTransaction", new { id = Model.Id }, null)
+                }
+                else
+                {
+                    <span> Please settle the balance to close this transaction. </span>
+                }
+            }
+        </p>
+
+    </div>

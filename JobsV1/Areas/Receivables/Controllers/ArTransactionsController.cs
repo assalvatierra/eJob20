@@ -60,9 +60,9 @@ namespace JobsV1.Areas.Receivables.Controllers
         {
             ArTransaction transaction = new ArTransaction();
             transaction.Amount = 0;
-            transaction.Interval = 0;
-            transaction.PrevRef = 0;
-            transaction.NextRef = 0;
+            //transaction.Interval = 0;
+            //transaction.PrevRef = 0;
+            //transaction.NextRef = 0;
             transaction.InvoiceId = 0;
 
             ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status");
@@ -77,7 +77,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef,RepeatCount,ArAccContactId")] ArTransaction arTransaction)
+        public ActionResult Create([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,ArAccContactId")] ArTransaction arTransaction)
         {
             try
             {
@@ -140,7 +140,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef,RepeatCount,ArAccContactId")] ArTransaction arTransaction)
+        public ActionResult Edit([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,ArAccContactId")] ArTransaction arTransaction)
         {
             if (ModelState.IsValid && InputValidation(arTransaction))
             {
@@ -183,7 +183,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditRemarks([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef,RepeatCount,ArAccContactId")] ArTransaction arTransaction)
+        public ActionResult EditRemarks([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,ArAccContactId")] ArTransaction arTransaction)
         {
             if (ModelState.IsValid && InputValidation(arTransaction))
             {
@@ -247,11 +247,11 @@ namespace JobsV1.Areas.Receivables.Controllers
                 ModelState.AddModelError("Amount", "Invalid Amount");
                 isValid = false;
             }
-            if (transaction.Interval < 0)
-            {
-                ModelState.AddModelError("Interval", "Invalid Interval");
-                isValid = false;
-            }
+            //if (transaction.Interval < 0)
+            //{
+            //    ModelState.AddModelError("Interval", "Invalid Interval");
+            //    isValid = false;
+            //}
 
 
             return isValid;
@@ -415,7 +415,7 @@ namespace JobsV1.Areas.Receivables.Controllers
 
         //Post: \Receivables\ArTransactions\PostJobReceivables
         [HttpPost]
-        public bool PostJobReceivables([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef,RepeatCount")] ArTransaction arTransaction,
+        public bool PostJobReceivables([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo")] ArTransaction arTransaction,
             string Name, string Company, string Email, string Mobile)
         {
             try
@@ -425,11 +425,11 @@ namespace JobsV1.Areas.Receivables.Controllers
                 arTransaction.ArTransStatusId = 2;
                 arTransaction.DtEncoded = ar.DateClassMgr.GetCurrentDateTime();
                 arTransaction.IsRepeating = false;
-                arTransaction.Interval = 0;
                 arTransaction.InvoiceRef = arTransaction.InvoiceId.ToString();
-                arTransaction.NextRef = 0;
-                arTransaction.PrevRef = 0;
-                arTransaction.RepeatCount = 0;
+                //arTransaction.Interval = 0;
+                //arTransaction.NextRef = 0;
+                //arTransaction.PrevRef = 0;
+                //arTransaction.RepeatCount = 0;
                 arTransaction.Remarks = "";
 
                 //validate

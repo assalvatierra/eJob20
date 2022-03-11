@@ -3,6 +3,8 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     ViewBag.Title = "Settlement";
     decimal TotalAmount = 0;
+    decimal totalDeposit = 0;
+    decimal TotalPayment = 0;
 }
 
 <h2>Settlement</h2>
@@ -28,7 +30,8 @@
         <th> Account </th>
         <th> Status </th>
         <th> Amount </th>
-        @*<th> Payment </th>*@
+        <th> Payment </th>
+        <th> Deposit</th>
         <th> Actions </th>
     </tr>
     @foreach (var transaction in Model)
@@ -93,6 +96,16 @@
                         <span> @depositDate.ToString("MMM dd yyyy") </span>
                     }
                 }
+
+
+                @if (transaction.ArTransDeposits.Count() > 0)
+                {
+                    foreach (var deposit in transaction.ArTransDeposits)
+                    {
+                        <span> @deposit.ArDeposit.DtDeposit.ToString("MMM dd yyyy") </span> <br />
+
+                    }
+                }
             </td>
             <td>
                 <b>@transaction.ArAccount.Company</b>
@@ -136,17 +149,20 @@
                 }
 
             </td>
+            <td>
+                @transaction.Amount.ToString("#,##0.00")
+            </td>
             <td style="color:@textColor">
                 @paymentTotal.ToString("#,##0.00")
                 <br />
                 <span style="font-size:11px;color:gray;">@paymentType</span>
-                @if (paymentDeposited)
+                @*@if (paymentDeposited)
                 {
                     <span style="font-size:11px;color:gray;"> - Deposited </span>
-                }
-                <br />
+                }*@
+                <br />  
                 <span style="font-size:11px;color:gray;">
-                    @paymentRemarks
+                    @*@paymentRemarks*@
                 </span>
 
                 @if ((paymentTotal < (totalAmount - amountVariance) || paymentTotal > (totalAmount + amountVariance)))
@@ -156,6 +172,17 @@
                          title="Amount paid reached a 10% variance of the invoice amount" />
                 }
             </td>
+             <td>
+                    @foreach (var deposit in transaction.ArTransDeposits)
+                    {
+                        totalDeposit += deposit.ArDeposit.Amount;
+
+                        <span style="font-weight:600;"> @deposit.ArDeposit.Amount.ToString("#,##0.00") </span> <br />
+                        <span style="font-size:11px;color:gray;"> @deposit.ArDeposit.DtDeposit.ToString("MMM dd yyyy") </span> <br />
+                        <span>  @deposit.ArDeposit.Remarks </span>
+
+                    }
+             </td>
             <td>
                 <a class="btn btn-default" onclick="UpdateStatus(@transaction.Id, 6)"> Close </a>
                 @if (paymentType != "Bank" && !paymentDeposited)
@@ -172,11 +199,16 @@
     }
 
     <tr>
-        <td colspan="7"></td>
+        <td colspan="8"></td>
         <td>
+            <span style="font-size:11px;color:gray;"> Payment </span>
             <h4> @TotalAmount.ToString("#,##0.00")</h4>
         </td>
-        <td></td>
+        <td>
+            <span style="font-size:11px;color:gray;"> Deposit </span>
+            <h4> @totalDeposit.ToString("#,##0.00")</h4>
+        </td>
+        <td colspan="2"></td>
     </tr>
 </table>
 

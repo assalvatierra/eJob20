@@ -13,10 +13,12 @@
 
     decimal totalAmount  = 0;
     decimal totalPayment = 0;
+    decimal totalDeposit = 0;
     decimal totalBalance = 0;
 
     decimal GrandTotal   = 0;
     decimal GrandPayment = 0;
+    decimal GrandDeposit = 0;
     decimal GrandBalance = 0;
 
 
@@ -160,7 +162,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.DtInvoice)
+            Invoice
         </th>
         <th>
             Ref&nbsp;No.
@@ -175,7 +177,7 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DtDue)
+            Due
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ArTransStatu.Status)
@@ -187,9 +189,12 @@
             @Html.DisplayNameFor(model => model.Amount)
         </th>
         <th>
-            Paid&nbsp;Amount
+            Payment
         </th>
-        <th></th>
+        <th>
+            Deposit
+        </th>
+        <th> </th>
     </tr>
 
     @foreach (var receivablesGroup in Model.GroupBy(r => r.DtDue.ToString("MMMM", null)))
@@ -238,6 +243,10 @@
                     textcolor = "black";
                 }
 
+                if (item.ArTransStatusId == 6)
+                {
+                    textcolor = "gray";
+                }
             }
             else
             {
@@ -345,6 +354,11 @@
                         paymentDeposited = payment.ArPayment.IsDeposited ?? false;
                         paymentRemarks += payment.ArPayment.Remarks;
 
+                        <span>@payment.ArPayment.Amount.ToString("#,##0.00")</span><br />
+                        <span style="font-size:11px;color:gray;">@paymentType</span><br />
+                        <span style="font-size:11px;color:gray;">@payment.ArPayment.Remarks</span><br />
+
+
                         if (item.ArTransPayments.Count() > 1 && !String.IsNullOrEmpty(paymentRemarks))
                         {
                             paymentRemarks += " / ";
@@ -360,17 +374,30 @@
                         }
 
 
-                        @totalTransPayment.ToString("#,##0.00")<br />
+
+
+                        @*@totalTransPayment.ToString("#,##0.00")<br />
                         <span style="font-size:11px;color:gray;">@paymentType</span>
 
                         @if (paymentDeposited)
                         {
                             <span style="font-size:11px;color:gray;"> - Deposited </span>
-                        }
-                    </span> <br />
-                    <span style="font-size:11px;color:gray;">
-                        @paymentRemarks
+                        }*@
                     </span>
+                    @*<span style="font-size:11px;color:gray;">
+                        @paymentRemarks
+                    </span>*@
+                </td>
+                <td>
+                    @foreach (var deposit in item.ArTransDeposits)
+                    {
+                        totalDeposit += deposit.ArDeposit.Amount;
+
+                        <span style="font-weight:600;"> @deposit.ArDeposit.Amount.ToString("#,##0.00") </span> <br />
+                        <span style="font-size:11px;color:gray;"> @deposit.ArDeposit.DtDeposit.ToString("MMM dd yyyy") </span> <br />
+                        <span>  @deposit.ArDeposit.Remarks </span>
+
+                    }
                 </td>
                 <td>
                     <div class="dropdown">
@@ -397,6 +424,8 @@
                                 else if (item.ArTransStatusId >= 4 && item.ArTransStatusId <= 5)
                                 {
                                     @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = item.Id }, null)
+                                    @Html.ActionLink("Add Deposit", "CreateTransDeposit", "ArDeposits", new { transId = item.Id }, null)
+
                                     if (item.ArTransStatusId == 4)
                                     {
                                         <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 5)"> For Settlement </a>
@@ -441,6 +470,7 @@
             totalBalance = totalAmount - totalPayment;
             GrandTotal += totalAmount;
             GrandPayment += totalPayment;
+            GrandDeposit += totalDeposit;
             GrandBalance += totalBalance;
         }
         <tr>
@@ -453,6 +483,10 @@
             <td style="color:darkgreen;">
                 <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Payment </p>
                 <p style="font-size:18px;">@totalPayment.ToString("#,##0.00")</p>
+            </td>
+            <td style="color:darkgreen;">
+                <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Deposit </p>
+                <p style="font-size:18px;">@totalDeposit.ToString("#,##0.00")</p>
             </td>
             <td style="font-weight:600;">
                 <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Balance </p>
@@ -472,11 +506,18 @@
                 </h3>
             </td>
             <td>
-                <h3>  <span style="color:gray;"> Payments :</span> <span style="color:green;">@GrandPayment.ToString("#,##0.00")</span>
+                <h3>
+                    <span style="color:gray;"> Payments :</span> <span style="color:green;">@GrandPayment.ToString("#,##0.00")</span>
                 </h3>
             </td>
             <td>
-                <h3><span style="color:gray;"> Balance :</span> <span style="color:blue;">@GrandBalance.ToString("#,##0.00")</span>
+                <h3>
+                    <span style="color:gray;"> Deposit :</span> <span style="color:green;">@GrandDeposit.ToString("#,##0.00")</span>
+                </h3>
+            </td>
+            <td>
+                <h3>
+                    <span style="color:gray;"> Balance :</span> <span style="color:blue;">@GrandBalance.ToString("#,##0.00")</span>
                 </h3>
             </td>
         </tr>
