@@ -162,7 +162,7 @@ namespace JobsV1.Areas.Payables.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,InvoiceNo,DtInvoice,DtEncoded,Description,Amount,BudgetAmt,DtDue,DtService,DtServiceTo," +
-            "JobRef,Remarks,IsRepeating,ApAccountId,ApTransStatusId,ApTransCategoryId,ApTransTypeId")] ApTransaction apTransaction)
+            "JobRef,Remarks,IsRepeating,ApAccountId,ApTransStatusId,ApTransCategoryId,ApTransTypeId,IsFunded")] ApTransaction apTransaction)
         {
             if (ModelState.IsValid)
             {
@@ -220,7 +220,7 @@ namespace JobsV1.Areas.Payables.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,InvoiceNo,DtInvoice,DtEncoded,Description,Amount,BudgetAmt,DtDue,DtService,DtServiceTo," +
-            "ReleaseAmt,DtRelease,JobRef,Remarks,IsRepeating,ApAccountId,ApTransStatusId,ApTransCategoryId,ApTransTypeId")] ApTransaction apTransaction)
+            "ReleaseAmt,DtRelease,JobRef,Remarks,IsRepeating,ApAccountId,ApTransStatusId,ApTransCategoryId,ApTransTypeId,IsFunded")] ApTransaction apTransaction)
         {
 
             try
@@ -579,7 +579,22 @@ namespace JobsV1.Areas.Payables.Controllers
             return "Unable to Release Payment";
         }
 
-        #endregion 
+        public bool SetFunded(int id)
+        {
+            try
+            {
+                var payable = ap.TransactionMgr.GetTransactionById(id);
+
+                payable.IsFunded = true;
+
+                return ap.TransactionMgr.EditTransaction(payable);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        #endregion
 
         #region Print Request Form
         public ActionResult PrintRequestForm(int id)

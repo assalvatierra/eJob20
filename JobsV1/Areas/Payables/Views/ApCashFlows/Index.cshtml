@@ -7,6 +7,7 @@
     decimal TotalRequest = 0;
     decimal TotalCashIn  = 0;
     decimal TotalCashout = 0;
+    decimal TotalFunded = 0;
     decimal TotalBalance = 0;
     decimal TotalProjectedBalance = 0;
     decimal TotalProjectedAfterWithdraw = 0;
@@ -37,6 +38,9 @@
             Request
         </th>
         <th>
+            Funded
+        </th>
+        <th>
             Cash in
         </th>
         <th>
@@ -60,6 +64,7 @@
             TotalCashIn += item.CREDIT;
             TotalCashout += item.DEBIT;
             TotalRequest += item.REQUEST == null ? (decimal)(0) : (decimal)item.REQUEST;
+            TotalFunded += item.FUNDED == null ? (decimal)(0) : (decimal)item.FUNDED;
 
             <tr>
                 <td>
@@ -73,7 +78,15 @@
                         <span class="text-success"> @item.REQUEST</span>
                     }
                 </td>
+                
                 <td>
+                    @if (item.FUNDED != null)
+                    {
+                        <span class="text-primary"> @item.FUNDED</span>
+                    }
+                </td>
+                <td>
+
                     @if (item.CREDIT != 0)
                     {
                         @item.CREDIT.ToString("#,##0.00")
@@ -102,7 +115,7 @@
     <!-- TOTALS CALCULATIONS -->
     @{
         TotalBalance = TotalCashIn - TotalCashout;
-        TotalProjectedBalance = TotalBalance - TotalRequest;
+        TotalProjectedBalance = TotalBalance - TotalRequest - TotalFunded;
 
         decimal ForWithdraw = 0;
 
@@ -133,6 +146,9 @@
         <td>
 
         </td>
+        <td>
+
+        </td>
     </tr>
     <tr>
         <td>
@@ -146,6 +162,10 @@
             <span id="TotalCashIn" class="text-info">@TotalRequest.ToString("#,##0.00")</span>
         </td>
         <td>
+            <span class="text-muted"> Total Funded </span><br />
+            <span id="TotalCashIn" class="text-info">@TotalFunded.ToString("#,##0.00")</span>
+        </td>
+        <td>
             <span class="text-muted"> Total Cash-in </span><br />
             <span id="TotalCashIn">@TotalCashIn.ToString("#,##0.00")</span>
         </td>
@@ -156,7 +176,7 @@
         <td></td>
     </tr>
     <tr>
-        <td colspan="3">
+        <td colspan="4">
         </td>
         <td>
             <span class="text-muted"> Actual Balance </span>
@@ -168,7 +188,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="3">
+        <td colspan="4">
         </td>
         <td>
             <span class="text-muted"> Projected Balance </span>
@@ -180,7 +200,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="3">
+        <td colspan="4">
         </td>
         <td>
             <span class="text-muted"> After Withdrawal </span>
@@ -192,7 +212,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="4">
+        <td colspan="5">
         </td>
         <td>
             <button class="btn btn-primary" onclick="PostBalance()">

@@ -359,3 +359,14 @@ function Payment(e) {
         }
     });
 }
+
+
+// ----- Funded Action ---- //
+function FundedTrans(e, id) {
+
+    $.post("/Payables/ApTransactions/SetFunded", { id: id }, (res) => {
+
+        $(e).prop('disabled', false);
+
+    })
+}
