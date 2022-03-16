@@ -192,7 +192,7 @@
             Payment
         </th>
         <th>
-            Deposit
+            Deposited
         </th>
         <th> </th>
     </tr>
@@ -203,6 +203,7 @@
         totalAmount = 0;
         totalPayment = 0;
         totalBalance = 0;
+        totalDeposit = 0;
 
         <tr>
             <td colspan="11">
@@ -265,7 +266,8 @@
                 <td>
                     @if (item.InvoiceId != 0 && item.InvoiceRef != null)
                     {
-                        @Html.ActionLink(item.InvoiceRef, "JobServices", "JobOrder", new { area = "", jobMainId = item.InvoiceId }, new { target = "_blank" })
+                        @*@Html.ActionLink(item.InvoiceRef, "JobServices", "JobOrder", new { area = "", jobMainId = item.InvoiceId }, new { target = "_blank" })*@
+                        @Html.ActionLink(item.InvoiceRef, "JobSummaryDetails", "Reporting", new { area = "", id = item.InvoiceId }, new { target = "_blank" })
                     }
                     else
                     {
@@ -395,7 +397,8 @@
 
                         <span style="font-weight:600;"> @deposit.ArDeposit.Amount.ToString("#,##0.00") </span> <br />
                         <span style="font-size:11px;color:gray;"> @deposit.ArDeposit.DtDeposit.ToString("MMM dd yyyy") </span> <br />
-                        <span>  @deposit.ArDeposit.Remarks </span>
+                        <span style="font-size:11px;color:gray;">  @deposit.ArDeposit.ArDepositBank.AccountName </span> <br />
+                        <span style="font-size:11px;color:gray;">  @deposit.ArDeposit.Remarks </span>
 
                     }
                 </td>
@@ -433,7 +436,7 @@
 
                                     if (paymentType != "Bank")
                                     {
-                                        <a class="cursor-link cursor-hand" onclick="UpdateStatusAndDeposit(@item.Id)"> Deposited </a>
+                                        @*<a class="cursor-link cursor-hand" onclick="UpdateStatusAndDeposit(@item.Id)"> Deposited </a>*@
                                     }
 
                                 }
@@ -446,7 +449,7 @@
                             @if (item.ArTransStatusId < 5)
                             {
                                 <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
-                                <li> <span class="btn btn-default" onclick="ShowJobLinkModal(@item.Id, '@item.ArAccount.Name - @item.Description')"> Update joblink </span> </li>
+                                <li> <a class="cursor-hand" onclick="ShowJobLinkModal(@item.Id, '@item.ArAccount.Name - @item.Description')"> Update joblink </a> </li>
                             }
                             else
                             {

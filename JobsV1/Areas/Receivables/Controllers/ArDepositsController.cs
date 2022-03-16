@@ -48,7 +48,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,DtDeposit,Amount,Remarks,Referance")] ArDeposit arDeposit)
+        public ActionResult Create([Bind(Include = "Id,DtDeposit,Amount,Remarks,Referance,ArDepositBankId")] ArDeposit arDeposit)
         {
             if (ModelState.IsValid)
             {
@@ -57,6 +57,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.ArDepositBankId = new SelectList(db.ArDepositBanks.ToList(), "Id", "AccountName");
             return View(arDeposit);
         }
 
@@ -67,6 +68,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             ArDeposit arDeposit = new ArDeposit();
             arDeposit.DtDeposit = ar.DateClassMgr.GetCurrentDate();
             ViewBag.TransId = transId;
+            ViewBag.ArDepositBankId = new SelectList(db.ArDepositBanks.ToList(), "Id", "AccountName");
             return View(arDeposit);
         }
 
@@ -75,7 +77,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateTransDeposit([Bind(Include = "Id,DtDeposit,Amount,Remarks,Referance")] ArDeposit arDeposit, int transId)
+        public ActionResult CreateTransDeposit([Bind(Include = "Id,DtDeposit,Amount,Remarks,Reference,ArDepositBankId")] ArDeposit arDeposit, int transId)
         {
             if (ModelState.IsValid)
             {
@@ -87,6 +89,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 return RedirectToAction("Index", "ArTransactions",null);
             }
 
+            ViewBag.ArDepositBankId = new SelectList(db.ArDepositBanks.ToList(), "Id", "AccountName", arDeposit.ArDepositBankId);
             return View(arDeposit);
         }
 
@@ -103,6 +106,8 @@ namespace JobsV1.Areas.Receivables.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.TransId = transId;
+            ViewBag.ArDepositBankId = new SelectList(db.ArDepositBanks.ToList(), "Id", "AccountName", arDeposit.ArDepositBankId);
             return View(arDeposit);
         }
 
@@ -111,14 +116,22 @@ namespace JobsV1.Areas.Receivables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,DtDeposit,Amount,Remarks,Referance")] ArDeposit arDeposit, int transId)
+        public ActionResult Edit([Bind(Include = "Id,DtDeposit,Amount,Remarks,Reference,ArDepositBankId")] ArDeposit arDeposit, int? transId)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(arDeposit).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                if (transId == null)
+                {
+                    transId = arDeposit.ArTransDeposits.FirstOrDefault().ArTransactionId;
+                    return RedirectToAction("Details", "ArTransactions", new { id = transId });
+                }
+
+                return RedirectToAction("Details","ArTransactions", new { id = transId });
             }
+            ViewBag.ArDepositBankId = new SelectList(db.ArDepositBanks.ToList(), "Id", "AccountName", arDeposit.ArDepositBankId);
             return View(arDeposit);
         }
 

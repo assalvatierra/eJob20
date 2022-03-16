@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/09/2021 15:50:39
+-- Date Created: 03/15/2022 15:00:03
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Receivable20\ArModels\Models\ArDB.edmx
 -- --------------------------------------------------
 
@@ -13,7 +13,7 @@ GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
--- --------------------------------------------------
+-- -------------------------
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
@@ -68,6 +68,15 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_ArAccContactArTransaction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ArTransactions] DROP CONSTRAINT [FK_ArAccContactArTransaction];
 GO
+IF OBJECT_ID(N'[dbo].[FK_ArTransactionArTransRepeat]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ArTransRepeats] DROP CONSTRAINT [FK_ArTransactionArTransRepeat];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ArTransactionArTransDeposit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ArTransDeposits] DROP CONSTRAINT [FK_ArTransactionArTransDeposit];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ArDepositArTransDeposit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ArTransDeposits] DROP CONSTRAINT [FK_ArDepositArTransDeposit];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -121,8 +130,14 @@ GO
 IF OBJECT_ID(N'[dbo].[ArAccContacts]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ArAccContacts];
 GO
-IF OBJECT_ID(N'[dbo].[ArTransContacts]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ArTransContacts];
+IF OBJECT_ID(N'[dbo].[ArDeposits]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ArDeposits];
+GO
+IF OBJECT_ID(N'[dbo].[ArTransRepeats]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ArTransRepeats];
+GO
+IF OBJECT_ID(N'[dbo].[ArTransDeposits]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ArTransDeposits];
 GO
 
 -- --------------------------------------------------
@@ -138,7 +153,6 @@ CREATE TABLE [dbo].[ArTransactions] (
     [DtEncoded] datetime  NOT NULL,
     [DtDue] datetime  NOT NULL,
     [Amount] decimal(20,2)  NOT NULL,
-    [Interval] int  NOT NULL,
     [IsRepeating] bit  NOT NULL,
     [Remarks] nvarchar(80)  NULL,
     [ArTransStatusId] int  NOT NULL,
@@ -146,11 +160,7 @@ CREATE TABLE [dbo].[ArTransactions] (
     [ArCategoryId] int  NOT NULL,
     [DtService] datetime  NOT NULL,
     [DtServiceTo] datetime  NULL,
-    [PrevRef] int  NULL,
-    [NextRef] int  NULL,
     [InvoiceRef] nvarchar(20)  NULL,
-    [RepeatCount] int  NULL,
-    [RepeatNo] int  NULL,
     [ArAccContactId] int  NOT NULL
 );
 GO
@@ -174,7 +184,8 @@ CREATE TABLE [dbo].[ArPayments] (
     [Reference] nvarchar(80)  NULL,
     [ArAccountId] int  NOT NULL,
     [ArPaymentTypeId] int  NOT NULL,
-    [IsDeposited] bit  NULL
+    [IsDeposited] bit  NULL,
+    [DtDeposit] datetime  NULL
 );
 GO
 
@@ -296,16 +307,48 @@ GO
 CREATE TABLE [dbo].[ArAccContacts] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(80)  NOT NULL,
-    [Mobile] nvarchar(15)  NOT NULL,
+    [Mobile] nvarchar(20)  NOT NULL,
     [Email] nvarchar(80)  NOT NULL,
     [Position] nvarchar(80)  NULL,
     [ArAccountId] int  NOT NULL
 );
 GO
 
--- Creating table 'ArTransContacts'
-CREATE TABLE [dbo].[ArTransContacts] (
-    [Id] int IDENTITY(1,1) NOT NULL
+-- Creating table 'ArDeposits'
+CREATE TABLE [dbo].[ArDeposits] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DtDeposit] datetime  NOT NULL,
+    [Amount] decimal(18,0)  NOT NULL,
+    [Remarks] nvarchar(80)  NULL,
+    [Reference] nvarchar(20)  NULL,
+    [ArDepositBankId] int  NOT NULL
+);
+GO
+
+-- Creating table 'ArTransRepeats'
+CREATE TABLE [dbo].[ArTransRepeats] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [PrevRef] int  NOT NULL,
+    [NextRef] int  NOT NULL,
+    [RepeatCount] int  NOT NULL,
+    [RpeatNo] int  NOT NULL,
+    [Interval] int  NOT NULL,
+    [ArTransaction_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'ArTransDeposits'
+CREATE TABLE [dbo].[ArTransDeposits] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ArTransactionId] int  NOT NULL,
+    [ArDepositId] int  NOT NULL
+);
+GO
+
+-- Creating table 'ArDepositBanks'
+CREATE TABLE [dbo].[ArDepositBanks] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [AccountName] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -409,9 +452,27 @@ ADD CONSTRAINT [PK_ArAccContacts]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'ArTransContacts'
-ALTER TABLE [dbo].[ArTransContacts]
-ADD CONSTRAINT [PK_ArTransContacts]
+-- Creating primary key on [Id] in table 'ArDeposits'
+ALTER TABLE [dbo].[ArDeposits]
+ADD CONSTRAINT [PK_ArDeposits]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ArTransRepeats'
+ALTER TABLE [dbo].[ArTransRepeats]
+ADD CONSTRAINT [PK_ArTransRepeats]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ArTransDeposits'
+ALTER TABLE [dbo].[ArTransDeposits]
+ADD CONSTRAINT [PK_ArTransDeposits]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ArDepositBanks'
+ALTER TABLE [dbo].[ArDepositBanks]
+ADD CONSTRAINT [PK_ArDepositBanks]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -672,6 +733,66 @@ GO
 CREATE INDEX [IX_FK_ArAccContactArTransaction]
 ON [dbo].[ArTransactions]
     ([ArAccContactId]);
+GO
+
+-- Creating foreign key on [ArTransaction_Id] in table 'ArTransRepeats'
+ALTER TABLE [dbo].[ArTransRepeats]
+ADD CONSTRAINT [FK_ArTransactionArTransRepeat]
+    FOREIGN KEY ([ArTransaction_Id])
+    REFERENCES [dbo].[ArTransactions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ArTransactionArTransRepeat'
+CREATE INDEX [IX_FK_ArTransactionArTransRepeat]
+ON [dbo].[ArTransRepeats]
+    ([ArTransaction_Id]);
+GO
+
+-- Creating foreign key on [ArTransactionId] in table 'ArTransDeposits'
+ALTER TABLE [dbo].[ArTransDeposits]
+ADD CONSTRAINT [FK_ArTransactionArTransDeposit]
+    FOREIGN KEY ([ArTransactionId])
+    REFERENCES [dbo].[ArTransactions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ArTransactionArTransDeposit'
+CREATE INDEX [IX_FK_ArTransactionArTransDeposit]
+ON [dbo].[ArTransDeposits]
+    ([ArTransactionId]);
+GO
+
+-- Creating foreign key on [ArDepositId] in table 'ArTransDeposits'
+ALTER TABLE [dbo].[ArTransDeposits]
+ADD CONSTRAINT [FK_ArDepositArTransDeposit]
+    FOREIGN KEY ([ArDepositId])
+    REFERENCES [dbo].[ArDeposits]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ArDepositArTransDeposit'
+CREATE INDEX [IX_FK_ArDepositArTransDeposit]
+ON [dbo].[ArTransDeposits]
+    ([ArDepositId]);
+GO
+
+-- Creating foreign key on [ArDepositBankId] in table 'ArDeposits'
+ALTER TABLE [dbo].[ArDeposits]
+ADD CONSTRAINT [FK_ArDepositBankArDeposit]
+    FOREIGN KEY ([ArDepositBankId])
+    REFERENCES [dbo].[ArDepositBanks]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ArDepositBankArDeposit'
+CREATE INDEX [IX_FK_ArDepositBankArDeposit]
+ON [dbo].[ArDeposits]
+    ([ArDepositBankId]);
 GO
 
 -- --------------------------------------------------

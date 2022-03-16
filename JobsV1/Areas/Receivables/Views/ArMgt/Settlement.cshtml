@@ -26,12 +26,12 @@
         <th> Invoice </th>
         <th> Invoice Date</th>
         <th> Payment Date</th>
-        <th> Deposit Date</th>
+        @*<th> Deposit Date</th>*@
         <th> Account </th>
         <th> Status </th>
         <th> Amount </th>
         <th> Payment </th>
-        <th> Deposit</th>
+        <th> Deposited </th>
         <th> Actions </th>
     </tr>
     @foreach (var transaction in Model)
@@ -46,11 +46,11 @@
             paymentTotal += payments.ArPayment.Amount;
             paymentType = payments.ArPayment.ArPaymentType.Type;
             paymentDeposited = payments.ArPayment.IsDeposited ?? false;
-            paymentRemarks += payments.ArPayment.Reference + " " + payments.ArPayment.Remarks;
+            paymentRemarks += " " + payments.ArPayment.Amount + " - " + payments.ArPayment.Remarks;
 
             if (transaction.ArTransPayments.Count() > 1 && !String.IsNullOrEmpty(paymentRemarks))
             {
-                paymentRemarks +=  " / " ;
+                paymentRemarks +=  " <br> " ;
             }
         }
 
@@ -70,7 +70,8 @@
                 <input value="@transaction.Id" type="checkbox" class="print-Checkbox" onclick="CheckRepeatItems(this)" />
             </th>
             <td>
-                @transaction.InvoiceId
+                @*@transaction.InvoiceId*@
+                @Html.ActionLink(transaction.InvoiceRef, "JobSummaryDetails", "Reporting", new { area = "", id = transaction.InvoiceId }, new { target = "_blank" })
             </td>
             <td>
                 @transaction.DtInvoice.ToString("MMM dd yyyy")
@@ -85,7 +86,7 @@
                 }
             </td>
             
-            <td>
+            @*<td>
                 @if (transaction.ArTransPayments.FirstOrDefault() != null)
                 {
                     var paymentDeposit = transaction.ArTransPayments.FirstOrDefault().ArPayment;
@@ -106,7 +107,7 @@
 
                     }
                 }
-            </td>
+            </td>*@
             <td>
                 <b>@transaction.ArAccount.Company</b>
 
@@ -161,8 +162,8 @@
                     <span style="font-size:11px;color:gray;"> - Deposited </span>
                 }*@
                 <br />  
-                <span style="font-size:11px;color:gray;">
-                    @*@paymentRemarks*@
+                <span style="font-size:10px;color:gray;">
+                    @paymentRemarks
                 </span>
 
                 @if ((paymentTotal < (totalAmount - amountVariance) || paymentTotal > (totalAmount + amountVariance)))
@@ -172,24 +173,23 @@
                          title="Amount paid reached a 10% variance of the invoice amount" />
                 }
             </td>
-             <td>
-                    @foreach (var deposit in transaction.ArTransDeposits)
-                    {
-                        totalDeposit += deposit.ArDeposit.Amount;
+            <td>
+                @foreach (var deposit in transaction.ArTransDeposits)
+                {
+                    totalDeposit += deposit.ArDeposit.Amount;
 
-                        <span style="font-weight:600;"> @deposit.ArDeposit.Amount.ToString("#,##0.00") </span> <br />
-                        <span style="font-size:11px;color:gray;"> @deposit.ArDeposit.DtDeposit.ToString("MMM dd yyyy") </span> <br />
-                        <span>  @deposit.ArDeposit.Remarks </span>
+                    <span style="font-weight:600;"> @deposit.ArDeposit.Amount.ToString("#,##0.00") </span> <br />
+                    <span style="font-size:11px;color:gray;"> @deposit.ArDeposit.DtDeposit.ToString("MMM dd yyyy") </span> <br />
+                    <span style="font-size:11px;color:gray;">  @deposit.ArDeposit.ArDepositBank.AccountName </span> <br />
+                    <span style="font-size:11px;color:gray;">  @deposit.ArDeposit.Remarks </span>
 
-                    }
-             </td>
+                }
+            </td>
             <td>
                 <a class="btn btn-default" onclick="UpdateStatus(@transaction.Id, 6)"> Close </a>
                 @if (paymentType != "Bank" && !paymentDeposited)
                 {
-                 
-                   <a class="btn btn-default" onclick="UpdateStatusAndDeposit(@transaction.Id)"> Deposited </a>
-                   
+                   @*<a class="btn btn-default" onclick="UpdateStatusAndDeposit(@transaction.Id)"> Deposited </a>*@
                 }
 
             </td>
@@ -214,7 +214,7 @@
 
 
 <a class="btn btn-default" onclick="ClosedChecked()"> Close Checked</a>
-<a class="btn btn-default" onclick="DepositAndClosedChecked()"> Close & Deposit Checked</a>
+@*<a class="btn btn-default" onclick="DepositAndClosedChecked()"> Close & Deposit Checked</a>*@
 @section Scripts{
     <script type="text/javascript" src="~/Areas/Receivables/Scripts/Mgt/Settlement.js"></script>
 }
