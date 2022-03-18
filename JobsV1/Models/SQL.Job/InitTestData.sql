@@ -744,3 +744,7 @@ SELECT a.Id FROM (SELECT *, DtReturned = (SELECT TOP (1) act.DtPerformed FROM Ap
 
 SELECT TOP (1) act.DtPerformed FROM ApActions act 
              LEFT JOIN ApActionItems actItem ON actItem.Id = act.ApActionItemId  WHERE act.ApActionItemId = 5
+
+
+---- GET JOB LINK COUNT 0----
+SELECT Id FROM ArTransactions ar WHERE ar.InvoiceId = 101

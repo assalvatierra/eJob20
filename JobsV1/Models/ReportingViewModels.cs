@@ -24,6 +24,7 @@ namespace JobsV1.Models
             public Decimal  DriversRate { get; set; }
             public string   Status      { get; set; }
             public string   ServiceType { get; set; }
+            public bool     Posted { get; set; }
         }
 
         public class JobSummaryDetails

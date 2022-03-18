@@ -29,6 +29,7 @@ namespace JobsV1.Models
         public DateTime DtEnd { get; set; }
         public int Status { get; set; }
         public string StatusString { get; set; }
+        public bool IsPosted { get; set; }
     }
 
     public class cJobOrderServices
@@ -260,19 +261,21 @@ namespace JobsV1.Models
                 cIncome.Tour = 0;
                 cIncome.Others = 0;
 
-                var latestPosted = db.JobPosts.Where(j => j.JobMainId == main.Id).OrderByDescending(s => s.Id).FirstOrDefault();
+                //var latestPosted = db.JobPosts.Where(j => j.JobMainId == main.Id).OrderByDescending(s => s.Id).FirstOrDefault();
 
-                if (latestPosted == null)
-                {
-                    joTmp.isPosted = false;
-                }
-                else
-                {
-                    cIncome.Car = latestPosted.CarRentalInc;
-                    cIncome.Tour = latestPosted.TourInc;
-                    cIncome.Others = latestPosted.OthersInc;
-                    joTmp.isPosted = true;
-                }
+                //if (latestPosted == null)
+                //{
+                //    joTmp.isPosted = false;
+                //}
+                //else
+                //{
+                //    cIncome.Car = latestPosted.CarRentalInc;
+                //    cIncome.Tour = latestPosted.TourInc;
+                //    cIncome.Others = latestPosted.OthersInc;
+                //    joTmp.isPosted = true;
+                //}
+
+                joTmp.isPosted = GetJobPostedInReceivables(joTmp.Main.Id);
 
                 joTmp.PostedIncome = cIncome;
 
@@ -325,6 +328,7 @@ namespace JobsV1.Models
             foreach (var main in jobs)
             {
                 cJobOrderListing joTmp = main;
+                joTmp.Id = main.Id;
                 joTmp.Amount = GetJobSvcAmount(main.Id);
                 joTmp.Payment = GetJobSvcPayments(main.Id);
                 joTmp.ExpenseFromAP = GetAPExpensesByJobId(main.Id);
@@ -333,6 +337,8 @@ namespace JobsV1.Models
                 joTmp.JobDate = MinJobDate(main.DtStart, main.DtEnd);
                 joTmp.StatusString = GetJobStatusById(main.Status);
                 joTmp.DriversRate = GetTriplogRateByJobId(main.Id);
+                joTmp.IsPosted = GetJobPostedInReceivables(main.Id);
+
                 data.Add(joTmp);
             }
 
@@ -374,7 +380,7 @@ namespace JobsV1.Models
 
                 string sql = "";
 
-                sql = @"SELECT SUM(ap.Amount) FROM ApTransactions ap WHERE ap.JobRef = "+ jobId ;
+                sql = @"SELECT SUM(ap.Amount) FROM ApTransactions ap WHERE ap.JobRef = "+ jobId + " AND ( ap.ApTransStatusId = 4 OR ap.ApTransStatusId = 5 )";
 
                 //terminator
                 sql += ";";
@@ -698,6 +704,23 @@ namespace JobsV1.Models
             List<cjobCounter> jobcntr = db.Database.SqlQuery<cjobCounter>(sqlstr).Where(d => jobidlist.Contains(d.JobId)).ToList();
             return jobcntr;
         }
+
+
+        //GET jobcount 
+        public bool GetJobPostedInReceivables(int jobId)
+        {
+            #region sqlstr
+            string sqlstr = "SELECT Id FROM ArTransactions ar WHERE ar.InvoiceId = "+ jobId +";";
+            #endregion
+            int count = db.Database.SqlQuery<int>(sqlstr).Count();
+
+            if (count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
 
         //GET JobMainId
         //Filter nullable serviceId and mainId
@@ -1024,6 +1047,7 @@ namespace JobsV1.Models
             return db.JobPaymentStatus.Find(GetLastJobPaymentStatusId(id));
 
         }
+
 
         public int GetLastJobPaymentStatusId(int jobId)
         {
