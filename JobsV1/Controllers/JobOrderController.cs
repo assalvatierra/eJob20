@@ -271,24 +271,9 @@ namespace JobsV1.Controllers
                 cIncome.Tour = 0;
                 cIncome.Others = 0;
 
-                var latestPosted = db.JobPosts.Where(j => j.JobMainId == main.Id).OrderByDescending(s => s.Id).FirstOrDefault();
-
-                if (latestPosted == null)
-                {
-                    joTmp.isPosted = false;
-                }
-                else
-                {
-                    cIncome.Car = latestPosted.CarRentalInc;
-                    cIncome.Tour = latestPosted.TourInc;
-                    cIncome.Others = latestPosted.OthersInc;
-                    joTmp.isPosted = true;
-                }
-
+                joTmp.isPosted = jo.GetJobPostedInReceivables(joTmp.Main.Id);
                 joTmp.PostedIncome = cIncome;
-
                 joTmp.ActionCounter = jobActionCntr.Where(d => d.JobId == joTmp.Main.Id).ToList();
-
                 joTmp.Main.JobDate = jo.TempJobDate(joTmp.Main.Id);
 
                 //job payments
@@ -1526,7 +1511,7 @@ namespace JobsV1.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.Contact = db.JobContacts.Where(d => d.ContactType == "100").ToList();
+            ViewBag.Contact = db.JobContacts.Where(d => d.ContactType == "100").OrderBy(d=>d.ContactType).ToList();
             ViewBag.svcId = jobServicePickup.JobServicesId;
 
             return View(jobServicePickup);
@@ -1636,7 +1621,7 @@ namespace JobsV1.Controllers
             ViewBag.JobVehicle = jvc.GetJobVehicle((int)JobMainId);
             ViewBag.PaymentStatus = jo.GetJobPaymentStatus((int)JobMainId);
             ViewBag.SiteConfig = SITECONFIG;
-            ViewBag.IsJobPosted = Job.JobPosts.Count() > 0 ? true : false;
+            ViewBag.IsJobPosted = jo.GetJobPostedInReceivables((int)JobMainId);
 
             var veh = jvc.GetCustomerVehicleList((int)JobMainId);
             return View(jobServices.OrderBy(d => d.DtStart).ToList());
@@ -2517,6 +2502,21 @@ namespace JobsV1.Controllers
             }
         }
 
+
+        public bool PostJobReceivables(int id)
+        {
+            try
+            {
+                JobPost jobPost = new JobPost();
+                jobPost.DtPost = dt.GetCurrentDateTime();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         #endregion
 
         #region supplier

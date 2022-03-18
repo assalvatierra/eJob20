@@ -14,20 +14,22 @@
 
     decimal Receivables_Amount = 0;
     decimal Receivables_Payment = 0;
+    decimal Receivables_Deposit = 0;
 }
 
 <h2>Job Summary Details</h2>
 <p>
-    @Html.ActionLink("Back to List", "JobSummary")
+    @Html.ActionLink("Back to List", "JobSummary") |
+    @Html.ActionLink("Job Details", "JobServices", "JobOrder",new { jobMainId = Model.Id }, null)
 </p>
 
 <h4>
     Job#:
-    <a href="/JobOrder/JobServices?JobMainId=@Model.Id">@Model.Id</a> 
+    <a href="/JobOrder/JobServices?JobMainId=@Model.Id">@Model.Id</a>
 </h4>
 <h4> Account: @Model.Account </h4>
 <h4> STATUS: @Model.Status </h4>
-
+<h3> Amount: <b>@Model.Amount.ToString("#,##0.00")</b></h3>
 <hr />
 
 
@@ -70,7 +72,7 @@
                 @trip.DtTrip.ToString("MMM dd yyyy")
             </td>
             <td>
-                @trip.crLogUnit.Description
+                @trip.crLogUnit.Description (@trip.crLogUnit.crLogOwner.Name)
             </td>
             <td>
                 @trip.crLogDriver.Name
@@ -84,16 +86,16 @@
 
         </tr>
     }
-<tr>
-    <td colspan="4">
-    </td>
-    <td>
-        @Triplog_DriverRate.ToString("#,##0.00")
-    </td>
-    <td>
-        @Triplog_DriverOT.ToString("#,##0.00")
-    </td>
-</tr>
+    <tr>
+        <td colspan="4">
+        </td>
+        <td>
+            @Triplog_DriverRate.ToString("#,##0.00")
+        </td>
+        <td>
+            @Triplog_DriverOT.ToString("#,##0.00")
+        </td>
+    </tr>
     <tr>
         <td colspan="4">
         </td>
@@ -120,14 +122,24 @@
             Description
         </th>
         <th>
+            Status
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
             Amount
         </th>
     </tr>
 
     @foreach (var expense in Model.Expenses)
     {
-        Expenses_Amount += expense.Amount;
-        Expenses_Payment += expense.ApTransPayments.Sum(c => c.ApPayment.Amount);
+        if (expense.ApTransStatu.Status == "Returned" || expense.ApTransStatu.Status == "Closed")
+        {
+            Expenses_Amount += expense.Amount;
+            Expenses_Payment += expense.ApTransPayments.Sum(c => c.ApPayment.Amount);
+        }
+
         <tr>
             <td>
                 <a href="/Payables/ApTransactions/Details/@expense.Id">@expense.Id</a>
@@ -139,12 +151,26 @@
                 @expense.Description
             </td>
             <td>
-                @expense.Amount.ToString("#,##0.00")
+                @expense.ApTransStatu.Status
+            </td>
+            <td>
+                @expense.ApTransType.Type
+            </td>
+            <td>
+                @if (expense.ApTransStatu.Status == "Returned" || expense.ApTransStatu.Status == "Closed")
+                {
+                    @expense.Amount.ToString("#,##0.00")
+                }
+                else
+                {
+                    <span>0.00</span>
+                }
+
             </td>
         </tr>
     }
     <tr>
-        <td colspan="3">
+        <td colspan="5">
         </td>
         <td>
             Total <br />
@@ -170,10 +196,16 @@
             Description
         </th>
         <th>
+            Status
+        </th>
+        <th>
             Amount
         </th>
         <th>
-            Payment
+            Collected
+        </th>
+        <th>
+            Deposited
         </th>
     </tr>
 
@@ -181,6 +213,7 @@
     {
         Receivables_Amount += receivables.Amount;
         Receivables_Payment += receivables.ArTransPayments.Sum(c => c.ArPayment.Amount);
+        Receivables_Deposit += receivables.ArTransDeposits.Sum(c => c.ArDeposit.Amount);
         <tr>
             <td>
                 <a href="/Receivables/ArTransactions/Details/@receivables.Id"> @receivables.Id</a>
@@ -192,19 +225,29 @@
                 @receivables.Description
             </td>
             <td>
+                @receivables.ArTransStatu.Status
+            </td>
+            <td>
                 @receivables.Amount.ToString("#,##0.00")
             </td>
             <td>
                 @receivables.ArTransPayments.Sum(c => c.ArPayment.Amount).ToString("#,##0.00")
             </td>
+            <td>
+                @receivables.ArTransDeposits.Sum(c => c.ArDeposit.Amount).ToString("#,##0.00")
+            </td>
         </tr>
     }
     <tr>
-        <td colspan="4">
+        <td colspan="5">
         </td>
         <td>
-            Total <br />
-           <b>@Receivables_Payment.ToString("#,##0.00")</b>
+            Payment <br />
+            <b>@Receivables_Payment.ToString("#,##0.00")</b>
+        </td>
+        <td>
+            Deposited <br />
+            <b>@Receivables_Deposit.ToString("#,##0.00")</b>
         </td>
     </tr>
 </table>

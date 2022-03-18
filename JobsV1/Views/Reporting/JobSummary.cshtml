@@ -123,19 +123,30 @@
                 @item.DriversRate.ToString("#,##0.00")
             </td>
             <td>
-                <span class="text-red">@item.Expenses.ToString("#,##0.00")</span>
+                <span class="text-red">
+                    @item.Expenses.ToString("#,##0.00")
+                </span>
             </td>
             <td> 
 
                 @if ((paymentAmount < (item.Amount - amountVariance) ||
-                      paymentAmount > (item.Amount + amountVariance)))
+                      paymentAmount > (item.Amount + amountVariance)) && paymentAmount != 0)
                 {
                     <img src="~/Images/SalesLead/high-importance.png" width="20"
                          alt="Payment Amount  reached a 10% variance of the Invoice Amount"
                          title="Payment Amount  reached a 10% variance of the  Invoice Amount" />
                 }
+                @*@item.Posted*@
+                @if (item.Posted == false)
+                {
+                    @*<span class="label label-warning">Unposted</span>*@
+                }
+                else
+                {
+                    @*<span class="text-success">@item.Payment.ToString("#,##0.00")</span>*@
+                }
 
-                <span class="text-success">@item.Payment.ToString("#,##0.00")</span>
+            <span class="text-success">@item.Payment.ToString("#,##0.00")</span>
             </td>
             <td>
 

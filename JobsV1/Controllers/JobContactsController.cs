@@ -17,7 +17,7 @@ namespace JobsV1.Controllers
         // GET: JobContacts
         public ActionResult Index()
         {
-            return View(db.JobContacts.ToList());
+            return View(db.JobContacts.OrderBy(c=>c.ContactType).ToList());
         }
 
         // GET: JobContacts/Details/5
@@ -58,7 +58,7 @@ namespace JobsV1.Controllers
             return View(jobContact);
         }
 
-        // GET: JobContacts/Create
+        // GET: JobContacts/CreateContact
         public ActionResult CreateContact(int? jsId)
         {
             ViewBag.jsId = jsId;
@@ -76,7 +76,7 @@ namespace JobsV1.Controllers
             {
                 db.JobContacts.Add(jobContact);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("JobServicePickup", "JobOrder", new { id = jsId });
             }
 
             ViewBag.jsId = jsId;

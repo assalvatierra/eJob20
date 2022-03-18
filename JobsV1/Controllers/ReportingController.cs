@@ -147,7 +147,8 @@ order by x.jobid
                     Amount = job.Amount,
                     Expenses = job.ExpenseFromAP,
                     Payment = job.PaymentFromAR,
-                    DriversRate = job.DriversRate
+                    DriversRate = job.DriversRate,
+                    Posted = job.IsPosted
                 });
             });
 

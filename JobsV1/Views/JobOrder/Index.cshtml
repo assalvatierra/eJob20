@@ -168,7 +168,7 @@
 
                         @if (siteconfig == "AutoCare")
                         {
-                            @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null) 
+                            @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
 
                             @Html.ActionLink("[ Repair Order ]", "RepairOrder", "RptGmsAuto", new { id = item.Main.Id }, null)
                             if (item.Main.JobStatusId == 4)
@@ -187,12 +187,13 @@
                             <a href="#" style="margin-bottom:10px;" onclick="showPaymentModal(@(item.Main.Id))">[ Payment ]</a>
                             <a href="#" style="margin-bottom:10px;" onclick="ajaxSendMail(@(item.Main.Id))">[ Send Invoice ]</a>
                             @Html.ActionLink("[ Text Confirmation ]", "TextConfirmation", new { id = item.Main.Id }, null)
+                            @Html.ActionLink("[ Job Summary Details ]", "JobSummaryDetails", "Reporting", new { area = "", id = item.Main.Id }, new { target = "_blank" })
 
                         }
-                        
+
                         <!--
-                        Html.ActionLink("[ Send Email ]", "SendEmail", new { jobId = item.Main.Id , mailType = "CLIENT" }, null)
-                          -->
+    Html.ActionLink("[ Send Email ]", "SendEmail", new { jobId = item.Main.Id , mailType = "CLIENT" }, null)
+      -->
                     </p>
                 </td>
             </tr>
