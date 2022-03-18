@@ -55,8 +55,42 @@ function SubmitPostReceivables() {
             if (result == "True") {
                 $("#PostJobRecievables").modal("hide");
                 alert("Receivables Posted");
+                window.location.reload(false);
             } else {
                 alert("Unable to Post Job to Receivables")
             }
         });
+
+
+}
+
+function UpdateToJobIsPosted() {
+
+    var data = {
+        InvoiceId: $("#PostRcv-JobId").val(),
+        Description: $("#PostRcv-Description").val(),
+        DtInvoice: $("#PostRcv-Date").val(),
+        DtService: $("#PostRcv-DtStart").val(),
+        DtServiceTo: $("#PostRcv-DtEnd").val(),
+        DtDue: $("#PostRcv-DtDue").val(),
+        Amount: $("#PostRcv-Amount").val(),
+
+        //account 
+        Name: $("#PostRcv-Customer").val(),
+        Company: $("#PostRcv-Company").val(),
+        Mobile: $("#PostRcv-Mobile").val(),
+        Email: $("#PostRcv-Email").val()
+    };
+
+
+    $.post("/JobOrder/PostJobReceivables", data )
+        .done((result) => {
+            console.log(result);
+            if (result == "True") {
+
+            } else {
+                alert("Unable to Post Job to Receivables")
+            }
+        });
+
 }
