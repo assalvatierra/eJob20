@@ -267,6 +267,37 @@ namespace JobsV1.Areas.Payables.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
+
+
+        public ActionResult PostedDelete(int? id)
+        {
+            try
+            {
+
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                }
+
+                var postedDetails = db.ApTransPosts.Find(id);
+
+                if (postedDetails == null)
+                {
+                    return HttpNotFound();
+                }
+
+                db.ApCashFlowPostGroups.RemoveRange(postedDetails.ApCashFlowPostGroups);
+                db.ApTransPosts.Remove(postedDetails);
+
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
+        }
         #endregion
 
         public string GetUser()
