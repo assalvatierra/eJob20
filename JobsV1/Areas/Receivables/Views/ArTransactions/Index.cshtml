@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ArModels.Models.ArTransaction>
 
 @{
-    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    Layout = "~/Views/Shared/_ModuleLayout_Full.cshtml";
     ViewBag.Title = "Receivables";
 
     string status = ViewBag.Status;
@@ -27,8 +27,8 @@
     int STATUS_APPROVED = 3;
     int STATUS_BILLINGSENT = 4;
     int STATUS_SETTLEMENT = 5;
-    int STATUS_CANCELLED = 7;
-    int STATUS_CLOSED = 6;
+    //int STATUS_CANCELLED = 7;
+    //int STATUS_CLOSED = 6;
 }
 
 <h2>Receivables Transactions</h2>
@@ -276,7 +276,6 @@
                 </td>
                 <td>
                     <span style="font-weight:600;">
-                        @*item.ArAccount.Company*@
                         @Html.ActionLink(item.ArAccount.Company + " ", "Details", "ArAccounts", new { id = item.ArAccountId }, null)
                     </span>
                     <br>
@@ -309,23 +308,23 @@
                     </span>
                 </td>
                 <td>
-                    @if (item.ArTransStatusId == 1)
+                    @if (item.ArTransStatusId == STATUS_NEW)
                     {
                         <span class="label label-default">@Html.DisplayFor(modelItem => item.ArTransStatu.Status)</span>
                     }
-                    else if (item.ArTransStatusId == 2)
+                    else if (item.ArTransStatusId == STATUS_APPROVAL)
                     {
                         <span class="label label-info">@Html.DisplayFor(modelItem => item.ArTransStatu.Status)</span>
                     }
-                    else if (item.ArTransStatusId == 3)
+                    else if (item.ArTransStatusId == STATUS_APPROVED)
                     {
                         <span class="label label-primary">@Html.DisplayFor(modelItem => item.ArTransStatu.Status)</span>
                     }
-                    else if (item.ArTransStatusId == 4)
+                    else if (item.ArTransStatusId == STATUS_BILLINGSENT)
                     {
                         <span class="label label-primary">@Html.DisplayFor(modelItem => item.ArTransStatu.Status)</span>
                     }
-                    else if (item.ArTransStatusId == 5)
+                    else if (item.ArTransStatusId == STATUS_SETTLEMENT)
                     {
                         <span class="label label-success">@Html.DisplayFor(modelItem => item.ArTransStatu.Status)</span>
                     }
@@ -375,9 +374,6 @@
                                  title="Amount paid reached a 10% variance of the invoice amount" />
                         }
 
-
-
-
                         @*@totalTransPayment.ToString("#,##0.00")<br />
                         <span style="font-size:11px;color:gray;">@paymentType</span>
 
@@ -385,7 +381,9 @@
                         {
                             <span style="font-size:11px;color:gray;"> - Deposited </span>
                         }*@
+
                     </span>
+
                     @*<span style="font-size:11px;color:gray;">
                         @paymentRemarks
                     </span>*@
@@ -410,28 +408,28 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                             <li>
-                                @if (item.ArTransStatusId == 1)
+                                @if (item.ArTransStatusId == STATUS_NEW)
                                 {
-                                    <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 2)"> For Approval </a>
+                                    <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, @STATUS_APPROVAL)"> For Approval </a>
                                 }
-                                else if (item.ArTransStatusId == 2 && isAdmin)
+                                else if (item.ArTransStatusId == STATUS_APPROVAL && isAdmin)
                                 {
-                                    <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 3)"> Approve </a>
+                                    <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, @STATUS_APPROVED)"> Approve </a>
                                 }
-                                else if (item.ArTransStatusId == 3)
+                                else if (item.ArTransStatusId == STATUS_APPROVED)
                                 {
-                                    <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 4)"> Billing Sent </a>
+                                    <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, @STATUS_BILLINGSENT)"> Billing Sent </a>
                                     @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = item.Id }, null)
 
                                 }
-                                else if (item.ArTransStatusId >= 4 && item.ArTransStatusId <= 5)
+                                else if (item.ArTransStatusId >= STATUS_BILLINGSENT && item.ArTransStatusId <= STATUS_SETTLEMENT)
                                 {
                                     @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = item.Id }, null)
                                     @Html.ActionLink("Add Deposit", "CreateTransDeposit", "ArDeposits", new { transId = item.Id }, null)
 
                                     if (item.ArTransStatusId == 4)
                                     {
-                                        <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 5)"> For Settlement </a>
+                                        <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, @STATUS_SETTLEMENT)"> For Settlement </a>
                                     }
 
                                     if (paymentType != "Bank")
@@ -440,7 +438,7 @@
                                     }
 
                                 }
-                                else if (item.ArTransStatusId == 5)
+                                else if (item.ArTransStatusId == STATUS_SETTLEMENT)
                                 {
                                     <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 6)"> Close </a>
                                 }

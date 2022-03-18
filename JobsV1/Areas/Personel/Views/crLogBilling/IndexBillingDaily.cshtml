@@ -155,25 +155,16 @@
 <h4>Daily Rates </h4>
 <table class="table" style="width: 100%; border: 2px solid black;">
     <tr>
-        <td>
-            Driver
+        <td colspan="3">
+            <h6 class="text-center" style="font-weight: 600; margin: 5px;">Description </h6>
         </td>
-        <td>
-            Date
+        <td colspan="1">
+            <h6 style="font-weight: 600; margin: 5px;">Basic Rate</h6>
         </td>
-        <td>
-            Unit
+        <td colspan="2">
+            <h6 style="font-weight: 600; margin: 5px;">Overtime</h6>
+
         </td>
-        <td>
-            Rate
-        </td>
-        <td>
-            OT Rate
-        </td>
-        <td>
-            OT Hrs
-        </td>
-        <td></td>
     </tr>
     @foreach (var tripGroup in Model.OTTrips.GroupBy(c => c.Unit))
     {
@@ -251,12 +242,12 @@
                 <b class="pull-right" style="padding-right:15px;"> Subtotal </b>
             </td>
             <td>
-                <b> @subtotalRate.ToString("#,##0.00")</b>
+                <b> @subtotalRate.ToString("#,##0")</b>
             </td>
             <td>
                 @if (subtotalOTRate > 0)
                 {
-                    <b> @subtotalOTRate.ToString("#,##0.00")</b>
+                    <b> @subtotalOTRate.ToString("#,##0")</b>
                 }
             </td>
             <td>

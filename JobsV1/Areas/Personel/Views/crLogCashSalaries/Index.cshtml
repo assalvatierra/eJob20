@@ -47,7 +47,7 @@
         TotalSalary = TotalSalary + driverSalary;
         <tr>
             <td>
-                @item.Date
+                @item.Date.ToString("MMM dd yyyy")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)

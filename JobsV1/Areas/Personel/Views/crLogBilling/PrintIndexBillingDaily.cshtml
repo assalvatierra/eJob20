@@ -88,24 +88,24 @@
     </table>
 
     <table class="table table-report" style="border:2px solid black;">
-        <tr style="background-color:lightgray;">
+        @*<tr style="background-color:lightgray;">
             <td colspan="3">
-                <h4 class="text-center" style="font-weight: 600; margin: 5px;"> Description </h4>
+                <h6 class="text-center" style="font-weight: 600; margin: 5px;"> Description </h6>
             </td>
             <td colspan="3">
-                <h4 class="text-center" style="font-weight:600;margin:5px;">Overtime</h4>
+                <h6 class="text-center" style="font-weight:600;margin:5px;">Overtime</h6>
             </td>
-        </tr>
+        </tr>*@
         <tr>
             <td colspan="3">
-                <h5 class="text-center" style="font-weight: 600; margin: 5px;"> DAILY CAR RENTAL CHARGES </h5>
+                <h6 class="text-center" style="font-weight: 600; margin: 5px;">Description </h6>
             </td>
             <td colspan="1">
-                <h5 style="font-weight: 600; margin: 5px;">AMOUNT</h5>
+                <h6 style="font-weight: 600; margin: 5px;">Basic Rate</h6>
             </td>
-            <td></td>
-            <td colspan="1">
-                <h5 style="font-weight: 600; margin: 5px;">NO HR</h5>
+            <td colspan="2"> 
+            <h6 style="font-weight: 600; margin: 5px;">Overtime</h6> 
+            
             </td>
         </tr>
         @foreach (var tripGroup in Model.OTTrips.GroupBy(c => c.Unit))
@@ -167,15 +167,15 @@
             }
             <tr style="border-top: 1px solid black;"  class="no-padding-child">
                 <td colspan="3">
-                    <b class="pull-right"  style="padding-right:15px;"> Subtotal </b>
+                    <i class="pull-right"  style="padding-right:15px;"> Subtotal </i>
                 </td>
                 <td>
-                    <b> @subtotalRate.ToString("#,##0.00")</b>
+                    <b> @subtotalRate.ToString("#,##0")</b>
                 </td>
                 <td>
                     @if (subtotalOTRate > 0)
                     {
-                        <b> @subtotalOTRate.ToString("#,##0.00")</b>
+                        <b> @subtotalOTRate.ToString("#,##0")</b>
                     }
                 </td>
                 <td>
@@ -197,7 +197,7 @@
                 <h5 class="no-margin" style="font-size:12px;font-weight:600;"> TOTAL - DAILY CHARGES</h5>
             </td>
             <td>
-                <span style="font-weight: bold; font-size: 15px;"> @TotalRate.ToString("#,##0.00") </span>
+                <span style="font-weight: bold; font-size: 12px;"> @TotalRate.ToString("#,##0") </span>
             </td>
         </tr>
         <tr class="no-padding-child">
@@ -207,26 +207,26 @@
                 <h5 class="no-margin" style="font-size:12px;font-weight:600;"> TOTAL - OVERTIME CHARGES</h5>
             </td>
             <td>
-                <span style="font-weight: bold; font-size: 15px;"> @TotalOTRate.ToString("#,##0.00") </span>
+                <span style="font-weight: bold; font-size: 12px;"> @TotalOTRate.ToString("#,##0") </span>
             </td>
             <td>
-                <span style="font-weight: bold; font-size: 15px;"> @TotalOT.ToString("#,##0.0")  </span>HRS
+                <span style="font-weight: bold; font-size: 12px;padding-left:15px;"> @TotalOT.ToString("#,##0.0")  </span>HRS
             </td>
         </tr>
         <tr style="border-top:2px solid black;margin-top:20px;">
             <td colspan="2"></td>
             <td colspan="1">
-                <h5 style="font-weight: bold; font-size: 15px;margin:0px;"> GRAND TOTAL </h5>
+                <h5 style="font-weight: bold; font-size: 13px;margin:0px;"> GRAND TOTAL </h5>
             </td>
             <td>
-                <span style="font-weight: bold; font-size: 18px;"> Php @Total.ToString("#,##0.00") </span>
+                <span style="font-weight: bold; font-size: 15px;"> Php @Total.ToString("#,##0") </span>
             </td>
             <td></td>
         </tr>
     </table>
     <div>
         <p> DUE DATE: @ViewBag.DueDate  </p>
-        <p> FAILURE TO SETTLE ON OR VEGORE THE DUE DATE IS SUBJECT TO 3% SURCHARGE </p>
+        <p> FAILURE TO SETTLE ON OR BEFORE THE DUE DATE IS SUBJECT TO 3% SURCHARGE </p>
         <br />
     </div>
 
@@ -247,7 +247,7 @@
             <td width="30%">
                 <div class="div-no-margin">
                     <p><b> If Payment is thru bank </b></p>
-                    <p><b> AJ88 CAR RENTAL SERIVCES </b></p>
+                    <p><b> AJ88 CAR RENTAL SERVICES </b></p>
                     <p><b> Acct#: 000 860 729 575</b></p>
                     <p> BDO-SM Ecoland Branch </p>
                     <p> Davao City </p>
