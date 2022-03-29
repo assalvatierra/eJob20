@@ -39,9 +39,21 @@
         <td>
             @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
             @*@Html.ActionLink("Details", "Details", new { id = item.Id })*@
-            @Html.ActionLink("Delete", "ActionHistoryDelete", new { id=item.Id })
+            @*@Html.ActionLink("Delete", "ActionHistoryDelete", new { id=item.Id })*@
+            <a class="cursor-hand" onclick="ActionHistoryDeleteConfirmed(this, @item.Id)"> Delete </a>
         </td>
     </tr>
 }
 
 </table>
+
+@section Scripts{
+    <script>
+        function ActionHistoryDeleteConfirmed(e, id) {
+            $.post("/Payables/ApTransactions/ActionHistoryDeleteConfirmed", { id: id }, (res) => {
+                console.log(res);
+                $(e).parent().parent().fadeOut(200);
+            })
+        }
+    </script>
+    }

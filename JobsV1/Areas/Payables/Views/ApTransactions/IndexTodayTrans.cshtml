@@ -1,7 +1,5 @@
 ﻿
 @{
-
-
     List<ApModels.Models.ApTransaction> apTransToday = ViewBag.ApTansToday as List<ApModels.Models.ApTransaction>;
 
     int status = ViewBag.Status;
@@ -169,8 +167,9 @@
                         @Html.DisplayFor(modelItem => item.Id)
                     </td>
                     <td>
-                        <a href="/JobOrder/JobServices?JobMainId=@item.JobRef"> @item.JobRef </a>
+                        @*<a href="/JobOrder/JobServices?JobMainId=@item.JobRef"> @item.JobRef </a>*@
 
+                        <a href="/Reporting/JobSummaryDetails/@item.JobRef" title="Job Summary Details"> @item.JobRef </a>
 
                         @if (item.ApTransCategory.Name == "Job Expense" && item.JobRef == null)
                         {
@@ -357,18 +356,17 @@
                                     {
                                         if (item.ApTransTypeId != TYPE_PO)
                                         {
-
-                                        <li>
-                                            <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
-                                        </li>
+                                            <li>
+                                                <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt)"> Return </a>
+                                            </li>
+                                        }
                                     }
-                                    else
-                                    {
-                                        <li>
-                                            <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt)"> Return </a>
-                                        </li>
-                                    }
-                                }
 
                                     @if ((item.ApTransPayments.Count() != 0 || isAdmin) && item.ApTransTypeId != TYPE_PO)
                                     {
