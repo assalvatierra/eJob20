@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ArModels.Models.ArTransaction>
 
 @{
-    Layout = "~/Views/Shared/_ModuleLayout_Full.cshtml";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     ViewBag.Title = "Receivables";
 
     string status = ViewBag.Status;
@@ -266,8 +266,8 @@
                 <td>
                     @if (item.InvoiceId != 0 && item.InvoiceRef != null)
                     {
-                        @*@Html.ActionLink(item.InvoiceRef, "JobServices", "JobOrder", new { area = "", jobMainId = item.InvoiceId }, new { target = "_blank" })*@
-                        @Html.ActionLink(item.InvoiceRef, "JobSummaryDetails", "Reporting", new { area = "", id = item.InvoiceId }, new { target = "_blank" })
+                        @Html.ActionLink(item.InvoiceRef, "JobServices", "JobOrder", new { area = "", jobMainId = item.InvoiceId }, new { target = "_blank" })
+                       
                     }
                     else
                     {
@@ -454,6 +454,7 @@
                                 <li> @Html.ActionLink("Edit Remarks", "EditRemarks", new { id = item.Id }) </li>
                             }
                             <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
+                            <li> @Html.ActionLink("Jobs Summary", "JobSummaryDetails", "Reporting", new { area = "", id = item.InvoiceId }, new { target = "_blank" })</li>
                             <li> @Html.ActionLink("Credit", "Details", "ArAccounts", new { id = item.ArAccountId }, null) </li>
                             <li> @Html.ActionLink("Statement", "StatementPrint", "ArTransactions", new { accountId = item.ArAccountId }, null) </li>
                             <li> @Html.ActionLink("History", "TransactionHistory", "ArTransactions", new { id = item.Id }, null) </li>

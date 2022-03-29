@@ -46,11 +46,11 @@
             paymentTotal += payments.ArPayment.Amount;
             paymentType = payments.ArPayment.ArPaymentType.Type;
             paymentDeposited = payments.ArPayment.IsDeposited ?? false;
-            paymentRemarks += " " + payments.ArPayment.Amount + " - " + payments.ArPayment.Remarks;
+            paymentRemarks += " " + payments.ArPayment.Amount + " - " + payments.ArPayment.Remarks + "<br />";
 
             if (transaction.ArTransPayments.Count() > 1 && !String.IsNullOrEmpty(paymentRemarks))
             {
-                paymentRemarks +=  " <br> " ;
+                //paymentRemarks +=  " <br> " ;
             }
         }
 
@@ -116,9 +116,11 @@
                     <span> / @transaction.ArAccContact.Name </span>
                 }
 
-                <br />
-
-                @transaction.Description <br />
+                @if (transaction.Description == transaction.ArAccContact.Name)
+                {
+                
+                    <br />@transaction.Description <br />
+                }
 
                 <span style="font-size:11px;color:gray;"> @transaction.Remarks</span>
             </td>
