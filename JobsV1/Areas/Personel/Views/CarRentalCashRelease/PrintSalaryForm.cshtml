@@ -84,13 +84,21 @@
                         @foreach (var trip in ViewBag.crLogTrips as List<JobsV1.Areas.Personel.Models.crLogTrip>)
                         {
 
-                            if (trip.crLogCompany.Name != "Shimizu")
+                            bool includeOTFlag = trip.IncludeOT != null ? (bool)trip.IncludeOT : false;
+
+                            if (includeOTFlag)
                             {
                                 totalOT = totalOT + trip.DriverOT;
                             }
 
+                            //if (trip.crLogCompany.Name != "Shimizu")
+                            //{
+                            //    totalOT = totalOT + trip.DriverOT;
+                            //}
+
                             subtotalSalary = subtotalSalary + trip.DriverFee;
                             tripCount = tripCount + 1;
+
                             <tr>
                                 <td>
                                     @trip.DtTrip.ToString("MM/dd/yyyy (ddd)")
@@ -105,10 +113,16 @@
                                     @trip.DriverFee.ToString("#,##0.00")
                                 </td>
                                 <td>
-                                    @if (trip.crLogCompany.Name != "Shimizu")
+                                    @*@if (trip.crLogCompany.Name != "Shimizu")
                                     {
 
                                         @trip.DriverOT.ToString("#,##0.00")
+                                    }*@
+
+
+                                    @if (includeOTFlag)
+                                    {
+                                        <span>@trip.DriverOT.ToString("#,##0.00")</span>
                                     }
                                 </td>
                             </tr>
@@ -356,10 +370,14 @@
                                     @trip.DriverFee.ToString("#,##0.00")
                                 </td>
                                 <td>
-                                    @if (trip.crLogCompany.Name != "Shimizu")
+                                    @if (includeOTFlag)
+                                    {
+                                        <span>@trip.DriverOT.ToString("#,##0.00")</span>
+                                    }
+                                    @*@if (trip.crLogCompany.Name != "Shimizu")
                                     {
                                         @trip.DriverOT.ToString("#,##0.00")
-                                    }
+                                    }*@
                                 </td>
                             </tr>
                         }

@@ -15,7 +15,7 @@
     decimal SubTotalOthers = 0;
     //decimal SubTotalDeductions = 0;
     decimal SubTotalOT = 0;
-    bool ExcludeOT = !Model.ExcludeOT;
+    bool IncludeOT = !Model.ExcludeOT;
 }
 
 <h2>Salary Details</h2>
@@ -24,12 +24,6 @@
     <h2>
         @Html.DisplayFor(model => model.Driver)
     </h2>
-    <p>
-        @if (ExcludeOT)
-        {
-            <span> Exclude OT </span>
-        }
-    </p>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
@@ -52,7 +46,7 @@
             <th> Desription </th>
             <th> Remarks </th>
             <th> Amount </th>
-            <th> OT - @ExcludeOT </th>
+            <th> OT  </th>
             <th></th>
         </tr>
     </thead>
@@ -66,9 +60,9 @@
 
         @foreach (var salary in Model.SalaryTrips)
         {
-             if (salary.crLogClosing.crLogTrips.Count() > 0 )
-             {
-                foreach (var trip in salary.crLogClosing.crLogTrips.Where(c=>c.crLogClosingId != null))
+            if (salary.crLogClosing.crLogTrips.Count() > 0)
+            {
+                foreach (var trip in salary.crLogClosing.crLogTrips.Where(c => c.crLogClosingId != null).OrderBy(c => c.DtTrip))
                 {
 
                     if (trip.crLogCompany.Name == "Shimizu")
@@ -76,23 +70,41 @@
                         trip.DriverOT = 0;
                     }
 
+                    bool includeOTFlag = trip.IncludeOT != null ? (bool)trip.IncludeOT : false;
+
                     SubTotalSalary += trip.DriverFee;
-                    SubTotalOT += trip.DriverOT;
+
+                    if (includeOTFlag)
+                    {
+                        SubTotalOT += trip.DriverOT;
+                    }
 
                     <tr>
-                        <td> @trip.DtTrip.ToString("MMM dd yyyy (ddd)") </td>
+                        <td>
+                            @trip.DtTrip.ToString("MMM dd yyyy (ddd)")
+
+                            @if (trip.TripTicket == true)
+                            {
+                                <i class="fa fa-ticket" title="Trip Ticket"></i>
+                            }
+
+                        </td>
                         <td> @trip.crLogCompany.Name </td>
                         <td> @trip.crLogUnit.Description   </td>
                         <td> @trip.Remarks </td>
                         <td> @trip.DriverFee </td>
                         <td>
-                            @if (ExcludeOT)
+
+                            @if (includeOTFlag)
                             {
-                                @trip.DriverOT
+                                IncludeOT = true;
+
+                                <span>@trip.DriverOT</span>
                             }
                         </td>
                         <td>
-                            @Html.ActionLink("Remove", "RemoveSalaryGroup", new { id = salary.crLogCashGroups.First().Id })
+                            @*@Html.ActionLink("Remove", "RemoveTripLogClosingId", new { id = trip.Id })*@
+                            <a onclick="RemoveTripLogSalary(this, @trip.Id)"> Remove </a>
                         </td>
                     </tr>
                 }
@@ -147,7 +159,7 @@
                 @SubTotalSalary.ToString("#,##0.00")
             </td>
             <td>
-                @if (ExcludeOT)
+                @if (IncludeOT)
                 {
                     <span> @SubTotalOT.ToString("#,##0.00")</span>
                 }
@@ -155,7 +167,7 @@
             <td></td>
         </tr>
         @{
-            if (ExcludeOT)
+            if (IncludeOT)
             {
                 SubTotalSalary += SubTotalOT;
             }
@@ -260,3 +272,24 @@
         </tr>
     </tbody>
 </table>
+
+
+
+@section Scripts{
+
+    <script>
+        //POST Tripticket flag to true
+        function RemoveTripLogSalary(e, id) {
+            $(e).text("Deleting");
+            $.post('/Personel/crLogCashSalaries/RemoveTripLogClosingId', { id: id }, (data, status) => {
+                if (status == "success") {
+                    $(e).parent().parent().fadeOut();
+                }
+            }).fail((status) => {
+                alert("Unable to delete salary.");
+                $(e).text("Unable to Delete");
+            });
+        }
+
+    </script>
+}

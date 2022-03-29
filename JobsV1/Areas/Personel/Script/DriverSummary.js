@@ -11,15 +11,45 @@ $("select[name=crLogDriverId]").change(() => {
 
 function SelectAllCheckBox() {
     if ($("#select-all-checkbox").is(":checked")) {
-        $(".item-checkbox").prop("checked", true);
+        $(".DriversFee-checkBox").prop("checked", true);
         CalculateTotalSalary();
     }
 }
+
+
+function SelectAllOTCheckBox() {
+
+    if ($("#select-ot-checkbox").is(":checked")) {
+
+        $(".OT-checkBox").prop("checked", true);
+        CalculateTotalSalary();
+
+    }
+}
+
+//$("#select-ot-checkbox").on('changed', () => {
+
+//    console.log("check ot box 1");
+//    if ($("#select-ot-checkbox").is(":checked")) {
+
+//        console.log("check ot box");
+//        $(".OT-checkBox").prop("checked", true);
+//        CalculateTotalSalary();
+
+//    }
+//})
 
 function OnSelectCheckBox(e) {
     //re-calculate salary
     CalculateTotalSalary();
 }
+
+function OnSelectOTCheckBox(e) {
+    //re-calculate salary
+    CalculateTotalSalary();
+}
+
+
 
 function CalculateTotalSalary() {
     var driverId = parseInt($("#DriversId").text().trim());
@@ -27,16 +57,18 @@ function CalculateTotalSalary() {
         Amount: 0,
         DriverId: driverId,
         TripIds: [],
+        TripOT: [],
         Remarks: "",
         CalculateOT: $("#select-ot-checkbox").is(":checked")
     }
 
     var isOTChecked = $("#select-ot-checkbox").is(":checked");
 
-    console.log("isOTChecked: " + isOTChecked);
+    //console.log("isOTChecked: " + isOTChecked);
 
     //run through each row
     var TotalSalary = 0;
+    var TotalOTFee = 0;
     var TotalSelected = 0;
 
     $('#summary-table tr[name="summary-data"]').each(function (i, row) {
@@ -46,6 +78,8 @@ function CalculateTotalSalary() {
             $driverfee = $row.find('td[name*="driversFee"]').text().trim(),
             $driverOT = $row.find('td[name*="driversOT"]').text().trim(),
             $tripId = $row.find('td[name*="id"]').text().trim(),
+            $checkedBoxStatus_OT = $row.find('input[name*="chck-driversOT"]').is(":checked"),
+            $checkedBoxStatus_DriversFee = $row.find('input[name*="chck-driversFee"]').is(":checked"),
             $checkedBoxStatus = $row.find('input:checked').is(":checked");
 
         if ($checkedBoxStatus) {
@@ -53,18 +87,31 @@ function CalculateTotalSalary() {
 
                 TotalSalary = TotalSalary + parseFloat($driverfee);
 
-                if (isOTChecked) {
-                    if (parseFloat($driverOT) >= 0) {
-                        TotalSalary = TotalSalary + parseFloat($driverOT);
+                console.log($checkedBoxStatus_DriversFee);
+
+                if ($checkedBoxStatus_OT) {
+                    if ($checkedBoxStatus_DriversFee == false) {
+                        //$row.find('input[name*="chck-driversFee"]').prop('checked');
+                        $row.find('input[name*="chck-driversFee"]').prop("checked", true);
                     }
                 }
+
+                if ($checkedBoxStatus_OT) {
+                    if (parseFloat($driverOT) >= 0) {
+                        TotalSalary = TotalSalary + parseFloat($driverOT);
+                        TotalOTFee = TotalOTFee + parseFloat($driverOT);
+                    }
+                }
+
                 jsonReqData.TripIds.push($tripId);
+                jsonReqData.TripOT.push($checkedBoxStatus_OT);
             }
             TotalSelected++;
         }
     });
 
     $("#Total-Selected-DriverFee").text(TotalSalary);
+    $("#Total-Selected-OTFee").text(TotalOTFee);
     $("#Total-Selected-Count").text(TotalSelected);
 
     //update json object of amount
@@ -73,6 +120,7 @@ function CalculateTotalSalary() {
     return jsonReqData;
 }
 
+//ON CREATE SALARY REQUEST, SHOW MODAL WITH REQYEST AMOUNT
 function CreateSalaryRequest() {
     var logReqData = CalculateTotalSalary();
     if (logReqData.TripIds.length != 0) {
@@ -87,6 +135,7 @@ function CreateSalaryRequest() {
     }
 }
 
+//ON SUBMIT SALARY REQUEST
 function SubmitSalaryRequestForm() {
     var logReqData = CalculateTotalSalary();
     logReqData.Remarks = $("#ReqForm-Remarks").val();
@@ -208,6 +257,6 @@ function DriverSummaryFilter_AddDays(days) {
 }
 
 
-function SelectAllOTCheckBox() {
-    CalculateTotalSalary();
-}
+//function SelectAllOTCheckBox() {
+//    CalculateTotalSalary();
+//}

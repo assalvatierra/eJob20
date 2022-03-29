@@ -62,10 +62,17 @@
 
         TotalDriverFee += log.DriverFee;
 
-        if (log.crLogCompany.Name != "Shimizu")
+        bool includeOTFlag = log.IncludeOT != null ? (bool)log.IncludeOT : false;
+
+        if (includeOTFlag)
         {
             TotalDriverOT += log.DriverOT;
         }
+
+        //if (log.crLogCompany.Name != "Shimizu")
+        //{
+        //    TotalDriverOT += log.DriverOT;
+        //}
 
         <tr style="color:@color;">
             <td> @log.DtTrip.ToString("MMM dd yyyy (ddd)") @log.DtTrip.DayOfWeek.ToString()</td>
@@ -75,10 +82,16 @@
             <td> @log.Rate </td>
             <td> @log.DriverFee </td>
             <td>
-                @if (log.crLogCompany.Name != "Shimizu")
+
+                @if (includeOTFlag)
                 {
-                    @log.DriverOT
+                    <span>@log.DriverOT</span>
                 }
+
+                @*@if (log.crLogCompany.Name != "Shimizu")
+                    {
+                        @log.DriverOT
+                    }*@
             </td>
         </tr>
     }
@@ -107,25 +120,25 @@
 
     @foreach (var ca in ViewBag.CA as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
     {
-         
-            TotalDriverFee += ca.Amount;
-            <tr>
-                <td>
-                    @ca.DtRelease.ToString("MM/dd/yyyy (ddd)")
-                </td>
-                <td colspan="2">
 
-                    @ca.Remarks
-                </td>
-                <td>
-                    CA
-                </td>
-                <td></td>
-                <td>
-                    @ca.Amount.ToString("#,##0.00")
-                </td>
-                <td></td>
-            </tr>
+        TotalDriverFee += ca.Amount;
+        <tr>
+            <td>
+                @ca.DtRelease.ToString("MM/dd/yyyy (ddd)")
+            </td>
+            <td colspan="2">
+
+                @ca.Remarks
+            </td>
+            <td>
+                CA
+            </td>
+            <td></td>
+            <td>
+                @ca.Amount.ToString("#,##0.00")
+            </td>
+            <td></td>
+        </tr>
     }
 
 

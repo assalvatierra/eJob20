@@ -99,7 +99,7 @@ namespace JobsV1.Areas.Personel.Controllers
         {
         
             var today = dt.GetCurrentDate();
-            var DateFilter = today.AddDays(-2);
+            var DateFilter = today;
 
             //get cash releases up to -2 days from today
             var crLogCashReleases = db.crLogCashReleases.Include(c => c.crLogDriver)
@@ -370,11 +370,18 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.crLogCashReleases.Add(crtrx);
                 db.SaveChanges();
 
+                var includeOTArr = releaseRequest.TripOT.ToArray();
+                var pos = 0;
+
                 foreach (var tripId in releaseRequest.TripIds)
                 {
-                    statusFlag = UpdateTripLogClosingId(tripId, crtrx.crLogClosingId);
+                    var IncludeOT = includeOTArr[pos];
+                    statusFlag = UpdateTripLogClosingId(tripId, crtrx.crLogClosingId, IncludeOT);
+
                     if (statusFlag == false)
                         return false;
+
+                    pos++;
                 }
 
                 //add status
@@ -473,14 +480,15 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 return crLog.Id;
             }
-            catch 
+            catch
             {
                 return 0;
             }
         }
 
+
         //Update TripLog ClosingId
-        private bool UpdateTripLogClosingId(int? id, int? closingId)
+        private bool UpdateTripLogClosingId(int? id, int? closingId, bool? includeOT)
         {
             try
             {
@@ -489,6 +497,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 crLogTrip logTrip = db.crLogTrips.Find(id);
                 logTrip.crLogClosingId = closingId;
+                logTrip.IncludeOT = includeOT;
 
                 db.Entry(logTrip).State = EntityState.Modified;
                 db.SaveChanges();
@@ -920,6 +929,7 @@ public class DriverReleaseRequest
     public int DriverId { get; set; }
     public decimal Amount { get; set; }
     public ICollection<int> TripIds { get; set; }
+    public ICollection<bool> TripOT { get; set; }
     public string Remarks { get; set; }
     public int CashTypeId { get; set; }
     public bool CalculateOT { get; set; }

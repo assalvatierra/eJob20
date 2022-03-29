@@ -285,6 +285,7 @@ namespace JobsV1.Areas.Personel.Controllers
             List<crLogCashRelease> contributions = driverCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 4).OrderBy(s => s.DtRelease).ToList();
             List<crLogCashRelease> noStatus = driverCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 1).OrderBy(s => s.DtRelease).ToList();
             List<crLogCashRelease> cashtrx = driverCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId != 1).OrderBy(s => s.DtRelease).ToList();
+            List<crLogDriverTerm> terms = db.crLogDriverTerms.Where(d => d.crLogDriverId == id).ToList();
 
             crDriverSummary driversummary = new crDriverSummary();
             driversummary.Driver = driver;
@@ -294,6 +295,7 @@ namespace JobsV1.Areas.Personel.Controllers
             driversummary.NoStatus = noStatus;
             driversummary.DriverTrx = cashtrx;
             driversummary.DriverContributions = contributions;
+            driversummary.Terms = terms;
 
             var rptName = "";
             if (rptId != null)
@@ -325,8 +327,14 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return HttpNotFound();
             }
+
+            var unitList = dl.GetUnits().Select(c => new {
+                Id = c.Id,
+                Description = c.Description + " (" + c.crLogOwner.Name + ")"
+            }).ToList();
+
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
-            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
+            ViewBag.crLogUnitId = new SelectList(unitList, "Id", "Description", crLogTrip.crLogUnitId);
             ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
             //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
             return View(crLogTrip);
@@ -337,7 +345,9 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DriverSummaryTripEdit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime")] crLogTrip crLogTrip)
+        public ActionResult DriverSummaryTripEdit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses," +
+            "DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, " +
+            "AddonOT, IsFinal, AllowEdit, TripTicket, IncludeOT")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {
@@ -345,13 +355,18 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.SaveChanges();
                 return RedirectToAction("DriverSummary", new { id = crLogTrip.crLogDriverId });
             }
+
+            var unitList = dl.GetUnits().Select(c => new {
+                Id = c.Id,
+                Description = c.Description + " (" + c.crLogOwner.Name + ")"
+            }).ToList();
+
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
-            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
+            ViewBag.crLogUnitId = new SelectList(unitList, "Id", "Description", crLogTrip.crLogUnitId);
             ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
             //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
             return View(crLogTrip);
         }
-
 
         public ActionResult CloseCashBalance(int? id)
         {
@@ -538,7 +553,6 @@ namespace JobsV1.Areas.Personel.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
-
         public int GetLatestStatusId(int id)
         {
             var logStatusQuery = db.crLogFuelStatus.Where(c => c.crLogFuelId == id).OrderByDescending(c => c.Id).FirstOrDefault();
@@ -554,7 +568,6 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
-
         private int GenerateClosingTrx()
         {
             crLogClosing ctrx = new crLogClosing()
@@ -565,7 +578,6 @@ namespace JobsV1.Areas.Personel.Controllers
 
             return ctrx.Id;
         }
-
 
         private bool CloselogCashRelease(crLogCashRelease crLogCashRelease)
         {

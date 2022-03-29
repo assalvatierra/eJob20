@@ -16,7 +16,7 @@
     decimal SubTotalDeductions = 0;
     decimal SubTotalOT = 0;
 
-    bool ExcludeOT = !Model.ExcludeOT;
+    bool IncludeOT = !Model.ExcludeOT;
 }
 
 @{
@@ -80,7 +80,7 @@
                         @foreach (var salary in Model.SalaryTrips)
                         {
 
-                            foreach (var trip in salary.crLogClosing.crLogTrips)
+                            foreach (var trip in salary.crLogClosing.crLogTrips.Where(c => c.crLogClosingId != null).OrderBy(c => c.DtTrip))
                             {
 
                                 if (trip.crLogCompany.Name == "Shimizu")
@@ -88,8 +88,14 @@
                                     trip.DriverOT = 0;
                                 }
 
+                                bool includeOTFlag = trip.IncludeOT != null ? (bool)trip.IncludeOT : false;
+
                                 SubTotalSalary += trip.DriverFee;
-                                SubTotalOT += trip.DriverOT;
+
+                                if (includeOTFlag)
+                                {
+                                    SubTotalOT += trip.DriverOT;
+                                }
 
                                 <tr>
                                     <td> @trip.DtTrip.ToString("MMM dd yyyy (ddd)") </td>
@@ -97,9 +103,9 @@
                                     <td> </td>
                                     <td> @trip.DriverFee </td>
                                     <td>
-                                        @if (ExcludeOT)
+                                        @if (includeOTFlag)
                                         {
-                                            @trip.DriverOT
+                                            <span>@trip.DriverOT</span>
                                         }
                                     </td>
                                 </tr>
@@ -147,14 +153,14 @@
                                 @SubTotalSalary.ToString("#,##0.00")
                             </td>
                             <td>
-                                @if (ExcludeOT)
+                                @if (IncludeOT)
                                 {
-                                    @SubTotalOT.ToString("#,##0.00")
+                                    <span> @SubTotalOT.ToString("#,##0.00")</span>
                                 }
                             </td>
                         </tr>
                         @{
-                            if (ExcludeOT)
+                            if (IncludeOT)
                             {
                                 SubTotalSalary += SubTotalOT;
                             }
@@ -301,15 +307,18 @@
                         @foreach (var salary in Model.SalaryTrips)
                         {
 
-                            foreach (var trip in salary.crLogClosing.crLogTrips)
+                            foreach (var trip in salary.crLogClosing.crLogTrips.Where(c => c.crLogClosingId != null).OrderBy(c => c.DtTrip))
                             {
+
+                                bool includeOTFlag = trip.IncludeOT != null ? (bool)trip.IncludeOT : false;
+
                                 <tr>
                                     <td> @trip.DtTrip.ToString("MMM dd yyyy (ddd)") </td>
                                     <td> @trip.crLogCompany.Name / @trip.crLogUnit.Description   </td>
                                     <td> @trip.Remarks  </td>
                                     <td> @trip.DriverFee </td>
                                     <td>
-                                        @if (!Model.ExcludeOT)
+                                        @if (includeOTFlag)
                                         {
                                             @trip.DriverOT
                                         }

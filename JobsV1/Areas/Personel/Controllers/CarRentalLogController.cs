@@ -240,7 +240,7 @@ namespace JobsV1.Areas.Personel.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses," +
             "DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, " +
-            "AddonOT, IsFinal, AllowEdit, TripTicket")] crLogTrip crLogTrip)
+            "AddonOT, IsFinal, AllowEdit, TripTicket, IncludeOT")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {

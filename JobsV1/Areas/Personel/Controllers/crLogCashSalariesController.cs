@@ -568,6 +568,30 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
         }
+
+
+        public bool RemoveTripClosingId(crLogCashRelease crLogCashRelease)
+        {
+            try
+            {
+                var trips = db.crLogTrips.Where(c => c.crLogClosingId == crLogCashRelease.crLogClosingId).ToList();
+
+                foreach (var item in trips)
+                {
+                    item.crLogClosingId = null;
+                    db.Entry(item).State = EntityState.Modified;
+                }
+
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
         #endregion
 
         #region APIs
@@ -579,7 +603,6 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             try
             {
-
                 var salaryRequest = db.crLogCashSalaries.Find(id);
 
                 var salaryGroup = salaryRequest.crLogCashGroups.ToList();
@@ -588,6 +611,26 @@ namespace JobsV1.Areas.Personel.Controllers
                     //Approve
                     AddLogStatus(s.crLogCashReleaseId, 2);
                 });
+
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            catch
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage RemoveTripLogClosingId(int id)
+        {
+            try
+            {
+                var triplog = db.crLogTrips.Find(id);
+
+                triplog.crLogClosingId = null;
+
+                db.Entry(triplog).State = EntityState.Modified;
+                db.SaveChanges();
 
                 return new HttpResponseMessage(HttpStatusCode.OK);
             }

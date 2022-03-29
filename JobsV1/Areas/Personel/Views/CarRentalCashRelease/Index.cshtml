@@ -78,6 +78,11 @@
             item.Amount = item.Amount * -1;
         }
         TotalAmount += item.Amount;
+
+        var tripAmount_Driver = item.crLogClosing.crLogTrips.Sum(c => c.DriverFee);
+        var tripAmount_OT = item.crLogClosing.crLogTrips.Sum(c => c.IncludeOT == true ? c.DriverOT : 0);
+        var total_TripAmount = tripAmount_Driver + tripAmount_OT;
+
         <tr>
             @if (StatusId == STATUS_REQUEST) {
             <td class="item-forApproval">
@@ -89,6 +94,7 @@
             </td>
             <td>
                 @item.Amount.ToString("#,##0.00")
+
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)
@@ -103,6 +109,13 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Remarks)
+
+
+                @if (item.Amount != total_TripAmount)
+                {
+                    <i class="fa fa-warning" title="Amount from Trip Logs does not match"> </i>
+                    <span class="text-warning"> Amount from Trips does not match.  </span>
+                }
             </td>
             <td>
                 @switch (StatusId)
