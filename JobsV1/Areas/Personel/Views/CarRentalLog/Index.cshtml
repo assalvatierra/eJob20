@@ -328,7 +328,7 @@
                     <i class="fa fa-ticket" title="Trip Ticket"></i>
                 }
             </td>
-            <td>
+            <td class="td-jobid">
 
 
                 @if (item.crLogTripJobMains.Count != 0)
@@ -415,7 +415,6 @@
                             {
                                 <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                                 <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
-
                             }
                         }
 
@@ -428,7 +427,7 @@
                             {
                                 var jobId = @item.crLogTripJobMains.LastOrDefault().JobMainId;
 
-                                <li> <a class="cursor-pointer" onclick="RemoveTripJobLink(@item.Id, @jobId)"> Remove Existing Link  </a> </li>
+                                <li> <a class="cursor-pointer" onclick="RemoveTripJobLink(this, @item.Id, @jobId)"> Remove Existing Link  </a> </li>
 
                             }
                         }

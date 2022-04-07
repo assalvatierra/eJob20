@@ -31,7 +31,7 @@ function GetActiveJobs() {
             AddSelectJobButton(res);
         }).fail((err) => {
             $("#Loading-jobs").hide();
-            alert("Unable to get jobs.");
+            console.log("Unable to get jobs.");
         });
 }
 
@@ -132,7 +132,10 @@ function Submit_JobLinkForm() {
             $("#LogJobLinkModal").modal("hide");
 
             //reload
-            window.location = window.location;
+            //window.location = window.location;
+
+        $("#trip-" + triplogId).css("color","black");
+        $("#trip-" + triplogId).find(".td-jobid").text(jobmainId);
         
     }).fail((err) => {
        alert("Unable to Link Triplogs and jobs.");
@@ -154,15 +157,31 @@ function GetTripJobLinkId(tripLogId) {
     })
 }
 
-function RemoveTripJobLink(tripId, jobmainId) {
-    $.post("/CarRentalLog/DeleteLinkTriplogJobs", { triplogId: tripId, jobmainId, jobmainId }, (res) => {
+//function RemoveTripJobLink(tripId, jobmainId) {
+//    $.post("/CarRentalLog/DeleteLinkTriplogJobs", { triplogId: tripId, jobmainId, jobmainId }, (res) => {
        
+//        if (res == "True") {
+//            //on success, hide modal
+//            $("#LogJobLinkModal").modal("hide");
+
+//            //reload
+//            //window.location = window.location;
+//        }
+//    })
+//}
+
+
+function RemoveTripJobLink(e, tripId, jobmainId) {
+    $.post("/CarRentalLog/DeleteLinkTriplogJobs", { triplogId: tripId, jobmainId, jobmainId }, (res) => {
+        console.log(res);
         if (res == "True") {
             //on success, hide modal
             $("#LogJobLinkModal").modal("hide");
 
             //reload
-            window.location = window.location;
+            //window.location = window.location;
+            $(e).parent().parent().parent().parent().parent().css("color", "red");
+            //$(e).parent().parent().parent().parent().Remove();
         }
     })
 }
