@@ -130,7 +130,7 @@ function InitDatePicker() {
 
     $('input[name="DtServiceTo"]').val(moment(ddd5).format('MM/DD/YYYY'));
 
-    console.log(ddd5);
+    //console.log(ddd5);
 
     if (ddd5 === '' || ddd5 === '1/1/0001 12:00:00 am') {
         $('input[name="DtServiceTo"]').val(moment().format('MM/DD/YYYY'));
@@ -157,7 +157,7 @@ function InitDatePicker() {
 
     $('input[name="DtRelease"]').val(ddd6);
 
-    console.log(ddd6);
+    //console.log(ddd6);
 
     if (ddd6 === '' || ddd6 === '1/1/0001 12:00:00 am') {
         //$('input[name="DtRelease"]').val(moment().format('MM/DD/YYYY'));

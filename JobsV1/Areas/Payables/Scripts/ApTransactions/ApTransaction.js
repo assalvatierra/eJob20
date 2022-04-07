@@ -50,10 +50,11 @@ function UpdateStatus(transId, statusId) {
         transId: transId,
         statusId: statusId
         }, (response) => {
-            console.log("Update Status : " + response);
+            //console.log("Update Status : " + response);
             if (response == "True") {
                 $("#overlay").hide();
-                window.location.reload(false);
+
+                AddStatusLabel(transId, statusId);
             } else {
                 alert("Unable to Update transaction.");
                 $("#overlay").hide();
@@ -61,13 +62,71 @@ function UpdateStatus(transId, statusId) {
         }
     );
 
-    console.log(result);
+    //console.log(result);
     if (result["ResponseCode"] == 500) {
         alert("Unable to Update transaction.");
         $("#overlay").hide();
     }
 }
 
+
+//update payables status
+function UpdateStatusAsync(e, transId, statusId) {
+    $("#overlay").show();
+    var result = $.post("/Payables/ApTransactions/UpdateTransStatus", {
+        transId: transId,
+        statusId: statusId
+    }, (response) => {
+        //console.log("Update Status : " + response);
+        if (response == "True") {
+            $("#overlay").hide();
+
+            AddStatusLabel(transId, statusId);
+
+        } else {
+            alert("Unable to Update transaction.");
+            $("#overlay").hide();
+        }
+    }
+    );
+
+    //console.log(result);
+    if (result["ResponseCode"] == 500) {
+        alert("Unable to Update transaction.");
+        $("#overlay").hide();
+    }
+}
+
+function GetStatusName(statusId) {
+    switch (statusId) {
+        case 1:
+            return "<span class='label label-primary'> Requested </span>";
+        case 2:
+            return "<span class='label label-info'> Approved </span>";
+        case 3:
+            return "<span class='label label-warning'> Released </span>";
+        case 4:
+            return "<span class='label label-success'> Closed </span>";
+        case 5:
+            return "<span class='label label-success'> Returned </span>";
+        case 6:
+            return "<span class='label label-info'> Cancelled </span>";
+        case 7:
+            return "<span class='label label-default'> New </span>";
+    }
+}
+
+
+function AddStatusLabel(transId, statusId) {
+    //console.log(transId);
+
+    $("#expense-Status-" + transId).children().remove();
+    $("#expense-Status-today-" + transId).children().remove();
+
+    $("#expense-Status-" + transId).append(GetStatusName(statusId));
+    $("#expense-Status-today-" + transId).append(GetStatusName(statusId));
+    return true;
+}
 
 //close payables status
 function UpdateStatusClose(e, transId) {
@@ -76,7 +135,7 @@ function UpdateStatusClose(e, transId) {
         transId: transId,
         statusId: 4
     }, (response) => {
-        console.log("Update Status : " + response);
+        //console.log("Update Status : " + response);
         if (response == "True") {
             $("#overlay").hide();
             //window.location.reload(false);
@@ -88,7 +147,7 @@ function UpdateStatusClose(e, transId) {
     }
     );
 
-    console.log(result);
+    //console.log(result);
     if (result["ResponseCode"] == 500) {
         alert("Unable to Update transaction.");
         $("#overlay").hide();
@@ -158,19 +217,19 @@ function GetSelectedPayables_ForPrint() {
 function CheckSelected_Print() {
     let ForPrintIds = GetSelectedPayables_ForPrint();
 
-    console.log("ForPrint");
-    console.log(ForPrintIds);
+    //console.log("ForPrint");
+    //console.log(ForPrintIds);
 
     if (ForPrintIds.length > 0) {
 
         var res = $.post('/Payables/ApTransactions/SendPrintRequest', { transIds: ForPrintIds }, (response) => {
             if (response > 0) {
-                console.log(response);
+                //console.log(response);
                 alert("Generating Print Request form");
                 window.location.href = "/Payables/ApTransactions/PrintRequestForm/" + response;
             } else {
                 alert("Unable to update payables print status.");
-                console.log(response);
+                //console.log(response);
             }
         });
 
@@ -184,19 +243,19 @@ function CheckSelected_Print() {
 function CheckSelected_PrintPO() {
     let ForPrintIds = GetSelectedPayables_ForPrint();
 
-    console.log("ForPrint");
-    console.log(ForPrintIds);
+    //console.log("ForPrint");
+    //console.log(ForPrintIds);
 
     if (ForPrintIds.length > 0) {
 
         var res = $.post('/Payables/ApTransactions/SendPrintRequest', { transIds: ForPrintIds }, (response) => {
             if (response > 0) {
-                console.log(response);
+                //console.log(response);
                 alert("Generating Print Request form");
                 window.location.href = "/Payables/ApTransactions/PrintRequestPOForm/" + response;
             } else {
                 alert("Unable to update payables print status.");
-                console.log(response);
+                //console.log(response);
             }
         });
 
@@ -223,7 +282,7 @@ function OnPrintClicked(e, transId) {
             $(e).remove();
         } else {
             alert("Unable to update payables print status.")
-            console.log(response);
+            //console.log(response);
         }
     });
 }
@@ -260,6 +319,7 @@ function ReleasePayment(e) {
         if (res == "OK") {
             UpdateStatus(id, 3); //update to release
             $(e).prop('disabled', false);
+            $("#ReleasePayment-Modal").modal('hide');
         }
     });
 }

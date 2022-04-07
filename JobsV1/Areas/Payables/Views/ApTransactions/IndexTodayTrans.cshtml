@@ -216,7 +216,7 @@
                         @Html.DisplayFor(modelItem => item.ApTransCategory.Name)
                         @Html.DisplayFor(modelItem => item.ApTransType.Type)
                     </td>
-                    <td>
+                    <td class="expense-Status" id="expense-Status-today-@item.Id">
                         @if (item.ApTransStatusId == STATUS_REQUEST)
                         {
 
@@ -339,7 +339,7 @@
 
                                     @if (item.ApTransStatusId == STATUS_REQUEST && isAdmin)
                                     {
-                                        <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_APPROVED)"> Approve </a>
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusAsync(this,@item.Id, @STATUS_APPROVED)"> Approve </a>
                                         <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, @STATUS_CANCELLED)"> Cancel </a>
                                     }
                                     else if (item.ApTransStatusId == STATUS_APPROVED)
@@ -356,7 +356,7 @@
                                     {
                                         if (item.ApTransTypeId != TYPE_PO)
                                         {
-                                            <li>
+<li>
                                                 <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
                                             </li>
                                         }
