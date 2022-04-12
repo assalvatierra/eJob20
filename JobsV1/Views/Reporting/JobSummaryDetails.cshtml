@@ -56,7 +56,7 @@
         </th>
     </tr>
 
-    @foreach (var trip in Model.TripLogs)
+    @foreach (var trip in Model.TripLogs.OrderBy(d=>d.DtTrip))
     {
 
         Triplog_Rate += trip.Rate + trip.Addon;
@@ -132,14 +132,16 @@
         </th>
     </tr>
 
-    @foreach (var expense in Model.Expenses)
+    @foreach (var expense in Model.Expenses.OrderBy(e=>e.DtInvoice))
     {
-        if (expense.ApTransStatu.Status == "Returned" || expense.ApTransStatu.Status == "Closed")
+        if (expense.ApTransStatu.Status == "Returned" || expense.ApTransStatu.Status == "Closed" || expense.ApTransStatu.Status == "Released")
         {
             Expenses_Amount += expense.Amount;
             Expenses_Payment += expense.ApTransPayments.Sum(c => c.ApPayment.Amount);
         }
-
+        else
+        {
+        }
         <tr>
             <td>
                 <a href="/Payables/ApTransactions/Details/@expense.Id">@expense.Id</a>
@@ -148,7 +150,8 @@
                 @expense.DtInvoice.ToString("MMM dd yyyy")
             </td>
             <td>
-                @expense.Description
+                @expense.Description 
+                <span class="text-muted"> @expense.Remarks </span>
             </td>
             <td>
                 @expense.ApTransStatu.Status
@@ -157,7 +160,7 @@
                 @expense.ApTransType.Type
             </td>
             <td>
-                @if (expense.ApTransStatu.Status == "Returned" || expense.ApTransStatu.Status == "Closed")
+                @if (expense.ApTransStatu.Status == "Returned" || expense.ApTransStatu.Status == "Closed" || expense.ApTransStatu.Status == "Released")
                 {
                     @expense.Amount.ToString("#,##0.00")
                 }

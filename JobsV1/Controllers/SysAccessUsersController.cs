@@ -967,6 +967,31 @@ namespace JobsV1.Controllers
             }
         }
 
+        [HttpPost]
+        public string RemoveUserSubModule(int id)
+        {
+            try
+            {
+
+                ////sql query with comma separated item list
+                //string sql = @" DELETE FROM SysAccessUsers WHERE Id = " + id + "";
+
+                //var result = db.Database.SqlQuery<string>(sql).First();
+
+                var sysaccess = db.SysAccessUsers.Find(id);
+
+                db.SysAccessUsers.Remove(sysaccess);
+                db.SaveChanges();
+                return "Deleted";
+
+            }
+            catch
+            {
+                return "Error Deleting";
+            }
+
+        }
+
         #endregion
 
         public class AppUserRole

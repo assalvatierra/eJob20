@@ -88,6 +88,7 @@
     <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="5" />
     <Property Name="IconPath" Type="nvarchar(max)" Nullable="false" />
     <Property Name="SeqNo" Type="int" Nullable="false" />
+    <Property Name="IconFA" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="EntBusinesses">
     <Key>
@@ -483,6 +484,7 @@
           <NavigationProperty Name="EntServices" Relationship="SysDB.SysServiceEntServices" FromRole="SysService" ToRole="EntServices" />
           <NavigationProperty Name="SysServiceMenus" Relationship="SysDB.SysServiceSysServiceMenu" FromRole="SysService" ToRole="SysServiceMenu" />
           <Property Name="SeqNo" Type="Int32" Nullable="false" />
+          <Property Name="IconFA" Type="String" Nullable="true" />
         </EntityType>
         <EntityType Name="EntBusiness">
           <Key>
@@ -831,6 +833,7 @@
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="IconPath" ColumnName="IconPath" />
           <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
+          <ScalarProperty Name="IconFA" ColumnName="IconFA" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

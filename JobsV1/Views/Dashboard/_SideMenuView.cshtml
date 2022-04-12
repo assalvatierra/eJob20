@@ -21,7 +21,23 @@
 
             <li>
                 <a href="#">
-                    <i class="fa fa-files-o"></i>
+
+                    @if (menu.SysServiceMenus.Count() > 0)
+                    {
+                        if (menu.SysServiceMenus.First().SysService.IconFA != null)
+                        {
+                            <i class="fa fa-@menu.SysServiceMenus.First().SysService.IconFA"></i>
+                        }
+                        else
+                        {
+
+                            <i class="fa fa-files-o"></i>
+                        }
+                    }
+                    else
+                    {
+                        <i class="fa fa-files-o"></i>
+                    }
                     <span> @menu.Menu </span> <i class="fa fa-angle-left pull-right"></i>
                     @*<span class="label label-primary pull-right">4</span>*@
                 </a>

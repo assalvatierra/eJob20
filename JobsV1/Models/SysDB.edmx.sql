@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/20/2021 16:54:13
+-- Date Created: 03/19/2022 09:56:04
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\SysDB.edmx
 -- --------------------------------------------------
 
@@ -119,7 +119,8 @@ CREATE TABLE [dbo].[SysServices] (
     [Remarks] nvarchar(80)  NOT NULL,
     [Status] nvarchar(5)  NOT NULL,
     [IconPath] nvarchar(max)  NOT NULL,
-    [SeqNo] int  NOT NULL
+    [SeqNo] int  NOT NULL,
+    [IconFA] nvarchar(max)  NULL
 );
 GO
 

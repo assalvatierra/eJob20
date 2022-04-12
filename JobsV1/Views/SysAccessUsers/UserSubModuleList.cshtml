@@ -25,7 +25,8 @@
             @Html.DisplayFor(modelItem => item.SysMenu.Menu)
         </td>
         <td>
-            @Html.ActionLink("Remove", "UserSubModuleDelete", new { id=item.Id, username = ViewBag.Username })
+            @Html.ActionLink("Remove", "UserSubModuleDelete", new { id=item.Id, username = ViewBag.Username }) | 
+            <a class="cursor-hand" onclick="Remove(this, @item.Id)" > Delete </a>
         </td>
     </tr>
 }
@@ -33,3 +34,17 @@
 </table>
 
 @Html.ActionLink("Back to List", "UserServicesList", new { username = ViewBag.UserName })
+
+@section Scripts{
+    <script>
+        function Remove(e, id) {
+            $.post('/SysAccessUsers/RemoveUserSubModule', { id: id }, (res) => {
+                console.log(res);
+                $(e).parent().parent().fadeOut(500);
+            })
+
+        }
+
+    </script>
+    
+    }

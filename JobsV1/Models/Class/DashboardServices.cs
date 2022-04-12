@@ -669,7 +669,9 @@ namespace JobsV1.Models.Class
 
             try
             {
-                var menuList = sysDb.SysAccessUsers.Where(s => s.UserId == user).Select(c => c.SysMenu).ToList();
+                var menuList = sysDb.SysAccessUsers.Where(s => s.UserId == user).Select(c => c.SysMenu)
+                    .Include(s=>s.SysServiceMenus)
+                    .ToList();
 
                 return menuList;
             }
