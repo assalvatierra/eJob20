@@ -42,6 +42,9 @@ namespace JobsV1.Areas.Personel.Models
         public decimal CompanyRate { get; set; }
         public double OTHours { get; set; }
         public decimal OTRate { get; set; }
+        public decimal AddOns { get; set; }
+        public string Remarks  { get; set; }
+        public string Time { get; set; }
     }
 
     public class crBilling_Daily

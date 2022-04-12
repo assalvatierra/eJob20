@@ -62,6 +62,7 @@
     <button type="button" class="btn btn-default" onclick="PrevDay()"> &#171; Prev Day </button>
     <button type="button" class="btn btn-default" onclick="NextDay()"> Next Day &#187; </button>
     <button type="button" class="btn btn-default pull-right" onclick="PrintBilling()">  <img src="~/Images/Icons/icon-print.png" width="14" /> Print Form </button>
+    <button type="button" class="btn btn-default pull-right" onclick="PrintBillingOS()">  <img src="~/Images/Icons/icon-print.png" width="14" /> Print Form OS </button>
 </p>
 
 <!-- Filter Modal -->
@@ -469,6 +470,18 @@
         function PrintBilling() {
             ShowLoading();
             location.href = "/Personel/crLogBilling/PrintIndexBillingDaily"
+        }
+
+
+
+        function PrintBilling() {
+            ShowLoading();
+            location.href = "/Personel/crLogBilling/PrintIndexBillingDaily"
+        }
+
+        function PrintBillingOS() {
+            ShowLoading();
+            location.href = "/Personel/crLogBilling/PrintIndexBillingDailyOS"
         }
 
 
