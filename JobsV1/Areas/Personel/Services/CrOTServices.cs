@@ -13,7 +13,7 @@ namespace JobsV1.Areas.Personel.Services
     public class CrOTServices
     {
 
-        private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
+        private CarRentalLogDBContainer db;
         private DateClass dt = new DateClass();
 
         public CrOTServices(CarRentalLogDBContainer _contextdb)

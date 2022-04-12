@@ -79,10 +79,16 @@
         }
         TotalAmount += item.Amount;
 
-        var tripAmount_Driver = item.crLogClosing.crLogTrips.Sum(c => c.DriverFee);
-        var tripAmount_OT = item.crLogClosing.crLogTrips.Sum(c => c.IncludeOT == true ? c.DriverOT : 0);
-        var total_TripAmount = tripAmount_Driver + tripAmount_OT;
+        var tripAmount_Driver =  (decimal)0;
+        var tripAmount_OT = (decimal)0;
+        var total_TripAmount = (decimal)0;
+        if (item.crLogClosing != null)
+        {
+            tripAmount_Driver = item.crLogClosing.crLogTrips.Sum(c => c.DriverFee);
+            tripAmount_OT = item.crLogClosing.crLogTrips.Sum(c => c.IncludeOT == true ? c.DriverOT : 0);
+            total_TripAmount = tripAmount_Driver + tripAmount_OT;
 
+        }
         <tr>
             @if (StatusId == STATUS_REQUEST) {
             <td class="item-forApproval">
@@ -111,10 +117,11 @@
                 @Html.DisplayFor(modelItem => item.Remarks)
 
 
-                @if (item.Amount != total_TripAmount)
-                {
+                @if (item.Amount != total_TripAmount && item.crLogCashTypeId == 1 && item.crLogClosing != null)
+                {    
+                    
                     <i class="fa fa-warning" title="Amount from Trip Logs does not match"> </i>
-                    <span class="text-warning"> Amount from Trips does not match.  </span>
+                    @*<span class="text-warning"> Amount from Trips does not match.  </span>*@
                 }
             </td>
             <td>

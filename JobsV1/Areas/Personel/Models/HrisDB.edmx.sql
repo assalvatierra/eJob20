@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/26/2021 10:26:42
+-- Date Created: 03/26/2022 09:51:44
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\HrisDB.edmx
 -- --------------------------------------------------
 
@@ -295,6 +295,15 @@ CREATE TABLE [dbo].[HrPersonelStatus] (
 );
 GO
 
+-- Creating table 'HrPerTerms'
+CREATE TABLE [dbo].[HrPerTerms] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Description] nvarchar(180)  NOT NULL,
+    [OrderNo] int  NOT NULL,
+    [HrPersonelId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -392,6 +401,12 @@ GO
 -- Creating primary key on [Id] in table 'HrPersonelStatus'
 ALTER TABLE [dbo].[HrPersonelStatus]
 ADD CONSTRAINT [PK_HrPersonelStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'HrPerTerms'
+ALTER TABLE [dbo].[HrPerTerms]
+ADD CONSTRAINT [PK_HrPerTerms]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -682,6 +697,21 @@ GO
 CREATE INDEX [IX_FK_HrPayrollHrDtr]
 ON [dbo].[HrDtrs]
     ([HrPayrollId]);
+GO
+
+-- Creating foreign key on [HrPersonelId] in table 'HrPerTerms'
+ALTER TABLE [dbo].[HrPerTerms]
+ADD CONSTRAINT [FK_HrPersonelHrPerTerm]
+    FOREIGN KEY ([HrPersonelId])
+    REFERENCES [dbo].[HrPersonels]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_HrPersonelHrPerTerm'
+CREATE INDEX [IX_FK_HrPersonelHrPerTerm]
+ON [dbo].[HrPerTerms]
+    ([HrPersonelId]);
 GO
 
 -- --------------------------------------------------

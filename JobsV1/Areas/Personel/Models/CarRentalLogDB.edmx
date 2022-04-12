@@ -33,6 +33,7 @@
     <EntitySet Name="crLogCashGroups" EntityType="CarRentalLogDB.Store.crLogCashGroups" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogCashSalaries" EntityType="CarRentalLogDB.Store.crLogCashSalaries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogDriverPayments" EntityType="CarRentalLogDB.Store.crLogDriverPayments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogDriverTerms" EntityType="CarRentalLogDB.Store.crLogDriverTerms" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="crLogDrivercrLogTrip" Association="CarRentalLogDB.Store.crLogDrivercrLogTrip">
       <End Role="crLogDriver" EntitySet="crLogDrivers" />
       <End Role="crLogTrip" EntitySet="crLogTrips" />
@@ -145,6 +146,10 @@
       <End Role="crLogDriver" EntitySet="crLogDrivers" />
       <End Role="crLogDriverPayment" EntitySet="crLogDriverPayments" />
     </AssociationSet>
+    <AssociationSet Name="crLogDrivercrLogDriverTerm" Association="CarRentalLogDB.Store.crLogDrivercrLogDriverTerm">
+      <End Role="crLogDriver" EntitySet="crLogDrivers" />
+      <End Role="crLogDriverTerm" EntitySet="crLogDriverTerms" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="crLogDrivers">
     <Key>
@@ -204,6 +209,7 @@
     <Property Name="IsFinal" Type="bit" Nullable="false" />
     <Property Name="AllowEdit" Type="bit" Nullable="false" />
     <Property Name="TripTicket" Type="bit" Nullable="true" />
+    <Property Name="IncludeOT" Type="bit" Nullable="true" />
   </EntityType>
   <EntityType Name="crLogCashReleases">
     <Key>
@@ -435,6 +441,15 @@
     <Property Name="Amount" Type="decimal" Nullable="false" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="crLogDriverId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="crLogDriverTerms">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="180" />
+    <Property Name="crLogDriverId" Type="int" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
   </EntityType>
   <Association Name="crLogDrivercrLogTrip">
     <End Role="crLogDriver" Type="CarRentalLogDB.Store.crLogDrivers" Multiplicity="1" />
@@ -772,6 +787,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="crLogDrivercrLogDriverTerm">
+    <End Role="crLogDriver" Type="CarRentalLogDB.Store.crLogDrivers" Multiplicity="1" />
+    <End Role="crLogDriverTerm" Type="CarRentalLogDB.Store.crLogDriverTerms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crLogDriver">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="crLogDriverTerm">
+        <PropertyRef Name="crLogDriverId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -916,6 +943,11 @@
             <End Role="crLogDriver" EntitySet="crLogDrivers" />
             <End Role="crLogDriverPayment" EntitySet="crLogDriverPayments" />
           </AssociationSet>
+          <EntitySet Name="crLogDriverTerms" EntityType="CarRentalLogDB.crLogDriverTerm" />
+          <AssociationSet Name="crLogDrivercrLogDriverTerm" Association="CarRentalLogDB.crLogDrivercrLogDriverTerm">
+            <End Role="crLogDriver" EntitySet="crLogDrivers" />
+            <End Role="crLogDriverTerm" EntitySet="crLogDriverTerms" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="crLogDriver">
           <Key>
@@ -933,6 +965,7 @@
           <Property Name="Status" Type="String" Nullable="true" MaxLength="3" />
           <NavigationProperty Name="crLogCashSalaries" Relationship="CarRentalLogDB.crLogDrivercrLogCashSalary" FromRole="crLogDriver" ToRole="crLogCashSalary" />
           <NavigationProperty Name="crLogDriverPayments" Relationship="CarRentalLogDB.crLogDrivercrLogDriverPayment" FromRole="crLogDriver" ToRole="crLogDriverPayment" />
+          <NavigationProperty Name="crLogDriverTerms" Relationship="CarRentalLogDB.crLogDrivercrLogDriverTerm" FromRole="crLogDriver" ToRole="crLogDriverTerm" />
         </EntityType>
         <EntityType Name="crLogUnit">
           <Key>
@@ -994,6 +1027,7 @@
           <Property Name="AllowEdit" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="crLogTripJobMains" Relationship="CarRentalLogDB.crLogTripcrLogTripJobMain" FromRole="crLogTrip" ToRole="crLogTripJobMain" />
           <Property Name="TripTicket" Type="Boolean" Nullable="true" />
+          <Property Name="IncludeOT" Type="Boolean" Nullable="true" />
         </EntityType>
         <Association Name="crLogDrivercrLogTrip">
           <End Type="CarRentalLogDB.crLogDriver" Role="crLogDriver" Multiplicity="1" />
@@ -1599,6 +1633,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="crLogDriverTerm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="180" />
+          <NavigationProperty Name="crLogDriver" Relationship="CarRentalLogDB.crLogDrivercrLogDriverTerm" FromRole="crLogDriverTerm" ToRole="crLogDriver" />
+          <Property Name="crLogDriverId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <Association Name="crLogDrivercrLogDriverTerm">
+          <End Type="CarRentalLogDB.crLogDriver" Role="crLogDriver" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogDriverTerm" Role="crLogDriverTerm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogDriver">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogDriverTerm">
+              <PropertyRef Name="crLogDriverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1665,6 +1721,7 @@
           <ScalarProperty Name="IsFinal" ColumnName="IsFinal" />
           <ScalarProperty Name="AllowEdit" ColumnName="AllowEdit" />
           <ScalarProperty Name="TripTicket" ColumnName="TripTicket" />
+          <ScalarProperty Name="IncludeOT" ColumnName="IncludeOT" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1919,6 +1976,16 @@
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="crLogDriverId" ColumnName="crLogDriverId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogDriverTerms">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogDriverTerm)">
+        <MappingFragment StoreEntitySet="crLogDriverTerms">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="crLogDriverId" ColumnName="crLogDriverId" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

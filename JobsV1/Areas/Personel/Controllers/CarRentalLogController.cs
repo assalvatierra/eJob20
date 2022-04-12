@@ -214,7 +214,18 @@ namespace JobsV1.Areas.Personel.Controllers
 
             if (crLogTrip.OTRate == null)
             {
-                crLogTrip.OTRate = 200;
+
+                if (crLogTrip.crLogCompany.crLogCompanyRates.Count() > 0)
+                {
+                    var companyOTRate = crLogTrip.crLogCompany.crLogCompanyRates.FirstOrDefault().OTRate;
+                    crLogTrip.OTRate = companyOTRate;
+                }
+                else
+                {
+                    crLogTrip.OTRate = 200;
+
+                }
+
             }
             
 
@@ -245,12 +256,19 @@ namespace JobsV1.Areas.Personel.Controllers
             if (ModelState.IsValid)
             {
                 otServices = new CrOTServices(db);
+
                 //caculate OT
                 var OTRate = otServices.GetTripLogOTRate(crLogTrip);
 
                 if (OTRate > 0 && crLogTrip.DriverOT == 0 )
                 {
                     crLogTrip.DriverOT = (decimal)OTRate;
+                }
+
+                if (crLogTrip.AddonOT == null || crLogTrip.AddonOT == 0)
+                {
+
+                    //crLogTrip.AddonOT = (decimal)otServices.GetTripOTAddon(crLogTrip.Id);
                 }
 
                 if (crLogTrip.IsFinal)

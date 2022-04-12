@@ -149,14 +149,15 @@ namespace JobsV1.Areas.Personel.Services
                     crLogTrips = crLogTrips.OrderBy(c => c.crLogDriver.OrderNo).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip));
                     break;
                 case "Date":
-                    crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
+                    crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip))
+                        .ThenBy(c => c.crLogUnit.OrderNo).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo) ;
                     break;
                 case "Date-Desc":
                     crLogTrips = crLogTrips.OrderByDescending(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
                     break;
                 default:
-                    crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name)
-                        .ThenBy(c => c.crLogUnit.OrderNo).ThenBy(c => c.crLogUnit.Description).ThenBy(c => c.crLogDriver.OrderNo);
+                    crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip))
+                        .ThenBy(c => c.crLogUnit.OrderNo).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo).ThenBy(c => c.crLogDriver.OrderNo);
                     break;
             }
 

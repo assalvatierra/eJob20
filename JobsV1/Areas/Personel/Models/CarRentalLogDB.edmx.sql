@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/05/2022 11:12:17
+-- Date Created: 03/30/2022 13:50:40
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
 -- --------------------------------------------------
 
@@ -101,6 +101,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_crLogDrivercrLogDriverPayment]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[crLogDriverPayments] DROP CONSTRAINT [FK_crLogDrivercrLogDriverPayment];
 GO
+IF OBJECT_ID(N'[dbo].[FK_crLogDrivercrLogDriverTerm]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[crLogDriverTerms] DROP CONSTRAINT [FK_crLogDrivercrLogDriverTerm];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -187,6 +190,9 @@ GO
 IF OBJECT_ID(N'[dbo].[crLogDriverPayments]', 'U') IS NOT NULL
     DROP TABLE [dbo].[crLogDriverPayments];
 GO
+IF OBJECT_ID(N'[dbo].[crLogDriverTerms]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogDriverTerms];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -247,7 +253,8 @@ CREATE TABLE [dbo].[crLogTrips] (
     [AddonOT] decimal(18,0)  NULL,
     [IsFinal] bit  NOT NULL,
     [AllowEdit] bit  NOT NULL,
-    [TripTicket] bit  NULL
+    [TripTicket] bit  NULL,
+    [IncludeOT] bit  NULL
 );
 GO
 
@@ -482,6 +489,15 @@ CREATE TABLE [dbo].[crLogDriverPayments] (
 );
 GO
 
+-- Creating table 'crLogDriverTerms'
+CREATE TABLE [dbo].[crLogDriverTerms] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Description] nvarchar(180)  NOT NULL,
+    [crLogDriverId] int  NOT NULL,
+    [Date] datetime  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -645,6 +661,12 @@ GO
 -- Creating primary key on [Id] in table 'crLogDriverPayments'
 ALTER TABLE [dbo].[crLogDriverPayments]
 ADD CONSTRAINT [PK_crLogDriverPayments]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crLogDriverTerms'
+ALTER TABLE [dbo].[crLogDriverTerms]
+ADD CONSTRAINT [PK_crLogDriverTerms]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1069,6 +1091,21 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_crLogDrivercrLogDriverPayment'
 CREATE INDEX [IX_FK_crLogDrivercrLogDriverPayment]
 ON [dbo].[crLogDriverPayments]
+    ([crLogDriverId]);
+GO
+
+-- Creating foreign key on [crLogDriverId] in table 'crLogDriverTerms'
+ALTER TABLE [dbo].[crLogDriverTerms]
+ADD CONSTRAINT [FK_crLogDrivercrLogDriverTerm]
+    FOREIGN KEY ([crLogDriverId])
+    REFERENCES [dbo].[crLogDrivers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_crLogDrivercrLogDriverTerm'
+CREATE INDEX [IX_FK_crLogDrivercrLogDriverTerm]
+ON [dbo].[crLogDriverTerms]
     ([crLogDriverId]);
 GO
 

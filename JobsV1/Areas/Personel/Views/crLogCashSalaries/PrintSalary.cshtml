@@ -360,7 +360,7 @@
                                 @SubTotalSalary.ToString("#,##0.00")
                             </td>
                             <td>
-                                @if (!Model.ExcludeOT)
+                                @if (IncludeOT)
                                 {
                                     @SubTotalOT.ToString("#,##0.00")
                                 }

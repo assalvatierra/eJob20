@@ -356,6 +356,7 @@
                         @foreach (var trip in ViewBag.crLogTrips as List<JobsV1.Areas.Personel.Models.crLogTrip>)
                         {
 
+                            bool includeOTFlag = trip.IncludeOT != null ? (bool)trip.IncludeOT : false;
                             <tr>
                                 <td>
                                     @trip.DtTrip.ToString("MM/dd/yyyy (ddd)")

@@ -14,6 +14,7 @@ namespace JobsV1.Areas.Personel.Models
         public List<crLogCashRelease> DriverContributions;
         public List<crLogCashRelease> DriverTrx;
         public List<crLogCashRelease> NoStatus;
+        public List<crLogDriverTerm>  Terms;
 
         public crDriverSummary()
         {

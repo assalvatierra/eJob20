@@ -22,6 +22,7 @@
     <EntitySet Name="HrPayrolls" EntityType="HrisDB.Store.HrPayrolls" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="HrProfiles" EntityType="HrisDB.Store.HrProfiles" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="HrPersonelStatus" EntityType="HrisDB.Store.HrPersonelStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="HrPerTerms" EntityType="HrisDB.Store.HrPerTerms" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="HrPersonelHrPerDoc" Association="HrisDB.Store.HrPersonelHrPerDoc">
       <End Role="HrPersonel" EntitySet="HrPersonels" />
       <End Role="HrPerDoc" EntitySet="HrPerDocs" />
@@ -97,6 +98,10 @@
     <AssociationSet Name="HrPayrollHrDtr" Association="HrisDB.Store.HrPayrollHrDtr">
       <End Role="HrPayroll" EntitySet="HrPayrolls" />
       <End Role="HrDtr" EntitySet="HrDtrs" />
+    </AssociationSet>
+    <AssociationSet Name="HrPersonelHrPerTerm" Association="HrisDB.Store.HrPersonelHrPerTerm">
+      <End Role="HrPersonel" EntitySet="HrPersonels" />
+      <End Role="HrPerTerm" EntitySet="HrPerTerms" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="HrPersonels">
@@ -261,6 +266,15 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Desc" Type="nvarchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="HrPerTerms">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="180" />
+    <Property Name="OrderNo" Type="int" Nullable="false" />
+    <Property Name="HrPersonelId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="HrPersonelHrPerDoc">
     <End Role="HrPersonel" Type="HrisDB.Store.HrPersonels" Multiplicity="1" />
@@ -490,6 +504,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="HrPersonelHrPerTerm">
+    <End Role="HrPersonel" Type="HrisDB.Store.HrPersonels" Multiplicity="1" />
+    <End Role="HrPerTerm" Type="HrisDB.Store.HrPerTerms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HrPersonel">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HrPerTerm">
+        <PropertyRef Name="HrPersonelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -587,6 +613,11 @@
             <End Role="HrPayroll" EntitySet="HrPayrolls" />
             <End Role="HrDtr" EntitySet="HrDtrs" />
           </AssociationSet>
+          <EntitySet Name="HrPerTerms" EntityType="HrisDB.HrPerTerm" />
+          <AssociationSet Name="HrPersonelHrPerTerm" Association="HrisDB.HrPersonelHrPerTerm">
+            <End Role="HrPersonel" EntitySet="HrPersonels" />
+            <End Role="HrPerTerm" EntitySet="HrPerTerms" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="HrPersonel">
           <Key>
@@ -611,6 +642,7 @@
           <Property Name="HrPersonelStatusId" Type="Int32" Nullable="false" />
           <Property Name="Philhealth" Type="String" Nullable="true" MaxLength="80" />
           <Property Name="Pagibig" Type="String" Nullable="true" MaxLength="80" />
+          <NavigationProperty Name="HrPerTerms" Relationship="HrisDB.HrPersonelHrPerTerm" FromRole="HrPersonel" ToRole="HrPerTerm" />
         </EntityType>
         <EntityType Name="HrPerPosition">
           <Key>
@@ -1017,6 +1049,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="HrPerTerm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="180" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="HrPersonel" Relationship="HrisDB.HrPersonelHrPerTerm" FromRole="HrPerTerm" ToRole="HrPersonel" />
+          <Property Name="HrPersonelId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="HrPersonelHrPerTerm">
+          <End Type="HrisDB.HrPersonel" Role="HrPersonel" Multiplicity="1" />
+          <End Type="HrisDB.HrPerTerm" Role="HrPerTerm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HrPersonel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HrPerTerm">
+              <PropertyRef Name="HrPersonelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1199,6 +1253,16 @@
         <MappingFragment StoreEntitySet="HrPersonelStatus">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Desc" ColumnName="Desc" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrPerTerms">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrPerTerm)">
+        <MappingFragment StoreEntitySet="HrPerTerms">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+          <ScalarProperty Name="HrPersonelId" ColumnName="HrPersonelId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

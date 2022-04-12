@@ -41,5 +41,6 @@ namespace JobsV1.Areas.Personel.Models
         public virtual DbSet<HrPayroll> HrPayrolls { get; set; }
         public virtual DbSet<HrProfile> HrProfiles { get; set; }
         public virtual DbSet<HrPersonelStatus> HrPersonelStatus { get; set; }
+        public virtual DbSet<HrPerTerm> HrPerTerms { get; set; }
     }
 }

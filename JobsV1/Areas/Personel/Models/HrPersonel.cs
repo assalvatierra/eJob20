@@ -25,6 +25,7 @@ namespace JobsV1.Areas.Personel.Models
             this.HrSalaries = new HashSet<HrSalary>();
             this.HrPayrolls = new HashSet<HrPayroll>();
             this.HrProfiles = new HashSet<HrProfile>();
+            this.HrPerTerms = new HashSet<HrPerTerm>();
         }
     
         public int Id { get; set; }
@@ -55,5 +56,7 @@ namespace JobsV1.Areas.Personel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HrProfile> HrProfiles { get; set; }
         public virtual HrPersonelStatus HrPersonelStatu { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HrPerTerm> HrPerTerms { get; set; }
     }
 }

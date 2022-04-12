@@ -364,6 +364,7 @@
     <Compile Include="Areas\Personel\Controllers\crLogCompaniesController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogDriverPaymentsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogDriversController.cs" />
+    <Compile Include="Areas\Personel\Controllers\crLogDriverTermsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogFuelsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogOdoesController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogPassengerAreasController.cs" />
@@ -433,6 +434,9 @@
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\crLogDriverPayment.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogDriverTerm.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\crLogFuel.cs">
@@ -522,6 +526,9 @@
       <DependentUpon>HrisDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\HrPersonelStatus.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrPerTerm.cs">
       <DependentUpon>HrisDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\HrPerTraining.cs">
@@ -2692,6 +2699,12 @@
     <Content Include="Areas\Receivables\Views\ArDeposits\Edit.cshtml" />
     <Content Include="Areas\Receivables\Views\ArDeposits\Index.cshtml" />
     <Content Include="Areas\Receivables\Views\ArDeposits\CreateTransDeposit.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\PrintIndexBillingDailyOS.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDriverTerms\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDriverTerms\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDriverTerms\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDriverTerms\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogDriverTerms\Index.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
@@ -3614,6 +3627,7 @@
     <Content Include="Views\Dashboard\_SummaryView.cshtml" />
     <Content Include="Views\Reporting\JobSummary.cshtml" />
     <Content Include="Views\Reporting\JobSummaryDetails.cshtml" />
+    <Content Include="Views\Shared\_ModuleLayout_Full.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

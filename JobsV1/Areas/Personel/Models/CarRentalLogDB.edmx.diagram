@@ -62,6 +62,8 @@
         <AssociationConnector Association="CarRentalLogDB.crLogCashReleasecrLogCashGroup" />
         <EntityTypeShape EntityType="CarRentalLogDB.crLogDriverPayment" Width="1.5" PointX="12" PointY="10.375" />
         <AssociationConnector Association="CarRentalLogDB.crLogDrivercrLogDriverPayment" />
+        <EntityTypeShape EntityType="CarRentalLogDB.crLogDriverTerm" Width="1.5" PointX="8.625" PointY="9.25" />
+        <AssociationConnector Association="CarRentalLogDB.crLogDrivercrLogDriverTerm" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
