@@ -8,7 +8,6 @@ using JobsV1.Areas.Personel.Models;
 using Microsoft.Ajax.Utilities;
 using JobsV1.Areas.Personel.Services;
 
-
 namespace JobsV1.Areas.Personel.Controllers
 {
     public class crLogBillingController : Controller
@@ -174,7 +173,6 @@ namespace JobsV1.Areas.Personel.Controllers
 
 
         }
-
 
         // GET: Personel/CarRentalLog/PrintIndexBilling
         public ActionResult PrintIndexBilling(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
@@ -472,9 +470,7 @@ namespace JobsV1.Areas.Personel.Controllers
             crLogTripBilling tripBilling = new crLogTripBilling();
             tripBilling.SundayTrips = new List<crBilling_Daily>();
             tripBilling.OTTrips = new List<crBilling_OT>();
-
             tripBilling.Company = company;
-
 
             // OTT trips
             var OTTrips = tripLogs.OrderBy(t=>t.crLogUnit.OrderNo).ToList();
@@ -654,9 +650,6 @@ namespace JobsV1.Areas.Personel.Controllers
             return View(tripBilling);
         }
 
-
-
-
         // GET: Personel/CarRentalLog/IndexBilling
         public ActionResult PrintIndexBillingDailyOS(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
         {
@@ -785,7 +778,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogDriverList = dl.GetDrivers().ToList();
             ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
 
-            ViewBag.BillingCompany = "AWESOME OS";
+            ViewBag.BillingCompany = company;
             ViewBag.BillingAddress = "";
             ViewBag.SOANum = SOANum;
             ViewBag.DateToday = dt.GetCurrentDate().ToString("MMM dd yyyy");
@@ -1050,8 +1043,6 @@ namespace JobsV1.Areas.Personel.Controllers
             return View(tripBilling);
 
         }
-
-
 
         // GET: Personel/CarRentalLog/Edit/5
         public ActionResult EditBilling(int? id)

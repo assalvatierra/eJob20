@@ -9,8 +9,8 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Areas.Personel.Models;
-using Microsoft.Ajax.Utilities;
 using JobsV1.Areas.Personel.Services;
+using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Areas.Personel.Controllers
 {
@@ -165,6 +165,7 @@ namespace JobsV1.Areas.Personel.Controllers
             trip.OTRate = 200;
             trip.IsFinal = false;
             trip.AllowEdit = false;
+            trip.TripHours = 10;
 
             var unitList = dl.GetUnits().Select(c => new {
                 Id = c.Id,
@@ -899,6 +900,9 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             try
             {
+                //TODO
+                //validate job date and triplog date
+
                 //new entry
                 crLogTripJobMain logTripJobMain = new crLogTripJobMain();
                 logTripJobMain.crLogTripId = triplogId;
@@ -907,13 +911,14 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.crLogTripJobMains.Add(logTripJobMain);
                 db.SaveChanges();
 
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+                return new HttpResponseMessage(HttpStatusCode.OK);
             }
             catch
             {
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
         }
+
 
         //GET: Personel/CarRentalLog/GetLinkTriplogJobs/{triplogId:int}
         [HttpGet]
@@ -1246,7 +1251,7 @@ namespace JobsV1.Areas.Personel.Controllers
             return false;
         }
 
-        //POST
+        //POST:  CarRentalLog/PostTripTicketFlag
         [HttpPost]
         public HttpResponseMessage PostTripTicketFlag(int id)
         {

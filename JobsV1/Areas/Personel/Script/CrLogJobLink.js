@@ -2,6 +2,26 @@
 /**
  * CrLogJobLink
  * Desc: Link Triplogs and Jobs by triplogId & jobmainId
+ *       Show Modal for linking jobs and triplog
+ *       Show List of active jobs
+ * 
+ * Validations:
+ *  - Check if job item count is greater than 0
+ *  - Check remaining linked job item count is greater than 1
+ *  - Check Job date is within the current triplog date (warning)
+ *  - Added loading animation
+ *  - Added Option to input jobId for past jobs
+ * 
+ * 4/12/2022
+ *  - Remove Page Reload on Submit Link or on select Active Job List
+ *  - Remove Page Reload on Remove Link 
+ *  - After Submit Link Click, hide modal and add tripId to triplog (no reload)
+ *  
+ * 4/18/2022
+ *  - Added tripDate to GetActiveJobs() ->  GetActiveJobs(tripDate)
+ *  - ActiveJobs results are filtered based within date of the job
+ *  - Added validation Alerts on no jobs found and invalid triplog date (on input jobId)
+ * 
  */
 
 function Show_JobsLinkModal(triplogid, tripDate) {
@@ -10,21 +30,22 @@ function Show_JobsLinkModal(triplogid, tripDate) {
     Set_JobLinkForm_TripLogId(triplogid);
     Set_JobLinkForm_TripLogDate(tripDate);
 
-    GetActiveJobs();
+    GetActiveJobs(tripDate);
 
     //get existing triploglink for edit/modify link
     GetTripJobLinkId(triplogid);
+
 }
 
 
-function GetActiveJobs() {
+function GetActiveJobs(tripDate) {
 
     $("#Loading-jobs").show();
 
     //empty list
     $("#LogJobSearchModal-List").empty();
 
-    $.get("/JobOrder/GetActiveJobList", null, (res) => {
+    $.get("/JobOrder/GetActiveJobList",  { tripDate: tripDate }, (res) => {
         }).done((res) => {
             $("#Loading-jobs").hide();
 
@@ -45,14 +66,10 @@ function AddSelectJobButton(jobdetails) {
             var dtStart  = moment(jobdetails[i]["JobDateStart"]).format("MM/DD/YYYY");
             var dtEnd    = moment(jobdetails[i]["JobDateEnd"]).format("MM/DD/YYYY");
 
-            //console.log(dtStart);
-            //console.log(dtEnd);
-            //console.log("----------");
-
             var item = "<button type='button' class='list-group-item' onclick='SelectJob(" + itemId + ","
                 + noItems + ",\"" + dtStart + "\",\"" + dtEnd + "\")'>" +
                 itemId + ' - ' + company + ' ' + customer + "<br>" +
-                dtStart + " - " + dtEnd +
+                dtStart + " - " + dtEnd + ' /  Assigned:' + noItems +
                 '</button>';
 
             //add to list
@@ -86,12 +103,12 @@ function ConfirmTripDate(dtStart, dtEnd) {
 
     if (tripdate < jobDtStart || tripdate > jobDtEnd) {
 
-        if (confirm("Trip date is not within the Job date. Do you want to continue?")) {
-            return true;
-        } else {
+        if (confirm("Trip date is not within the Job date.")) {
+        
             return false;
         }
     }
+    return true;
 }
 
 function ConfirmLinkCount(noItems, linkCount) {
@@ -100,8 +117,6 @@ function ConfirmLinkCount(noItems, linkCount) {
 
         if (confirm("Unit allocation for the job is " + linkCount +
             " of " + noItems + ". Do you want to continue?")) {
-            return true;
-        } else {
              return false;
         }
     }
@@ -120,27 +135,39 @@ function Set_JobLinkForm_TripLogDate(tripDate) {
     $("#LogJobLink-TripLogDate").val(tripDate);
 }
 
-function Submit_JobLinkForm() {
+async function Submit_JobLinkForm() {
     var triplogId = $("#LogJobLink-TripLogId").val();
     var jobmainId = $("#LogJobLink-JobMainId").val();
 
-    $.post("/CarRentalLog/SetLinkTriplogJobs", { "triplogId": triplogId, "jobmainId": jobmainId }, (res) => {
-      
-    }).done((res) => {
+    //Validation, Check job exist
+    if (await CheckJobExist()) {
+        //validation check job dates
+        if (await CheckTripLogDate()) {
 
-            //on success, hide modal
-            $("#LogJobLinkModal").modal("hide");
+            await $.post("/CarRentalLog/SetLinkTriplogJobs", { "triplogId": triplogId, "jobmainId": jobmainId }, (res) => {
+            }).done((res) => {
 
-            //reload
-            //window.location = window.location;
+                //on success, hide modal
+                $("#LogJobLinkModal").modal("hide");
 
-        $("#trip-" + triplogId).css("color","black");
-        $("#trip-" + triplogId).find(".td-jobid").text(jobmainId);
-        
-    }).fail((err) => {
-       alert("Unable to Link Triplogs and jobs.");
-    });
-      
+                //reload
+                //window.location = window.location;
+
+                $("#trip-" + triplogId).css("color", "black");
+                $("#trip-" + triplogId).find(".td-jobid").text(jobmainId);
+
+            }).fail((err) => {
+                alert("Unable to Link Triplogs and jobs.");
+            });
+
+        } else {
+            alert("Job Date is not valid for the triplog date. Please check the jobId to verify.");
+        }
+
+    } else {
+        alert("Job Does not exist.  Please check the jobId to verify.");
+    }
+
 }
 
 
@@ -157,18 +184,21 @@ function GetTripJobLinkId(tripLogId) {
     })
 }
 
-//function RemoveTripJobLink(tripId, jobmainId) {
-//    $.post("/CarRentalLog/DeleteLinkTriplogJobs", { triplogId: tripId, jobmainId, jobmainId }, (res) => {
-       
-//        if (res == "True") {
-//            //on success, hide modal
-//            $("#LogJobLinkModal").modal("hide");
+async function CheckTripLogDate() {
+    var jobmainId = $("#LogJobLink-JobMainId").val();
 
-//            //reload
-//            //window.location = window.location;
-//        }
-//    })
-//}
+    return $.get("/JobOrder/GetActiveJobById", { jobId: jobmainId })
+        .then((res) => {
+        console.log(res);
+
+        var jobdetails = res;
+
+        var dtStart = moment(jobdetails["JobDateStart"]).format("MM/DD/YYYY");
+        var dtEnd = moment(jobdetails["JobDateEnd"]).format("MM/DD/YYYY");
+
+        return ConfirmTripDate(dtStart, dtEnd);
+    });
+}
 
 
 function RemoveTripJobLink(e, tripId, jobmainId) {
@@ -181,27 +211,28 @@ function RemoveTripJobLink(e, tripId, jobmainId) {
             //reload
             //window.location = window.location;
             $(e).parent().parent().parent().parent().parent().css("color", "red");
-            //$(e).parent().parent().parent().parent().Remove();
         }
     })
 }
 
- function  CheckJobExist() {
+ async function CheckJobExist() {
     var jobmainId = $("#LogJobLink-JobMainId").val();
-    $.get("/JobMains/CheckJobById", { jobmainId: jobmainId }, (res) => {
-       
-    }).done(( res) => {
-        if ( res == "True") {
-            return true;
-        }
-        return false;
-    });
+     return $.get("/JobMains/CheckJobById", { jobmainId: jobmainId })
+         .then((res) => {
+
+            console.log(res);
+
+            if ( res == "True") {
+                return true;
+            }
+            return false;
+         });
 }
 
 function GetTripLinkCount(jobId) {
     return $.get("/CarRentalLog/GetTripIdLinkCountToday", { jobId: jobId }, (res) => {
         var count = res;
-        //console.log(count);
+
         if (count != 0) {
              count;
         } else {

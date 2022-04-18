@@ -26,14 +26,15 @@
     }
 
     .no-padding-child td {
-        padding: 0px !important;
+        padding: 3px !important;
+        padding-left: 5px !important;
     }
     .no-padding-child td:first-child {
         padding-left: 10px !important;
     }
 
     .with-border {
-        border: 2px solid black !important;
+        border: 1px solid black !important;
     }
 
     .paper-size{
@@ -54,8 +55,8 @@
 </style>
 
 <div class="paper-size">
-    <table style="width: 100%; border: 2px solid black;">
-        <tr style="border:2px solid black;">
+    <table style="width: 100%; border: 1px solid black;">
+        <tr style="border:1px solid black;">
             <td style="text-align: center;padding:5px;width:0px;">
                 <div style="height:10px;"><img src="~/Images/LOGO_AJRENTACAR.jpg" width="100" style="float: left;" /></div>
             </td>
@@ -70,10 +71,11 @@
         </tr>
 
     </table>
-    <table class="table" style="width: 100%; border-left: 2px solid black; border-right: 2px solid black; margin-bottom: 0px;">
+    <table class="table" style="width: 100%; border-left: 1px solid black; border-right: 1px solid black; margin-bottom: 0px;">
         <tr>
             <td colspan="3" class="no-padding">
                 <h2 class="text-center no-margin"> Statement</h2>
+                <p class="text-center no-margin">@DateTime.Parse(ViewBag.FilteredsDate).ToString("MMM dd yyyy") - @DateTime.Parse(ViewBag.FilteredeDate).ToString("MMM dd yyyy")</p>
             </td>
         </tr>
         <tr class="no-padding-child">
@@ -82,7 +84,7 @@
                 <b> @ViewBag.BillingAddress </b>
             </td>
             <td>
-                <p class="text-center no-margin">@DateTime.Parse(ViewBag.FilteredsDate).ToString("MMM dd yyyy") - @DateTime.Parse(ViewBag.FilteredeDate).ToString("MMM dd yyyy")</p>
+                
             </td>
             <td>
                 <p class="pull-right" style="padding-right:5px;">SOA #: @ViewBag.SOANum <br /> Date : @ViewBag.DateToday </p>
@@ -90,13 +92,13 @@
         </tr>
     </table>
 
-    <table class="table table-report" style="border:2px solid black;">
+    <table class="table table-report" style="border:1px solid black;">
 
         <tr>
-            <td class="border-left">
+            <td class="border-left" width="70">
                 <h6 class="text-center" style="font-weight: 600; margin: 5px;">Date </h6>
             </td>
-            <td class="border-left">
+            <td class="border-left" width="110">
                 <h6 class="text-center" style="font-weight: 600; margin: 5px;">Driver </h6>
             </td>
             <td class="border-left">
@@ -109,8 +111,8 @@
                 <h6 style="font-weight: 600; margin: 5px;">Overtime</h6>
 
             </td>
-            <td colspan="1" class="border-left" width="120">
-                <h6 style="font-weight: 600; margin: 5px;">Add'l Charges</h6>
+            <td colspan="1" class="border-left" width="60">
+                <h6 style="font-weight: 600; margin: 5px;">Add'l</h6>
 
             </td>
         </tr>
@@ -147,67 +149,64 @@
                     <td>
                         @if (dateDisplayed == false)
                         {
-                            @currentDate
-
                             dateDisplayed = true;
                         }
+
+                        @currentDate
                     </td>
                     <td class="border-left text-center">
                         <span cl> @trip.Driver</span>
                     </td>
                     <td class="border-left">
-                        <span style="padding-left:5px;">
-                            @trip.Unit (@trip.StartTime - @trip.EndTime) <br />
-                                                                         <span style="padding-left:5px">@trip.Remarks</span>
+                        <span>@trip.Unit (@trip.StartTime - @trip.EndTime)
                         </span>
-
+                        @if (!String.IsNullOrEmpty(trip.Remarks))
+                        {
+                            <br /><span>@trip.Remarks</span>
+                        }
                     </td>
                     <td class="border-left text-right">
-                        <span> @trip.Rate.ToString("#,##0") </span>
+                        <span> @trip.Rate.ToString("#,##0.00") </span>
                     </td>
                     <td class="border-left text-right">
                         @if (trip.OTRate > 0)
                         {
                             <span>
-                                @trip.OTRate.ToString("#,##0")
+                                @trip.OTRate.ToString("#,##0.00")
                             </span>
                         }
                     </td>
                     <td class="border-left text-right">
-                        <span>
-                            @trip.AddOns
-                        </span>
+                        @if (trip.AddOns != 0)
+                        {
+
+                            <span>
+                                @trip.AddOns.ToString("#,##0.00")
+                            </span>
+                        }
 
                     </td>
 
                 </tr>
                 }
-                <tr>
-                    <td class="border-left text-right"></td>
-                    <td class="border-left text-right"></td>
-                    <td class="border-left text-right"></td>
-                    <td class="border-left text-right"></td>
-                    <td class="border-left text-right"></td>
-                    <td class="border-left text-right"></td>
-                </tr>
             }
 
         @{
             Total = TotalRate + TotalOTRate + TotalAddon;
         }
-        <tr class="no-padding-child" style="border-top:2px solid black;margin-top:20px;">
+        <tr class="no-padding-child" style="border-top:1px solid black;margin-top:20px;">
             @*<td colspan="3"> Total Count: @TotalCount</td>*@
             <td colspan="1"></td>
             <td colspan="2">
             </td>
             <td class="text-right">
-                <span style="font-weight: bold; font-size: 12px; padding: 5px;"> @TotalRate.ToString("#,##0") </span>
+                <span style="font-weight: bold; font-size: 12px; padding: 5px;"> @TotalRate.ToString("#,##0.00") </span>
             </td>
             <td class="text-right">
-                <span style="font-weight: bold; font-size: 12px; padding: 5px;"> @TotalOTRate.ToString("#,##0") </span>
+                <span style="font-weight: bold; font-size: 12px; padding: 5px;"> @TotalOTRate.ToString("#,##0.00") </span>
             </td>
             <td class="text-right">
-                <span style="font-weight: bold; font-size: 12px;padding-left:15px;padding:5px;"> @TotalAddon.ToString("#,##0")  </span>
+                <span style="font-weight: bold; font-size: 12px;padding-left:15px;padding:5px;"> @TotalAddon.ToString("#,##0.00")  </span>
             </td>
         </tr>
         <tr class="no-padding-child">
@@ -217,20 +216,18 @@
                 <h5 class="no-margin" style="font-size:12px;font-weight:600;"> </h5>
             </td>
         </tr>
-        <tr style="border-top:2px solid black;margin-top:20px;">
+        <tr style="border-top:1px solid black;margin-top:20px;">
             <td colspan="2"></td>
             <td colspan="1">
                 <h5 style="font-weight: bold; font-size: 13px;margin:0px;"> GRAND TOTAL </h5>
             </td>
-            <td>
-                <span style="font-weight: bold; font-size: 15px;"> Php @Total.ToString("#,##0") </span>
+            <td colspan="2">
+                <span style="font-weight: bold; font-size: 15px;"> Php @Total.ToString("#,##0.00") </span>
             </td>
-            <td></td>
             <td></td>
         </tr>
     </table>
     <div>
-        @*<p> Payment due date is 15 days after received date. Falure to Settle on or after the due date is subject to 3% surcharge.  </p>*@
         <p>
             Received by : ________________________
         </p>

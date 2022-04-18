@@ -157,7 +157,7 @@ namespace JobsV1.Areas.Personel.Services
                     break;
                 default:
                     crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip))
-                        .ThenBy(c => c.crLogUnit.OrderNo).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo).ThenBy(c => c.crLogDriver.OrderNo);
+                        .ThenBy(c => c.crLogUnit.OrderNo).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
                     break;
             }
 
