@@ -43,11 +43,16 @@
     .div-no-margin p {
         margin-bottom:0px;
     }
+
+
+    .border-solid-black {
+        border-right: 2px solid black;
+    }
 </style>
 
 <div class="paper-size">
     <table style="width: 100%; border: 2px solid black;">
-        <tr style="border:2px solid black;">
+        <tr class="border-solid-black">
             <td style="text-align: center; padding: 10px;width:0px;">
                 <div style="height:10px;"><img src="~/Images/LOGO_AJRENTACAR.jpg" width="100" style="float: left;" /></div>
             </td>
@@ -88,15 +93,7 @@
     </table>
 
     <table class="table table-report" style="border:2px solid black;">
-        @*<tr style="background-color:lightgray;">
-            <td colspan="3">
-                <h6 class="text-center" style="font-weight: 600; margin: 5px;"> Description </h6>
-            </td>
-            <td colspan="3">
-                <h6 class="text-center" style="font-weight:600;margin:5px;">Overtime</h6>
-            </td>
-        </tr>*@
-        <tr>
+        <tr class="border-solid-black">
             <td colspan="3">
                 <h6 class="text-center" style="font-weight: 600; margin: 5px;">Description </h6>
             </td>
@@ -104,9 +101,10 @@
                 <h6 style="font-weight: 600; margin: 5px;">Basic Rate</h6>
             </td>
             <td colspan="2"> 
-            <h6 style="font-weight: 600; margin: 5px;">Overtime</h6> 
+                <h6 style="font-weight: 600; margin: 5px;">Overtime</h6> 
             
             </td>
+            <td></td>
         </tr>
         @foreach (var tripGroup in Model.OTTrips.GroupBy(c => c.Unit))
         {
@@ -139,11 +137,10 @@
                 subtotalOTRate += trip.OTRate;
                 subtotalOTHrs += (decimal)trip.OTHours;
 
-                <tr class="no-padding-child">
+                <tr class="no-padding-child border-solid-black">
                     <td>@trip.Driver</td>
                     <td style="color:@dtcolor;">@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
                     <td>
-                    @*@trip.Unit*@
                     </td>
                     <td>@trip.Rate.ToString("#,##0") </td>
                     <td>
@@ -162,10 +159,11 @@
                             </span>
                         }
                     </td>
+                    <td></td>
                 </tr>
 
             }
-            <tr style="border-top: 1px solid black;"  class="no-padding-child">
+            <tr style="border-top: 1px solid black;"  class="no-padding-child border-solid-black">
                 <td colspan="3">
                     <i class="pull-right"  style="padding-right:15px;"> Subtotal </i>
                 </td>
@@ -184,6 +182,7 @@
                         <b>@subtotalOTHrs.ToString("#,##0.0") Hrs</b>
                     }
                 </td>
+                <td></td>
             </tr>
         }
 
@@ -194,11 +193,12 @@
             @*<td colspan="3"> Total Count: @TotalCount</td>*@
             <td colspan="1"></td>
             <td colspan="2">
-                <h5 class="no-margin" style="font-size:12px;font-weight:600;"> TOTAL - DAILY CHARGES</h5>
+                <h5 class="no-margin" style="font-size:12px;font-weight:600;"> TOTAL - DAILY CHARGES </h5>
             </td>
             <td>
                 <span style="font-weight: bold; font-size: 12px;"> @TotalRate.ToString("#,##0") </span>
             </td>
+            <td colspan="3"></td>
         </tr>
         <tr class="no-padding-child">
             <td colspan="1">
@@ -212,6 +212,7 @@
             <td>
                 <span style="font-weight: bold; font-size: 12px;padding-left:15px;"> @TotalOT.ToString("#,##0.0")  </span>HRS
             </td>
+            <td></td>
         </tr>
         <tr style="border-top:2px solid black;margin-top:20px;">
             <td colspan="2"></td>
@@ -221,7 +222,7 @@
             <td>
                 <span style="font-weight: bold; font-size: 15px;"> Php @Total.ToString("#,##0") </span>
             </td>
-            <td></td>
+            <td colspan="3"></td>
         </tr>
     </table>
     <div>

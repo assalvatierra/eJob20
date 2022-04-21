@@ -79,12 +79,11 @@
             </td>
         </tr>
         <tr class="no-padding-child">
-            <td style="width: 150px;">
+            <td colspan="2">
                 <b>To: @ViewBag.BillingCompany </b><br />
-                <b> @ViewBag.BillingAddress </b>
-            </td>
-            <td>
-                
+                 <b> @ViewBag.BillingAddress </b> 
+                @*<b>To: BEAWESOME,INC </b><br />
+                <b>6th Floor, Ayala Business Center, Matina Town Square, Brgy. Ma-a, Talomo Dist., Davao City</b>*@
             </td>
             <td>
                 <p class="pull-right" style="padding-right:5px;">SOA #: @ViewBag.SOANum <br /> Date : @ViewBag.DateToday </p>
@@ -186,7 +185,6 @@
                         }
 
                     </td>
-
                 </tr>
                 }
             }
@@ -196,8 +194,9 @@
         }
         <tr class="no-padding-child" style="border-top:1px solid black;margin-top:20px;">
             @*<td colspan="3"> Total Count: @TotalCount</td>*@
-            <td colspan="1"></td>
-            <td colspan="2">
+            <td colspan="2"> Total : @TotalCount </td>
+            <td colspan="1">
+                <span class="pull-left"> Sub-Total </span>
             </td>
             <td class="text-right">
                 <span style="font-weight: bold; font-size: 12px; padding: 5px;"> @TotalRate.ToString("#,##0.00") </span>
@@ -212,7 +211,7 @@
         <tr class="no-padding-child">
             <td colspan="1">
             </td>
-            <td colspan="3">
+            <td colspan="5">
                 <h5 class="no-margin" style="font-size:12px;font-weight:600;"> </h5>
             </td>
         </tr>

@@ -25,6 +25,7 @@ namespace JobsV1.Areas.Personel.Controllers
             var crLogCashSalaries = new List<crLogCashSalary>();
 
             var today = dt.GetCurrentDate();
+            var yesterday = dt.GetCurrentDate().AddDays(-1);
             if (filter == 1)
             {
                 crLogCashSalaries = db.crLogCashSalaries.Include(c => c.crLogDriver)
@@ -41,7 +42,7 @@ namespace JobsV1.Areas.Personel.Controllers
             if (filter == null)
             {
                 crLogCashSalaries = db.crLogCashSalaries.Include(c => c.crLogDriver)
-                    .Where(c => c.Date == today)
+                    .Where(c => c.Date >= today)
                     .ToList();
             }
 
