@@ -7,6 +7,7 @@
     decimal TotalCashIn = 0;
     decimal TotalCashout = 0;
     decimal TotalBalance = 0;
+    decimal DailyOpeningBalance = 0;
 }
 
 <h2>CashFlow</h2>
@@ -33,6 +34,8 @@
 
     @foreach (var dategroup in Model.GroupBy(c => c.Date))
     {
+        decimal tempCashIn = 0;
+        decimal tempCashOut = 0;
 
         <tr>
             <td colspan="4" class="text-primary">
@@ -40,12 +43,14 @@
             </td>
         </tr>
 
+
         foreach (var item in dategroup.OrderBy(c => c.OrderNo))
         {
 
             TotalCashIn += item.CREDIT;
             TotalCashout += item.DEBIT;
-
+            tempCashIn += item.CREDIT;
+            tempCashOut += item.DEBIT;
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
@@ -65,7 +70,26 @@
             </tr>
         }
 
-    }
+        <tr>
+            <td>
+                Closing Balance
+            </td>
+            <td>
+                @tempCashIn.ToString("#,##0.00")
+            </td>
+            <td>
+                @tempCashOut.ToString("#,##0.00")
+            </td>
+            <td>
+
+                @{
+                    DailyOpeningBalance += tempCashIn - tempCashOut;
+                }
+
+                <span class="pull-right"> @DailyOpeningBalance.ToString("#,##0.00") </span>
+            </td>
+        </tr>
+     }
     <!-- TOTALS CALCULATIONS -->
     @{
         TotalBalance = TotalCashIn - TotalCashout;

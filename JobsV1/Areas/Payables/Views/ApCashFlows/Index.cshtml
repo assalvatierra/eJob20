@@ -11,6 +11,7 @@
     decimal TotalBalance = 0;
     decimal TotalProjectedBalance = 0;
     decimal TotalProjectedAfterWithdraw = 0;
+    decimal DailyOpeningBalance = 0;
     bool isAdmin = ViewBag.IsAdmin ?? false;
 }
 
@@ -51,7 +52,8 @@
 
     @foreach (var dategroup in Model.GroupBy(c => c.Date))
     {
-
+        decimal tempCashIn = 0;
+        decimal tempCashOut = 0;
         <tr>
             <td colspan="6" class="text-primary">
                 @dategroup.Key.ToString("MMM dd yyyy")
@@ -66,6 +68,8 @@
             TotalRequest += item.REQUEST == null ? (decimal)(0) : (decimal)item.REQUEST;
             TotalFunded += item.FUNDED == null ? (decimal)(0) : (decimal)item.FUNDED;
 
+            tempCashIn += item.CREDIT;
+            tempCashOut += item.DEBIT;
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
@@ -78,7 +82,7 @@
                         <span class="text-success"> @item.REQUEST</span>
                     }
                 </td>
-                
+
                 <td>
                     @if (item.FUNDED != null)
                     {
@@ -110,7 +114,25 @@
                 </td>
             </tr>
         }
+        <tr>
+            <td colspan="4">
+                Closing Balance
+            </td>
+            <td>
+                @tempCashIn.ToString("#,##0.00")
+            </td>
+            <td>
+                @tempCashOut.ToString("#,##0.00")
+            </td>
+            <td>
 
+                @{
+                    DailyOpeningBalance += tempCashIn - tempCashOut;
+                }
+
+                <span class="pull-right"> @DailyOpeningBalance.ToString("#,##0.00") </span>
+            </td>
+        </tr>
     }
     <!-- TOTALS CALCULATIONS -->
     @{
@@ -121,7 +143,7 @@
 
         if (TotalProjectedBalance < 4000)
         {
-            ForWithdraw = (decimal)5000 - TotalProjectedBalance ;
+            ForWithdraw = (decimal)5000 - TotalProjectedBalance;
         }
 
 
@@ -135,19 +157,14 @@
             @ForWithdraw
         </td>
         <td>
-
         </td>
         <td>
-
         </td>
         <td>
-
         </td>
         <td>
-
         </td>
         <td>
-
         </td>
     </tr>
     <tr>
