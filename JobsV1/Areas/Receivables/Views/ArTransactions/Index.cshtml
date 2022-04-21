@@ -197,7 +197,7 @@
         <th> </th>
     </tr>
 
-    @foreach (var receivablesGroup in Model.GroupBy(r => r.DtDue.ToString("MMMM", null)))
+    @foreach (var receivablesGroup in Model.GroupBy(r => r.DtDue.ToString("MMMM yyyy", null)))
     {
 
         totalAmount = 0;

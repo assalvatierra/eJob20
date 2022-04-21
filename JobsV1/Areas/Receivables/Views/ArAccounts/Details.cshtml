@@ -249,9 +249,9 @@
     <tr>
         <th> Description </th>
         <th> DtService </th>
-        <th> Invoice No </th>
         <th> DtInvoice </th>
-        <th> Due </th>
+        <th> DtDue</th>
+        <th> Invoice No </th>
         <th> Remarks </th>
         <th> Status </th>
         <th> Amount </th>
@@ -268,7 +268,15 @@
                 @transaction.Description
             </td>
             <td>
-                @transaction.DtService.ToString("MMM dd yyyy")
+                @transaction.DtService.ToString("MMM dd yyyy") -
+
+                @if (transaction.DtServiceTo != null)
+                {
+                    var dateServiceTo = (DateTime)transaction.DtServiceTo;
+                <span>
+                    @dateServiceTo.ToString("MMM dd yyyy")
+                </span>
+                }
             </td>
             <td>
                 @transaction.DtInvoice.ToString("MMM dd yyyy")
@@ -294,8 +302,9 @@
             <td>
                 @foreach (var payment in transaction.ArTransPayments)
                 {
-                    totalPaid = totalPaid + payment.ArPayment.Amount;
                     transPayment = transPayment + payment.ArPayment.Amount;
+                    totalPaid = totalPaid + payment.ArPayment.Amount;
+                   
                 }
                 <span>
                     @if (transPayment > 0)
@@ -306,7 +315,10 @@
             </td>
             <td>
                 @{
-                    runninBalance = runninBalance + (transaction.Amount - transPayment);
+                    if (transaction.ArTransStatusId == 4)
+                    {
+                        runninBalance = runninBalance + (transaction.Amount - transPayment);
+                    }
                 }
                 @runninBalance.ToString("#,##0.00")
             </td>

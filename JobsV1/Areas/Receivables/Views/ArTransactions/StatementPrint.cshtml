@@ -122,7 +122,12 @@
             </td>
             <td>
                 @transaction.Description 
-               
+                @if (transaction.EndDate != null)
+                {
+                    DateTime sDate = (DateTime) transaction.StartDate;
+                    DateTime eDate = (DateTime) transaction.EndDate;
+                    <span>( @sDate.ToString("MMM dd yyyy") - @eDate.ToString("MMM dd yyyy") )</span>
+                }
             </td>
             <td>
                 @if (@transaction.Amount != 0)

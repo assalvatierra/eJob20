@@ -658,11 +658,11 @@ namespace JobsV1.Areas.Receivables.Controllers
             var transactions = ar.TransactionMgr.GetApprovedTransactions()
                 .Where(a => a.ArAccountId == accountId).ToList();
 
-
             List<ArRptModel.ArAccountStatement> accStatements = new List<ArRptModel.ArAccountStatement>();
 
             foreach (var statement in transactions)
             {
+
                 accStatements.Add(new ArRptModel.ArAccountStatement
                 {
                     ArTransId = statement.Id,
@@ -670,7 +670,9 @@ namespace JobsV1.Areas.Receivables.Controllers
                     InvoiceRef = statement.InvoiceRef,
                     InvoiceDate = statement.DtInvoice,
                     Description = statement.Description,
-                    Amount = statement.Amount,
+                    StartDate = statement.DtService, 
+                    EndDate   = statement.DtServiceTo ,
+                    Amount    = statement.Amount,
                     Payment = 0
 
                 });
