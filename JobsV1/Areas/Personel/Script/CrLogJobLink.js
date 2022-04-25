@@ -101,10 +101,15 @@ function ConfirmTripDate(dtStart, dtEnd) {
     var jobDtEnd = moment(dtEnd);
     var tripdate = moment($("#LogJobLink-TripLogDate").val());
 
+    console.log("jobDtStart: " + jobDtStart);
+    console.log("jobDtEnd: " + jobDtEnd);
+    console.log("tripdate: " + tripdate);
+
     if (tripdate < jobDtStart || tripdate > jobDtEnd) {
 
         if (confirm("Trip date is not within the Job date.")) {
-        
+            return false;
+        } else {
             return false;
         }
     }
@@ -195,6 +200,9 @@ async function CheckTripLogDate() {
 
         var dtStart = moment(jobdetails["JobDateStart"]).format("MM/DD/YYYY");
         var dtEnd = moment(jobdetails["JobDateEnd"]).format("MM/DD/YYYY");
+
+            console.log("dtStart: " + dtStart);
+            console.log("dtEnd: " + dtEnd);
 
         return ConfirmTripDate(dtStart, dtEnd);
     });

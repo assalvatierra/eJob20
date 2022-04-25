@@ -38,9 +38,9 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         // GET: Personel/crLogDriverTerms/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name");
+            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", id);
             return View();
         }
 
@@ -53,6 +53,7 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             if (ModelState.IsValid)
             {
+                crLogDriverTerm.Date = new DateTime();
                 db.crLogDriverTerms.Add(crLogDriverTerm);
                 db.SaveChanges();
                 //return RedirectToAction("Index");
@@ -88,6 +89,7 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             if (ModelState.IsValid)
             {
+                crLogDriverTerm.Date = new DateTime();
                 db.Entry(crLogDriverTerm).State = EntityState.Modified;
                 db.SaveChanges();
                 //return RedirectToAction("Index");

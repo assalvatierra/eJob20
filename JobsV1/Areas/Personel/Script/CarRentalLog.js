@@ -144,6 +144,8 @@ function GetOTDetails(tripId) {
                 $("#OTUpdate-TripHours").val(response.TripHours);
                 $("#OTUpdate-OTRate").val(response.OTRate);
                 $("#OTUpdate-DriverOTRate").val(response.DriverOTRate);
+                $("#OTUpdate-AddonRate").val(response.AddonRate);
+                $("#OTUpdate-Expense").val(response.Expense);
                 $("#OTUpdate-Remarks").val(response.Remarks);
             } else {
                 alert('Unable to get trip details');
@@ -161,6 +163,8 @@ function Submit_OTUpdateForm() {
     var tripHours = parseInt($("#OTUpdate-TripHours").val());
     var otRate    = parseInt($("#OTUpdate-OTRate").val());
     var driverOTRate = parseInt($("#OTUpdate-DriverOTRate").val());
+    var addonRate = parseInt($("#OTUpdate-AddonRate").val());
+    var expense = parseInt($("#OTUpdate-Expense").val());
     var remarks = $("#OTUpdate-Remarks").val();
 
     var otData = {
@@ -170,6 +174,8 @@ function Submit_OTUpdateForm() {
         TripHours: tripHours,
         OTRate: otRate,
         DriverOTRate: driverOTRate,
+        Addon: addonRate,
+        Expense: expense,
         Remarks: remarks
     }
 
