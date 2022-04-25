@@ -235,6 +235,15 @@
             </td>
             <td>
                 @receivables.ArTransPayments.Sum(c => c.ArPayment.Amount).ToString("#,##0.00")
+                <br />
+                @if (receivables.ArTransPayments.Count > 0)
+                {
+                    foreach(var payments in receivables.ArTransPayments.ToList())
+                    {
+                        <span class="text-muted">@payments.ArPayment.ArPaymentType.Type</span>
+                    }
+                   
+                }
             </td>
             <td>
                 @receivables.ArTransDeposits.Sum(c => c.ArDeposit.Amount).ToString("#,##0.00")

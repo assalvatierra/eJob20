@@ -964,15 +964,21 @@ namespace JobsV1.Controllers
         [HttpGet]
         public bool CheckJobById(int jobmainId)
         {
+            try
+            {
+                var jobmain = db.JobMains.Find(jobmainId);
 
-            var jobmain = db.JobMains.Find(jobmainId);
+                if (jobmain == null)
+                {
+                    return false;
+                }
 
-            if (jobmain == null)
+                return true;
+            }
+            catch
             {
                 return false;
             }
-
-            return true;
         }
 
 

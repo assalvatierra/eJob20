@@ -772,6 +772,33 @@ namespace JobsV1.Models
         }
 
 
+
+        //Get Job Order Listing based on the sort
+        public cJobOrderListing GetJobOrderDetailsQuery(int jobId)
+        {
+            cJobOrderListing joblist = new cJobOrderListing();
+
+            string sql = "";
+
+            sql = @"SELECT Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MIN(job.DtEnd), JobEncodeDate = MIN(job.jobDate),
+	                                Description = MIN(job.Description), Customer = MIN(job.Customer), Status = MIN(job.JobStatusId)  
+	                                FROM ( SELECT jm.Id,  jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,  jm.jobDate,
+		                            Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
+		                            FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
+		                            WHERE job.Id = " +  jobId ;
+              
+
+            //terminator
+            sql += ";";
+
+            joblist = db.Database.SqlQuery<cJobOrderListing>(sql).FirstOrDefault();
+
+            return joblist;
+
+        }
+
+
+
         //Get Job Order Listing based on the sort
         public List<cJobOrderListing> GetJobOrderMonthlyQuery(int month, int year)
         {

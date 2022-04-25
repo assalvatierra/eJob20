@@ -351,27 +351,31 @@ namespace JobsV1.Controllers
             }
         }
 
-        //GET : JobOrder/GetActiveJobList
+        // GET : JobOrder/GetActiveJobList
+        // Get Active Jobs with the specified date of triplogs for 
+        // linking triplogs and job thru jobId
+        // PARAM: tripdate - Triplog date type of Datetime
         [HttpGet]
-        public JsonResult GetActiveJobList()
+        public JsonResult GetActiveJobList(DateTime tripDate)
         {
             if (Session["CachedJobs"] == null)
             {
-                var activeJobs = jo.GetJobData(1);
 
-                var cachedJobs = activeJobs.GroupBy(c => c.Main.Id,
+                var confirmed = jo.GetJobOrderListingQuery(1);
+
+                var cachedJobs = confirmed.GroupBy(c => c.Id,
                     (key, g) => new
                     {
                         Id = key,
-                        JobDesc = g.Select(gs => gs.Main.Description).FirstOrDefault(),
-                        Customer = g.Select(gs => gs.Main.Customer.Name).FirstOrDefault(),
-                        JobDateStart = g.Select(gs => gs.Main.JobDate).FirstOrDefault().ToShortDateString(),
-                        JobDateEnd = g.Select(gs => gs.Services.Last().Service.DtEnd).FirstOrDefault().Value.ToShortDateString(),
-                        Company = g.Select(gs => gs.Company).FirstOrDefault(),
-                        NoItems = g.Select(gs => gs.Services.FirstOrDefault().SvcItems
-                                                .Where(c => c.InvItem.ViewLabel == "Unit").Count())
-                                                    .FirstOrDefault()
-                    }).ToList();
+                        JobDesc = g.Select(gs => gs.Description),
+                        Customer = g.Select(gs => gs.Customer),
+                        JobDateStart = g.Select(gs => gs.DtStart).FirstOrDefault().Date,
+                        JobDateEnd = g.Select(gs => gs.DtEnd).FirstOrDefault().Date,
+                        Company = jo.GetJobCompany(key),
+                        NoItems = GetJobItemsCount(key)
+                    }).Where(j => tripDate >= j.JobDateStart
+                               && tripDate <=  j.JobDateEnd)
+                             .ToList();
 
                 //Session["CachedJobs"] = cachedJobs;
                 return Json(cachedJobs, JsonRequestBehavior.AllowGet);
@@ -381,6 +385,33 @@ namespace JobsV1.Controllers
                 var cachedJobs = Session["CachedJobs"];
                 return Json(cachedJobs, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        // GET : JobOrder/GetActiveJobById
+        // PARAM: tripdate - Triplog date type of Datetime
+        [HttpGet]
+        public JsonResult GetActiveJobById(int jobId)
+        {
+            var confirmed = jo.GetJobOrderDetailsQuery(jobId);
+
+
+            if (confirmed != null)
+            {
+
+                //Session["CachedJobs"] = cachedJobs;
+                return Json(new {
+                    Id = confirmed.Id,
+                    JobDesc = confirmed.Description,
+                    Customer = confirmed.Customer,
+                    JobDateStart = confirmed.DtStart.Date,
+                    JobDateEnd = confirmed.DtEnd.Date,
+                    Company = confirmed.Company != null ? confirmed.Company : "",
+                    NoItems = GetJobItemsCount(confirmed.Id)
+
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            return null;
         }
 
         #region Inventory Items
@@ -599,6 +630,24 @@ namespace JobsV1.Controllers
 
             var mainId = db.JobServices.Find(serviceId).JobMainId;
             return RedirectToAction("JobServices", new { JobMainId = mainId });
+        }
+
+        private int GetJobItemsCount(int jobId)
+        {
+            try
+            {
+                var services = db.JobServices.Where(j => j.JobMainId == jobId).ToList();
+
+                if (services != null)
+                {
+                   return services.FirstOrDefault().JobServiceItems.Count();
+                }
+
+                return 0;
+            }
+            catch {
+                return 0;
+            }
         }
 
         #endregion
@@ -2474,6 +2523,8 @@ namespace JobsV1.Controllers
         }
 
         //GET: \JobOrder\GetJobRcvDetails
+        //Get the JobDetails by jobId
+        //Used in JobPostReceivables.js
         [HttpGet]
         public JsonResult GetJobRcvDetails(int id)
         {
@@ -2501,7 +2552,6 @@ namespace JobsV1.Controllers
                 return Json(null , JsonRequestBehavior.AllowGet);
             }
         }
-
 
         public bool PostJobReceivables(int id)
         {

@@ -27,7 +27,7 @@ function setCompanyValue(companyId) {
     $('#CompanyId').val(companyId);
     $('#company-textfield').val($("#CompanyId option:selected").text());
 
-    GetDefaultContact(companyId);
+    //GetDefaultContact(companyId);
 
     //$('#customer-textfield').val($("#CompanyId option:selected").text());
     $('#CompanySearchModal').modal('hide');
