@@ -168,10 +168,9 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogUnitList = dl.GetUnits().ToList();
             ViewBag.crLogDriverList = dl.GetDrivers().ToList();
             ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
+            ViewBag.crLogOwnerList = dl.GetOwners().ToList();
 
             return View(tripBilling);
-
-
         }
 
         // GET: Personel/CarRentalLog/PrintIndexBilling
@@ -399,7 +398,7 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         // GET: Personel/CarRentalLog/IndexBilling
-        public ActionResult IndexBillingDaily(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        public ActionResult IndexBillingDaily(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
         {
 
             #region Session
@@ -413,6 +412,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     startDate = Session["triplog-startDate"].ToString();
                 }
+                startDate = Session["triplog-startDate"].ToString();
             }
 
             if (!endDate.IsNullOrWhiteSpace())
@@ -425,6 +425,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     endDate = Session["triplog-endDate"].ToString();
                 }
+                endDate = Session["triplog-endDate"].ToString();
             }
 
             if (!unit.IsNullOrWhiteSpace())
@@ -437,6 +438,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     unit = Session["triplog-unit"].ToString();
                 }
+                unit = Session["triplog-unit"].ToString();
             }
 
             if (!driver.IsNullOrWhiteSpace())
@@ -449,6 +451,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     driver = Session["triplog-driver"].ToString();
                 }
+                driver = Session["triplog-driver"].ToString();
             }
 
             if (!company.IsNullOrWhiteSpace())
@@ -461,11 +464,25 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     company = Session["triplog-company"].ToString();
                 }
+                company = Session["triplog-company"].ToString();
             }
 
+            if (!owner.IsNullOrWhiteSpace())
+            {
+                Session["triplog-owner"] = owner;
+            }
+            else
+            {
+                if (Session["triplog-owner"] != null)
+                {
+                    owner = Session["triplog-owner"].ToString();
+                }
+
+                owner = Session["triplog-owner"].ToString();
+            }
             #endregion
 
-            var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby);
+            var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby, owner);
 
             crLogTripBilling tripBilling = new crLogTripBilling();
             tripBilling.SundayTrips = new List<crBilling_Daily>();
@@ -509,6 +526,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogUnitList = dl.GetUnits().ToList();
             ViewBag.crLogDriverList = dl.GetDrivers().ToList();
             ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
+            ViewBag.crLogOwnerList = dl.GetOwners().ToList();
             ViewBag.Company = company;
 
             return View(tripBilling);
@@ -594,7 +612,7 @@ namespace JobsV1.Areas.Personel.Controllers
             }
             #endregion
             var SOANum = "";
-            var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby);
+            var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby, owner);
 
             crLogTripBilling tripBilling = new crLogTripBilling();
             tripBilling.SundayTrips = new List<crBilling_Daily>();
@@ -639,6 +657,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogUnitList = dl.GetUnits().ToList();
             ViewBag.crLogDriverList = dl.GetDrivers().ToList();
             ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
+            ViewBag.crLogOwnerList = dl.GetOwners().ToList();
 
             ViewBag.CompanyBilling = "Shimizu-Ulticon-Takenata JV";
             ViewBag.BillingAddress = "Shoppes at Woodlane, Unit 4A, 2nd Floor, Diversion Road, Brgy, Ma-a Talomo, Davao City";
@@ -729,7 +748,7 @@ namespace JobsV1.Areas.Personel.Controllers
             }
             #endregion
             var SOANum = "";
-            var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby);
+            var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby, owner);
 
             crLogTripBilling tripBilling = new crLogTripBilling();
             tripBilling.SundayTrips = new List<crBilling_Daily>();
