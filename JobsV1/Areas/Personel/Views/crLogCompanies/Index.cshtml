@@ -24,6 +24,9 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
+            Billing Info
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Status)
         </th>
         <th>
@@ -39,7 +42,11 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Name) <br />
+            </td>
+            <td>
+                <span style="font-size:12px;"> @item.BillingName </span><br />
+                <span style="font-size:10px;"> @item.BillingAddress </span>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
