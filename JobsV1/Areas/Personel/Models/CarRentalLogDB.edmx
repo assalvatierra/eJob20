@@ -181,6 +181,8 @@
     <Property Name="Status" Type="nvarchar" Nullable="true" MaxLength="10" />
     <Property Name="IsShuttle" Type="bit" Nullable="false" />
     <Property Name="IsInternal" Type="bit" Nullable="false" />
+    <Property Name="BillingAddress" Type="nvarchar" Nullable="true" MaxLength="180" />
+    <Property Name="BillingName" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <EntityType Name="crLogTrips">
     <Key>
@@ -993,6 +995,8 @@
           <Property Name="IsShuttle" Type="Boolean" Nullable="false" />
           <Property Name="IsInternal" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="crLogCompanyRates" Relationship="CarRentalLogDB.crLogCompanycrLogCompanyRate" FromRole="crLogCompany" ToRole="crLogCompanyRate" />
+          <Property Name="BillingAddress" Type="String" Nullable="true" MaxLength="180" />
+          <Property Name="BillingName" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
         <EntityType Name="crLogTrip">
           <Key>
@@ -1692,6 +1696,8 @@
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="IsShuttle" ColumnName="IsShuttle" />
           <ScalarProperty Name="IsInternal" ColumnName="IsInternal" />
+          <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
+          <ScalarProperty Name="BillingName" ColumnName="BillingName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
