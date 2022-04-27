@@ -146,7 +146,8 @@ namespace JobsV1.Areas.Personel.Controllers
                     EndTime = t.EndTime,
                     CompanyRate = t.Rate,
                     OTHours = OTHrs,
-                    OTRate = OTServices.GetTripLogOTCompanyRate(t, OTHrs)
+                    OTRate = OTServices.GetTripLogOTCompanyRate(t, OTHrs),
+                    DriverOTRate = t.DriverOT
                 });
             });
 
@@ -640,6 +641,21 @@ namespace JobsV1.Areas.Personel.Controllers
                 });
             });
 
+            //Billing Name and Address
+            var crlogcompany = crServices.GetcrLogCompanyByName(company);
+            var billingName = "";
+            var billingAddress = "";
+
+            if (crlogcompany != null)
+            {
+                billingName = crlogcompany.BillingName;
+                billingAddress = crlogcompany.BillingAddress;
+            }
+            else
+            {
+                billingName = company;
+                billingAddress = "";
+            }
 
             //get summary
             var logSummary = crServices.GetCrLogSummary(tripLogs);
@@ -659,12 +675,16 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
             ViewBag.crLogOwnerList = dl.GetOwners().ToList();
 
-            ViewBag.CompanyBilling = "Shimizu-Ulticon-Takenata JV";
-            ViewBag.BillingAddress = "Shoppes at Woodlane, Unit 4A, 2nd Floor, Diversion Road, Brgy, Ma-a Talomo, Davao City";
+            ViewBag.CompanyBilling = billingName;
+            ViewBag.BillingAddress = billingAddress;
+        
+
             ViewBag.SOANum = SOANum;
             ViewBag.DateToday = dt.GetCurrentDate().ToString("MMM dd yyyy");
             ViewBag.DueDate = dt.GetCurrentDate().AddDays(16).ToString("MMM dd yyyy");
 
+            ViewBag.UserName = getStaffName(HttpContext.User.Identity.Name);
+            ViewBag.UserSign = getStaffSign(HttpContext.User.Identity.Name);
 
             return View(tripBilling);
         }
@@ -779,6 +799,21 @@ namespace JobsV1.Areas.Personel.Controllers
                 });
             });
 
+            //Billing Name and Address
+            var crlogcompany = crServices.GetcrLogCompanyByName(company);
+            var billingName = "";
+            var billingAddress = "";
+
+            if (crlogcompany != null)
+            {
+                billingName = crlogcompany.BillingName;
+                billingAddress = crlogcompany.BillingAddress;
+            }
+            else
+            {
+                billingName = company;
+                billingAddress = "";
+            }
 
             //get summary
             var logSummary = crServices.GetCrLogSummary(tripLogs);
@@ -797,12 +832,15 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogDriverList = dl.GetDrivers().ToList();
             ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
 
-            ViewBag.BillingCompany = company;
-            ViewBag.BillingAddress = "";
+            ViewBag.BillingCompany = billingName;
+            ViewBag.BillingAddress = billingAddress;
+
             ViewBag.SOANum = SOANum;
             ViewBag.DateToday = dt.GetCurrentDate().ToString("MMM dd yyyy");
             ViewBag.DueDate = dt.GetCurrentDate().AddDays(16).ToString("MMM dd yyyy");
 
+            ViewBag.UserName = getStaffName(HttpContext.User.Identity.Name);
+            ViewBag.UserSign = getStaffSign(HttpContext.User.Identity.Name);
 
             return View(tripBilling);
         }
@@ -1221,6 +1259,33 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
 
+
+
+        public string getStaffName(string staffLogin)
+        {
+            switch (staffLogin)
+            {
+                case "grace.realbreeze@gmail.com":
+                    return "Grace-chell V. Capandac";
+                case "assalvatierra@gmail.com":
+                    return "Elvie S. Salvatierra ";
+                default:
+                    return "Elvie S. Salvatierra ";
+            }
+        }
+
+        public string getStaffSign(string staffLogin)
+        {
+            switch (staffLogin)
+            {
+                case "grace.realbreeze@gmail.com":
+                    return "/Images/Signature/GraceSign.jpg";
+                case "assalvatierra@gmail.com":
+                    return "/Images/Signature-1.png";
+                default:
+                    return "/Images/Signature-1.png";
+            }
+        }
 
     }
 }

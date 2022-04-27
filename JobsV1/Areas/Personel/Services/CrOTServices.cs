@@ -241,6 +241,8 @@ namespace JobsV1.Areas.Personel.Services
             return CalcOTRate;
         }
 
+
+
         //GET : rate of OT per hour based on OTRate for Company
         public double GetTripOTAddon(int? id)
         {

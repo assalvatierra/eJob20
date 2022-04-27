@@ -558,6 +558,25 @@ namespace JobsV1.Areas.Personel.Services
             }
         }
 
+        public crLogCompany GetcrLogCompanyByName(string company)
+        {
+            try
+            {
+                crLogCompany logcompany = db.crLogCompanies.Where(c => c.Name == company).FirstOrDefault();
+
+                if (logcompany != null)
+                {
+                    return logcompany;
+                }
+
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public int SaveDbChanges()
         {
            return db.SaveChanges();

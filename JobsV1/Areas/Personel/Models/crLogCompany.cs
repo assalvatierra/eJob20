@@ -26,6 +26,8 @@ namespace JobsV1.Areas.Personel.Models
         public string Status { get; set; }
         public bool IsShuttle { get; set; }
         public bool IsInternal { get; set; }
+        public string BillingAddress { get; set; }
+        public string BillingName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<crLogTrip> crLogTrips { get; set; }
