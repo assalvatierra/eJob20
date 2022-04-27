@@ -125,7 +125,7 @@
                                     }
                                 </select>
                             </div>
-                            
+
                             <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
                                 <label for="filter-company">Owner:</label>
                                 <select name="owner" id="filter-owner" class="form-control">
@@ -226,6 +226,9 @@
             Rate
         </td>
         <td>
+            Drivers Rate
+        </td>
+        <td>
             Overtime
         </td>
         <td>
@@ -268,6 +271,98 @@
         <td>
             <span style="font-size:9px;"> Total OT Hours</span><br />
             @TotalOTHrs
+        </td>
+    </tr>
+</table>
+
+<h3> Drivers OT  </h3>
+
+<table class="table bordered">
+    <tr>
+        <td>
+            Date
+        </td>
+        <td>
+            Driver
+        </td>
+        <td>
+            Unit
+        </td>
+        <td>
+            Time
+        </td>
+        <td>
+            Drivers Rate
+        </td>
+        <td>
+            Overtime
+        </td>
+        <td>
+        </td>
+    </tr>
+    @{
+        decimal TotalAllDriversOTRate = 0;
+        double TotalAllDriversOThours = 0;
+     }
+    @foreach (var tripGroup in Model.OTTrips.GroupBy(t => t.Driver))
+    {
+        decimal TotalDriverOT = 0;
+        double TotalDriverOTHrs = 0;
+        int TotalDriverOTCount = 0;
+
+        <tr><td colspan="6"> </td></tr>
+
+        foreach (var trip in tripGroup)
+        {
+            TotalDriverOTCount += 1;
+            TotalDriverOTHrs += trip.OTHours;
+            TotalDriverOT += trip.DriverOTRate;
+            <tr>
+                <td>@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
+                <td>@trip.Driver</td>
+                <td>@trip.Unit</td>
+                <td>@trip.StartTime - @trip.EndTime</td>
+                <td>
+                    <span class="OT-Rate"> @trip.DriverOTRate.ToString("#,##0") </span>
+                </td>
+                <td>
+                    @trip.OTHours.ToString("#,##0.00") Hrs
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditOTBilling", new { id = trip.Id })
+                </td>
+            </tr>
+        }
+
+        TotalAllDriversOTRate += TotalDriverOT;
+        TotalAllDriversOThours += TotalDriverOTHrs;
+
+        <tr>
+            <td colspan="4">
+                @TotalDriverOTCount
+            </td>
+            <td>
+                @TotalDriverOT.ToString("#,##0")
+            </td>
+            <td>
+                @TotalDriverOTHrs.ToString("#,##0.00")
+            </td>
+            <td>
+
+            </td>
+        </tr>
+    }
+    <!-- Summary -->
+    <tr>
+        <td colspan="4"> Total Count: @TotalOTCount </td>
+
+        <td>
+            <span style="font-size:9px;"> Total OT Rate</span><br />
+            @TotalAllDriversOTRate.ToString("#,##0")
+        </td>
+        <td>
+            <span style="font-size:9px;"> Total OT Hours</span><br />
+            @TotalAllDriversOThours.ToString("#,##0.00")
         </td>
     </tr>
 </table>
