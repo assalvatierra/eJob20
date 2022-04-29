@@ -369,8 +369,8 @@ namespace JobsV1.Controllers
                         Id = key,
                         JobDesc = g.Select(gs => gs.Description),
                         Customer = g.Select(gs => gs.Customer),
-                        JobDateStart = g.Select(gs => gs.DtStart).FirstOrDefault().Date,
-                        JobDateEnd = g.Select(gs => gs.DtEnd).FirstOrDefault().Date,
+                        JobDateStart = jo.GetMinMaxServiceDate(key, "min"),
+                        JobDateEnd = jo.GetMinMaxServiceDate(key, "max"),
                         Company = jo.GetJobCompany(key),
                         NoItems = GetJobItemsCount(key)
                     }).Where(j => tripDate >= j.JobDateStart
@@ -398,13 +398,15 @@ namespace JobsV1.Controllers
             if (confirmed != null)
             {
 
-                //Session["CachedJobs"] = cachedJobs;
+                DateTime jobDateStart= jo.GetMinMaxServiceDate(jobId, "min");
+                DateTime jobDateEnd = jo.GetMinMaxServiceDate(jobId,"max");
+
                 return Json(new {
                     Id = confirmed.Id,
                     JobDesc = confirmed.Description,
                     Customer = confirmed.Customer,
-                    JobDateStart = confirmed.DtStart.Date,
-                    JobDateEnd = confirmed.DtEnd.Date,
+                    JobDateStart = jobDateStart,
+                    JobDateEnd = jobDateEnd,
                     Company = confirmed.Company != null ? confirmed.Company : "",
                     NoItems = GetJobItemsCount(confirmed.Id)
 
@@ -1998,24 +2000,10 @@ namespace JobsV1.Controllers
         {
             switch (staffLogin)
             {
-                case "josette.realbreeze@gmail.com":
-                    return "Josette Valleser";
-                case "mae.realbreeze@gmail.com":
-                    return "Cristel Mae Verano";
-                case "ramil.realbreeze@gmail.com":
-                    return "Ramil Villahermosa";
                 case "grace.realbreeze@gmail.com":
                     return "Grace-chell V. Capandac";
                 case "assalvatierra@gmail.com":
                     return "Elvie S. Salvatierra ";
-                case "jecca.realbreeze@gmail.com":
-                    return "Jecca Bilason";
-                case "kimberly.realbreeze@gmail.com":
-                    return "Kimberly Pangubatan";
-                case "tin.realbreeze@gmail.com":
-                    return "Christine Cubelo";
-                case "ruel@gmail.com":
-                    return "Ruel Bigcas";
                 default:
                     return "Elvie S. Salvatierra ";
             }
@@ -2025,24 +2013,10 @@ namespace JobsV1.Controllers
         {
             switch (staffLogin)
             {
-                case "josette.realbreeze@gmail.com":
-                    return "/Images/Signature/JoSign.jpg";
-                case "mae.realbreeze@gmail.com":
-                    return "/Images/Signature/MaeSign.jpg";
-                case "ramil.realbreeze@gmail.com":
-                    return "/Images/Signature/RamSign.jpg";
                 case "grace.realbreeze@gmail.com":
                     return "/Images/Signature/GraceSign.jpg";
                 case "assalvatierra@gmail.com":
                     return "/Images/Signature-1.png";
-                case "jecca.realbreeze@gmail.com":
-                    return "/Images/Signature/JeccaSign.jpg";
-                case "kimberly.realbreeze@gmail.com":
-                    return "/Images/Signature/KimSign.jpg";
-                case "tin.realbreeze@gmail.com":
-                    return "/Images/Signature/TinSign.jpg";
-                case "ruel@gmail.com":
-                    return "/Images/Signature/RuelSign.jpg";
                 default:
                     return "/Images/Signature-1.png";
             }
