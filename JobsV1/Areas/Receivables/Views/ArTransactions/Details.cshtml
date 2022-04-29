@@ -152,10 +152,10 @@
                     @payments.ArPayment.Amount.ToString("#,##0.00")
                 </td>
                 <td>
-                    @if (Model.ArTransStatusId < 3)
+                    @*@if (Model.ArTransStatusId < 3)
                     {
                         @Html.ActionLink("Edit", "EditTransPayment", "ArPayments", new { id = payments.Id, transId = Model.Id }, null)
-                    }
+                    }*@
 
                     @Html.ActionLink("Edit", "EditTransPayment", "ArPayments", new { id = payments.Id, transId = Model.Id }, null)
                     @*@Html.ActionLink("Delete", "DeleteTransPayment", "ArPayments", new { id = payments.Id }, null)*@

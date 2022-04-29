@@ -198,7 +198,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         }
 
 
-        // GET: ArPayments/Edit/5
+        // GET: ArPayments/EditTransPayment/5?transId=5
         public ActionResult EditTransPayment(int? id, int transId)
         {
             if (id == null)
