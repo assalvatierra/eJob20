@@ -461,14 +461,16 @@ namespace JobsV1.Controllers
             else
             {
                 //handle user roles
-                if (User.IsInRole("Admin"))
-                {
-                    custList = custdb.GetCustomerAdminList(search, status, sort);
-                }
-                else
-                {
-                    custList = custdb.GetCustomerList(search, status, sort, user);
-                }
+                //if (User.IsInRole("Admin"))
+                //{
+                //    custList = custdb.GetCustomerAdminList(search, status, sort);
+                //}
+                //else
+                //{
+                //    custList = custdb.GetCustomerList(search, status, sort, user);
+                //}
+
+                custList = custdb.GetCustomerAdminList(search, status, sort);
             }
 
             //convert list to json object
