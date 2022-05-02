@@ -16,6 +16,8 @@
     //decimal SubTotalDeductions = 0;
     decimal SubTotalOT = 0;
     bool IncludeOT = !Model.ExcludeOT;
+
+    int salaryId = ViewBag.SalaryId;
 }
 
 <h2>Salary Details</h2>
@@ -123,7 +125,7 @@
                 <td> @CA.Amount.ToString("#,##0") </td>
                 <td>  </td>
                 <td>
-                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = CA.crLogCashGroups.First().Id }) |
+                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = CA.crLogCashGroups.First().crLogCashReleaseId, salaryId = salaryId }) |
                     @Html.ActionLink("Delete", "DeleteSalaryGroup", new { id = CA.crLogCashGroups.First().Id })
                 </td>
             </tr>
@@ -140,7 +142,7 @@
                 <td> @CA.Amount.ToString("#,##0") </td>
                 <td>  </td>
                 <td>
-                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = CA.crLogCashGroups.First().Id }) |
+                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = CA.crLogCashGroups.First().crLogCashReleaseId, salaryId = salaryId }) |
                     @Html.ActionLink("Delete", "DeleteSalaryGroup", new { id = CA.crLogCashGroups.First().Id })
                 </td>
             </tr>
@@ -190,7 +192,7 @@
                 <td> - @contribution.Amount </td>
                 <td>  </td>
                 <td>
-                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = contribution.crLogCashGroups.First().Id }) |
+                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = contribution.crLogCashGroups.First().crLogCashReleaseId, salaryId = salaryId }) |
                     @Html.ActionLink("Delete", "DeleteSalaryGroup", new { id = contribution.crLogCashGroups.First().Id })
                 </td>
             </tr>
@@ -206,7 +208,7 @@
                 <td> - @payment.Amount </td>
                 <td>  </td>
                 <td>
-                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = payment.crLogCashGroups.First().Id }) |
+                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = payment.crLogCashGroups.First().crLogCashReleaseId, salaryId = salaryId }) |
                     @Html.ActionLink("Delete", "DeleteSalaryGroup", new { id = payment.crLogCashGroups.First().Id })
                 </td>
             </tr>
@@ -223,7 +225,7 @@
                 <td> - @other.Amount </td>
                 <td>  </td>
                 <td>
-                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = other.crLogCashGroups.First().Id }) |
+                    @Html.ActionLink("Edit", "EditCashTransaction", new { id = other.crLogCashGroups.First().crLogCashReleaseId, salaryId = salaryId }) |
                     @Html.ActionLink("Delete", "DeleteSalaryGroup", new { id = other.crLogCashGroups.First().Id })
                 </td>
             </tr>

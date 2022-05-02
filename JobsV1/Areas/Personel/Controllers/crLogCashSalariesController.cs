@@ -65,7 +65,7 @@ namespace JobsV1.Areas.Personel.Controllers
             crLogCashSalaryViewModel salary = GetCashSalaryRequests(crLogCashSalary);
 
             ViewBag.CABalance = GetCABalance(crLogCashSalary.crLogDriverId);
-
+            ViewBag.SalaryId = id;
             return View(salary);
         }
 
@@ -390,9 +390,9 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         // GET: Personel/CarRentalCashRelease/Edit/5
-        public ActionResult EditCashTransaction(int? id)
+        public ActionResult EditCashTransaction(int? id, int salaryId)
         {
-            if (id == null)
+            if (id == null || salaryId == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -404,6 +404,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogCashRelease.crLogDriverId);
             ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogCashRelease.crLogClosingId);
             ViewBag.crLogCashTypeId = new SelectList(db.crLogCashTypes, "Id", "Description", crLogCashRelease.crLogCashTypeId);
+            ViewBag.salaryId = salaryId;
             return View(crLogCashRelease);
         }
 
@@ -412,13 +413,13 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditCashTransaction([Bind(Include = "Id,DtRelease,Amount,Remarks,crLogDriverId,crLogClosingId,crLogCashTypeId")] crLogCashRelease crLogCashRelease)
+        public ActionResult EditCashTransaction([Bind(Include = "Id,DtRelease,Amount,Remarks,crLogDriverId,crLogClosingId,crLogCashTypeId")] crLogCashRelease crLogCashRelease, int salaryId)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(crLogCashRelease).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", new { crLogCashRelease.crLogCashGroups.FirstOrDefault().crLogCashSalaryId });
+                return RedirectToAction("Details", new { id = salaryId });
             }
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogCashRelease.crLogDriverId);
             ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogCashRelease.crLogClosingId);

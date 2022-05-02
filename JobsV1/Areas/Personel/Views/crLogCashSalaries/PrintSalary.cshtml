@@ -9,6 +9,8 @@
     decimal TotalOT = 0;
 
     decimal SubTotalSalary = 0;
+    decimal SubTotalSalaryCA = 0;
+    decimal SubTotalSalaryCAOT = 0;
     decimal SubTotalCA = 0;
     decimal SubTotalCAPayment = 0;
     decimal SubTotalContributions = 0;
@@ -141,7 +143,7 @@
                         }
 
                         @{
-                            SubTotalSalary += SubTotalCA;
+                            SubTotalSalaryCA = SubTotalSalary + SubTotalCA;
                         }
                         <tr style="border-top:1px solid gray !important;">
                             <td colspan="2">
@@ -150,7 +152,7 @@
                                 Subtotal
                             </td>
                             <td>
-                                @SubTotalSalary.ToString("#,##0.00")
+                                @SubTotalSalaryCA.ToString("#,##0.00")
                             </td>
                             <td>
                                 @if (IncludeOT)
@@ -162,7 +164,7 @@
                         @{
                             if (IncludeOT)
                             {
-                                SubTotalSalary += SubTotalOT;
+                                SubTotalSalaryCAOT = SubTotalSalaryCA + SubTotalOT;
                             }
                         }
 
@@ -226,7 +228,7 @@
                             </td>
                         </tr>
                         @{
-                            TotalSalary = SubTotalSalary - TotalDeductions;
+                            TotalSalary = SubTotalSalaryCAOT - TotalDeductions;
                         }
                         <tr style="border-top:1px solid gray !important;">
                             <td colspan="2">
@@ -357,7 +359,7 @@
                                 Subtotal
                             </td>
                             <td>
-                                @SubTotalSalary.ToString("#,##0.00")
+                                @SubTotalSalaryCA.ToString("#,##0.00")
                             </td>
                             <td>
                                 @if (IncludeOT)
