@@ -296,7 +296,6 @@ namespace JobsV1.Models
             return Eusers;
         }
 
-
         public IEnumerable<AppUser> getUsersModulesTest(int moduleId)
         {
             //all users
@@ -338,7 +337,6 @@ namespace JobsV1.Models
             return Eusers;
         }
 
-
         public getItemSchedReturn ItemSchedules()
         {
             #region get itemJobs
@@ -357,7 +355,10 @@ namespace JobsV1.Models
 
             List<ItemSchedule> ItemSched = new List<ItemSchedule>();
             int NoOfDays = 20;
+
             DateTime dtStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+
+            dtStart = dtStart.AddDays(-3);
 
             ItemSched = GetUnitsSchedule(itemJobs);
             ItemSched.AddRange(GetOtherUnitsSchedule(itemJobs));
@@ -383,13 +384,14 @@ namespace JobsV1.Models
             return dReturn;
         }
 
-
         private List<ItemSchedule> GetUnitsSchedule(List<cItemSchedule> itemJobs)
         {
 
             int NoOfDays = 20;
             DateTime dtStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
             List<ItemSchedule> ItemSched = new List<ItemSchedule>();
+
+            dtStart = dtStart.AddDays(-3);
 
             var InvItems = db.InvItems.Where(s => s.OrderNo <= 200).ToList().OrderBy(s => s.OrderNo);
             var InvItemsOthers = db.InvItems.Where(s => s.OrderNo > 200).ToList().OrderBy(s => s.OrderNo);
@@ -462,6 +464,8 @@ namespace JobsV1.Models
             List<ItemSchedule> ItemSched = new List<ItemSchedule>();
 
             DateTime dtStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+
+            dtStart = dtStart.AddDays(-3);
 
             var InvItemsOthers = db.InvItems.Where(s => s.OrderNo > 200).ToList().OrderBy(s => s.OrderNo);
 
@@ -783,7 +787,8 @@ namespace JobsV1.Models
 
         }
 
-
+        //For JobListing
+        //Get Ongoing Jobs
         public List<cJobConfirmed> getJobConfirmedListing(int sortid)
         {
             List<cJobConfirmed> joblist = new List<cJobConfirmed>();
@@ -989,7 +994,6 @@ namespace JobsV1.Models
             return total;
         }
 
-
         protected string GetIPAddress()
         {
             System.Web.HttpContext context = System.Web.HttpContext.Current;
@@ -1007,7 +1011,6 @@ namespace JobsV1.Models
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
-
         public string UserRemoveEmail(string input)
         {
             try
@@ -1023,7 +1026,6 @@ namespace JobsV1.Models
             }
 
         }
-
 
         //------ Trip Listing ----- //
         #region TripListing

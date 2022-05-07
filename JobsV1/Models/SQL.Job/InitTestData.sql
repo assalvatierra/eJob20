@@ -748,3 +748,22 @@ SELECT TOP (1) act.DtPerformed FROM ApActions act
 
 ---- GET JOB LINK COUNT 0----
 SELECT Id FROM ArTransactions ar WHERE ar.InvoiceId = 101
+
+
+
+--- GET JOB DFETAILS
+
+SELECT Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MIN(job.DtEnd), JobEncodeDate = MIN(job.jobDate),
+	                                Description = MIN(job.Description), Customer = MIN(job.Customer), Status = MIN(job.JobStatusId)  
+	                                FROM ( SELECT jm.Id,  jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,  jm.jobDate,
+		                            Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
+		                            FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
+		                            WHERE job.Id = 17
+
+
+
+                                    SELECT jm.Id,  jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,  jm.jobDate,
+		                            Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
+		                            FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId  WHERE jm.Id = 17
+
+SELECT j.Id FROM JobMains j WHERE j.JobStatusId < 4 AND j.JobDate < GETDATE() AND MONTH(j.JobDate) != MONTH(GETDATE()) 

@@ -241,6 +241,8 @@ namespace JobsV1.Models
                 joTmp.Services = new List<cJobService>();
                 joTmp.Main.AgreedAmt = 0;
                 joTmp.Payment = 0;
+                joTmp.DtStart = GetMinMaxServiceDate(main.Id, "min");
+                joTmp.DtEnd = GetMinMaxServiceDate(main.Id, "max");
 
                 List<Models.JobServices> joSvc = db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).ToList();
                 foreach (var svc in joSvc)
@@ -954,16 +956,16 @@ namespace JobsV1.Models
             //update jobdate
             var main = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault();
 
-            DateTime minDate = main.JobDate;
-            DateTime maxDate = main.JobDate;
+            DateTime minDate = main.JobDate.Date;
+            DateTime maxDate = main.JobDate.Date;
 
             //loop though all jobservices in the jobmain
             //to get the latest date
             foreach (var svc in db.JobServices.Where(s => s.JobMainId == mainId).OrderBy(s => s.DtStart))
             {
 
-                var svcDtStart = (DateTime)svc.DtStart;
-                var svcDtEnd = (DateTime)svc.DtEnd;
+                var svcDtStart = ((DateTime)svc.DtStart);
+                var svcDtEnd = ((DateTime)svc.DtEnd);
                 //get min date
 
                 if (count == 1)

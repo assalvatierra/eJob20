@@ -84,25 +84,10 @@
         {
             <tr>
                 <td>
-                    @if (@item.Services.FirstOrDefault() != null)
-                    {
-                        string s1 = ((DateTime)item.Services.FirstOrDefault().Service.DtStart).ToString("MMM-dd (ddd)");
-                        @s1
-                    }
-                    else
-                    {
-                        string s1 = (item.Main.JobDate).ToString("MMM-dd (ddd)");
-                        @s1
-
-                    }
+                    @item.DtStart.ToString("MMM-dd (ddd)")
                 </td>
                 <td class="td-bordered">
-                    @if (@item.Services.FirstOrDefault() != null)
-                    {
-
-                        string s2 = ((DateTime)item.Services.LastOrDefault().Service.DtEnd).ToString("MMM-dd (ddd)");
-                        @s2
-                    }
+                    @item.DtEnd.ToString("MMM-dd (ddd)")
                 </td>
                 <td style="color:black;" >
                     @if (item.Main.JobStatus.Status == "INQUIRY")
@@ -118,6 +103,11 @@
                             <br />
                             <span>
                                 @item.Main.Description
+                            </span>
+                            <br />
+                            <span>
+                                @item.Main.JobRemarks
+                                @item.Main.StatusRemarks
                             </span>
                         </p>
                         <span style="color:forestgreen;padding-left:0px;">
@@ -211,32 +201,32 @@
                         @Html.ActionLink(" Job Details ", "JobServices", new { JobMainId = item.Main.Id }, new { @class = "btn btn-default", @type = "button" })
                         @Html.ActionLink(" Job Summary ", "JobSummaryDetails", "Reporting", new { area = "", id = item.Main.Id }, new { target = "_blank", @class = "btn btn-default", @type = "button" })
                         @*<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <ul class="dropdown-menu">
-            <li>
-                @Html.ActionLink(" Booking ", "BookingDetails", new { id = item.Main.Id }, null)
-            </li>
-            <li>
-                @Html.ActionLink(" Invoice ", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
-            </li>
-            <li>
-                @Html.ActionLink(" Payment ", "Payments", "JobPayments", new { id = item.Main.Id }, null)
-            </li>
-            <li>
-                @Html.ActionLink(" Expenses ", "CashExpenses", "JobExpenses", new { jobId = item.Main.Id }, null)
-            </li>
-            <li>
-                @Html.ActionLink(" Text Confirmation ", "TextConfirmation", new { id = item.Main.Id }, null)
-            </li>
-            <li>
-            <li role="separator" class="divider"></li>
-            <li>
-                @Html.ActionLink(" Send Invoice ", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)
-            </li>
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                @Html.ActionLink(" Booking ", "BookingDetails", new { id = item.Main.Id }, null)
+                            </li>
+                            <li>
+                                @Html.ActionLink(" Invoice ", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
+                            </li>
+                            <li>
+                                @Html.ActionLink(" Payment ", "Payments", "JobPayments", new { id = item.Main.Id }, null)
+                            </li>
+                            <li>
+                                @Html.ActionLink(" Expenses ", "CashExpenses", "JobExpenses", new { jobId = item.Main.Id }, null)
+                            </li>
+                            <li>
+                                @Html.ActionLink(" Text Confirmation ", "TextConfirmation", new { id = item.Main.Id }, null)
+                            </li>
+                            <li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                @Html.ActionLink(" Send Invoice ", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)
+                            </li>
 
-        </ul>*@
+                        </ul>*@
                     </div>
 
                 </td>
@@ -293,26 +283,12 @@
             {
                 temp_income = 0;
                 <tr>
+                   
                     <td>
-                        @if (@item.Services.FirstOrDefault() != null)
-                        {
-                            string s1 = ((DateTime)item.Services.FirstOrDefault().Service.DtStart).ToString("MMM-dd (ddd)");
-                            @s1
-                        }
-                        else
-                        {
-                            string s1 = (item.Main.JobDate).ToString("MMM-dd (ddd)");
-                            @s1
-
-                        }
+                        @item.DtStart.ToString("MMM-dd (ddd)")
                     </td>
                     <td>
-                        @if (@item.Services.FirstOrDefault() != null)
-                        {
-
-                            string s2 = ((DateTime)item.Services.LastOrDefault().Service.DtEnd).ToString("MMM-dd (ddd)");
-                            @s2
-                        }
+                        @item.DtEnd.ToString("MMM-dd (ddd)")
                     </td>
                     <td>
                         @if (item.Main.JobStatus.Status == "INQUIRY")
@@ -393,10 +369,6 @@
                                 / ---
                             </span>
                         }
-
-
-
-
 
                         <!--Income-->
                         @{ temp_income = item.Payment - item.Expenses; }
@@ -500,26 +472,12 @@
             @foreach (var item in ViewBag.olderOpenJobs as IEnumerable<JobsV1.Controllers.cJobOrder>)
             {
                 <tr>
+                   
                     <td>
-                        @if (@item.Services.FirstOrDefault() != null)
-                        {
-                            string s1 = ((DateTime)item.Services.FirstOrDefault().Service.DtStart).ToString("MMM-dd yyyy (ddd)");
-                            @s1
-                        }
-                        else
-                        {
-                            string s1 = (item.Main.JobDate).ToString("MMM-dd yyyy (ddd)");
-                            @s1
-
-                        }
+                        @item.DtStart.ToString("MMM-dd (ddd)")
                     </td>
                     <td>
-                        @if (@item.Services.FirstOrDefault() != null)
-                        {
-
-                            string s2 = ((DateTime)item.Services.LastOrDefault().Service.DtEnd).ToString("MMM-dd yyyy (ddd)");
-                            @s2
-                        }
+                        @item.DtEnd.ToString("MMM-dd (ddd)")
                     </td>
                     <td>
                         @if (item.Main.JobStatus.Status == "INQUIRY")
@@ -528,7 +486,6 @@
                                 <span style="font-weight:bold;">
                                     @item.Company
                                 </span>
-
                                 <span>/</span>
                                 <span>@item.Main.Customer.Name</span>
 
@@ -555,6 +512,11 @@
                                 <span>
                                     @item.Main.Description
                                 </span>
+                            <br />
+                            <span>
+                                @item.Main.JobRemarks
+                                @item.Main.StatusRemarks
+                            </span>
                                 <span>
                                     [ @item.Main.JobStatus.Status ]
                                 </span>
@@ -618,11 +580,11 @@
                     </td>
                     <td>
                         @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
-                        @Html.ActionLink("[ Booking ]", "BookingDetails", new { id = item.Main.Id }, null)
-                        @Html.ActionLink("[ Invoice ]", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
                         @Html.ActionLink("[ Payment ]", "Payments", "JobPayments", new { id = item.Main.Id }, null)
+                        @*@Html.ActionLink("[ Booking ]", "BookingDetails", new { id = item.Main.Id }, null)
+                        @Html.ActionLink("[ Invoice ]", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
                         @Html.ActionLink("[ Expenses ]", "CashExpenses", "JobExpenses", new { jobId = item.Main.Id }, null)
-                        @Html.ActionLink("[ Send Invoice ]", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)
+                        @Html.ActionLink("[ Send Invoice ]", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)*@
                         @Html.ActionLink("[ Job Summary Details ]", "JobSummaryDetails", "Reporting", new { area = "", id = item.Main.Id }, new { target = "_blank" })
                         <a class="cursor-hand" onclick="CloseJob(this, '@item.Main.Id')"> [ Close Job ] </a>
                         <a class="cursor-hand" onclick="CancelJob(this, '@item.Main.Id')"> [ Cancel Job ] </a>

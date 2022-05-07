@@ -31,6 +31,8 @@ namespace JobsV1.Controllers
         public decimal Expenses { get; set; }
         public string  Company { get; set; }
         public bool isPosted { get; set; }
+        public DateTime DtStart { get; set; }
+        public DateTime DtEnd { get; set; }
     }
 
     public class cJobService
@@ -250,6 +252,8 @@ namespace JobsV1.Controllers
                 joTmp.Main.AgreedAmt = 0;
                 joTmp.Payment = 0;
                 joTmp.Expenses = 0;
+                joTmp.DtStart = jo.GetMinMaxServiceDate(main.Id, "min");
+                joTmp.DtEnd = jo.GetMinMaxServiceDate(main.Id, "max");
 
                 List<Models.JobServices> joSvc = db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).ToList();
                 foreach (var svc in joSvc)
@@ -316,7 +320,7 @@ namespace JobsV1.Controllers
 
                     //Old Open jobs
                     var olderJobsIds = dbc.olderOpenJobs().Select(s => s.Id);  //get list of older jobs that are not closed
-                    var OldJobs = jo.GetJobListing(olderJobsIds);
+                    var OldJobs = jo.GetJobListing(olderJobsIds).Where(s=>s.DtStart < today);
                     ViewBag.olderOpenJobs = OldJobs;
 
 
