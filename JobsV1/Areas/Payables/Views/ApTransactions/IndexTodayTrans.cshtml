@@ -235,6 +235,10 @@
                         {
                             <span class="label label-info">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
 
+                            if (item.IsFunded == true)
+                            {
+                                <p style="padding-top:1px;"><span class="label label-info"> Funded </span> </p>
+                            }
                         }
                         else if (item.ApTransStatusId == STATUS_RELEASED)
                         {
@@ -345,6 +349,11 @@
                                     else if (item.ApTransStatusId == STATUS_APPROVED)
                                     {
                                         <a class="cursor-link" style="cursor:pointer;" onclick="ShowReleaseModal(@item.Id,'@item.Description', @item.BudgetAmt, '@item.ApTransType.Type')"> Release </a>
+                                        if (item.IsFunded == null || item.IsFunded == false)
+                                        {
+                                            <a class="cursor-link" style="cursor:pointer;" onclick="FundedTrans(this, '@item.Id')"> Funded </a>
+                                        }
+
 
                                         if (!item.IsPrinted && item.ApTransTypeId == TYPE_PO)
                                         {

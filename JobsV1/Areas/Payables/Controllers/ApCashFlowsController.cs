@@ -77,8 +77,9 @@ namespace JobsV1.Areas.Payables.Controllers
 
             apCashFlow.PerformedBy = GetUser();
 
+            int pettyCashDefault = db.ApAccounts.Where(a => a.Name == "Petty Cash").FirstOrDefault().Id;
             ViewBag.ApCashFlowTypeId = new SelectList(db.ApCashFlowTypes, "Id", "Type", 2);
-            ViewBag.ApAccountId = new SelectList(db.ApAccounts, "Id", "Name", 2);
+            ViewBag.ApAccountId = new SelectList(db.ApAccounts, "Id", "Name", pettyCashDefault);
             return View(apCashFlow);
         }
 
