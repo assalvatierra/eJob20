@@ -9,7 +9,7 @@
     var paramDefault = new
     {
         startDate = ViewBag.FilteredsDate,
-        endDate = ViewBag.FilteredsDate,
+        endDate = ViewBag.FilteredeDate,
         unit = ViewBag.FilteredUnit,
         driver = ViewBag.FilteredDriver,
         company = ViewBag.FilteredCompany,
@@ -134,10 +134,9 @@
                                 <input type="text" name="endDate" id="filter-edate" class="form-control" />
                             </div>
 
-
                             <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
                                 <label for="filter-unit">Unit:</label>
-                                <select name="unit" id="filter-unit" class="form-control">
+                                <select name="unit" id="filter-unit" class="form-control dropdown-search" style="width:95%;">
                                     <option value="all">All</option>
                                     @foreach (var unit in ViewBag.crLogUnitList as List<JobsV1.Areas.Personel.Models.crLogUnit>)
                                     {
@@ -148,7 +147,7 @@
 
                             <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
                                 <label for="filter-driver">Driver:</label>
-                                <select name="driver" id="filter-driver" class="form-control">
+                                <select name="driver" id="filter-driver" class="form-control dropdown-search" style="width:95%;">
                                     <option value="all">All</option>
                                     @foreach (var unit in ViewBag.crLogDriverList as List<JobsV1.Areas.Personel.Models.crLogDriver>)
                                     {
@@ -159,7 +158,7 @@
 
                             <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
                                 <label for="filter-company">Company:</label>
-                                <select name="company" id="filter-company" class="form-control">
+                                <select name="company" id="filter-company" class="form-control ">
                                     <option value="all">All</option>
                                     @foreach (var unit in ViewBag.crLogCompanyList as List<JobsV1.Areas.Personel.Models.crLogCompany>)
                                     {
@@ -211,7 +210,7 @@
         <th id="tb-hd-AllowEdit" hidden>
             <a class="cursor-hand" onclick="AllowEditAll()"> Edit All </a>
         </th>
-        <th width="100">
+        <th width="80">
             Date
         </th>
         <th>
@@ -247,8 +246,8 @@
         <th>
             Driver&nbsp;OT
         </th>
-        <th>
-            Pass
+        <th width="50">
+            Time
         </th>
         <th></th>
     </tr>
@@ -311,7 +310,7 @@
                 @item.DtTrip.ToString("MMM dd yyyy")
                 <span style="color:@color;"> @item.DtTrip.ToString(" (ddd) ")</span><br />
 
-                @if (item.IsFinal)
+                @if (item.IsFinal && item.AllowEdit == false )
                 {
                     <!-- Lock img icon -->
                     <i class="fa fa-lock" title="Locked"></i>
@@ -395,8 +394,7 @@
                 @item.DriverOT.ToString("#,##0.00")
             </td>
             <td>
-                <img src="~/Images/Icons/icons-queue.png" width="20" alt="passengers" title="passengers count" />
-                @item.crLogPassengers.Count()
+                @item.StartTime -  @item.EndTime
             </td>
             <td class="actions">
 
@@ -542,6 +540,7 @@
             $("#filter-unit").val("@ViewBag.FilteredUnit")
             $("#filter-driver").val("@ViewBag.FilteredDriver")
             $("#filter-company").val("@ViewBag.FilteredCompany")
+            $("#filter-owner").val("@ViewBag.Owner")
             $("#sort-by").val("@ViewBag.SortBy")
 
             if ("@ViewBag.FilteredsDate" != "") {
@@ -563,6 +562,9 @@
             //Handle Driver and unit duplicates
             //Shows warning flag on items that are duplicate
             checkDriverUnitDuplicate();
+
+            //For Initializing search in dropdowns form input
+            InitDropdownSearch()
         });
 
         function ShowLoading() {
@@ -574,5 +576,10 @@
         }
 
 
+        //For Initializing search in dropdowns
+        //Add class dropdown-search in dropdown inputs
+        function InitDropdownSearch() {
+            $('.dropdown-search').select2();
+        }
     </script>
 }

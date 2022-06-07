@@ -17,25 +17,25 @@
     @Html.HiddenFor(model => model.Id)
 
     <div class="form-group">
-        @Html.LabelFor(model => model.crLogDriverId, "crLogDriverId", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.crLogDriverId, "Driver", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("crLogDriverId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("crLogDriverId", null, htmlAttributes: new { @class = "form-control dropdown-search" })
             @Html.ValidationMessageFor(model => model.crLogDriverId, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.crLogUnitId, "crLogUnitId", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.crLogUnitId, "Unit", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("crLogUnitId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("crLogUnitId", null, htmlAttributes: new { @class = "form-control dropdown-search" })
             @Html.ValidationMessageFor(model => model.crLogUnitId, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.crLogCompanyId, "crLogCompanyId", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.crLogCompanyId, "Company", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("crLogCompanyId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("crLogCompanyId", null, htmlAttributes: new { @class = "form-control dropdown-search" })
             @Html.ValidationMessageFor(model => model.crLogCompanyId, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -57,7 +57,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.AddonOT, "AddOn OT Rate", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.AddonOT, "AddOn OT", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.AddonOT, new { htmlAttributes = new { @class = "form-control", @maxlength = "10" } })
             @Html.ValidationMessageFor(model => model.AddonOT, "", new { @class = "text-danger" })
@@ -223,6 +223,15 @@
             if ($("#TripHours-textbox").val() == "") {
                 $("#TripHours-textbox").val("12");
             }
+
+            InitDropdownSearch();
         });
+
+
+        //For Initializing search in dropdowns
+        //Add class dropdown-search in dropdown inputs
+        function InitDropdownSearch() {
+            $('.dropdown-search').select2();
+        }
     </script>
 }

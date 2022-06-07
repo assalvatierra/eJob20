@@ -20,3 +20,14 @@ $(function () {
 
     });
 });
+
+
+/*
+ * Dropdown Search
+ */
+
+//For Initializing search in dropdowns
+//Add class dropdown-search in dropdown inputs
+function InitDropdownSearch() {
+    $('.dropdown-search').select2();
+}
