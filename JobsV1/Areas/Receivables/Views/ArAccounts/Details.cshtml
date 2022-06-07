@@ -10,6 +10,11 @@
     decimal totalBalance = 0;
     decimal runninBalance = 0;
     decimal totalPaid = 0;
+
+    int STATUS_SENT = 4;
+    int STATUS_SETTLEMENT = 5;
+    int STATUS_CLOSED = 6;
+    int STATUS_CANCELLED = 7;
 }
 <h2>Details</h2>
 <p>
@@ -264,78 +269,94 @@
         <th> </th>
     </tr>
 
-    @foreach (var transaction in Model.ArTransactions)
+    @foreach (var transaction in Model.ArTransactions.Where(t => t.ArTransStatusId < STATUS_CANCELLED))
     {
         decimal transPayment = 0;
-<tr>
-    <td>
-        @transaction.Id
-    </td>
-    <td>
-        @transaction.InvoiceId
-    </td>
-    <td>
-        @transaction.DtInvoice.ToString("MMM dd yyyy")
-    </td>
-    <td>
-        @transaction.Description
-    </td>
-    <td>
-        @transaction.DtService.ToString("MMM dd yyyy") -
 
-        @if (transaction.DtServiceTo != null)
+        //get total amount
+        if (transaction.ArTransStatusId == STATUS_SENT ||
+                      transaction.ArTransStatusId == STATUS_SETTLEMENT)
         {
-            var dateServiceTo = (DateTime)transaction.DtServiceTo;
-            <span>
-                @dateServiceTo.ToString("MMM dd yyyy")
-            </span>
-        }
-    </td>
-    <td>
-        @transaction.DtDue.ToString("MMM dd yyyy")
-    </td>
-    <td>
-        @transaction.Remarks
-    </td>
-    <td>
-        @transaction.ArTransStatu.Status
-    </td>
-    <td>
-        @transaction.Amount.ToString("#,##0.00")
-        @{
             totalReceivableAmount = totalReceivableAmount + transaction.Amount;
         }
-    </td>
-    <td>
-        @foreach (var payment in transaction.ArTransPayments)
+
+        //get total payments
+        foreach (var payment in transaction.ArTransPayments)
         {
             transPayment = transPayment + payment.ArPayment.Amount;
-            totalPaid = totalPaid + payment.ArPayment.Amount;
+            if (transaction.ArTransStatusId == STATUS_SENT ||
+                transaction.ArTransStatusId == STATUS_SETTLEMENT)
+            {
+                totalPaid = totalPaid + payment.ArPayment.Amount;
+            }
+        }
+        <tr>
+            <td>
+                @transaction.Id
+            </td>
+            <td>
+                @transaction.InvoiceId
+            </td>
+            <td>
+                @transaction.DtInvoice.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @transaction.Description
+            </td>
+            <td>
+                @transaction.DtService.ToString("MMM dd yyyy") -
 
-        }
-        <span>
-            @if (transPayment > 0)
-            {
-                @transPayment.ToString("#,##0.00")
-            }
-        </span>
-    </td>
-    <td>
-        @{
-            if (transaction.ArTransStatusId == 4)
-            {
-                runninBalance = runninBalance + (transaction.Amount - transPayment);
-            }
-        }
-        @runninBalance.ToString("#,##0.00")
-    </td>
-    <td>
-        @Html.ActionLink("Details", "Details", "ArTransactions", new { id = transaction.Id }, null)
-    </td>
-</tr>
+                @if (transaction.DtServiceTo != null)
+                {
+                    var dateServiceTo = (DateTime)transaction.DtServiceTo;
+                    <span>
+                        @dateServiceTo.ToString("MMM dd yyyy")
+                    </span>
+                }
+            </td>
+            <td>
+                @transaction.DtDue.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @transaction.Remarks
+            </td>
+            <td>
+                @transaction.ArTransStatu.Status
+            </td>
+            <td>
+                @transaction.Amount.ToString("#,##0.00")
+
+            </td>
+            <td>
+
+                <span>
+                    @if (transPayment > 0)
+                    {
+                        @transPayment.ToString("#,##0.00")
+                    }
+                </span>
+            </td>
+            <td>
+                @{
+                    if (transaction.ArTransStatusId == STATUS_SENT)
+                    {
+                        runninBalance = runninBalance + (transaction.Amount - transPayment);
+                    }
+                }
+
+                @if (transaction.ArTransStatusId != STATUS_CLOSED)
+                {
+                    @runninBalance.ToString("#,##0.00")
+                }
+
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", "ArTransactions", new { id = transaction.Id }, null)
+            </td>
+        </tr>
     }
     <tr style="font-weight:600;">
-        <td colspan="7">
+        <td colspan="8">
             <span class="pull-right"> Total </span>
         </td>
         <td>
@@ -348,13 +369,12 @@
         </td>
     </tr>
     <tr>
-
     </tr>
     <tr style="font-weight:600;">
         @{
             totalBalance = totalReceivableAmount - totalPaid;
         }
-        <td colspan="7">
+        <td colspan="8">
             <span class="pull-right"> Balance </span>
         </td>
         <td>

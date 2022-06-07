@@ -96,7 +96,7 @@
         Payments
     </h3>
     <p>
-        @if (!isClosed && Model.ArTransStatusId < 4)
+        @if ( Model.ArTransStatusId < 4)
         {
             @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = Model.Id }, null)
         }
@@ -171,7 +171,7 @@
             </td>
         </tr>
     </table>
-
+    </div>
 
     @if (!isClosed && Model.ArTransStatusId < 4)
     {
