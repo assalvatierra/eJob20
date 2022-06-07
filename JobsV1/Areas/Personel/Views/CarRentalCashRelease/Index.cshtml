@@ -40,9 +40,18 @@
 
 </p>
 <p>
-    <button type="button" class="btn btn-default" id="approveAll-Btn" onclick="ApproveSelectedItems()" style="display:none">
-        Approve Selected
-    </button>
+    @if (StatusId == STATUS_REQUEST)
+    {
+        <button type="button" class="btn btn-default" id="approveAll-Btn" onclick="ApproveSelectedItems()" style="display:none">
+            Approve Selected
+        </button>
+    }
+    @if (StatusId == STATUS_APPROVED)
+    {
+        <button type="button" class="btn btn-default" id="releaseAllBtn" onclick="ReleaseSelectedItems()" style="display:none">
+            Release Selected
+        </button>
+    }
 </p>
 
 <table class="table" id="cashTrans-Table">
@@ -51,6 +60,12 @@
         {
             <th id="tb-hd-forApproval">
                 <a class="cursor-hand" onclick="CheckAll()"> Check All </a>
+            </th>
+        }
+        @if (StatusId == STATUS_APPROVED)
+        {
+            <th id="tb-hd-forApproval">
+                <a class="cursor-hand" onclick="CheckAllRelease()"> Check All </a>
             </th>
         }
         <th>
@@ -91,9 +106,15 @@
         }
         <tr>
             @if (StatusId == STATUS_REQUEST) {
-            <td class="item-forApproval">
-                <input type="checkbox" value="@item.Id" />
-            </td>
+                <td class="item-forApproval ">
+                    <input type="checkbox" value="@item.Id" />
+                </td>
+            }
+
+            @if (StatusId == STATUS_APPROVED) {
+                <td class="item-forRelease ">
+                    <input type="checkbox" value="@item.Id" />
+                </td>
             }
             <td>
                 @item.DtRelease.ToShortDateString()
@@ -212,48 +233,5 @@
             FilterStatus('@StatusId');
         });
 
-        function FilterStatus(statusId) {
-            switch (statusId) {
-                case '1':
-                    $("#status-request").css('color', 'black');
-                    break;
-                case '2':
-                    $("#status-approved").css('color', 'black');
-                    break;
-                case '3':
-                    $("#status-released").css('color', 'black');
-                    break;
-                case '4':
-                    $("#status-returned").css('color', 'black');
-                    break;
-                default:
-                    $("#status-request").css('color', 'black');
-                    break;
-            }
-        }
-
-        function ApproveRequest(e, id) {
-            $.post("/Personel/CarRentalCashRelease/ApproveRequest", { id: parseInt(id) }, (result) => {
-                console.log(result)
-                if (result == 'True') {
-                    //window.location.reload();
-                    $(e).parent().parent().parent().remove();
-                } else {
-                    alert("An Error occured while process your request");
-                }
-            });
-        }
-
-        function ApproveRelease(e,id) {
-            $.post("/Personel/CarRentalCashRelease/ApproveRelease", { id: parseInt(id) }, (result) => {
-                console.log(result)
-                if (result == 'True') {
-                    //window.location.reload();
-                    $(e).parent().parent().parent().remove();
-                } else {
-                    alert("An Error occured while process your request");
-                }
-            });
-        }
     </script>
 }
