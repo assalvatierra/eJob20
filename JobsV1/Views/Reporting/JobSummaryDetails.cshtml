@@ -4,17 +4,20 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 
     decimal Triplog_Rate = 0;
-    decimal Triplog_Driver = 0;
+    decimal Triplog_DriverAmount = 0;
     decimal Triplog_DriverOT = 0;
     decimal Triplog_DriverRate = 0;
 
     decimal Expenses_Amount = 0;
     decimal Expenses_Payment = 0;
 
-
     decimal Receivables_Amount = 0;
     decimal Receivables_Payment = 0;
     decimal Receivables_Deposit = 0;
+
+    decimal TotalNetAmount = 0;
+
+    int TriplogCount = 0;
 }
 
 <h2>Job Summary Details</h2>
@@ -60,9 +63,10 @@
     {
 
         Triplog_Rate += trip.Rate + trip.Addon;
-        Triplog_Driver += trip.DriverFee + trip.DriverOT;
+        Triplog_DriverAmount += trip.DriverFee + trip.DriverOT;
         Triplog_DriverRate += trip.DriverFee;
         Triplog_DriverOT += trip.DriverOT;
+        TriplogCount = TriplogCount + 1;
 
         <tr>
             <td>
@@ -88,6 +92,7 @@
     }
     <tr>
         <td colspan="4">
+            Triplog Count: @TriplogCount
         </td>
         <td>
             @Triplog_DriverRate.ToString("#,##0.00")
@@ -103,7 +108,7 @@
 
             Total <br />
             <b>
-                @Triplog_Driver.ToString("#,##0.00")
+                @Triplog_DriverAmount.ToString("#,##0.00")
             </b>
         </td>
     </tr>
@@ -146,7 +151,7 @@
             <td>
                 <a href="/Payables/ApTransactions/Details/@expense.Id">@expense.Id</a>
             </td>
-            <td>
+            <td width="120">
                 @expense.DtInvoice.ToString("MMM dd yyyy")
             </td>
             <td>
@@ -166,7 +171,7 @@
                 }
                 else
                 {
-                    <span>0.00</span>
+                 <span class="text-muted">  @expense.Amount.ToString("#,##0.00")</span>
                 }
 
             </td>
@@ -238,15 +243,27 @@
                 <br />
                 @if (receivables.ArTransPayments.Count > 0)
                 {
-                    foreach(var payments in receivables.ArTransPayments.ToList())
+                    foreach (var payments in receivables.ArTransPayments.ToList())
                     {
-                        <span class="text-muted">@payments.ArPayment.ArPaymentType.Type</span>
+                        <span class="text-muted">@payments.ArPayment.ArPaymentType.Type</span><br />
+                        <span class="text-muted">
+                            @payments.ArPayment.Remarks
+                        </span>
                     }
-                   
+
                 }
+
             </td>
             <td>
                 @receivables.ArTransDeposits.Sum(c => c.ArDeposit.Amount).ToString("#,##0.00")
+                @if (receivables.ArTransDeposits.Count > 0)
+                {
+                    foreach (var payments in receivables.ArTransDeposits.ToList())
+                    {
+                        <span class="text-muted">@payments.ArDeposit.ArDepositBank.AccountName</span>
+                    }
+
+                }
             </td>
         </tr>
     }
@@ -266,10 +283,14 @@
 
 <hr />
 
+@{  TotalNetAmount = Receivables_Payment - Expenses_Amount - Triplog_DriverAmount;  }
+
 <div style="padding:25px;background-color:#e8e8e8;">
     <h2> Summary </h2>
     <h3> Invoice Amount: <b>@Model.Amount.ToString("#,##0.00")</b></h3>
     <h3> Collected Amount:  <b>@Receivables_Payment.ToString("#,##0.00")</b></h3>
     <h3> Expense Amount:  <b>@Expenses_Amount.ToString("#,##0.00")</b></h3>
-    <h3> Drivers Amount:  <b>@Triplog_Driver.ToString("#,##0.00")</b></h3>
+    <h3> Drivers Amount:  <b>@Triplog_DriverAmount.ToString("#,##0.00")</b></h3>
+    <hr />
+    <h3> Net Amount:  <b>@TotalNetAmount.ToString("#,##0.00")</b></h3>
 </div>

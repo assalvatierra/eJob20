@@ -358,7 +358,7 @@ namespace JobsV1.Models
 
             DateTime dtStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
 
-            dtStart = dtStart.AddDays(-3);
+            dtStart = dtStart.AddDays(-1);
 
             ItemSched = GetUnitsSchedule(itemJobs);
             ItemSched.AddRange(GetOtherUnitsSchedule(itemJobs));
@@ -391,7 +391,7 @@ namespace JobsV1.Models
             DateTime dtStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
             List<ItemSchedule> ItemSched = new List<ItemSchedule>();
 
-            dtStart = dtStart.AddDays(-3);
+            dtStart = dtStart.AddDays(-1);
 
             var InvItems = db.InvItems.Where(s => s.OrderNo <= 200).ToList().OrderBy(s => s.OrderNo);
             var InvItemsOthers = db.InvItems.Where(s => s.OrderNo > 200).ToList().OrderBy(s => s.OrderNo);
@@ -465,7 +465,7 @@ namespace JobsV1.Models
 
             DateTime dtStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
 
-            dtStart = dtStart.AddDays(-3);
+            dtStart = dtStart.AddDays(-1);
 
             var InvItemsOthers = db.InvItems.Where(s => s.OrderNo > 200).ToList().OrderBy(s => s.OrderNo);
 
