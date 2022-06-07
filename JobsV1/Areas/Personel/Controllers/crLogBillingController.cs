@@ -48,6 +48,10 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     startDate = Session["triplog-startDate"].ToString();
                 }
+                else
+                {
+                    startDate = dt.GetCurrentDate().ToString();
+                }
             }
 
             if (!endDate.IsNullOrWhiteSpace())
@@ -59,6 +63,10 @@ namespace JobsV1.Areas.Personel.Controllers
                 if (Session["triplog-endDate"] != null)
                 {
                     endDate = Session["triplog-endDate"].ToString();
+                }
+                else
+                {
+                    startDate = dt.GetCurrentDate().ToString();
                 }
             }
 
@@ -158,8 +166,11 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
             ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
 
-            ViewBag.FilteredsDate = startDate;
-            ViewBag.FilteredeDate = endDate;
+            if (startDate != "")
+            {
+                ViewBag.FilteredsDate = startDate;
+                ViewBag.FilteredeDate = endDate;
+            }
             ViewBag.FilteredUnit = unit ?? "all";
             ViewBag.FilteredDriver = driver ?? "all";
             ViewBag.FilteredCompany = company ?? "all";
@@ -413,7 +424,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     startDate = Session["triplog-startDate"].ToString();
                 }
-                startDate = Session["triplog-startDate"].ToString();
+                startDate = dt.GetCurrentDate().ToString("MM/dd/yyyy");
             }
 
             if (!endDate.IsNullOrWhiteSpace())
@@ -426,7 +437,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     endDate = Session["triplog-endDate"].ToString();
                 }
-                endDate = Session["triplog-endDate"].ToString();
+                endDate = dt.GetCurrentDate().ToString("MM/dd/yyyy");
             }
 
             if (!unit.IsNullOrWhiteSpace())
@@ -517,12 +528,13 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
             ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
 
-            ViewBag.FilteredsDate = startDate;
-            ViewBag.FilteredeDate = endDate;
+            ViewBag.FilteredsDate = String.IsNullOrEmpty(startDate) ? dt.GetCurrentDate().ToString() : startDate;
+            ViewBag.FilteredeDate = String.IsNullOrEmpty(endDate) ? dt.GetCurrentDate().ToString() : endDate;
             ViewBag.FilteredUnit = unit ?? "all";
             ViewBag.FilteredDriver = driver ?? "all";
             ViewBag.FilteredCompany = company ?? "all";
             ViewBag.SortBy = sortby ?? "Date";
+            ViewBag.Owner = owner ?? "all";
 
             ViewBag.crLogUnitList = dl.GetUnits().ToList();
             ViewBag.crLogDriverList = dl.GetDrivers().ToList();
@@ -549,6 +561,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     startDate = Session["triplog-startDate"].ToString();
                 }
+
+                //startDate = dt.GetCurrentDate().ToString("MM/dd/yyyy");
             }
 
             if (!endDate.IsNullOrWhiteSpace())
@@ -561,6 +575,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     endDate = Session["triplog-endDate"].ToString();
                 }
+                //endDate = dt.GetCurrentDate().ToString("MM/dd/yyyy");
             }
 
             if (!unit.IsNullOrWhiteSpace())
@@ -669,6 +684,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.FilteredDriver = driver ?? "all";
             ViewBag.FilteredCompany = company ?? "all";
             ViewBag.SortBy = sortby ?? "Date";
+            ViewBag.Owner = owner ?? "all";
 
             ViewBag.crLogUnitList = dl.GetUnits().ToList();
             ViewBag.crLogDriverList = dl.GetDrivers().ToList();

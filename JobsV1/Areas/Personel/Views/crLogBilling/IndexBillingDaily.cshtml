@@ -38,14 +38,6 @@
     @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses")
 </p>
 <p>
-    @*@Html.ActionLink("Add New Trip", "Create") |
-        @Html.ActionLink("Copy Trip", "CopyTrip") |
-        @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
-        @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease") |*@
-    @*@Html.ActionLink("Trip Logs View", "Index") |
-        @Html.ActionLink("OT Billing", "IndexBilling", new { company = ViewBag.Company }) |
-        Daily Rate Billing |
-        @Html.ActionLink("Sunday Billing", "IndexBillingSunday")*@
     <div class="col-md-7">
         @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog", null, new { @class = " btn btn-default" })
     </div>
@@ -325,6 +317,7 @@
             $("#filter-unit").val("@ViewBag.FilteredUnit")
             $("#filter-driver").val("@ViewBag.FilteredDriver")
             $("#filter-company").val("@ViewBag.FilteredCompany")
+            $("#filter-owner").val("@ViewBag.Owner")
             $("#sort-by").val("@ViewBag.SortBy")
 
             if ("@ViewBag.FilteredsDate" != "") {
@@ -481,8 +474,6 @@
             ShowLoading();
             location.href = "/Personel/crLogBilling/PrintIndexBillingDaily"
         }
-
-
 
         function PrintBilling() {
             ShowLoading();
