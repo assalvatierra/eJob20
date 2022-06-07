@@ -81,6 +81,7 @@ namespace JobsV1.Areas.Payables.Controllers
         {
             List<ApTransaction> apTransactions;
             DateTime thisMonth = dt.GetCurrentDate();
+
             var startMonthDate = new DateTime(thisMonth.Year, thisMonth.Month, 1);
             var endMonthDate = startMonthDate.AddMonths(1).AddDays(-1);
 
@@ -283,10 +284,13 @@ namespace JobsV1.Areas.Payables.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             ApTransaction apTransaction = ap.TransactionMgr.GetTransactionById((int)id);
+
+            ap.TransactionMgr.DeleteTransActions((int)id);
+
             ap.TransactionMgr.DeleteTransaction(apTransaction);
 
             //add action log for transaction delete 
-            ap.ActionMgr.AddAction(GetUser(), apTransaction.Id, 12);
+            // ap.ActionMgr.AddAction(GetUser(), apTransaction.Id, 12);
 
             return RedirectToAction("Index");
         }
