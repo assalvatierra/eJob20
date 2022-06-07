@@ -32,6 +32,7 @@ namespace JobsV1
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
+                      "~/Scripts/BootstrapSelect/select2.min.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/flickity").Include(
@@ -57,7 +58,8 @@ namespace JobsV1
                       "~/Content/site.css",
                       "~/Content/TableStyles.css",
                       "~/Content/Chart.min.css",
-                      "~/Content/CarRental.css"
+                      "~/Content/CarRental.css",
+                      "~/Content/select2.min.css"
                       ));
 
 
