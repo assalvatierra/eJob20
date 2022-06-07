@@ -105,8 +105,8 @@ namespace JobsV1.Areas.Personel.Services
             //Filter
             if (!startDate.IsNullOrWhiteSpace() && !endDate.IsNullOrWhiteSpace())
             {
-                var sdate = DateTime.ParseExact(startDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
-                var edate = DateTime.ParseExact(endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
+                DateTime sdate = DateTime.ParseExact(startDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                DateTime edate =  DateTime.ParseExact(endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
 
                 crLogTrips = crLogTrips.Where(c => DbFunctions.TruncateTime(c.DtTrip) >= sdate && DbFunctions.TruncateTime(c.DtTrip) <= edate);
             }
@@ -548,6 +548,27 @@ namespace JobsV1.Areas.Personel.Services
                         db.crLogPassengers.RemoveRange(tripPass);
                     }
 
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteTripJobLink(int? id)
+        {
+            try
+            {
+                if (id != null)
+                {
+                    var joblink = db.crLogTripJobMains.Where(c => c.crLogTripId == id).ToList();
+                    if (joblink.Count() > 0)
+                    {
+                        db.crLogTripJobMains.RemoveRange(joblink);
+                    }
                     return true;
                 }
                 return false;

@@ -97,9 +97,9 @@ async function SelectJob(jobId,  noItems, dtStart, dtEnd) {
 
 function ConfirmTripDate(dtStart, dtEnd) {
 
-    var jobDtStart = moment(dtStart);
-    var jobDtEnd = moment(dtEnd);
-    var tripdate = moment($("#LogJobLink-TripLogDate").val());
+    var jobDtStart = moment(dtStart).format("MM/DD/YYYY");
+    var jobDtEnd = moment(dtEnd).format("MM/DD/YYYY");
+    var tripdate = moment($("#LogJobLink-TripLogDate").val()).format("MM/DD/YYYY");
 
     console.log("jobDtStart: " + jobDtStart);
     console.log("jobDtEnd: " + jobDtEnd);
@@ -194,6 +194,7 @@ async function CheckTripLogDate() {
 
     return $.get("/JobOrder/GetActiveJobById", { jobId: jobmainId })
         .then((res) => {
+
         console.log(res);
 
         var jobdetails = res;
