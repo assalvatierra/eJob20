@@ -320,11 +320,13 @@ namespace JobsV1.Areas.Personel.Controllers
             crServices = new CrLogServices(db);
             //remove passengers from trip
             crServices.DeleteTripPassengers(id);
+            crServices.DeleteTripJobLink(id);
 
             //delete trip record
             crLogTrip crLogTrip = db.crLogTrips.Find(id);
             db.crLogTrips.Remove(crLogTrip);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
