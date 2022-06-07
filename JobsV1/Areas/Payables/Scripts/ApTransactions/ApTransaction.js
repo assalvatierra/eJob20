@@ -356,7 +356,9 @@ function POST_ReturnAmount(id, amount, remarks, invoiceDate) {
         (res) => {
             if (res == "OK") {
                 UpdateStatus(id, 5); //update to return
+                //$(e).prop('disabled', false);
                 $("#ReturnAmount-Modal").modal('hide');
+                window.location.reload(false);
             }
     });
 }
