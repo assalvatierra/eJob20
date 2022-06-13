@@ -279,8 +279,16 @@
             color = "black";
         }
 
-
+        //Highlight red triplog when no job link 
+        //if trip is under office, ignore highlight
         if (item.crLogTripJobMains.Count() == 0 && item.crLogCompany.Name != "Office")
+        {
+            tripcolor = "red";
+        }
+
+        //if triplog rate is greater than 6k or less than 1k,
+        //highlight red the trip
+        if (item.Rate >= 6000 || item.Rate <= 1000)
         {
             tripcolor = "red";
         }
@@ -367,6 +375,15 @@
                 @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
+                @if (item.Rate >= 6000 )
+                {
+                    <i class="fa fa-warning" title="rate is greater than 6000"></i>
+                }
+
+                @if ( item.Rate <= 1000)
+                {
+                    <i class="fa fa-warning" title="rate is less than 1000"></i>
+                }
                 @item.Rate.ToString("#,##0.00")
             </td>
             <td>

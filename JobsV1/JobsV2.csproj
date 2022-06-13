@@ -367,6 +367,7 @@
     <Compile Include="Areas\Personel\Controllers\crLogDriverTermsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogFuelsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogOdoesController.cs" />
+    <Compile Include="Areas\Personel\Controllers\crLogOwnersController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogPassengerAreasController.cs" />
     <Compile Include="Areas\Personel\Controllers\CrLogPassengerListController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogPassengerMastersController.cs" />
@@ -1543,6 +1544,7 @@
     <Content Include="Content\Erp.css" />
     <Content Include="Content\ProductStyle.css" />
     <Content Include="Content\RptTripLog.css" />
+    <Content Include="Content\select2.min.css" />
     <Content Include="Content\sortable-theme-bootstrap.css" />
     <Content Include="Content\TableStyles.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -2210,6 +2212,7 @@
     <Content Include="Scripts\BookingRequest\DtBooking.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\BootstrapSelect\select2.min.js" />
     <Content Include="Scripts\CarRental\CarReservation.js" />
     <Content Include="Scripts\Cashier\CashierJobList.js" />
     <Content Include="Scripts\Cashier\CashierPayments.js" />
@@ -2705,6 +2708,11 @@
     <Content Include="Areas\Personel\Views\crLogDriverTerms\Details.cshtml" />
     <Content Include="Areas\Personel\Views\crLogDriverTerms\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\crLogDriverTerms\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogOwners\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogOwners\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogOwners\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogOwners\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogOwners\Index.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
