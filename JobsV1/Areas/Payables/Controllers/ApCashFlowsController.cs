@@ -77,9 +77,18 @@ namespace JobsV1.Areas.Payables.Controllers
 
             apCashFlow.PerformedBy = GetUser();
 
-            int pettyCashDefault = db.ApAccounts.Where(a => a.Name == "Petty Cash").FirstOrDefault().Id;
+            var pettyCashDefault = db.ApAccounts.Where(a => a.Name == "Petty Cash").FirstOrDefault();
+
+            if (pettyCashDefault != null)
+            {
+                ViewBag.ApAccountId = new SelectList(db.ApAccounts, "Id", "Name", pettyCashDefault.Id);
+            }
+            else
+            {
+                ViewBag.ApAccountId = new SelectList(db.ApAccounts, "Id", "Name");
+            }
+
             ViewBag.ApCashFlowTypeId = new SelectList(db.ApCashFlowTypes, "Id", "Type", 2);
-            ViewBag.ApAccountId = new SelectList(db.ApAccounts, "Id", "Name", pettyCashDefault);
             return View(apCashFlow);
         }
 
@@ -223,7 +232,6 @@ namespace JobsV1.Areas.Payables.Controllers
             }
         }
 
-
         #region Posted Cashflow
 
         public ActionResult Posted()
@@ -300,6 +308,26 @@ namespace JobsV1.Areas.Payables.Controllers
             }
         }
         #endregion
+
+        public ActionResult DailyCashIn()
+        {
+           try
+            {
+
+                var cashInList = db.ApCashFlows
+                    .Where(c => c.ApCashFlowTypeId == (int)CASHFLOWTYPE.CREDIT)
+                    .OrderByDescending(c=>c.Date)
+                    .ToList();
+
+                return View(cashInList);
+
+            }
+            catch(Exception ex)
+            {
+                //throw ex;
+                return HttpNotFound();
+            }
+        }
 
         public string GetUser()
         {
