@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 
     decimal TotalRequest = 0;
-    decimal TotalCashIn  = 0;
+    decimal TotalCashIn = 0;
     decimal TotalCashout = 0;
     decimal TotalFunded = 0;
     decimal TotalBalance = 0;
@@ -36,7 +36,7 @@
             Cash Request
         </th>
         <th>
-            Approved Request 
+            Approved Request
         </th>
         <th>
             Funded
@@ -136,43 +136,59 @@
     }
     <!-- TOTALS CALCULATIONS -->
     @{
-        TotalBalance = TotalCashIn - TotalCashout;
-        TotalProjectedBalance = TotalBalance - TotalRequest - TotalFunded;
+        TotalBalance = TotalCashIn - TotalCashout - TotalFunded;
+        TotalProjectedBalance = TotalBalance - TotalRequest;
 
-        decimal ForWithdraw = 0;
+        decimal PettyCash = 0;
+        decimal ForWithdrawPetty = 0;
+        decimal ForWithdrawActual = 0;
 
         if (TotalProjectedBalance < 4000)
         {
-            ForWithdraw = (decimal)5000 - TotalProjectedBalance;
+            ForWithdrawPetty = (decimal)5000 - TotalProjectedBalance;
         }
 
+        if (TotalProjectedBalance < 0)
+        {
+            ForWithdrawActual = TotalProjectedBalance * (-1);
+        }
 
-        TotalProjectedAfterWithdraw = TotalProjectedBalance + ForWithdraw;
+        TotalProjectedAfterWithdraw = TotalProjectedBalance + ForWithdrawPetty;
+
+        //calculate petty cash
+        if (ForWithdrawPetty > 5000)
+        {
+
+            PettyCash = ForWithdrawPetty;
+        }
+        else
+        {
+            PettyCash = ForWithdrawPetty;
+        }
     }
-    <tr>
-        <td>
-            For Withdrawal
-        </td>
-        <td class="text-info">
-            @ForWithdraw
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-    </tr>
+
+    @if (ForWithdrawActual != 0)
+    {
+
+        <tr>
+            <td>
+                For Withdrawal
+            </td>
+            <td class="text-info">
+                @ForWithdrawActual.ToString("#,##0.00")
+            </td>
+            <td colspan="4">
+            </td>
+            <td>
+            </td>
+        </tr>
+    }
     <tr>
         <td>
         </td>
         <td>
             <span class="text-muted"> Total Cash Request </span><br />
-            <span id="TotalCashIn" class="text-info">@ForWithdraw.ToString("#,##0.00")</span>
+            <span id="TotalCashIn" class="text-info">@ForWithdrawActual.ToString("#,##0.00")</span>
         </td>
         <td>
             <span class="text-muted"> Total Request </span><br />
@@ -216,18 +232,64 @@
         <td>
         </td>
     </tr>
-    <tr>
-        <td colspan="4">
-        </td>
-        <td>
-            <span class="text-muted"> After Withdrawal </span>
-        </td>
-        <td>
-            <span id="totalBalance" class="text-success">@TotalProjectedAfterWithdraw.ToString("#,##0.00")</span>
-        </td>
-        <td>
-        </td>
-    </tr>
+    @if (PettyCash > 0)
+    {
+
+        <tr>
+            <td colspan="7">
+                <b class="text-bold">  Petty Cash</b>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                For Withdrawal + Petty Cash
+            </td>
+            <td class="text-info">
+                @PettyCash.ToString("#,##0.00")
+            </td>
+            <td colspan="4">
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+            </td>
+            <td>
+                <span class="text-muted"> After Withdrawal </span>
+            </td>
+            <td>
+                <span id="totalBalance" class="text-success">@TotalProjectedAfterWithdraw.ToString("#,##0.00")</span>
+            </td>
+            <td>
+            </td>
+        </tr>
+    }
+
+    @*<tr>
+            <td>
+                To Expenses
+            </td>
+            <td class="text-info">
+                @TotalRequest.ToString("#,##0.00")
+            </td>
+            <td colspan="4">
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                To Petty Cash
+            </td>
+            <td class="text-info">
+                @pettyCash.ToString("#,##0.00")
+            </td>
+            <td colspan="4">
+            </td>
+            <td>
+            </td>
+        </tr>*@
     <tr>
         <td colspan="5">
         </td>

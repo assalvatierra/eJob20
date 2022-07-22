@@ -136,6 +136,7 @@ namespace JobsV1.Areas.Payables.Controllers
                 var today = dt.GetCurrentDateTime();
 
                 ApTransaction transaction = new ApTransaction();
+                transaction.BudgetAmt = 0;
                 transaction.Amount = 0;
                 transaction.DtEncoded = today;
                 transaction.DtInvoice = today;
