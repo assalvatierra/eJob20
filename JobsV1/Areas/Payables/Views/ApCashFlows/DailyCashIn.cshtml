@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ApModels.Models.ApCashFlow>
+
+@{
+    ViewBag.Title = "Daily Cash-in";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+}
+
+<h2>Daily Cash-In</h2>
+
+<p>
+    @Html.ActionLink("Back to Expenses", "Index", "Aptransactions") 
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            Date
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+            Amount
+        </th>
+        <th ></th>
+    </tr>
+
+    @foreach (var casflow in Model) { 
+
+        <tr>
+            <td>
+                @casflow.Date.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @casflow.Description
+            </td>
+            <td>
+                @casflow.ApCashFlowType.Type
+            </td>
+            <td>
+                @casflow.Amount.ToString("#,##0.00")
+            </td>
+        </tr>
+    }
+
+    </table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
