@@ -819,16 +819,19 @@ namespace JobsV1.Areas.Personel.Controllers
             var crlogcompany = crServices.GetcrLogCompanyByName(company);
             var billingName = "";
             var billingAddress = "";
+            var billingTIN = "";
+            var billingStyle = "";
 
             if (crlogcompany != null)
             {
                 billingName = crlogcompany.BillingName;
                 billingAddress = crlogcompany.BillingAddress;
+                billingTIN = crlogcompany.BillingTIN;
+                billingStyle = crlogcompany.BillingStyle;
             }
             else
             {
                 billingName = company;
-                billingAddress = "";
             }
 
             //get summary
@@ -850,6 +853,8 @@ namespace JobsV1.Areas.Personel.Controllers
 
             ViewBag.BillingCompany = billingName;
             ViewBag.BillingAddress = billingAddress;
+            ViewBag.BillingTIN = billingTIN;
+            ViewBag.BillingStyle = billingStyle;
 
             ViewBag.SOANum = SOANum;
             ViewBag.DateToday = dt.GetCurrentDate().ToString("MMM dd yyyy");
@@ -1283,6 +1288,8 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 case "grace.realbreeze@gmail.com":
                     return "Grace-chell V. Capandac";
+                case "jhudy.realbreeze@gmail.com":
+                    return "Jhudy Claire D. Molles";
                 case "assalvatierra@gmail.com":
                     return "Elvie S. Salvatierra ";
                 default:
@@ -1296,6 +1303,8 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 case "grace.realbreeze@gmail.com":
                     return "/Images/Signature/GraceSign.jpg";
+                case "jhudy.realbreeze@gmail.com":
+                    return "/Images/Signature/JhudySign.jpg";
                 case "assalvatierra@gmail.com":
                     return "/Images/Signature-1.png";
                 default:

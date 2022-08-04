@@ -8,6 +8,9 @@
     decimal TotalOTRate = 0;
     decimal TotalAddon = 0;
     decimal Total = 0;
+
+    string BillingTIN = ViewBag.BillingTIN;
+    string BillingStyle = ViewBag.BillingStyle;
 }
 
 <style>
@@ -29,12 +32,17 @@
         padding: 3px !important;
         padding-left: 5px !important;
     }
+
     .no-padding-child td:first-child {
         padding-left: 10px !important;
     }
 
     .with-border {
         border: 1px solid black !important;
+    }
+
+    .td-border {
+        border: 1px solid black;
     }
 
     .paper-size{
@@ -49,41 +57,120 @@
         border-left: 1px solid black;
         padding-right:5px;
     }
+
     .border-left span {
         padding: 5px;
     }
+
+    .table-bordered {
+        width: 100%;
+        border: 1px solid black;
+    }
+
+        .table-bordered > tbody > tr > td {
+            border: 1px solid black;
+        }
+
+        .table-header tr td {
+            padding: 5px;
+        }
+
+    /* Table Header*/
+
+    .table-header tr {
+        padding: 5px;
+        border: 1px solid black !important;
+    }
+
+    .table-header-logo-td {
+        padding: 5px;
+        
+    }
+
+        .table-header-logo-td > img {
+            float: left;
+
+        }
+
+    .table-header-text-td {
+        text-align: left;
+    }
+
+        .header-text-company {
+            font: bold 18px arial, verdana;
+            display: block;
+            left: -50px;
+            text-align: left;
+        }
+
+        .header-text-details {
+            font: 9px arial, verdana;
+            color: royalblue;
+            display: block;
+        }
+
+    /*Table Statement Title */
+
+    .table-statement {
+        width: 100%;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        margin-bottom: 0px;
+    }
+
+    .no-border-right {
+        border-right: none !important;
+    }
+
+    .no-border-left {
+        border-left: none !important;
+    }
+
+
 </style>
 
 <div class="paper-size">
-    <table style="width: 100%; border: 1px solid black;">
-        <tr style="border:1px solid black;">
-            <td style="text-align: center;padding:5px;width:0px;">
-                <div style="height:10px;"><img src="~/Images/LOGO_AJRENTACAR.jpg" width="100" style="float: left;" /></div>
+    <table class="table-bordered table-header">
+        <tr>
+            <td class="table-header-logo-td">
+                <img src="~/Images/LOGO_AJRENTACAR.jpg" width="100" />
             </td>
-            <td style="padding:5px;">
-                <span style="font: bold 18px arial, verdana; display: block; left:-50px;text-align:left;">AJ88 Davao Car Rental Services</span>
-                <span style="font: 9px arial, verdana; color: royalblue; display: block; text-align: left;">
+            <td class="table-header-logo-td">
+                <span class="header-text-company">
+                    AJ88 Davao Car Rental Services
+                </span>
+                <span class="header-text-details">
                     <br />Door 1 Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000
                     <br />Tel# (+63)82 333-5157; (+63)916-755-8473; (+63)933-089-5358
                     <br />Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com
                 </span>
             </td>
         </tr>
-
     </table>
-    <table class="table" style="width: 100%; border-left: 1px solid black; border-right: 1px solid black; margin-bottom: 0px;">
+    <table class="table table-statement">
         <tr>
             <td colspan="3" class="no-padding">
                 <h2 class="text-center no-margin"> Statement</h2>
-                <p class="text-center no-margin">@DateTime.Parse(ViewBag.FilteredsDate).ToString("MMM dd yyyy") - @DateTime.Parse(ViewBag.FilteredeDate).ToString("MMM dd yyyy")</p>
+                <p class="text-center no-margin">
+                    @DateTime.Parse(ViewBag.FilteredsDate).ToString("MMM dd yyyy") - 
+                    @DateTime.Parse(ViewBag.FilteredeDate).ToString("MMM dd yyyy")
+                </p>
             </td>
         </tr>
         <tr class="no-padding-child">
             <td colspan="2">
                 <b>To: @ViewBag.BillingCompany </b><br />
-                 <b> @ViewBag.BillingAddress </b> 
-                @*<b>To: BEAWESOME,INC </b><br />
-                <b>6th Floor, Ayala Business Center, Matina Town Square, Brgy. Ma-a, Talomo Dist., Davao City</b>*@
+                <b> @ViewBag.BillingAddress </b> <br />
+
+                @if (!String.IsNullOrEmpty(BillingTIN))
+                {
+                    <b>TIN No.: @BillingTIN </b><br />
+                }
+
+                @if (!String.IsNullOrEmpty(BillingStyle))
+                {
+                    <b>Business Style: @BillingStyle </b>
+                }
             </td>
             <td>
                 <p class="pull-right" style="padding-right:5px;">SOA #: @ViewBag.SOANum <br /> Date : @ViewBag.DateToday </p>
