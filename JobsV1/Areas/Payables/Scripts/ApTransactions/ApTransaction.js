@@ -139,7 +139,34 @@ function UpdateStatusClose(e, transId) {
         if (response == "True") {
             $("#overlay").hide();
             //window.location.reload(false);
-            $(e).parent().parent().parent().parent().parent().hide();
+            $(e).parent().parent().parent().parent().parent().fadeOut(250);
+        } else {
+            alert("Unable to Update transaction.");
+            $("#overlay").hide();
+        }
+    }
+    );
+
+    //console.log(result);
+    if (result["ResponseCode"] == 500) {
+        alert("Unable to Update transaction.");
+        $("#overlay").hide();
+    }
+}
+
+
+//close payables status
+function UpdateStatusCloseAsync(e, transId) {
+    //$("#overlay").show();
+    var result = $.post("/Payables/ApTransactions/UpdateTransStatus", {
+        transId: transId,
+        statusId: 4
+    }, (response) => {
+        //console.log("Update Status : " + response);
+        if (response == "True") {
+            $("#overlay").hide();
+            //window.location.reload(false);
+            $(e).parent().parent().fadeOut(250);
         } else {
             alert("Unable to Update transaction.");
             $("#overlay").hide();

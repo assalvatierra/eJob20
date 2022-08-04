@@ -472,6 +472,11 @@
                             @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                         </ul>
                     </div>
+
+                    @if (item.ApTransStatusId == STATUS_RETURNED && isAdmin)
+                    {
+                        <a class="cursor-link btn btn-default" style="cursor:pointer;" onclick="UpdateStatusCloseAsync(this, @item.Id)">  Close </a>
+                    }
                 </td>
             </tr>
             totalPayment += totalTransPayment;
