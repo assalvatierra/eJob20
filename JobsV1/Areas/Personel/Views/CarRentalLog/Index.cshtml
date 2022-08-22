@@ -226,7 +226,7 @@
             Description
         </th>
         <th>
-            Remarks
+            
         </th>
         <th>
             Rate
@@ -288,7 +288,16 @@
 
         //if triplog rate is greater than 6k or less than 1k,
         //highlight red the trip
-        if (item.Rate >= 6000 || item.Rate <= 1000)
+        if ((item.Rate >= 8000 || item.Rate <= 1000) && item.crLogCompany.Name != "Office")
+        {
+            tripcolor = "red";
+        }
+
+
+        //if triplog rate is greater than 6k or less than 1k,
+        //highlight red the trip
+        decimal DriversFeePerc = (decimal)((int)item.Rate * 0.3);
+        if ((item.DriverFee >= DriversFeePerc) && item.crLogCompany.Name != "Office")
         {
             tripcolor = "red";
         }
@@ -375,15 +384,16 @@
                 @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
-                @if (item.Rate >= 6000 )
+                @if (item.Rate >= 6000)
                 {
                     <i class="fa fa-warning" title="rate is greater than 6000"></i>
                 }
 
-                @if ( item.Rate <= 1000)
+                @if (item.Rate <= 1000 && item.crLogCompany.Name != "Office")
                 {
                     <i class="fa fa-warning" title="rate is less than 1000"></i>
                 }
+
                 @item.Rate.ToString("#,##0.00")
             </td>
             <td>
@@ -405,6 +415,12 @@
                 @item.Expenses.ToString("#,##0.00")
             </td>
             <td>
+
+                @if ((item.DriverFee >= DriversFeePerc) && item.crLogCompany.Name != "Office")
+                {
+                    <i class="fa fa-warning" title="drivers rate is greater than 30%"></i>
+                }
+
                 @item.DriverFee.ToString("#,##0.00")
             </td>
             <td>
@@ -466,6 +482,7 @@
 
 
                         <li role="separator" class="divider"></li>
+                        <li>@Html.ActionLink("Job Summary", "JobSummaryDetails", "Reporting", new { area = "", id = item.crLogTripJobMains.FirstOrDefault() }, null)</li>
                         <li>@Html.ActionLink("Driver Summary", "DriverSummary", "crLogDrivers", new { id = item.crLogDriverId }, null)</li>
                         <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
                         <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
