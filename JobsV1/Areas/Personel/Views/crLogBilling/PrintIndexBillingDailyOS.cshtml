@@ -150,7 +150,7 @@
     <table class="table table-statement">
         <tr>
             <td colspan="3" class="no-padding">
-                <h2 class="text-center no-margin"> Statement</h2>
+                <h2 class="text-center no-margin"> Statement Account </h2>
                 <p class="text-center no-margin">
                     @DateTime.Parse(ViewBag.FilteredsDate).ToString("MMM dd yyyy") - 
                     @DateTime.Parse(ViewBag.FilteredeDate).ToString("MMM dd yyyy")
@@ -173,7 +173,10 @@
                 }
             </td>
             <td>
-                <p class="pull-right" style="padding-right:5px;">SOA #: @ViewBag.SOANum <br /> Date : @ViewBag.DateToday </p>
+                <p class="pull-right" style="padding-right:5px;">
+                    SOA #: @ViewBag.SOANum <br />
+                    Date : @ViewBag.DateToday  
+                </p>
             </td>
         </tr>
     </table>
@@ -332,6 +335,9 @@
                     <img src="@ViewBag.UserSign" width="100" />
                     <p> @ViewBag.UserName</p>
                     @*<p> Administrative Officer</p>*@
+                    <br />
+                    PO #: 
+                    <input type="text" width="200" />
 
                 </div>
             </td>

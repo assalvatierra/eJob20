@@ -7,7 +7,7 @@
       <Diagram DiagramId="5fae7c9056fb492ab0ff2c159d907431" Name="Diagram1" ZoomLevel="82" >
         <EntityTypeShape EntityType="CarRentalLogDB.crLogDriver" Width="1.875" PointX="11" PointY="6.375" />
         <EntityTypeShape EntityType="CarRentalLogDB.crLogUnit" Width="1.5" PointX="3.625" PointY="7" />
-        <EntityTypeShape EntityType="CarRentalLogDB.crLogCompany" Width="1.5" PointX="3.75" PointY="1.25" />
+        <EntityTypeShape EntityType="CarRentalLogDB.crLogCompany" Width="1.5" PointX="3.625" PointY="1" />
         <EntityTypeShape EntityType="CarRentalLogDB.crLogTrip" Width="1.5" PointX="6.625" PointY="1.25" />
         <AssociationConnector Association="CarRentalLogDB.crLogDrivercrLogTrip" />
         <AssociationConnector Association="CarRentalLogDB.crLogUnitcrLogTrip" ManuallyRouted="false" >

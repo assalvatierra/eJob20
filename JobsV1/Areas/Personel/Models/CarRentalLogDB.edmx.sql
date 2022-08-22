@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/27/2022 16:54:42
+-- Date Created: 06/30/2022 15:14:31
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
 -- --------------------------------------------------
 
@@ -227,7 +227,9 @@ CREATE TABLE [dbo].[crLogCompanies] (
     [IsShuttle] bit  NOT NULL,
     [IsInternal] bit  NOT NULL,
     [BillingAddress] nvarchar(180)  NULL,
-    [BillingName] nvarchar(80)  NULL
+    [BillingName] nvarchar(80)  NULL,
+    [BillingTIN] nvarchar(80)  NULL,
+    [BillingStyle] nvarchar(80)  NULL
 );
 GO
 

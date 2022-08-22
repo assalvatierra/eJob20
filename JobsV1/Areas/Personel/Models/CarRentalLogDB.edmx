@@ -183,6 +183,8 @@
     <Property Name="IsInternal" Type="bit" Nullable="false" />
     <Property Name="BillingAddress" Type="nvarchar" Nullable="true" MaxLength="180" />
     <Property Name="BillingName" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="BillingTIN" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="BillingStyle" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <EntityType Name="crLogTrips">
     <Key>
@@ -997,6 +999,8 @@
           <NavigationProperty Name="crLogCompanyRates" Relationship="CarRentalLogDB.crLogCompanycrLogCompanyRate" FromRole="crLogCompany" ToRole="crLogCompanyRate" />
           <Property Name="BillingAddress" Type="String" Nullable="true" MaxLength="180" />
           <Property Name="BillingName" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="BillingTIN" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="BillingStyle" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
         <EntityType Name="crLogTrip">
           <Key>
@@ -1698,6 +1702,8 @@
           <ScalarProperty Name="IsInternal" ColumnName="IsInternal" />
           <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
           <ScalarProperty Name="BillingName" ColumnName="BillingName" />
+          <ScalarProperty Name="BillingTIN" ColumnName="BillingTIN" />
+          <ScalarProperty Name="BillingStyle" ColumnName="BillingStyle" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

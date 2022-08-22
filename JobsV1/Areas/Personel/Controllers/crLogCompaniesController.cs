@@ -85,7 +85,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Status,IsShuttle, IsInternal, BillingAddress, BillingName")] crLogCompany crLogCompany)
+        public ActionResult Edit([Bind(Include = "Id,Name,Status,IsShuttle, IsInternal, BillingAddress, BillingName, BillingTIN, BillingStyle")] crLogCompany crLogCompany)
         {
             if (ModelState.IsValid && InputValidation(crLogCompany))
             {
