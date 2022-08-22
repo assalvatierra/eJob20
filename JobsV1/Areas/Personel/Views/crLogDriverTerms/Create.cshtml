@@ -6,19 +6,19 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>crLogDriverTerm</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        
+
         <div class="form-group">
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control datePicker" } })
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -48,10 +48,13 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "DriverSummary", "crLogDrivers", new { id = ViewBag.DriverId }, null)
 </div>
 
-<script src="~/Scripts/Job/DefaultDate.js"></script>
 @section Scripts{
-    
-    }
+    <script src="~/Scripts/Job/DefaultDate.js"></script>
+    <script>
+
+        $('input[name="Date"]').val(moment().format("MM/DD/YYYY"));
+    </script>
+}

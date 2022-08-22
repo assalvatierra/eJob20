@@ -41,6 +41,8 @@ namespace JobsV1.Areas.Personel.Controllers
         public ActionResult Create(int id)
         {
             ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", id);
+            //ViewBag.Date = new DateTime().ToShortDateString();
+            ViewBag.DriverId = id;
             return View();
         }
 
@@ -53,7 +55,6 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             if (ModelState.IsValid)
             {
-                crLogDriverTerm.Date = new DateTime();
                 db.crLogDriverTerms.Add(crLogDriverTerm);
                 db.SaveChanges();
                 //return RedirectToAction("Index");
@@ -77,6 +78,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 return HttpNotFound();
             }
             ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", crLogDriverTerm.crLogDriverId);
+            ViewBag.DriverId = id;
             return View(crLogDriverTerm);
         }
 
@@ -89,11 +91,10 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             if (ModelState.IsValid)
             {
-                crLogDriverTerm.Date = new DateTime();
                 db.Entry(crLogDriverTerm).State = EntityState.Modified;
                 db.SaveChanges();
                 //return RedirectToAction("Index");
-                return RedirectToAction("DriverSummary", "crlogDrivers", new { id = crLogDriverTerm.Id });
+                return RedirectToAction("DriverSummary", "crlogDrivers", new { id = crLogDriverTerm.crLogDriverId });
             }
             ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", crLogDriverTerm.crLogDriverId);
             return View(crLogDriverTerm);
@@ -123,7 +124,7 @@ namespace JobsV1.Areas.Personel.Controllers
             db.crLogDriverTerms.Remove(crLogDriverTerm);
             db.SaveChanges();
             //return RedirectToAction("Index");
-            return RedirectToAction("DriverSummary", "crlogDrivers", new { id = crLogDriverTerm.Id });
+            return RedirectToAction("DriverSummary", "crlogDrivers", new { id = crLogDriverTerm.crLogDriverId });
         }
 
         protected override void Dispose(bool disposing)

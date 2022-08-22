@@ -418,7 +418,8 @@
                     {
                         <span>
                             @Html.ActionLink("Edit", "EditCashTrx", new { id = item.Id })&nbsp;|&nbsp;
-                            @Html.ActionLink("Close", "CloseCashTrx", new { id = item.Id })
+                            @*@Html.ActionLink("Close", "CloseCashTrx", new { id = item.Id })*@
+                            <a onclick="CloseJob()" > Close </a>
                         </span>
                     }
                 </td>
@@ -496,5 +497,15 @@
             //Initialize_Date(@ViewBag.DtStart, @ViewBag.DtEnd, @ViewBag.driverId);
         })
 
+        var CloseJob = ((e, id) => {
+            $.post("Personel/crLogDrivers/DriverSummary/CloseTrxPost",
+                {
+                    Id: id
+                },
+                (response) => {
+                    $(e).parent().parent().parent().hide();
+                }
+            )
+        });
     </script>
 }
