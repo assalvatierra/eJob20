@@ -42,7 +42,7 @@ namespace JobsV1.Areas.Personel.Controllers
             if (filter == null)
             {
                 crLogCashSalaries = db.crLogCashSalaries.Include(c => c.crLogDriver)
-                    .Where(c => c.Date >= today)
+                    .Where(c => c.Date >= yesterday)
                     .ToList();
             }
 
