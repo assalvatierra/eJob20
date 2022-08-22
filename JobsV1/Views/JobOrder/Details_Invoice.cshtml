@@ -108,30 +108,38 @@
                 }
                 else
                 {
-                    @Html.DisplayFor(model => model.Description) <span>/</span> @Html.DisplayFor(model => model.Customer.Name)
-                    <br />@ViewBag.custCompany
+                    @Html.DisplayFor(model => model.Description) <span> / </span> @Html.DisplayFor(model => model.Customer.Name)
+                    <br /> @ViewBag.custCompany
+
+                    @*<br /> @ViewBag.custCompany
+                    <br /> @ViewBag.custCompanyAddress
+                    <br /><span> TIN No.: </span> @ViewBag.custCompanyTel*@
                 }
+            }
+
+            @if (Model.JobRemarks != null)
+            {
+                <br />
+                @Html.DisplayFor(model => model.JobRemarks)
             }
 
             <br />
 
             @if (Model.NoOfPax != 0)
             {
-                <text>  Pax: @Html.DisplayFor(model => model.NoOfPax)  </text>
+                <span> 
+                    Pax: @Html.DisplayFor(model => model.NoOfPax)  
+                </span>
             }
 
 
             @if (Model.NoOfDays != 0)
             {
-                <text> | Days: @Html.DisplayFor(model => model.NoOfDays) </text>
+                <span>
+                    | Days: @Html.DisplayFor(model => model.NoOfDays)
+                </span>
             }
 
-            <br />
-            @if (Model.JobRemarks != null)
-            {
-                <text>  Remarks: </text>
-            }
-            @Html.DisplayFor(model => model.JobRemarks)
         </td>
 
     </tr>
@@ -263,7 +271,7 @@
                     <p  class="font-small" style="font-weight:bold;">Account No.: @ViewBag.AccNum</p>
 
                     <p class="font-small" style="margin:20px;text-align:center;"> </p>
-                    <p class="font-small paypal-text">Click Here for Paypal Payment: </p>
+                    @*<p class="font-small paypal-text">Click Here for Paypal Payment: </p>*@
                     <div class="paypal-text" id="paypal-button"></div>
                 </div>
             </td>
@@ -292,7 +300,7 @@
                 <td style="vertical-align:bottom;">Date:</td>
                 <td>
                     <br /><u style="font-size:large;vertical-align:bottom;">
-                        @{try
+                        @*@{try
                             {
                                 @System.DateTime.Parse(ViewBag.DateNow).ToString("MMM dd, yyyy")
                             }
@@ -301,8 +309,8 @@
                                 @System.DateTime.Now.ToString("MMM dd, yyyy") 
                              }
 
-                        }
-
+                        }*@
+                         @Model.JobDate.ToString("MMM dd yyyy")
 
                         </u></td>
                     </tr>
