@@ -5289,8 +5289,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="Email" Type="String" Nullable="true" MaxLength="80" />
-          <Property Name="Contact1" Type="String" Nullable="true" MaxLength="20" />
-          <Property Name="Contact2" Type="String" Nullable="true" MaxLength="20" />
+          <Property Name="Contact1" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Contact2" Type="String" Nullable="true" MaxLength="80" />
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="120" />
           <NavigationProperty Name="JobMains" Relationship="JobDB.CustomerJobMain" FromRole="Customer" ToRole="JobMain" />
           <Property Name="Status" Type="String" Nullable="true" MaxLength="3" />
@@ -6149,7 +6149,7 @@
           <Property Name="CityId" Type="Int32" Nullable="true" />
           <Property Name="Status" Type="String" Nullable="true" MaxLength="10" DefaultValue="ACT" />
           <Property Name="AssignedTo" Type="String" Nullable="true" MaxLength="80" />
-          <Property Name="Mobile" Type="String" Nullable="true" />
+          <Property Name="Mobile" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="CustEntAssigns" Relationship="JobDB.CustEntMainCustEntAssign" FromRole="CustEntMain" ToRole="CustEntAssign" />
           <Property Name="Code" Type="String" Nullable="true" MaxLength="20" />
           <NavigationProperty Name="CustEntDocuments" Relationship="JobDB.CustEntMainCustEntDocuments" FromRole="CustEntMain" ToRole="CustEntDocuments" />
