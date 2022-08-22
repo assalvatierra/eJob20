@@ -300,9 +300,11 @@
                             {
                                 var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
 
+                                var activities = company.CustEntActivities.Where(s => s.SalesCode == item.SalesCode);
+
                                 if (item.SalesLeadCompanies != null)
                                 {
-                                    @Html.Partial("CustActivitiesPartial", item.SalesLeadCompanies.FirstOrDefault().CustEntMain.CustEntActivities,
+                                    @Html.Partial("CustActivitiesPartial", activities,
                                    new ViewDataDictionary { { "AssignedTo", item.AssignedTo }, { "IsAdmin", ISADMIN } })
                                 }
                                 if (USER == item.AssignedTo || ISADMIN)

@@ -288,11 +288,8 @@
                                     }
                                 }
                             }
-
                             <br />
                         </span>
-
-
 
                         <!-- Activities-->
                         @if (!String.IsNullOrWhiteSpace(item.SalesCode))
@@ -301,9 +298,10 @@
                             if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
                             {
                                 var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
+                                var activities = company.CustEntActivities.Where(s=>s.SalesCode == item.SalesCode);
 
                                 if (item.SalesLeadCompanies != null) {
-                                    @Html.Partial("CustActivitiesPartial", item.SalesLeadCompanies.FirstOrDefault().CustEntMain.CustEntActivities,
+                                    @Html.Partial("CustActivitiesPartial", activities,
                                    new ViewDataDictionary { { "AssignedTo", item.AssignedTo }, { "IsAdmin", ISADMIN } })
                                 }
 
@@ -327,6 +325,7 @@
                             if (ISADMIN)
                             {
                                 <!-- Late Loading Procurment / Supplier Activities -->
+
                                 @Html.Partial("_PartialProcActivities", item.SalesLeadSupActivities,
                                    new ViewDataDictionary { { "AssignedTo", item.AssignedTo } })
                             }

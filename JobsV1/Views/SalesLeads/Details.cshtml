@@ -262,7 +262,8 @@
                             {
                                 var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
 
-                                @Html.Partial("CustActivitiesPartial", item.SalesLeadCompanies.FirstOrDefault().CustEntMain.CustEntActivities,
+                                var activities = company.CustEntActivities.Where(s => s.SalesCode == item.SalesCode);
+                                @Html.Partial("CustActivitiesPartial", activities,
                                                                   new ViewDataDictionary { { "AssignedTo", item.AssignedTo } })
 
                                 if (USER == item.AssignedTo || ISADMIN)
