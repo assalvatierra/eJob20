@@ -600,5 +600,39 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
+
+        private bool CloseTrxPost(int? id)
+        {
+            if (id == null)
+            {
+                return false;
+            }
+
+
+            try
+            {
+                crLogCashRelease crLogCashRelease = db.crLogCashReleases.Find(id);
+
+                if (crLogCashRelease == null)
+                {
+                    return false;
+                }
+
+                //create closing Id
+                crServices = new CrLogServices(db);
+
+                crLogCashRelease.crLogClosingId = crServices.GenerateClosingId();
+
+                db.Entry(crLogCashRelease).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }
