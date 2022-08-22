@@ -28,6 +28,8 @@ namespace JobsV1.Areas.Personel.Models
         public bool IsInternal { get; set; }
         public string BillingAddress { get; set; }
         public string BillingName { get; set; }
+        public string BillingTIN { get; set; }
+        public string BillingStyle { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<crLogTrip> crLogTrips { get; set; }
