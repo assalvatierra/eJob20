@@ -359,7 +359,6 @@
                         <span style="font-size:11px;color:gray;">@paymentType</span><br />
                         <span style="font-size:11px;color:gray;">@payment.ArPayment.Remarks</span><br />
 
-
                         if (item.ArTransPayments.Count() > 1 && !String.IsNullOrEmpty(paymentRemarks))
                         {
                             paymentRemarks += " / ";
@@ -374,19 +373,8 @@
                                  title="Amount paid reached a 10% variance of the invoice amount" />
                         }
 
-                        @*@totalTransPayment.ToString("#,##0.00")<br />
-                        <span style="font-size:11px;color:gray;">@paymentType</span>
-
-                        @if (paymentDeposited)
-                        {
-                            <span style="font-size:11px;color:gray;"> - Deposited </span>
-                        }*@
-
                     </span>
 
-                    @*<span style="font-size:11px;color:gray;">
-                        @paymentRemarks
-                    </span>*@
                 </td>
                 <td>
                     @foreach (var deposit in item.ArTransDeposits)
@@ -430,11 +418,6 @@
                                     if (item.ArTransStatusId == 4)
                                     {
                                         <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, @STATUS_SETTLEMENT)"> For Settlement </a>
-                                    }
-
-                                    if (paymentType != "Bank")
-                                    {
-                                        @*<a class="cursor-link cursor-hand" onclick="UpdateStatusAndDeposit(@item.Id)"> Deposited </a>*@
                                     }
 
                                 }

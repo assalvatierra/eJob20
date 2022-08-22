@@ -115,10 +115,9 @@
             <td> @transaction.InvoiceDate.ToString("MMM dd yyyy") </td>
             
             <td>
-                @if (transaction.Payment == 0)
-                {
-                    @transaction.InvoiceRef
-                }
+               
+                @transaction.InvoiceRef
+                
             </td>
             <td>
                 @transaction.Description 

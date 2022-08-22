@@ -46,11 +46,11 @@
             paymentTotal += payments.ArPayment.Amount;
             paymentType = payments.ArPayment.ArPaymentType.Type;
             paymentDeposited = payments.ArPayment.IsDeposited ?? false;
-            paymentRemarks += " " + payments.ArPayment.Amount + " - " + payments.ArPayment.Remarks + "<br />";
+            paymentRemarks += " " + payments.ArPayment.DtPayment.ToString("MMM dd") + " - " + payments.ArPayment.Amount.ToString("#,##0.00") + " " + payments.ArPayment.Remarks;
 
-            if (transaction.ArTransPayments.Count() > 1 && !String.IsNullOrEmpty(paymentRemarks))
+            if (transaction.ArTransPayments.Count() > 1 )
             {
-                //paymentRemarks +=  " <br> " ;
+                paymentRemarks +=  " / \r \n " ;
             }
         }
 
@@ -70,8 +70,11 @@
                 <input value="@transaction.Id" type="checkbox" class="print-Checkbox" onclick="CheckRepeatItems(this)" />
             </th>
             <td>
-                @*@transaction.InvoiceId*@
-                @Html.ActionLink(transaction.InvoiceRef, "JobSummaryDetails", "Reporting", new { area = "", id = transaction.InvoiceId }, new { target = "_blank" })
+                @transaction.InvoiceId
+                @*@if (transaction.InvoiceId != null)
+                {
+                    @Html.ActionLink(transaction.InvoiceId, "JobSummaryDetails", "Reporting", new { id = transaction.InvoiceId }, new { target = "_blank" })
+                }*@
             </td>
             <td>
                 @transaction.DtInvoice.ToString("MMM dd yyyy")
@@ -108,6 +111,7 @@
                     }
                 }
             </td>*@
+
             <td>
                 <b>@transaction.ArAccount.Company</b>
 
@@ -119,10 +123,21 @@
                 @if (transaction.Description == transaction.ArAccContact.Name)
                 {
                 
-                    <br />@transaction.Description <br />
+                    <br /> @transaction.Description
                 }
 
                 <span style="font-size:11px;color:gray;"> @transaction.Remarks</span>
+
+                <br /> 
+                <span style="font-size:11px;color:gray;">
+                        @transaction.DtService.ToString("MMM dd yyyy") -
+
+                        @if (transaction.DtServiceTo != null)
+                        {
+                            <span> @DateTime.Parse(transaction.DtServiceTo.ToString()).ToString("MMM dd yyyy")</span>
+                        }
+
+                    </span>
             </td>
             <td>
 
@@ -165,7 +180,17 @@
                 }*@
                 <br />  
                 <span style="font-size:10px;color:gray;">
-                    @paymentRemarks
+
+                    @foreach (var payments in transaction.ArTransPayments)
+                    {
+                        var paymentInlineRemarks = payments.ArPayment.DtPayment.ToString("MMM dd") + " - " + payments.ArPayment.Amount.ToString("#,##0.00") + " (" + payments.ArPayment.ArPaymentType.Type + ") " + payments.ArPayment.Remarks;
+
+                        <span>
+                            @paymentInlineRemarks
+                        </span>
+                        <br />
+                    }
+
                 </span>
 
                 @if ((paymentTotal < (totalAmount - amountVariance) || paymentTotal > (totalAmount + amountVariance)))
@@ -201,7 +226,7 @@
     }
 
     <tr>
-        <td colspan="8"></td>
+        <td colspan="7"></td>
         <td>
             <span style="font-size:11px;color:gray;"> Payment </span>
             <h4> @TotalAmount.ToString("#,##0.00")</h4>

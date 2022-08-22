@@ -247,6 +247,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 ModelState.AddModelError("Amount", "Invalid Amount");
                 isValid = false;
             }
+
             //if (transaction.Interval < 0)
             //{
             //    ModelState.AddModelError("Interval", "Invalid Interval");
@@ -473,9 +474,9 @@ namespace JobsV1.Areas.Receivables.Controllers
 
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
-                // throw ex;
+                throw ex;
                 return false;
             }
 
@@ -662,6 +663,20 @@ namespace JobsV1.Areas.Receivables.Controllers
 
             foreach (var statement in transactions)
             {
+                decimal payments = 0;
+
+                //Statement Amount 
+                accBalance += statement.Amount;
+
+                statement.ArTransPayments.ToList().ForEach(payment => {
+                    //Statement Payments 
+                    payments += payment.ArPayment.Amount;
+
+                    //deduct payments on balance
+                    accBalance -= payments;
+                });
+
+
 
                 accStatements.Add(new ArRptModel.ArAccountStatement
                 {
@@ -670,31 +685,13 @@ namespace JobsV1.Areas.Receivables.Controllers
                     InvoiceRef = statement.InvoiceRef,
                     InvoiceDate = statement.DtInvoice,
                     Description = statement.Description,
-                    StartDate = statement.DtService, 
-                    EndDate   = statement.DtServiceTo ,
-                    Amount    = statement.Amount,
-                    Payment = 0
+                    StartDate = statement.DtService,
+                    EndDate = statement.DtServiceTo,
+                    Amount = statement.Amount,
+                    Payment = payments
 
                 });
 
-                //Statement Amount 
-                accBalance += statement.Amount;
-
-                statement.ArTransPayments.ToList().ForEach(payment => {
-                    //Statement Payments 
-                    accBalance -= payment.ArPayment.Amount;
-
-                    accStatements.Add(new ArRptModel.ArAccountStatement
-                    {
-                        ArTransId = payment.Id,
-                        InvoiceId = payment.ArTransaction.InvoiceId,
-                        InvoiceRef = payment.ArTransaction.InvoiceRef,
-                        InvoiceDate = payment.ArPayment.DtPayment,
-                        Description = payment.ArPayment.ArPaymentType.Type + " Payment for " + payment.ArTransaction.InvoiceRef,
-                        Amount = 0,
-                        Payment = payment.ArPayment.Amount
-                    });
-                });
             }
 
             var user = HttpContext.User.Identity.Name;
