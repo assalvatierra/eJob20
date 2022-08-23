@@ -139,10 +139,10 @@ namespace JobsV1.Controllers
                 db.InvItems.Add(invItem);
                 db.SaveChanges();
 
-                //if (SITECONFIG == "RealWheels")
-                //{
+                if (SITECONFIG == "RealWheels")
+                {
                     addDefaultCategory(invItem.Id);
-                //}
+                }
 
                 return RedirectToAction("Index");
             }
@@ -184,9 +184,9 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ImgPath = new SelectList(ImgList, "value", "text");
-            ViewBag.OrderNo = new SelectList(OrderList, "value", "text");
-            ViewBag.ViewLabel = new SelectList(GetViewListItems(), "Value", "Text");
+            ViewBag.ImgPath = new SelectList(ImgList, "value", "text", invItem.ImgPath);
+            ViewBag.OrderNo = new SelectList(OrderList, "value", "text", invItem.OrderNo);
+            ViewBag.ViewLabel = new SelectList(GetViewListItems(), "Value", "Text", invItem.ViewLabel);
             return View(invItem);
         }
 
@@ -203,9 +203,9 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ImgPath = new SelectList(ImgList, "value", "text");
-            ViewBag.OrderNo = new SelectList(OrderList, "value", "text");
-            ViewBag.ViewLabel = new SelectList(GetViewListItems(), "Value", "Text");
+            ViewBag.ImgPath = new SelectList(ImgList, "value", "text", invItem.ImgPath);
+            ViewBag.OrderNo = new SelectList(OrderList, "value", "text", invItem.OrderNo);
+            ViewBag.ViewLabel = new SelectList(GetViewListItems(), "Value", "Text", invItem.ViewLabel);
             return View(invItem);
         }
 
