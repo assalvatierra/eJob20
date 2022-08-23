@@ -10,6 +10,7 @@
 
     decimal Expenses_Amount = 0;
     decimal Expenses_Payment = 0;
+    decimal Expenses_Request= 0;
 
     decimal Receivables_Amount = 0;
     decimal Receivables_Payment = 0;
@@ -23,7 +24,7 @@
 <h2>Job Summary Details</h2>
 <p>
     @Html.ActionLink("Back to List", "JobSummary") |
-    @Html.ActionLink("Job Details", "JobServices", "JobOrder",new { jobMainId = Model.Id }, null)
+    @Html.ActionLink("Job Details", "JobServices", "JobOrder", new { jobMainId = Model.Id }, null)
 </p>
 
 <h4>
@@ -59,7 +60,7 @@
         </th>
     </tr>
 
-    @foreach (var trip in Model.TripLogs.OrderBy(d=>d.DtTrip))
+    @foreach (var trip in Model.TripLogs.OrderBy(d => d.DtTrip))
     {
 
         Triplog_Rate += trip.Rate + trip.Addon;
@@ -137,7 +138,7 @@
         </th>
     </tr>
 
-    @foreach (var expense in Model.Expenses.OrderBy(e=>e.DtInvoice))
+    @foreach (var expense in Model.Expenses.Where(e => e.ApTransStatu.Status == "Returned" || e.ApTransStatu.Status == "Closed" || e.ApTransStatu.Status == "Released").OrderBy(e => e.DtInvoice))
     {
         if (expense.ApTransStatu.Status == "Returned" || expense.ApTransStatu.Status == "Closed" || expense.ApTransStatu.Status == "Released")
         {
@@ -155,7 +156,7 @@
                 @expense.DtInvoice.ToString("MMM dd yyyy")
             </td>
             <td>
-                @expense.Description 
+                @expense.Description
                 <span class="text-muted"> @expense.Remarks </span>
             </td>
             <td>
@@ -171,7 +172,7 @@
                 }
                 else
                 {
-                 <span class="text-muted">  @expense.Amount.ToString("#,##0.00")</span>
+                    <span class="text-muted">  @expense.Amount.ToString("#,##0.00")</span>
                 }
 
             </td>
@@ -184,6 +185,65 @@
             Total <br />
             <b>
                 @Expenses_Amount.ToString("#,##0.00")
+            </b>
+        </td>
+    </tr>
+</table>
+
+
+<h4> Expenses Requests </h4>
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>
+            Date
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+            Amount
+        </th>
+    </tr>
+
+    @foreach (var expense in Model.Expenses.Where(e=>e.ApTransStatu.Status == "Requested" || e.ApTransStatu.Status == "New" || e.ApTransStatu.Status == "Approved").OrderBy(e => e.DtInvoice))
+    {
+        Expenses_Request = Expenses_Request + expense.Amount;
+        <tr>
+            <td>
+                <a href="/Payables/ApTransactions/Details/@expense.Id">@expense.Id</a>
+            </td>
+            <td width="120">
+                @expense.DtInvoice.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @expense.Description
+                <span class="text-muted"> @expense.Remarks </span>
+            </td>
+            <td>
+                @expense.ApTransStatu.Status
+            </td>
+            <td>
+                @expense.ApTransType.Type
+            </td>
+            <td>
+                <span class="text-muted">  @expense.Amount.ToString("#,##0.00")</span>
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5">
+        </td>
+        <td>
+            Total <br />
+            <b>
+                @Expenses_Request.ToString("#,##0.00")
             </b>
         </td>
     </tr>
@@ -283,7 +343,7 @@
 
 <hr />
 
-@{  TotalNetAmount = Receivables_Payment - Expenses_Amount - Triplog_DriverAmount;  }
+@{ TotalNetAmount = Receivables_Payment - Expenses_Amount - Triplog_DriverAmount; }
 
 <div style="padding:25px;background-color:#e8e8e8;">
     <h2> Summary </h2>
