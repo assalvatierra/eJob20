@@ -269,7 +269,12 @@
                             <!-- Late Loading Sales / Customer Activities -->
                             if (item.SalesLeadCompanies != null)
                             {
-                                @Html.Partial("CustActivitiesPartial", item.SalesLeadCompanies.FirstOrDefault().CustEntMain.CustEntActivities,
+
+                                var salesActivities = item.SalesLeadCompanies.FirstOrDefault()
+                                    .CustEntMain.CustEntActivities
+                                    .Where(s => s.SalesCode == item.SalesCode);
+
+                                @Html.Partial("CustActivitiesPartial", salesActivities,
                                new ViewDataDictionary { { "AssignedTo", item.AssignedTo }})
                             }
                         }
