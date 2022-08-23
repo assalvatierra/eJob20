@@ -302,6 +302,7 @@ namespace JobsV1.Controllers
                 ViewBag.LeadId = leadId;
                 ViewBag.CurrentFilter = sortid;
                 ViewBag.StatusCodes = db.SalesStatusCodes.ToList();
+                ViewBag.InvItems = db.InvItems.ToList();
 
                 //for adding new item 
                 AddSupItemPartial();
@@ -403,7 +404,7 @@ namespace JobsV1.Controllers
                         //if sales code is not null
                         //find customer activities with the same sales code
                         //and add this SalesLead ID to the CustEntActivity entries
-                        UpdateCustActivities(salesLead.Id, salesLead.SalesCode);
+                        //UpdateCustActivities(salesLead.Id, salesLead.SalesCode);
                     }
 
                     return RedirectToAction("Details", new { id = salesLead.Id });
