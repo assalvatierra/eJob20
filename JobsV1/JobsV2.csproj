@@ -2139,6 +2139,7 @@
     <Content Include="Images\Signature-1.png" />
     <Content Include="Images\Signature\GraceSign.jpg" />
     <Content Include="Images\Signature\Jecca.Sign.jpg" />
+    <Content Include="Images\Signature\JhudySign.jpg" />
     <Content Include="Images\Signature\JoSign.JPG" />
     <Content Include="Images\Signature\KimSign.jpg" />
     <Content Include="Images\Signature\MaeSign.JPG" />
@@ -2148,6 +2149,7 @@
     <Content Include="Images\SMS.png" />
     <Content Include="Images\Solid-steel-logo-2020.png" />
     <Content Include="Images\SolidSteel\Solid Steel Logo.jpg" />
+    <Content Include="Images\SolidSteel\V-Steel-Logo-2022.png" />
     <Content Include="Models\SQL.Job\AddChecklist.SQL" />
     <Content Include="Models\SQL.Job\AsExpenseDB.sql" />
     <Content Include="Models\SQL.CarCoop\CarRentalInitial.sql" />
@@ -2713,6 +2715,7 @@
     <Content Include="Areas\Personel\Views\crLogOwners\Details.cshtml" />
     <Content Include="Areas\Personel\Views\crLogOwners\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\crLogOwners\Index.cshtml" />
+    <Content Include="Areas\Payables\Views\ApCashFlows\DailyCashIn.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
