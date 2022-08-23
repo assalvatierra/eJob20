@@ -1169,7 +1169,8 @@ namespace JobsV1.Controllers
             DateTime dtTmp = new DateTime(job.JobDate.Year, job.JobDate.Month, job.JobDate.Day, 8, 0, 0);
             js.DtStart = dtTmp;
             js.DtEnd = dtTmp.AddDays(job.NoOfDays - 1).AddHours(10);
-            js.Remarks = "10hrs use per day P300/hr in excess, Driver and Fuel Included";
+            //js.Remarks = "10hrs use per day P300/hr in excess, Driver and Fuel Included";
+            js.Remarks = "10hrs use per day P350/hr in excess, Driver Included. Fuel by Renter.";
             js.ActualAmt = 0;
             js.QuotedAmt = 0;
             js.SupplierAmt = 0;
@@ -1782,6 +1783,8 @@ namespace JobsV1.Controllers
 
 
             string custCompany = "";
+            string custCompanyAddress = "";
+            string custCompanyTel = "";
             //check customer if assigned to a company
             if (jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault() != null)
             {
@@ -1794,11 +1797,15 @@ namespace JobsV1.Controllers
                 }
                 else
                 {
-                    custCompany = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain.Name;
+                    custCompany = company.Name;
+                    custCompanyAddress = company.Address;
+                    custCompanyTel = company.Contact1;
                 }
             }
 
             ViewBag.custCompany = custCompany;
+            ViewBag.custCompanyAddress = custCompanyAddress;
+            ViewBag.custCompanyTel = custCompanyTel;
 
             ViewBag.DateNow = getDateTimeToday().Date.ToString();
 
@@ -1851,6 +1858,8 @@ namespace JobsV1.Controllers
             }
 
             string custCompany = "";
+            string custCompanyAddress = "";
+            string custCompanyTel = "";
             //check customer if assigned to a company
             if (jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault() != null)
             {
@@ -1863,9 +1872,15 @@ namespace JobsV1.Controllers
                 }
                 else
                 {
-                    custCompany = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain.Name;
+                    custCompany = company.Name;
+                    custCompanyAddress = company.Address;
+                    custCompanyTel = company.Contact1;
                 }
             }
+
+            ViewBag.custCompany = custCompany;
+            ViewBag.custCompanyAddress = custCompanyAddress;
+            ViewBag.custCompanyTel = custCompanyTel;
 
             ViewBag.Services = db.JobServices.Include(j => j.JobServicePickups).Where(j => j.JobMainId == jobMain.Id).OrderBy(s => s.DtStart);
             ViewBag.Itinerary = db.JobItineraries.Include(j => j.Destination).Where(j => j.JobMainId == jobMain.Id);
@@ -2006,6 +2021,8 @@ namespace JobsV1.Controllers
             {
                 case "grace.realbreeze@gmail.com":
                     return "Grace-chell V. Capandac";
+                case "jhudy.realbreeze@gmail.com":
+                    return "Jhudy Claire D. Molles";
                 case "assalvatierra@gmail.com":
                     return "Elvie S. Salvatierra ";
                 default:
@@ -2019,6 +2036,8 @@ namespace JobsV1.Controllers
             {
                 case "grace.realbreeze@gmail.com":
                     return "/Images/Signature/GraceSign.jpg";
+                case "jhudy.realbreeze@gmail.com":
+                    return "/Images/Signature/JhudySign.jpg";
                 case "assalvatierra@gmail.com":
                     return "/Images/Signature-1.png";
                 default:
