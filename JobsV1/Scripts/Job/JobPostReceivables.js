@@ -21,7 +21,7 @@ function InitPostReceivables(jobDetails) {
     $("#PostRcv-Description").val(jobDetails["Description"]);
     $("#PostRcv-Date").val(moment(jobDetails["JobDate"]).format("MM/DD/YYYY"));
     $("#PostRcv-DtStart").val(moment(jobDetails["SvcStart"]).format("MM/DD/YYYY"));
-    $("#PostRcv-DtEnd").val(moment(jobDetails["SvcEnd"]).format("MM/DD/YYYY"));
+    $("#PostRcv-DtEnd").val(moment(jobDetails["SvcEnd"]).add(-1, 'days').format("MM/DD/YYYY"));
     $("#PostRcv-DtDue").val(moment().add(15, 'days').format("MM/DD/YYYY"));
     $("#PostRcv-Amount").val(jobDetails["Amount"]);
 
