@@ -1,0 +1,88 @@
+﻿@model IEnumerable<JobsV1.Models.JobPayment>
+<table>
+    <tr>
+        <td valign="top">
+            <img src="~/Images/LOGO_AJRENTACAR.jpg" width="135" />
+        </td>
+        <td>
+            <span style="font:bold 21px arial, verdana;">AJ88 Car Rental Services </span>
+            <span style="font:12px arial, verdana;color:royalblue">
+                <br />Door 1, Travelers Inn Bldg., Matina Pangi Rd., Matina Crossing, Davao City, 8000 
+                <br />Tel# (+63)822971831; (+63)9167558473; (+63)9330895358
+                <br />Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/
+                <br />TIN: 414-880-772-001 (non-Vat)
+            </span>
+        </td>
+    </tr>
+</table>
+
+<div class="view-content">
+
+    <div>
+        <h3>
+            Payments Listing Report:
+        </h3>
+        <p>Date: <b>@ViewBag.sDate</b> to <b>@ViewBag.eDate</b></p>
+    </div>
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DtPayment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobMain.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bank.BankName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remarks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaymentAmt)
+            </th>
+        </tr>
+
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="10" style="text-align:center;">
+                    <span>No Results Found</span>
+                </td>
+            </tr>
+
+
+        }
+        @{ decimal totalAmount = 0;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DtPayment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JobMain.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Bank.BankName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remarks)
+                    </td>
+                    <td>
+                        @string.Format("{0:N}", item.PaymentAmt)
+                    </td>
+
+                </tr>
+
+                totalAmount += item.PaymentAmt;
+
+            }
+        }
+        <tr>
+            <td colspan="4" style="text-align:right;font-weight:bold;">Total Amount </td>
+            <td style="font-weight:bold;">@string.Format("{0:N}", totalAmount)</td>
+        </tr>
+
+    </table>
+</div>
