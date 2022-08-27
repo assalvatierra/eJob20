@@ -520,27 +520,6 @@ namespace JobsV1.Controllers
             return RedirectToAction("Services", new { id= JobId } );
         }
         
-        //web service call to send notification
-        public void Notification(int id)
-        {
-            SMSWebService ws = new SMSWebService();
-            ws.AddNotification(id);
-        }
-
-        public ActionResult NotificationList() {
-
-            return View(db.JobNotificationRequests.ToList());
-        }
-
-
-        public ActionResult NotificationDelete(int id) {
-
-            JobNotificationRequest jobRequest = db.JobNotificationRequests.Find(id);
-            db.JobNotificationRequests.Remove(jobRequest);
-            db.SaveChanges();
-            return View(db.JobNotificationRequests.ToList());
-        }
-
 
         public string sendMail(int jobId, string email, string mailType)
         {
