@@ -46,6 +46,7 @@ namespace JobsV1.Models
         public string CustContactEmail { get; set; }
         public string CustContactNumber { get; set; }
         public string AssignedTo { get; set; }
+        public Nullable<System.DateTime> DueDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobType> JobTypes { get; set; }

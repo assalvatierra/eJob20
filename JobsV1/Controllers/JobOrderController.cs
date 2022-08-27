@@ -793,7 +793,8 @@ namespace JobsV1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult JobDetails([Bind(Include = "Id,JobDate,CompanyId,CustomerId,Description,NoOfPax,NoOfDays,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber,AssignedTo")] JobMain jobMain, int? CompanyId, decimal? AgreedAmt, int? JobPaymentStatusId)
+        public ActionResult JobDetails([Bind(Include = "Id,JobDate,CompanyId,CustomerId,Description,NoOfPax,NoOfDays,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber,AssignedTo,DueDate")] JobMain jobMain,
+            int? CompanyId, decimal? AgreedAmt, int? JobPaymentStatusId)
         {
             if (ModelState.IsValid)
             {
@@ -875,11 +876,11 @@ namespace JobsV1.Controllers
         [Authorize]
         public ActionResult jobCreate(int? id)
         {
-
             DateClass today = new DateClass();
 
             JobMain job = new JobMain();
-            job.JobDate = today.GetCurrentDateTime().AddDays(0);
+            job.JobDate = dt.GetCurrentDate();
+            job.DueDate = null;
             job.NoOfDays = 1;
             job.NoOfPax = 1;
             job.AgreedAmt = 0;
@@ -918,7 +919,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult jobCreate([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber,AssignedTo")] JobMain jobMain, int? CompanyId, int? JobPaymentStatusId)
+        public ActionResult jobCreate([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber,AssignedTo,DueDate")] JobMain jobMain, int? CompanyId, int? JobPaymentStatusId)
         {
 
             if (ModelState.IsValid)
@@ -2352,12 +2353,6 @@ namespace JobsV1.Controllers
             return driverDetails;
         }
 
-        //web service call to send notification
-        public void Notification(int id)
-        {
-            SMSWebService ws = new SMSWebService();
-            ws.AddNotification(id);
-        }
 
         public ActionResult CloseJobStatus(int? id)
         {

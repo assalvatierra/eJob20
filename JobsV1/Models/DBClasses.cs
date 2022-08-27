@@ -1289,15 +1289,5 @@ namespace JobsV1.Models
         #endregion
 
 
-        #region User Modules
-
-        public bool CheckUserJobModule()
-        {
-
-
-            return false;
-        }
-
-        #endregion
     }
 }

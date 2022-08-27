@@ -192,9 +192,10 @@
             </td>
             <td>
                 @Decimal.Parse(item.QuotedAmt.ToString()).ToString("##,###.00")
+                
             </td>
         </tr>
-                    }
+      }
 
 </table>
 
@@ -245,17 +246,29 @@
                             <td align="right">@dQuotedAmt.ToString("##,###.00")</td>
                         </tr>
                         @if (Model.JobStatusId == 2 || Model.JobStatusId == 3 || Model.JobStatusId == 4)
-                            {
+                         {
                             <tr>
-                                <td>Partial:</td>
+                                <td>Partial: </td>
                                 <td align="right">@dPaidAmt.ToString("##,###.00")</td>
                             </tr>
                             <tr>
-                                <td>Balance:</td>
+                                <td>Balance: </td>
                                 @{  Decimal dBalance = (dQuotedAmt - dPaidAmt); }
                                 <td align="right">@dBalance.ToString("##,###.00")</td>
                             </tr>
-                             }
+                            <tr>
+                                <td>Due Date:  </td>
+                                <td>
+                                    @if (Model.DueDate != null)
+                                    {
+                                        DateTime duedate = (DateTime)Model.DueDate;
+                                        <span>
+                                            @duedate.ToString("MMM dd yyyy")
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+                         }
                     </table>
                 </div>
             </td>
@@ -268,7 +281,7 @@
                         ( @ViewBag.BankBranch )
                     </p>
                     <p class="font-small">Account: @ViewBag.AccName</p>                        
-                    <p  class="font-small" style="font-weight:bold;">Account No.: @ViewBag.AccNum</p>
+                    <p class="font-small" style="font-weight:bold;">Account No.: @ViewBag.AccNum</p>
 
                     <p class="font-small" style="margin:20px;text-align:center;"> </p>
                     @*<p class="font-small paypal-text">Click Here for Paypal Payment: </p>*@
@@ -311,7 +324,7 @@
 
                         }*@
                          @Model.JobDate.ToString("MMM dd yyyy")
-
+                        
                         </u></td>
                     </tr>
             <tr><td colspan="2">&nbsp;</td></tr>

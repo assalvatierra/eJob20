@@ -831,6 +831,7 @@
     <Property Name="CustContactEmail" Type="nvarchar" Nullable="true" MaxLength="150" />
     <Property Name="CustContactNumber" Type="nvarchar" Nullable="true" MaxLength="120" />
     <Property Name="AssignedTo" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="DueDate" Type="datetime" Nullable="true" />
   </EntityType>
   <EntityType Name="Suppliers">
     <Key>
@@ -858,8 +859,8 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="80" />
-    <Property Name="Contact1" Type="nvarchar" Nullable="true" MaxLength="20" />
-    <Property Name="Contact2" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="Contact1" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Contact2" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="120" />
     <Property Name="Status" Type="nvarchar" Nullable="true" MaxLength="3" />
   </EntityType>
@@ -1240,7 +1241,7 @@
     <Property Name="CityId" Type="int" Nullable="true" />
     <Property Name="Status" Type="nvarchar" Nullable="true" DefaultValue="ACT" MaxLength="10" />
     <Property Name="AssignedTo" Type="nvarchar" Nullable="true" MaxLength="80" />
-    <Property Name="Mobile" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Mobile" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="Exclusive" Type="nvarchar" Nullable="true" DefaultValue="PUBLIC" MaxLength="10" />
     <Property Name="CustEntAccountTypeId" Type="int" Nullable="false" />
@@ -5252,6 +5253,7 @@
           <Property Name="AssignedTo" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="JobVehicles" Relationship="JobDB.JobMainJobVehicle" FromRole="JobMain" ToRole="JobVehicle" />
           <NavigationProperty Name="JobMainPaymentStatus" Relationship="JobDB.JobMainPaymentStatusJobMain" FromRole="JobMain" ToRole="JobMainPaymentStatus" />
+          <Property Name="DueDate" Type="DateTime" Nullable="true" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -9159,6 +9161,7 @@
           <ScalarProperty Name="CustContactEmail" ColumnName="CustContactEmail" />
           <ScalarProperty Name="CustContactNumber" ColumnName="CustContactNumber" />
           <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

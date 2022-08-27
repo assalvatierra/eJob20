@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/14/2022 14:01:23
+-- Date Created: 08/26/2022 13:11:22
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -1009,7 +1009,8 @@ CREATE TABLE [dbo].[JobMains] (
     [AgreedAmt] decimal(18,0)  NULL,
     [CustContactEmail] nvarchar(150)  NULL,
     [CustContactNumber] nvarchar(120)  NULL,
-    [AssignedTo] nvarchar(80)  NULL
+    [AssignedTo] nvarchar(80)  NULL,
+    [DueDate] datetime  NULL
 );
 GO
 
@@ -1037,8 +1038,8 @@ CREATE TABLE [dbo].[Customers] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(80)  NOT NULL,
     [Email] nvarchar(80)  NULL,
-    [Contact1] nvarchar(20)  NULL,
-    [Contact2] nvarchar(20)  NULL,
+    [Contact1] nvarchar(80)  NULL,
+    [Contact2] nvarchar(80)  NULL,
     [Remarks] nvarchar(120)  NULL,
     [Status] nvarchar(3)  NULL
 );
@@ -1419,7 +1420,7 @@ CREATE TABLE [dbo].[CustEntMains] (
     [CityId] int  NULL,
     [Status] nvarchar(10)  NULL,
     [AssignedTo] nvarchar(80)  NULL,
-    [Mobile] nvarchar(max)  NULL,
+    [Mobile] nvarchar(80)  NULL,
     [Code] nvarchar(20)  NULL,
     [Exclusive] nvarchar(10)  NULL,
     [CustEntAccountTypeId] int  NOT NULL
