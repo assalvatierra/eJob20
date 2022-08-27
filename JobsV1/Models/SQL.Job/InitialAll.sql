@@ -565,12 +565,12 @@ insert into PaypalAccounts ([SysCode],[Key],[Secret])
 values
 ('Realwheels', 'ASTv_oxNk66nZW4tVTbt78dtocU-70VVoDDmgtdMSzv1Aqmw8QK6lJ01vzn6lO6jPio3DbfbT_6G6F6b' , 'EAYtPcgQYKu5UfA4WV5lzE_iPj1WFiGnPC_8XvSgYrjoISJEnZAezmdcofe5oRyJZzPToJO6QUMlgmS2');
 
-insert into JobMains([JobDate],[CustomerId],[Description],[NoOfPax],[NoOfDays],[JobRemarks],[JobStatusId],[StatusRemarks],[BranchId],[JobThruId],[AgreedAmt],[CustContactEmail],[CustContactNumber],[AssignedTo])
+insert into JobMains([JobDate],[CustomerId],[Description],[NoOfPax],[NoOfDays],[JobRemarks],[JobStatusId],[StatusRemarks],[BranchId],[JobThruId],[AgreedAmt],[CustContactEmail],[CustContactNumber],[AssignedTo],[DueDate])
 values
-('04-20-2020',1,'Test Job 101',4,1,'TEST DATA 0101',3,'N/A',1,1,5000,'test','09123456','jahdielvillosa@gmail.com'),
-('04-28-2020',1,'Test Job 102',3,1,'TEST DATA 0102',3,'N/A',1,1,3000,'test','09123456','jahdielvillosa@gmail.com'),
-('05-01-2020',1,'Test City Tour',3,2,'TEST DATA 0103',2,'N/A',1,1,3500,'test','09123456','jahdielvillosa@gmail.com'),
-('01-27-2020',1,'Davao City Tour',3,2,'Template Test',6,'N/A',1,1,3500,'test','09123456','jahdielvillosa@gmail.com');
+('08-20-2022',1,'Test Job 101',4,1,'TEST DATA 0101',3,'N/A',1,1,5000,'test','09123456','jahdielvillosa@gmail.com', null),
+('08-22-2022',1,'Test Job 102',3,1,'TEST DATA 0102',3,'N/A',1,1,3000,'test','09123456','jahdielvillosa@gmail.com', null),
+('08-26-2022',1,'Test City Tour',3,2,'TEST DATA 0103',2,'N/A',1,1,3500,'test','09123456','jahdielvillosa@gmail.com','09-10-2022'),
+('08-25-2022',1,'Davao City Tour',3,2,'Template Test',6,'N/A',1,1,3500,'test','09123456','jahdielvillosa@gmail.com','09-15-2022');
 
 
 insert into JobServices([JobMainId],[ServicesId],[SupplierId],[Particulars],[QuotedAmt],[SupplierAmt],[ActualAmt],[Remarks],[SupplierItemId],[DtStart],[DtEnd])
@@ -687,14 +687,14 @@ values ('Van',''),('SUV',''),('MPV',''),('Sedan',''),('Pickup','');
 
 insert into CarUnits ( Description, Remarks, CarCategoryId , SelfDrive, SortOrder, Status) 
 values 
-	   ('Van (14 seater)','Nissan Premium'		,1,1,1),
-	   ('Van (10 seater)','Gl Grandia'			,1,1,2),
-	   ('SUV'            ,'Ford Everest'		,2,0,3),
-	   ('MPV/AUV/MiniVan','Toyota Innova'		,3,0,4),
+	   ('Van (14 seater)','Nissan Premium'		,1,1,1, 'ACTIVE'),
+	   ('Van (10 seater)','Gl Grandia'			,1,1,2, 'ACTIVE'),
+	   ('SUV'            ,'Ford Everest'		,2,0,3, 'ACTIVE'),
+	   ('MPV/AUV/MiniVan','Toyota Innova'		,3,0,4, 'ACTIVE'),
 	   ('Sedan'          ,'Honda City'			,4,0,5, 'INACTIVE'),
-	   ('Pickup'         ,'Pickups'				,5,0,6),
-	   ('Van (14 seater)','GL Grandia Tourer'	,1,1,1),
-	   ('MPV'			 ,'Toyota Rush'			,3,0,3);
+	   ('Pickup'         ,'Pickups'				,5,0,6, 'ACTIVE'),
+	   ('Van (14 seater)','GL Grandia Tourer'	,1,1,1, 'ACTIVE'),
+	   ('MPV'			 ,'Toyota Rush'			,3,0,3, 'ACTIVE');
 
 insert into CarImages ( CarUnitId, ImgUrl, Remarks, SysCode)
 values (1,'glgrandia/Toyota-Grandia-side.jpg'    ,'','MAIN'),

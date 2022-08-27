@@ -11,8 +11,7 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Customers','Job Orders',0,'CustEntMains','Index','',20,5),
 ('Equipments','Job Orders',0,'SupplierItems','Index','',20,6),
 ('Packages','Job Orders',0,'CarRatePackages','Index','',20,7),
-('Reporting','Job Orders',0,'Reporting','Index','',20,8),
-('Notifications','Job Orders',0,'JobServices','NotificationList','',20,9),
+('Reporting','Job Orders',0,'Reporting','Index','',20,8)
 ('Accounts','Accounts',0,'Accounting/AccntMains','Index','',20,10),
 ('HR','HRIS',0,'Personel/HrPersonels','Index','',20,11),
 ('Products','Products',0,'Products/SMProducts','Index','',20,12),
@@ -135,19 +134,6 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 	('Package Rates','',8,'Reporting','Index','',21,83);		-- id: 45
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (8,1,'2019/1/1');
-insert into SysSettings([SysKey],[SysValue],[Remarks]) values
-('DatabaseState','Dev.DB','Development DB');
-
---Notifications
-insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath],[SeqNo],[IconFA]) values
-('NO109','Notifications','Reports','A','/Images/Erp/icons/icons-notification.png', 9,'info-circle');
-insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (9,9);
-insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('SMS','',9,'JobServices','NotificationList','',21,91),		-- id: 46
-	('Paypal','',9,'PaypalTransactions','Index','',21,92),		-- id: 47
-	('Notification','',9,'CustNotifs','Index','',21,93);		-- id: 48
-insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values	
-(9,1,'2019/1/1');
 insert into SysSettings([SysKey],[SysValue],[Remarks]) values
 ('DatabaseState','Dev.DB','Development DB');
 
