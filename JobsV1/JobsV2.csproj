@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -53,11 +54,11 @@
       <HintPath>..\..\Receivable20\ArDBLayer\bin\Debug\ArDBLayer.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.0.1011, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -349,6 +350,8 @@
     <Compile Include="Areas\AutoCare\Data\AppointmentStatus.cs">
       <DependentUpon>AppointmentDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Masterlists\Controllers\CitiesController.cs" />
+    <Compile Include="Areas\Masterlists\MasterlistsAreaRegistration.cs" />
     <Compile Include="Areas\Payables\Controllers\ApAccountsController.cs" />
     <Compile Include="Areas\Payables\Controllers\ApCashFlowsController.cs" />
     <Compile Include="Areas\Payables\Controllers\ApPaymentsController.cs" />
@@ -659,7 +662,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\CarCoopController.cs" />
     <Compile Include="Controllers\CarDestinationsController.cs" />
     <Compile Include="Controllers\CarRatePackagesController.cs" />
     <Compile Include="Controllers\CarRatesController.cs" />
@@ -669,8 +671,6 @@
     <Compile Include="Controllers\CarUnitsController.cs" />
     <Compile Include="Controllers\CashExpensesController.cs" />
     <Compile Include="Controllers\CashierController.cs" />
-    <Compile Include="Controllers\CitiesController.cs" />
-    <Compile Include="Controllers\CoopMembersController.cs" />
     <Compile Include="Controllers\CustCategoriesController.cs" />
     <Compile Include="Controllers\CustCatsController.cs" />
     <Compile Include="Controllers\CustEntActivitiesController.cs" />
@@ -679,13 +679,11 @@
     <Compile Include="Controllers\CustEntitiesController.cs" />
     <Compile Include="Controllers\CustEntMainsController.cs" />
     <Compile Include="Controllers\CustFilesController.cs" />
-    <Compile Include="Controllers\CustNotifsController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomHelper.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DestinationsController.cs" />
     <Compile Include="Controllers\DriverInstructionsController.cs" />
-    <Compile Include="Controllers\EmailBlasterController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ExpensesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1331,15 +1329,7 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SMSWebService.asmx.cs">
-      <DependentUpon>SMSWebService.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="WebService.asmx.cs">
-      <DependentUpon>WebService.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\aspnet-JobsV1-20160528101923.mdf" />
@@ -1938,12 +1928,6 @@
     <Content Include="Images\CarRental\vios\toyotavios_backsideview.jpg" />
     <Content Include="Images\CarRental\vios\toyotavios_frontview.jpg" />
     <Content Include="Images\CarRental\vios\toyotavios_interior.jpg" />
-    <Content Include="Images\CustomerFiles\13\20180623_131024.jpg" />
-    <Content Include="Images\CustomerFiles\13\tutorme.png" />
-    <Content Include="Images\CustomerFiles\2\IMG_20151223_064601.jpg" />
-    <Content Include="Images\CustomerFiles\3\20180623_131024.jpg" />
-    <Content Include="Images\CustomerFiles\3\tutorme.png" />
-    <Content Include="Images\CustomerFiles\3\WDashboard-bigger.png" />
     <Content Include="Images\Customers\Category\Active-30.png" />
     <Content Include="Images\Customers\Category\cancel-40.png" />
     <Content Include="Images\Customers\Category\high-priority-40.png" />
@@ -2102,8 +2086,6 @@
     <Content Include="Images\paypal.png" />
     <Content Include="Images\LOGO_AJRENTACAR.jpg" />
     <Content Include="Images\Mail.png" />
-    <Content Include="Images\Mepu\Logo.jpg" />
-    <Content Include="Images\Mepu\Logo2.png" />
     <Content Include="Images\Phone001.png" />
     <Content Include="Images\Realbreeze.Header.PNG" />
     <Content Include="Images\RealBreezeLogo01.png" />
@@ -2138,16 +2120,7 @@
     <Content Include="Images\SalesLead\unhappy.jpg" />
     <Content Include="Images\Signature-1.png" />
     <Content Include="Images\Signature\GraceSign.jpg" />
-    <Content Include="Images\Signature\Jecca.Sign.jpg" />
-    <Content Include="Images\Signature\JhudySign.jpg" />
-    <Content Include="Images\Signature\JoSign.JPG" />
-    <Content Include="Images\Signature\KimSign.jpg" />
-    <Content Include="Images\Signature\MaeSign.JPG" />
-    <Content Include="Images\Signature\RamSign.JPG" />
-    <Content Include="Images\Signature\RuelSign.jpg" />
-    <Content Include="Images\Signature\TinSign.jpg" />
     <Content Include="Images\SMS.png" />
-    <Content Include="Images\Solid-steel-logo-2020.png" />
     <Content Include="Images\SolidSteel\Solid Steel Logo.jpg" />
     <Content Include="Images\SolidSteel\V-Steel-Logo-2022.png" />
     <Content Include="Models\SQL.Job\AddChecklist.SQL" />
@@ -2199,6 +2172,7 @@
     <Content Include="Properties\PublishProfiles\ftp.myasp.net.pubxml.user" />
     <Content Include="Properties\PublishProfiles\ftp.Somee.com.pubxml.user" />
     <Content Include="Properties\PublishProfiles\LocalPath.C.pubxml.user" />
+    <Content Include="Robots.txt" />
     <Content Include="Scripts\Activities\AddActivityCode.js" />
     <Content Include="Scripts\Activities\PostSaleCreate.js" />
     <Content Include="Scripts\Activities\Performance.js" />
@@ -2716,6 +2690,14 @@
     <Content Include="Areas\Personel\Views\crLogOwners\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\crLogOwners\Index.cshtml" />
     <Content Include="Areas\Payables\Views\ApCashFlows\DailyCashIn.cshtml" />
+    <Content Include="Areas\Masterlists\Views\web.config" />
+    <Content Include="Areas\Masterlists\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Masterlists\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Masterlists\Views\Cities\Create.cshtml" />
+    <Content Include="Areas\Masterlists\Views\Cities\Delete.cshtml" />
+    <Content Include="Areas\Masterlists\Views\Cities\Details.cshtml" />
+    <Content Include="Areas\Masterlists\Views\Cities\Edit.cshtml" />
+    <Content Include="Areas\Masterlists\Views\Cities\Index.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
@@ -2747,7 +2729,6 @@
     <Content Include="Scripts\Procurement\ProcAddItemRate.js" />
     <Content Include="serviceworker.js" />
     <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
-    <Content Include="WebService.asmx" />
     <EntityDeploy Include="Models\JobDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>JobDB.Designer.cs</LastGenOutput>
@@ -2876,7 +2857,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="SMSWebService.asmx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3177,7 +3157,6 @@
     <Content Include="Views\InvCarRecordTypes\Edit.cshtml" />
     <Content Include="Views\InvCarRecordTypes\Index.cshtml" />
     <Content Include="Views\JobOrder\BrowseInvItem_withScheduleJS.cshtml" />
-    <Content Include="Views\JobServices\NotificationList.cshtml" />
     <Content Include="Views\JobOrder\jobTrails.cshtml" />
     <Content Include="Views\CarRental\CarHome.cshtml" />
     <Content Include="Views\CarRental\CarDetail_van.cshtml" />
@@ -3238,17 +3217,8 @@
     <Content Include="Views\CarRental\CarViews\ListingMPV.cshtml" />
     <Content Include="Views\CarRental\CarViews\PopularAdsView.cshtml" />
     <Content Include="Views\CarRental\CarViews\ListingPickup.cshtml" />
-    <Content Include="Views\CoopMembers\Create.cshtml" />
-    <Content Include="Views\CoopMembers\Delete.cshtml" />
-    <Content Include="Views\CoopMembers\Details.cshtml" />
-    <Content Include="Views\CoopMembers\Edit.cshtml" />
-    <Content Include="Views\CoopMembers\Index.cshtml" />
     <Content Include="Views\JobOrder\JobListing.cshtml" />
     <Content Include="Views\Customers\CompanyCreate.cshtml" />
-    <Content Include="Views\Reporting\Index.cshtml" />
-    <Content Include="Views\Reporting\PaymentsReport.cshtml" />
-    <Content Include="Views\Reporting\Payments.cshtml" />
-    <Content Include="Views\Reporting\PaymentsPrint.cshtml" />
     <Content Include="Views\PaypalTransactions\Create.cshtml" />
     <Content Include="Views\PaypalTransactions\Delete.cshtml" />
     <Content Include="Views\PaypalTransactions\Details.cshtml" />
@@ -3263,16 +3233,7 @@
     <Content Include="Views\RateGroups\Index.cshtml" />
     <Content Include="Views\RateGroups\CreateRateGroup.cshtml" />
     <Content Include="Views\RateGroups\CarRateGroupList.cshtml" />
-    <Content Include="Views\Reporting\PackageRates.cshtml" />
-    <Content Include="Views\Reporting\PackageRatesReport.cshtml" />
-    <Content Include="Views\Reporting\PackageRatesPrint.cshtml" />
     <Content Include="Views\CarRental\Articles.cshtml" />
-    <Content Include="Views\EmailBlaster\Create.cshtml" />
-    <Content Include="Views\EmailBlaster\Delete.cshtml" />
-    <Content Include="Views\EmailBlaster\Details.cshtml" />
-    <Content Include="Views\EmailBlaster\Edit.cshtml" />
-    <Content Include="Views\EmailBlaster\Index.cshtml" />
-    <Content Include="Views\EmailBlaster\BlastResult.cshtml" />
     <Content Include="Views\JobOrder\TextConfirmation.cshtml" />
     <Content Include="Views\Module\Menu.cshtml" />
     <Content Include="Views\Shared\_ModuleLayout.cshtml" />
@@ -3341,10 +3302,6 @@
     <Content Include="Views\JobPosts\Edit.cshtml" />
     <Content Include="Views\JobPosts\Index.cshtml" />
     <Content Include="Views\JobOrder\JobDetails.cshtml" />
-    <Content Include="Views\EmailBlaster\EmailBlastList.cshtml" />
-    <Content Include="Views\Reporting\UnitIncomeReport.cshtml" />
-    <Content Include="Views\Reporting\UnitIncome.cshtml" />
-    <Content Include="Views\Reporting\UnitIncomePrint.cshtml" />
     <Content Include="Views\JobOrder\BrowseTemplate.cshtml" />
     <Content Include="Views\OnlineReservations\Create.cshtml" />
     <Content Include="Views\OnlineReservations\Delete.cshtml" />
@@ -3353,11 +3310,6 @@
     <Content Include="Views\OnlineReservations\Index.cshtml" />
     <Content Include="Views\OnlineReservations\Form.cshtml" />
     <Content Include="Views\JobMains\ActiveJobs2.cshtml" />
-    <Content Include="Views\DriverInstructions\Create.cshtml" />
-    <Content Include="Views\DriverInstructions\Delete.cshtml" />
-    <Content Include="Views\DriverInstructions\Details.cshtml" />
-    <Content Include="Views\DriverInstructions\Edit.cshtml" />
-    <Content Include="Views\DriverInstructions\Index.cshtml" />
     <Content Include="Views\JobOrder\DriverInstructions.cshtml" />
     <Content Include="Views\CustEntAddresses\Create.cshtml" />
     <Content Include="Views\CustEntAddresses\Delete.cshtml" />
@@ -3377,11 +3329,6 @@
     <Content Include="Views\Customers\EditCustSocial.cshtml" />
     <Content Include="Views\JobOrder\Details_Voucher.cshtml" />
     <Content Include="Views\SalesLeads\LeadDetails.cshtml" />
-    <Content Include="Views\Cities\Create.cshtml" />
-    <Content Include="Views\Cities\Delete.cshtml" />
-    <Content Include="Views\Cities\Details.cshtml" />
-    <Content Include="Views\Cities\Edit.cshtml" />
-    <Content Include="Views\Cities\Index.cshtml" />
     <Content Include="Views\CustEntMains\AssignedRecords.cshtml" />
     <Content Include="Views\CustEntAssigns\Create.cshtml" />
     <Content Include="Views\CustEntAssigns\Delete.cshtml" />
@@ -3431,19 +3378,9 @@
     <Content Include="Views\Activities\SupplierActsEdit.cshtml" />
     <Content Include="Views\Activities\SupplierActsDelete.cshtml" />
     <Content Include="Views\Activities\Performance.cshtml" />
-    <Content Include="Views\CustNotifs\Create.cshtml" />
-    <Content Include="Views\CustNotifs\Delete.cshtml" />
-    <Content Include="Views\CustNotifs\Details.cshtml" />
-    <Content Include="Views\CustNotifs\Edit.cshtml" />
-    <Content Include="Views\CustNotifs\Index.cshtml" />
-    <Content Include="Views\CustNotifs\RecipientList.cshtml" />
-    <Content Include="Views\CustNotifs\RecipientAdd.cshtml" />
-    <Content Include="Views\CustNotifs\Activity.cshtml" />
-    <Content Include="Views\CustNotifs\CreateNotif.cshtml" />
     <Content Include="Views\CustEntMains\ClauseEdit.cshtml" />
     <Content Include="Views\JobOrder\Index.cshtml" />
     <Content Include="Views\JobOrder\PartialViewJobServiceModal.cshtml" />
-    <Content Include="Views\CustNotifs\RecipientEdit.cshtml" />
     <Content Include="Views\CustEntMains\PartialView_Details_Categories.cshtml" />
     <Content Include="Views\CustEntMains\PartialView_Details_AddressEdit.cshtml" />
     <Content Include="Views\CustEntMains\PartialView_Details_AddressCreate.cshtml" />
@@ -3460,7 +3397,6 @@
     <Content Include="Views\Activities\SupActivities_ActivityCreate.cshtml" />
     <Content Include="Views\Activities\SupActivities_ActivityEdit.cshtml" />
     <Content Include="Views\CarRental\ArticlesView\Article1.cshtml" />
-    <Content Include="Views\CustNotifs\CreateNotifRecipients.cshtml" />
     <Content Include="Views\Shared\Menu.cshtml" />
     <Content Include="Views\CarRental\ArticlesView\NewSeatCapacity.cshtml" />
     <Content Include="Views\CarRental\CarViews\Tags\2020-SUV-Rental.cshtml" />
@@ -3636,9 +3572,15 @@
     <Content Include="Views\Dashboard\_PayablesView.cshtml" />
     <Content Include="Views\Dashboard\_ReceivablesView.cshtml" />
     <Content Include="Views\Dashboard\_SummaryView.cshtml" />
+    <Content Include="Views\Shared\_ModuleLayout_Full.cshtml" />
+    <Content Include="Views\Reporting\Index.cshtml" />
     <Content Include="Views\Reporting\JobSummary.cshtml" />
     <Content Include="Views\Reporting\JobSummaryDetails.cshtml" />
-    <Content Include="Views\Shared\_ModuleLayout_Full.cshtml" />
+    <Content Include="Views\DriverInstructions\Create.cshtml" />
+    <Content Include="Views\DriverInstructions\Delete.cshtml" />
+    <Content Include="Views\DriverInstructions\Details.cshtml" />
+    <Content Include="Views\DriverInstructions\Edit.cshtml" />
+    <Content Include="Views\DriverInstructions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -3653,6 +3595,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Accounting\Views\Home\" />
+    <Folder Include="Areas\Masterlists\Data\" />
     <Folder Include="Areas\Products\Views\Home\" />
     <Folder Include="Areas\Receivables\Scripts\Actions\" />
     <Folder Include="Areas\Receivables\Scripts\Credits\" />
@@ -3721,7 +3664,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
