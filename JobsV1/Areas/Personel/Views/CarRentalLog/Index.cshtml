@@ -439,6 +439,7 @@
                         @if (item.AllowEdit)
                         {
                             <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')">   Update OT   </a></li>
                         }
                         else
                         {
