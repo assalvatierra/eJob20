@@ -52,7 +52,7 @@ function InitDatePicker()
     }
     ); 
 
-    //Date 2
+    //Date Date
     var ddd3 = $('input[name="Date"]').val();
 
     $('input[name="Date"]').daterangepicker(
@@ -73,7 +73,7 @@ function InitDatePicker()
 
     $('input[name="Date"]').val(ddd3);
 
-    //Date 2
+    //Date DtActivity
     var ddd4 = $('input[name="DtActivity"]').val();
 
     $('input[name="DtActivity"]').daterangepicker(
@@ -92,9 +92,8 @@ function InitDatePicker()
         }
     ); 
 
-    // $('input[name="DtEnd"]').val(ddd2.substr(0, ddd2.indexOf(" ")));
 
-    //Date 2
+    //Date .datePicker
     var ddd5 = $('.datePicker').val();
 
     $('.datePicker').daterangepicker(
