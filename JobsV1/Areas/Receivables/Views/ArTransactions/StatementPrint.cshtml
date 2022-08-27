@@ -93,9 +93,10 @@
 
 <table class="table statement-details">
     <tr>
-        <th width="120" > Date</th>
+        <th width="120"> Date</th>
         <th width="90"> Invoice # </th>
         <th> Desc </th>
+        <th width="120"> Due Date </th>
         <th> Charges </th>
         <th> Payments </th>
         <th> Balance </th>
@@ -113,21 +114,22 @@
 
         <tr>
             <td> @transaction.InvoiceDate.ToString("MMM dd yyyy") </td>
-            
+
             <td>
-               
+
                 @transaction.InvoiceRef
-                
+
             </td>
             <td>
-                @transaction.Description 
+                @transaction.Description
                 @if (transaction.EndDate != null)
                 {
-                    DateTime sDate = (DateTime) transaction.StartDate;
-                    DateTime eDate = (DateTime) transaction.EndDate;
+                    DateTime sDate = (DateTime)transaction.StartDate;
+                    DateTime eDate = (DateTime)transaction.EndDate;
                     <span>( @sDate.ToString("MMM dd yyyy") - @eDate.ToString("MMM dd yyyy") )</span>
                 }
             </td>
+            <td> @transaction.DueDate.ToString("MMM dd yyyy") </td>
             <td>
                 @if (@transaction.Amount != 0)
                 {
@@ -149,7 +151,7 @@
     }
 <tr>
     <td style="border-top:1px solid black"> Trans: @Model.Count() </td>
-    <td colspan="2" style="border-top:1px solid black"></td>
+    <td colspan="3" style="border-top:1px solid black"></td>
     <td style="border-top:1px solid black">
         <p class="small-text-summary"> Total Amount </p>
         <b> @totalAmount.ToString("#,##0.00")</b>

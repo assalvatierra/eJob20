@@ -687,6 +687,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                     Description = statement.Description,
                     StartDate = statement.DtService,
                     EndDate = statement.DtServiceTo,
+                    DueDate = statement.DtDue,
                     Amount = statement.Amount,
                     Payment = payments
 
