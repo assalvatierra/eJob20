@@ -212,7 +212,6 @@
             //approved by Aldrin
             var statusCode = item.SalesStatus.Where(s => s.SalesStatusCodeId == 16).ToList();
 
-            var actStatusType = ActivityStatusType;
             bool isApproved = false;
 
             if (statusCode.Count() > 0)

@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 
     decimal Triplog_Rate = 0;
+    decimal Triplog_RateOT = 0;
     decimal Triplog_DriverAmount = 0;
     decimal Triplog_DriverOT = 0;
     decimal Triplog_DriverRate = 0;
@@ -56,6 +57,9 @@
             Rate
         </th>
         <th>
+            OT 
+        </th>
+        <th>
             Drivers
         </th>
         <th>
@@ -67,6 +71,7 @@
     {
 
         Triplog_Rate += trip.Rate + trip.Addon;
+        Triplog_RateOT += (Decimal)trip.AddonOT;
         Triplog_DriverAmount += trip.DriverFee + trip.DriverOT;
         Triplog_DriverRate += trip.DriverFee;
         Triplog_DriverOT += trip.DriverOT;
@@ -89,6 +94,9 @@
                 @trip.Rate
             </td>
             <td>
+                @trip.AddonOT
+            </td>
+            <td>
                 @trip.DriverFee.ToString("#,##0.00")
             </td>
             <td>
@@ -105,6 +113,9 @@
             @Triplog_Rate.ToString("#,##0.00")
         </td>
         <td>
+            @Triplog_RateOT.ToString("#,##0.00")
+        </td>
+        <td>
             @Triplog_DriverRate.ToString("#,##0.00")
         </td>
         <td>
@@ -112,9 +123,9 @@
         </td>
     </tr>
     <tr>
-        <td colspan="4">
+        <td colspan="7">
         </td>
-        <td colspan="2">
+        <td colspan="1">
 
             Total <br />
             <b>
@@ -329,7 +340,7 @@
                 {
                     foreach (var payments in receivables.ArTransDeposits.ToList())
                     {
-                        <span class="text-muted">@payments.ArDeposit.ArDepositBank.AccountName</span>
+                        <br /><span class="text-muted">@payments.ArDeposit.ArDepositBank.AccountName</span>
                     }
 
                 }
