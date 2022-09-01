@@ -19,6 +19,7 @@
 
     decimal TotalNetAmount = 0;
 
+    decimal decimal_zero = 0;
     int TriplogCount = 0;
 }
 
@@ -71,7 +72,7 @@
     {
 
         Triplog_Rate += trip.Rate + trip.Addon;
-        Triplog_RateOT += (Decimal)trip.AddonOT;
+        Triplog_RateOT += trip.AddonOT ?? decimal_zero;
         Triplog_DriverAmount += trip.DriverFee + trip.DriverOT;
         Triplog_DriverRate += trip.DriverFee;
         Triplog_DriverOT += trip.DriverOT;
