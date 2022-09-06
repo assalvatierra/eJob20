@@ -97,6 +97,9 @@
                 </td>
                 <td>
                     @payables.Description <br />
+                    @payables.DtService.ToString("MMM dd yyyy (ddd)") -
+                    @payables.DtServiceTo.ToString("MMM dd yyyy (ddd)")
+
                 </td>
                 <td>
                     @payables.DtDue.ToString("MMM dd yyyy (ddd)")
@@ -111,8 +114,8 @@
                     @transBalance.ToString("#,##0.00")
                 </td>
                 <td>
-                    @*@Html.ActionLink("Edit", "Edit", new { id = payables.Id }) |*@
-                    @*@Html.ActionLink("Details", "Details", new { id = payables.Id })*@
+                    @Html.ActionLink("Edit", "Edit", new { id = payables.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = payables.Id })
                 </td>
             </tr>
         }
