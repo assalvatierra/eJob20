@@ -114,8 +114,8 @@
                     @transBalance.ToString("#,##0.00")
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = payables.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = payables.Id })
+                    @Html.ActionLink("Edit", "Edit", "ApTransactions" , new { id = payables.Id }, null) |
+                    @Html.ActionLink("Details", "Details", "ApTransactions", new { id = payables.Id }, null)
                 </td>
             </tr>
         }
