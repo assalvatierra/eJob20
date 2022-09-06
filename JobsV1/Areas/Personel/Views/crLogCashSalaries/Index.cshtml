@@ -5,6 +5,9 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 
     decimal TotalSalary = 0;
+
+    int STATUS_REQUEST = 1;
+    int RequestCount = 0; 
 }
 
 <h2>Salary Request</h2>
@@ -39,12 +42,18 @@
 
     @foreach (var item in Model) {
 
+        var StatusRequest = item.crLogCashGroups.FirstOrDefault().crLogCashRelease.crLogCashStatus
+            .OrderByDescending(s => s.crCashReqStatusId).First().crCashReqStatusId;
+
         var salary = item.crLogCashGroups.Where(c=>c.crLogCashRelease.crLogCashTypeId <= 2)
-                .Sum(c => c.crLogCashRelease.Amount);
+        .Sum(c => c.crLogCashRelease.Amount);
         var deductions = item.crLogCashGroups.Where(c => c.crLogCashRelease.crLogCashTypeId > 2)
                 .Sum(c => c.crLogCashRelease.Amount);
         var driverSalary = salary - deductions;
         TotalSalary = TotalSalary + driverSalary;
+
+        RequestCount += 1;
+
         <tr>
             <td>
                 @item.Date.ToString("MMM dd yyyy")
@@ -57,25 +66,30 @@
             </td>
             <td>
                 @if (item.crLogCashGroups.FirstOrDefault() != null) {
-                    var StatusRequest = item.crLogCashGroups.FirstOrDefault().crLogCashRelease.crLogCashStatus
-                        .OrderByDescending(s => s.crCashReqStatusId).First().crCashReqStatusId;
-                    if (StatusRequest == 1)
+                    if (StatusRequest == STATUS_REQUEST)
                     {
                         <a class="cursor-hand" onclick="ApproveSalary(this, @item.Id)"> Approve </a>
                     }
                 }
             </td>
             <td>
-                @Html.ActionLink("Salary Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Print", "PrintSalary", new { id = item.Id }) |
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Salary Details", "Details", new { id = item.Id }) <span> | </span>
+
+                @if (StatusRequest != STATUS_REQUEST)
+                {
+                    @Html.ActionLink("Print", "PrintSalary", new { id = item.Id }) <span> | </span>
+                }
+                else
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <span> | </span>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                }
             </td>
         </tr>
     }
 
     <tr>
-        <td colspan="2"> </td>
+        <td colspan="2"> Count: @RequestCount </td>
         <td>
             @TotalSalary.ToString("#,##0.00")
         </td>
