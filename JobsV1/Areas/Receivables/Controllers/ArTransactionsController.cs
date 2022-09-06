@@ -689,7 +689,8 @@ namespace JobsV1.Areas.Receivables.Controllers
                     EndDate = statement.DtServiceTo,
                     DueDate = statement.DtDue,
                     Amount = statement.Amount,
-                    Payment = payments
+                    Payment = payments,
+                    StatusId = statement.ArTransStatusId
 
                 });
 

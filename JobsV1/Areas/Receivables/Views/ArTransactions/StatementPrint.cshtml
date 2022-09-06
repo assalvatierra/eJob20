@@ -6,6 +6,8 @@
     decimal RunningBalance = 0;
     decimal AccBalance = ViewBag.AccBalance;
     DateTime today = ViewBag.DateToday;
+
+    int STATUS_SETTLEMENT = 5;
 }
 <style>
 
@@ -110,7 +112,11 @@
 
         totalAmount += transaction.Amount;
         totalPayment += transaction.Payment;
-        RunningBalance += transaction.Amount - transaction.Payment;
+
+        if (transaction.StatusId < STATUS_SETTLEMENT)
+        {
+            RunningBalance += transaction.Amount - transaction.Payment;
+        }
 
         <tr>
             <td> @transaction.InvoiceDate.ToString("MMM dd yyyy") </td>
@@ -121,6 +127,7 @@
 
             </td>
             <td>
+                @transaction.StatusId -
                 @transaction.Description
                 @if (transaction.EndDate != null)
                 {
