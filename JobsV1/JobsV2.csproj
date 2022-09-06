@@ -1464,8 +1464,11 @@
     <Content Include="bin\ApServices.pdb" />
     <Content Include="bin\ArDBLayer.dll" />
     <Content Include="bin\ArInterfaces.dll" />
+    <Content Include="bin\ArInterfaces.pdb" />
     <Content Include="bin\ArModels.dll" />
+    <Content Include="bin\ArModels.pdb" />
     <Content Include="bin\ArServices.dll" />
+    <Content Include="bin\ArServices.pdb" />
     <Content Include="bin\EntityFramework.dll" />
     <Content Include="bin\EntityFramework.SqlServer.dll" />
     <Content Include="bin\JobsV1.dll" />
@@ -1623,7 +1626,7 @@
     <Content Include="Images\AutoCare\icons-suv.png" />
     <Content Include="Images\AutoCare\icons-user.png" />
     <Content Include="Images\AutoCare\icons-wrench.png" />
-    <Content Include="Images\Call.png" />
+    <Content Include="Images\Icons\Call.png" />
     <Content Include="Images\CarRental\4x4.101.png" />
     <Content Include="Images\CarRental\Ads\Ads-Airport-2019.png" />
     <Content Include="Images\CarRental\Ads\Ads-City-Tour-2019.png" />
@@ -1955,7 +1958,7 @@
     <Content Include="Images\EntityFiles\GAC\home_background4.jpg" />
     <Content Include="Images\EntityFiles\GAC\home_background5.jpg" />
     <Content Include="Images\EntityFiles\RBC\RealBreezeLogo01.png" />
-    <Content Include="Images\Envelop001.png" />
+    <Content Include="Images\Icons\Envelop001.png" />
     <Content Include="Images\Erp\Container05.png" />
     <Content Include="Images\Erp\Container_01.png" />
     <Content Include="Images\Erp\Container_02.png" />
@@ -2082,10 +2085,10 @@
     <Content Include="Images\Icons\icons-website.png" />
     <Content Include="Images\Icons\whatsapp-original.png" />
     <Content Include="Images\Logo_Realwheels.png" />
-    <Content Include="Images\paypal.png" />
+    <Content Include="Images\Icons\paypal.png" />
     <Content Include="Images\LOGO_AJRENTACAR.jpg" />
-    <Content Include="Images\Mail.png" />
-    <Content Include="Images\Phone001.png" />
+    <Content Include="Images\Icons\Mail.png" />
+    <Content Include="Images\Icons\Phone001.png" />
     <Content Include="Images\Realbreeze.Header.PNG" />
     <Content Include="Images\RealBreezeLogo01.png" />
     <Content Include="Images\RealBreeze_Location.png" />
@@ -2119,7 +2122,7 @@
     <Content Include="Images\SalesLead\unhappy.jpg" />
     <Content Include="Images\Signature-1.png" />
     <Content Include="Images\Signature\GraceSign.jpg" />
-    <Content Include="Images\SMS.png" />
+    <Content Include="Images\Icons\SMS.png" />
     <Content Include="Images\SolidSteel\Solid Steel Logo.jpg" />
     <Content Include="Images\SolidSteel\V-Steel-Logo-2022.png" />
     <Content Include="Models\SQL.Job\AddChecklist.SQL" />
@@ -2697,6 +2700,9 @@
     <Content Include="Areas\Masterlists\Views\Cities\Details.cshtml" />
     <Content Include="Areas\Masterlists\Views\Cities\Edit.cshtml" />
     <Content Include="Areas\Masterlists\Views\Cities\Index.cshtml" />
+    <Content Include="bin\ArModels.dll.config" />
+    <Content Include="bin\ArServices.dll.config" />
+    <Content Include="bin\JobsV1.dll.config" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
