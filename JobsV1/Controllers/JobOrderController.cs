@@ -1784,29 +1784,34 @@ namespace JobsV1.Controllers
 
 
             string custCompany = "";
-            string custCompanyAddress = "";
-            string custCompanyTel = "";
+            string billingLine1 = "";
+            string billingLine2 = "";
+            string billingLine3 = "";
+            string billingLine4 = "";
+
             //check customer if assigned to a company
             if (jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault() != null)
             {
                 var company = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain;
 
-                //hide company name if company is 1 = New (not defined)
-                if (company.Id == 1)
+                if (company.CustEntAddresses != null )
                 {
-                    custCompany = " ";
-                }
-                else
-                {
-                    custCompany = company.Name;
-                    custCompanyAddress = company.Address;
-                    custCompanyTel = company.Contact1;
+                    var billingdetails = company.CustEntAddresses.Where(c => c.isBilling).FirstOrDefault();
+                    if (billingdetails != null)
+                    {
+                        billingLine1 = billingdetails.Line1;
+                        billingLine2 = billingdetails.Line2;
+                        billingLine3 = billingdetails.Line3;
+                        billingLine4 = billingdetails.Line4;
+                    }
                 }
             }
 
             ViewBag.custCompany = custCompany;
-            ViewBag.custCompanyAddress = custCompanyAddress;
-            ViewBag.custCompanyTel = custCompanyTel;
+            ViewBag.custCompanyAddress = billingLine1;
+            ViewBag.custCompanyTel = billingLine2;
+            ViewBag.custCompanyTIN = billingLine3;
+            ViewBag.custCompanyStyle = billingLine4;
 
             ViewBag.DateNow = getDateTimeToday().Date.ToString();
 
@@ -1859,35 +1864,43 @@ namespace JobsV1.Controllers
             }
 
             string custCompany = "";
-            string custCompanyAddress = "";
-            string custCompanyTel = "";
+            string billingLine1 = "";
+            string billingLine2 = "";
+            string billingLine3 = "";
+            string billingLine4 = "";
+            bool isBilling = false;
+
             //check customer if assigned to a company
             if (jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault() != null)
             {
                 var company = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain;
 
-                //hide company name if company is 1 = New (not defined)
-                if (company.Id == 1)
+                if (company.CustEntAddresses != null)
                 {
-                    custCompany = " ";
-                }
-                else
-                {
-                    custCompany = company.Name;
-                    custCompanyAddress = company.Address;
-                    custCompanyTel = company.Contact1;
+                    var billingdetails = company.CustEntAddresses.Where(c => c.isBilling).FirstOrDefault();
+                    if (billingdetails != null)
+                    {
+                        isBilling = true;
+                        billingLine1 = billingdetails.Line1;
+                        billingLine2 = billingdetails.Line2;
+                        billingLine3 = billingdetails.Line3;
+                        billingLine4 = billingdetails.Line4;
+                    }
                 }
             }
 
+            ViewBag.IsBilling = isBilling;
             ViewBag.custCompany = custCompany;
-            ViewBag.custCompanyAddress = custCompanyAddress;
-            ViewBag.custCompanyTel = custCompanyTel;
+            ViewBag.custCompanyAddress = billingLine1;
+            ViewBag.custCompanyTel = billingLine2;
+            ViewBag.custCompanyStyle =  billingLine3;
+            ViewBag.custCompanyTIN = billingLine4;
+
 
             ViewBag.Services = db.JobServices.Include(j => j.JobServicePickups).Where(j => j.JobMainId == jobMain.Id).OrderBy(s => s.DtStart);
             ViewBag.Itinerary = db.JobItineraries.Include(j => j.Destination).Where(j => j.JobMainId == jobMain.Id);
             ViewBag.Payments = db.JobPayments.Where(j => j.JobMainId == jobMain.Id);
             ViewBag.jNotes = db.JobNotes.Where(d => d.JobMainId == jobMain.Id).OrderBy(s => s.Sort);
-            ViewBag.custCompany = custCompany;
 
             //Default form
             string sCompany = "AJ88 Car Rental Services";
@@ -1944,7 +1957,7 @@ namespace JobsV1.Controllers
             ViewBag.AccNum = bank.AccntNo;
 
             ViewBag.rsvId = 1;
-            ViewBag.CarDesc = "Test Unit";
+            ViewBag.CarDesc = "";
             ViewBag.ReservationType = "Rental";
             ViewBag.Amount = 1000;
 

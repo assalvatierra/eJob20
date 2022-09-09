@@ -79,8 +79,8 @@ namespace JobsV1.Models
                  "FROM CustEntMains cem " +
                  "LEFT JOIN CustEntities cet ON cet.CustEntMainId = cem.Id " +
                  "LEFT JOIN Customers cust ON cust.Id = cet.CustomerId ) as com " +
-                 //"WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE')) ";
-                 ") WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE' AND AssignedTo='" + user+"'))";
+                 "WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE')) ";
+                 //") WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE' AND AssignedTo='" + user+"'))";
                  
             if (status != null)
             {

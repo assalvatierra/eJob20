@@ -83,12 +83,17 @@
         <td>
             <!--Company-->
             @{
-
-                if (Model.Customer.Name.Trim() == "Personal Account")
+                if (ViewBag.IsBilling)
                 {
-                    @Html.DisplayFor(model => model.Description)
+                    //If Company have billing details
+                    <br /> @ViewBag.custCompany
+                    <br /><span> Address: </span> @ViewBag.custCompanyAddress
+                    <br /><span> Business Style.: </span> @ViewBag.custCompanyStyle
+                    <br /><span> TIN : </span> @ViewBag.custCompanyTIN
                 }
-                else if (Model.Customer.Name.Trim() == "<< New Customer >>")
+                else if (Model.Customer.Name.Trim() == "Personal Account" ||
+                         Model.Customer.Name.Trim() == "<< New Customer >>" ||
+                         ViewBag.custCompany == "Personal Account")
                 {
                     @Html.DisplayFor(model => model.Description)
                 }
@@ -97,23 +102,19 @@
                     @Html.DisplayFor(model => model.Description)
                     <br />@ViewBag.custCompany
                 }
-                else if (ViewBag.custCompany == "Personal Account")
-                {
-                    @Html.DisplayFor(model => model.Description)
-                }
                 else if (ViewBag.custCompany == Model.Description.Trim())
                 {
-                    @Html.DisplayFor(model => model.Customer.Name)
-                    <br />@ViewBag.custCompany
+                    <br /> @ViewBag.custCompany
+                    <br /><span> Address: </span> @ViewBag.custCompanyAddress
+                    <br /><span> Business Style.: </span> @ViewBag.custCompanyStyle
+                    <br /><span> TIN : </span> @ViewBag.custCompanyTIN
                 }
                 else
                 {
-                    @Html.DisplayFor(model => model.Description) <span> / </span> @Html.DisplayFor(model => model.Customer.Name)
-                    <br /> @ViewBag.custCompany
-
-                    @*<br /> @ViewBag.custCompany
-                    <br /> @ViewBag.custCompanyAddress
-                    <br /><span> TIN No.: </span> @ViewBag.custCompanyTel*@
+                    <span>
+                        @Html.DisplayFor(model => model.Description) <span> / </span>
+                        @Html.DisplayFor(model => model.Customer.Name)
+                    </span>
                 }
             }
 
@@ -127,11 +128,10 @@
 
             @if (Model.NoOfPax != 0)
             {
-                <span> 
-                    Pax: @Html.DisplayFor(model => model.NoOfPax)  
+                <span>
+                    Pax: @Html.DisplayFor(model => model.NoOfPax)
                 </span>
             }
-
 
             @if (Model.NoOfDays != 0)
             {
@@ -239,7 +239,6 @@
 
                 <div >
                     <h2>Summary</h2>
-                    @*Expenses: @dContractAmt*@
                     <table>
                         <tr>
                             <td>Total Due:</td>
@@ -296,12 +295,10 @@
 <!--Signature -->
 <div class="col-lg-12">
     <p>
-        @*Expenses: @dContractAmt*@
         <table>
             <tr>
                 <td style="vertical-align:bottom;">Prepared By:</td>
-                <td><br /><br /><u style="font-size:large;vertical-align:bottom;">   
-                     @*Elvie S. Salvatierra*@       
+                <td><br /><br /><u style="font-size:large;vertical-align:bottom;">  
                      @ViewBag.StaffName
                      </u></td>
             </tr>
@@ -313,16 +310,6 @@
                 <td style="vertical-align:bottom;">Date:</td>
                 <td>
                     <br /><u style="font-size:large;vertical-align:bottom;">
-                        @*@{try
-                            {
-                                @System.DateTime.Parse(ViewBag.DateNow).ToString("MMM dd, yyyy")
-                            }
-                            catch (Exception ex)
-                            {
-                                @System.DateTime.Now.ToString("MMM dd, yyyy") 
-                             }
-
-                        }*@
                          @Model.JobDate.ToString("MMM dd yyyy")
                         
                         </u></td>
