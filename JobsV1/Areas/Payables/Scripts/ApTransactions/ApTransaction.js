@@ -390,14 +390,14 @@ function POST_ReturnAmount(id, amount, remarks, invoiceDate) {
     });
 }
 
-function ShowReturnAmountModal(id, Description, amount, budget, invoiceDate) {
+function ShowReturnAmountModal(id, Description, amount, budget, invoiceDate, remarks) {
 
     $("#ReturnAmount-Id").val(id);
     $("#ReturnAmount-Date").val(invoiceDate);
     $("#ReturnAmount-PreAmount").val(amount);
     $("#ReturnAmount-BudgetAmount").val(budget);
     $("#ReturnAmount-Amount").val(0);
-    $("#ReturnAmount-Remarks").val('');
+    $("#ReturnAmount-Remarks").val(remarks);
     $("#ReturnAmount-Description").val(Description);
     $("#ReturnAmount-Modal").modal('show');
 

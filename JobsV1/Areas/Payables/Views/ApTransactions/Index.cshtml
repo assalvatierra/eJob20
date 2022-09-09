@@ -439,14 +439,14 @@
                                     }
                                     else
                                     {
-                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt, '@item.DtInvoice.ToString("MM/dd/yyyy")')">PO Return </a>
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt, '@item.DtInvoice.ToString("MM/dd/yyyy")','')">PO Return </a>
                                     }
                                 }
 
                                 @if ((item.ApTransPayments.Count() != 0) && item.ApTransTypeId != TYPE_PO)
                                 {
                                     //return
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt, '@item.DtInvoice.ToString("MM/dd/yyyy")')"> Return </a>
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id,'@item.Description', @item.Amount, @item.BudgetAmt, '@item.DtInvoice.ToString("MM/dd/yyyy")','@item.Remarks')"> Return </a>
 
                                 }
 
