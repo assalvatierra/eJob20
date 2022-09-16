@@ -42,6 +42,7 @@ namespace JobsV1.Models
         public string CustEmail { get; set; }
         public string SalesCode { get; set; }
         public string ItemWeight { get; set; }
+        public string Commodity { get; set; }
     
         public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
