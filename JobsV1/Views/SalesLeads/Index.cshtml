@@ -237,17 +237,28 @@
                         <span style="font-weight:600;color:#282828;">
                             @Html.DisplayFor(modelItem => item.SalesCode) -
                         </span>
-
                         <span style="font-weight:600;color:darkblue;">
                             @Html.DisplayFor(modelItem => item.Details)
                         </span>
-                        <br />
-                        <span style="font:500 arial, verdana;">
-                            @Html.DisplayFor(modelItem => item.Remarks)
-                        </span>
-                        <br />
+                        @if (!String.IsNullOrEmpty(item.Commodity))
+                        {
+                            <br />
+                            <span style="font:500 arial, verdana;">
+                                Commodity:  @Html.DisplayFor(modelItem => item.Commodity)
+                            </span>
+                        }
+
+                        @if (!String.IsNullOrEmpty(item.Remarks))
+                        {
+                            <br />
+                            <span style="font:500 arial, verdana;">
+                                Remarks: @Html.DisplayFor(modelItem => item.Remarks)
+                            </span>
+                            
+                        }
 
 
+                        <br /><br />
                         <span style="font:bold 8px, arial, verdana; color:maroon ;">
                             Activities &nbsp;
 
@@ -260,13 +271,13 @@
                                         .CustEntMain.CustEntActivities.OrderByDescending(c => c.Id).FirstOrDefault() != null)
                                     {
 
-                                    var latestActivity = item.SalesLeadCompanies.FirstOrDefault()
-                                        .CustEntMain.CustEntActivities.OrderByDescending(c => c.Id).FirstOrDefault();
+                                        var latestActivity = item.SalesLeadCompanies.FirstOrDefault()
+                                            .CustEntMain.CustEntActivities.OrderByDescending(c => c.Id).FirstOrDefault();
 
-                                    <span class="label label-default cursor-hand" onclick="ShowUpdateActivityStatus_Modal(@item.Id)"
-                                          style="color:white;">
-                                        @latestActivity.CustEntActStatu.Status - @latestActivity.Type
-                                    </span>
+                                        <span class="label label-default cursor-hand" onclick="ShowUpdateActivityStatus_Modal(@item.Id)"
+                                              style="color:white;">
+                                            @latestActivity.CustEntActStatu.Status - @latestActivity.Type
+                                        </span>
 
                                     }
                                 }
@@ -274,7 +285,7 @@
                             else
                             {
 
-                                if (item.SalesLeadCompanies.FirstOrDefault() != null )
+                                if (item.SalesLeadCompanies.FirstOrDefault() != null)
                                 {
                                     if (item.SalesLeadCompanies.FirstOrDefault()
                                        .CustEntMain.CustEntActivities.OrderByDescending(c => c.Id).FirstOrDefault() != null)
@@ -282,9 +293,9 @@
                                         var latestActivity = item.SalesLeadCompanies.FirstOrDefault()
                                                     .CustEntMain.CustEntActivities.OrderByDescending(c => c.Id).FirstOrDefault();
 
-                                    <span class="label label-default " style="color:white;cursor:no-drop;">
-                                        @latestActivity.CustEntActStatu.Status - @latestActivity.Type
-                                    </span>
+                                        <span class="label label-default " style="color:white;cursor:no-drop;">
+                                            @latestActivity.CustEntActStatu.Status - @latestActivity.Type
+                                        </span>
                                     }
                                 }
                             }
@@ -298,9 +309,10 @@
                             if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
                             {
                                 var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
-                                var activities = company.CustEntActivities.Where(s=>s.SalesCode == item.SalesCode);
+                                var activities = company.CustEntActivities.Where(s => s.SalesCode == item.SalesCode);
 
-                                if (item.SalesLeadCompanies != null) {
+                                if (item.SalesLeadCompanies != null)
+                                {
                                     @Html.Partial("CustActivitiesPartial", activities,
                                    new ViewDataDictionary { { "AssignedTo", item.AssignedTo }, { "IsAdmin", ISADMIN } })
                                 }
@@ -391,7 +403,7 @@
                             ITEMS
                         </span> <br />
 
-                         <!-- Late Loading Procurment / Supplier Items -->
+                        <!-- Late Loading Procurment / Supplier Items -->
                         @Html.Partial("_PartialSupplierItems", item.SalesLeadItems,
                                 new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", item.AssignedTo }, { "IsAdmin", ISADMIN } })
 
@@ -408,10 +420,10 @@
 
                         <!--Add Files-->
                         <div style="margin:7px 0px 7px 0px;">
-                            
-                            @Html.Partial("_PartialLeadFiles", item.SalesLeadFiles.OrderByDescending(c=>c.Id).FirstOrDefault(),
-                                new ViewDataDictionary { { "Id" , item.Id } , { "FileCount" , item.SalesLeadFiles.Count() } })
-                           
+
+                            @Html.Partial("_PartialLeadFiles", item.SalesLeadFiles.OrderByDescending(c => c.Id).FirstOrDefault(),
+                                new ViewDataDictionary { { "Id", item.Id }, { "FileCount", item.SalesLeadFiles.Count() } })
+
                         </div>
 
                         <span style="font: status-bar; color:gray;">
