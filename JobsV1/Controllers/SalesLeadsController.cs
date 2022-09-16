@@ -20,6 +20,7 @@ namespace JobsV1.Controllers
     {
         // NEW CUSTOMER Reference ID
         private int NewCustSysId = 1;
+
         // Job Status
         private int JOBINQUIRY = 1;
         //private int JOBRESERVATION = 2;
@@ -27,6 +28,10 @@ namespace JobsV1.Controllers
         //private int JOBCLOSED = 4;
         //private int JOBCANCELLED = 5;
         //private int JOBTEMPLATE = 6;
+
+        private enum salesLead_status {
+            New = 1
+        }
 
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbclasses = new DBClasses();
@@ -356,7 +361,6 @@ namespace JobsV1.Controllers
         // GET: SalesLeads/Create
         public ActionResult Create()
         {
-
             var user = HttpContext.User.Identity.Name;
 
             var tmp = new Models.SalesLead();
@@ -364,8 +368,6 @@ namespace JobsV1.Controllers
             tmp.DtEntered = date.GetCurrentDateTime();
             tmp.EnteredBy = user;
 
-
-            
             ViewBag.CustomerId = new SelectList(db.Customers.Where(s=>s.Status == "ACT"), "Id", "Name");
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", user);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
@@ -381,7 +383,8 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail,AssignedTo,SalesCode,ItemWeight")] SalesLead salesLead, int? CompanyId)
+        public ActionResult Create([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered," +
+            "EnteredBy,AssignedTo,CustPhone,CustEmail,AssignedTo,SalesCode,ItemWeight,Commodity")] SalesLead salesLead, int? CompanyId)
         {
             if (ModelState.IsValid && SalesLeadValidation(salesLead))
             {
@@ -392,12 +395,13 @@ namespace JobsV1.Controllers
                     {
                         salesLead.EnteredBy = "Guest";
                     }
-                    //int compId = salesLead.SalesLeadCompanies.OrderByDescending(s => s.Id).FirstOrDefault().Id; //get lastest company id
+
                     db.SalesLeads.Add(salesLead);
                     db.SaveChanges();
 
-                    AddSalesStatus(salesLead.Id, 1);    //NEW Lead Status
-                    addCompany((int)CompanyId, salesLead.Id);
+                    AddSalesStatus(salesLead.Id, (int)salesLead_status.New);    //NEW Lead Status
+
+                    AddCompanyLink((int)CompanyId, salesLead.Id);
 
                     if (!salesLead.SalesCode.IsNullOrWhiteSpace())
                     {
@@ -428,7 +432,7 @@ namespace JobsV1.Controllers
             return View(salesLead);
         }
 
-        public void addCompany(int compId, int leadId)
+        public void AddCompanyLink(int compId, int leadId)
         {
             SalesLeadCompany slCompany = new SalesLeadCompany();
             slCompany.CustEntMainId = compId;
@@ -998,7 +1002,7 @@ namespace JobsV1.Controllers
             return RedirectToAction("Index", new { sortid = 1, leadid = salesLead.Id });
         }
 
-        //POST: Update sales lead weight
+        //POST: Update Sales LEad Activity Data
         public bool UpdateLeadActivityStatus(int id, string status)
         {
             //get sales lead
@@ -1021,6 +1025,7 @@ namespace JobsV1.Controllers
                 activity.CustEntActStatusId = 1;
                 activity.CustEntActActionStatusId = 1;
                 activity.CustEntActActionCodesId = 11;
+                activity.Commodity = salesLead.Commodity;
 
                 if (salesLead.SalesLeadCompanies.FirstOrDefault() != null) {
                     activity.CustEntMainId = salesLead.SalesLeadCompanies.FirstOrDefault().CustEntMainId;
@@ -1038,7 +1043,7 @@ namespace JobsV1.Controllers
 
         }
 
-        //Add customer activity 
+        //Add customer activity status
         public bool AddActivityStatus(int id, string status, string activityStatus)
         {
             //get sales lead
@@ -1060,6 +1065,7 @@ namespace JobsV1.Controllers
                 activity.SalesLeadId = id;
                 activity.CustEntActActionStatusId = 1; //open
                 activity.CustEntActActionCodesId = 11; //others
+                activity.Commodity = salesLead.Commodity;
 
                 switch (activityStatus)
                 {
@@ -1334,6 +1340,7 @@ namespace JobsV1.Controllers
             {
                 if (slId != null || companyId != null || !salesCode.IsNullOrWhiteSpace())
                 {
+                    var salesLead = db.SalesLeads.Find(slId);
 
                     var actCodeDefault = db.CustEntActActionCodes.Find(ActCodeId);
 
@@ -1346,6 +1353,8 @@ namespace JobsV1.Controllers
                     activity.SalesLeadId = slId;
                     activity.ActivityType = GetActivityType(ActCodeId);
                     activity.CustEntActStatusId = GetActivityStatus(ActCodeId);
+                    activity.Commodity = salesLead.Commodity;
+
                     if (actCodeDefault != null)
                     {
                         activity.Remarks = actCodeDefault.Desc;
@@ -1356,7 +1365,6 @@ namespace JobsV1.Controllers
                     ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status");
                     ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
                     ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", GetActivityType(ActCodeId));
-
                     ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status", GetActivityStatus(ActCodeId));
                     ViewBag.CustEntActActionStatusId = new SelectList(db.CustEntActActionStatus, "Id", "ActionStatus", actCodeDefault.DefaultActStatus);
                     ViewBag.CustEntActActionCodesId = new SelectList(db.CustEntActActionCodes, "Id", "Name", ActCodeId);
@@ -1497,7 +1505,9 @@ namespace JobsV1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddCustActivityCode([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType,CustEntActStatusId,CustEntActActionStatusId,CustEntActActionCodesId,SalesLeadId")] CustEntActivity custEntActivity)
+        public ActionResult AddCustActivityCode([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId," +
+            "Type,ActivityType,CustEntActStatusId,CustEntActActionStatusId,CustEntActActionCodesId,SalesLeadId,Commodity")] 
+            CustEntActivity custEntActivity)
         {
             if (ModelState.IsValid)
             {

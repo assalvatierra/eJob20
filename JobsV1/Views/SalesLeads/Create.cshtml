@@ -19,7 +19,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control datePicker" } })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -33,12 +33,21 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Commodity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Commodity, new { htmlAttributes = new { @class = "form-control", @maxlength = "180" } })
+                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "180" } })
                 @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -74,7 +83,7 @@
         <div class="form-group">
             <b class="control-label col-md-2"> Contact Name</b>
             <div class="col-md-4" style="width:320px">
-                @Html.EditorFor(model => model.CustName, new { htmlAttributes = new { @class = "form-control", @id = "CustName", @maxlength = "180", @readonly="readonly" } })
+                @Html.EditorFor(model => model.CustName, new { htmlAttributes = new { @class = "form-control", @id = "CustName", @maxlength = "180", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.CustName, "", new { @class = "text-danger" })
             </div>
 
@@ -175,8 +184,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-
 <!-- Company Seatch Modal -->
 <div class="modal fade" id="CompanyModal" tabindex="-1" role="dialog" aria-labelledby="CompanySearch" aria-hidden="true">
     <div class="modal-dialog">
@@ -212,6 +219,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="~/Scripts/Job/SalesLead.js"></script>
+    <script type="text/javascript" src="~/Scripts/DateRangePicker/DefaultDate.js"></script>
     <script>
         function searchCustomer() {
             var input, filter, ul, li, a, i;
@@ -259,10 +267,10 @@
             $("#CustName").val(customer);
         }
 
-        
+
         function SelectCompany(companyId) {
 
-            console.log(companyId);
+            //console.log(companyId);
             $('#CompanyId').val(companyId);
             $('#CompanyModal').modal('toggle');
 
@@ -286,7 +294,7 @@
                     $('#company-textfield').val($("#CompanyId option:selected").text());
                 });
         }
-        
+
 
         //get company using ajax post
         function GetCustomer(companyId) {
@@ -299,9 +307,8 @@
                     //$('#CompanyId').val(data);
                     //$('#company-textfield').val($("#CompanyId option:selected").text());
                 }).done((customer) => {
+                    //console.log(customer);
 
-                    console.log(customer);
-                    
                     $("#CompanyId").val(companyId);
                     $("#CustomerId").val(customer["Id"]);
                     $("#CustName").val(customer["Name"]);
@@ -333,7 +340,7 @@
                 },
                 function (data, status) {
                     $("#CustPhone").val(data);
-            });
+                });
         }
 
 
@@ -372,14 +379,14 @@
                 data: data,
                 dataType: 'application/json; charset=utf-8',
                 success: function (data) {
-                    console.log("SUCCESS");
-                    console.log(data);
+                    //console.log("SUCCESS");
+                    //console.log(data);
                 },
                 error: function (data) {
-                    console.log("ERROR");
-                    console.log(data);
+                    //console.log("ERROR");
+                    //console.log(data);
                     var comId = parseInt(data['responseText']);
-                    console.log(comId);
+                    //console.log(comId);
                     $('#CompanyId').val(comId);
                 }
             });
