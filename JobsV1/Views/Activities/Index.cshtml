@@ -33,7 +33,7 @@
         <th> Code    </th>
         <th> Amount  </th>
         <th> Status  </th>
-        <th> Type    </th>
+        <th> Commodity    </th>
         <th> Company </th>
         <th> Remarks </th>
         <th> AssignedTo </th>
@@ -62,7 +62,17 @@
                 @Html.DisplayFor(modelItem => item.CustEntActStatu.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ActivityType)
+                @if (item.CustEntMain.SalesLeadCompanies.FirstOrDefault() != null)
+                {
+                    <span>
+                        @item.CustEntMain.SalesLeadCompanies.FirstOrDefault().SalesLead.Commodity
+                    </span>
+                }
+                else
+                {
+                    <br />
+                    @item.Commodity
+                }
             </td>
             <td>
                 @Html.ActionLink(item.CustEntMain.Name, "Index", "CustEntActivities", new { id = item.CustEntMainId }, null)
