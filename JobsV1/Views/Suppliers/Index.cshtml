@@ -16,7 +16,6 @@
         flex-wrap: wrap;
     }
 
-
     .filter-row {
         display: flex;
         flex: 1;
@@ -40,6 +39,7 @@
             color: dodgerblue !important;
         }
 </style>
+
 <div>
 
     <h2>Suppliers</h2>
@@ -88,6 +88,7 @@
                     <option value="COUNTRY">  Country  </option>
                     <option value="CATEGORY"> Category </option>
                     <option value="PRODUCT">  Product  </option>
+                    <option value="MATERIAL">  Material  </option>
                     <option value="ORIGIN">   Origin  </option>
                     <option value="CITY">     City  </option>
                 </select>
@@ -132,9 +133,7 @@
             <th class="cursor-hand"> Supplier </th>
             <th class="cursor-hand"> Origin </th>
             <th class="js-sort-number"> Rate </th>
-            <th> Date Encoded </th>
-            <th id="sort-date-validity"> Validity Start </th>
-            <th class="cursor-hand"> Validity End </th>
+            <th> Material </th>
             <th> Description </th>
             <th> </th>
         </tr>
@@ -152,6 +151,6 @@
 
 </div>
 @section Scripts{
-    <script src="~/Scripts/Job/SupplierList.js"></script>
+    <script src="~/Scripts/Suppliers/SupplierList.js"></script>
     <script src="~/Scripts/sort-table.js"></script>
 }

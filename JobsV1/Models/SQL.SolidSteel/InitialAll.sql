@@ -44,9 +44,6 @@ values ('PHP'),('USD');
 insert into SalesStatusTypes([Type])
 values  ('ALL'),('SALES'),('PROCUREMENT');
 
-insert into SalesStatusStatus([Status])
-values  ('Active'),('Inactive')
-
 insert into SalesStatusCodes([SeqNo],[Name],[SalesStatusTypeId],[OrderNo])
 values	(1, 'INQUIRY',1,1), (2,'SALES',2,2), (3, 'PROCUREMENT',2,3), (4, 'FOR APPROVAL',1,4),
 		(5, 'APPROVED',1,5), (6, 'AWARDED',1,6), (7, 'REJECTED',1,7), (8, 'CLOSE',1,8),
@@ -312,11 +309,11 @@ insert into SupplierInvItems([SupplierId],[InvItemId]) values
       (4,2),(4,3);
 
 insert into SupplierItemRates([SupplierInvitemId],[ItemRate],[SupplierUnitId],[Remarks],[DtEntered],[DtValidFrom],[DtValidTo],[Particulars],[Material],[By],[ProcBy],[TradeTerm],[Tolerance]) values
-	(1,2500,2,'','06/14/2020','01/16/2022','06/16/2021','Pipe' ,'Carbon Steel','John','Ann','',''),
-	(2,3300,3,'','06/10/2020','01/10/2021','06/30/2021','Plate','Carbon Steel','John','Ann','',''),
-	(3,2500,2,'','07/18/2020','01/05/2021','08/30/2021','Pipe' ,'Carbon Steel','Dalton','Mark','',''),
-	(4,3600,3,'','07/09/2020','12/18/2020','12/30/2021','Plate','Carbon Steel','Mike','Ann','',''),
-	(5,4000,3,'','12/09/2019','12/10/2019','06/30/2021','Pipe' ,'Stainless Steel','Mike','Ann','','');
+	(1,2500,2,'','06/14/2022','01/16/2022','06/16/2023','Pipe' ,'Carbon Steel','John','Ann','',''),
+	(2,3300,3,'','06/10/2022','01/10/2022','06/30/2023','Plate','Carbon Steel','John','Ann','',''),
+	(3,2500,2,'','07/18/2022','01/05/2022','08/30/2023','Pipe' ,'Carbon Steel','Dalton','Mark','',''),
+	(4,3600,3,'','07/09/2022','12/18/2022','12/30/2023','Plate','Carbon Steel','Mike','Ann','',''),
+	(5,4000,3,'','12/09/2022','12/10/2022','06/30/2023','Pipe' ,'Stainless Steel','Mike','Ann','','');
 
 insert into SupplierContactStatus([Name]) values ('Active'),('Resigned');
 

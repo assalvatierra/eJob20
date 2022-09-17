@@ -2125,19 +2125,19 @@
     <Content Include="Images\Icons\SMS.png" />
     <Content Include="Images\SolidSteel\Solid Steel Logo.jpg" />
     <Content Include="Images\SolidSteel\V-Steel-Logo-2022.png" />
-    <Content Include="Models\SQL.Job\AddChecklist.SQL" />
-    <Content Include="Models\SQL.Job\AsExpenseDB.sql" />
+    <Content Include="Models\SQL.Job\Reports\AddChecklist.SQL" />
+    <Content Include="Models\SQL.Job\Reports\AsExpenseDB.sql" />
     <Content Include="Models\SQL.CarCoop\CarRentalInitial.sql" />
-    <Content Include="Models\SQL.Job\CarRentalInitial_2020.sql" />
-    <Content Include="Models\SQL.Job\CarRental_Products.sql" />
-    <Content Include="Models\SQL.Job\CarRentalInitial.sql" />
-    <Content Include="Models\SQL.Job\CarRentalInitial_RatePackage.sql" />
-    <Content Include="Models\SQL.Job\CarRentalInitial_meta.sql" />
-    <Content Include="Models\SQL.Job\CustomerInitial.sql" />
-    <Content Include="Models\SQL.Job\DailyStatusUpdate.sql" />
+    <Content Include="Models\SQL.Job\Reports\CarRentalInitial_2020.sql" />
+    <Content Include="Models\SQL.Job\Reports\CarRental_Products.sql" />
+    <Content Include="Models\SQL.Job\Reports\CarRentalInitial.sql" />
+    <Content Include="Models\SQL.Job\Reports\CarRentalInitial_RatePackage.sql" />
+    <Content Include="Models\SQL.Job\Reports\CarRentalInitial_meta.sql" />
+    <Content Include="Models\SQL.Job\Reports\CustomerInitial.sql" />
+    <Content Include="Models\SQL.Job\Reports\DailyStatusUpdate.sql" />
     <Content Include="Models\SQL.Job\InitialAll.sql" />
     <Content Include="Models\SQL.Job\InitialData.sql" />
-    <Content Include="Models\SQL.Job\JobDB.Car.sql" />
+    <Content Include="Models\SQL.Job\Reports\JobDB.Car.sql" />
     <Content Include="Models\JobDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>JobDB.Context.cs</LastGenOutput>
@@ -2149,12 +2149,12 @@
       <LastGenOutput>JobDB.cs</LastGenOutput>
       <DependentUpon>JobDB.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\SQL.Job\JobNotes.sql" />
-    <Content Include="Models\SQL.Job\JobOrder.PO.Tbls.sql" />
-    <Content Include="Models\SQL.Job\Job_ActionItemCount.sql" />
-    <Content Include="Models\SQL.Job\Job_ItemSchedules.sql" />
-    <Content Include="Models\SQL.Job\ProductsDB.sql" />
-    <Content Include="Models\SQL.Job\SalesLead.sql" />
+    <Content Include="Models\SQL.Job\Reports\JobNotes.sql" />
+    <Content Include="Models\SQL.Job\Reports\JobOrder.PO.Tbls.sql" />
+    <Content Include="Models\SQL.Job\Reports\Job_ActionItemCount.sql" />
+    <Content Include="Models\SQL.Job\Reports\Job_ItemSchedules.sql" />
+    <Content Include="Models\SQL.Job\Reports\ProductsDB.sql" />
+    <Content Include="Models\SQL.Job\Reports\SalesLead.sql" />
     <Content Include="Models\SQL.Job\InitTestData.sql" />
     <Content Include="Models\SQL.SolidSteel\InitialAll.sql" />
     <Content Include="Models\SQL.SolidSteel\Countries.sql" />
@@ -2204,6 +2204,7 @@
     <Content Include="Scripts\CustNotif\Activities.js" />
     <Content Include="Scripts\Customer\Vehicle.js" />
     <Content Include="Scripts\dataTables.min.js" />
+    <Content Include="Scripts\DateRangePicker\DefaultDate.js" />
     <Content Include="Scripts\Filters\FormInputFilter.js" />
     <Content Include="Scripts\Flicky.2.2.1.js" />
     <Content Include="Scripts\InvItems\Availability.js" />
@@ -2732,6 +2733,10 @@
     <Content Include="Scripts\Suppliers\SupDetails.js" />
     <Content Include="Scripts\Suppliers\SupInvItems.js" />
     <Content Include="Scripts\Procurement\ProcAddItemRate.js" />
+    <Content Include="Scripts\Suppliers\SupplierActivities.js" />
+    <Content Include="Scripts\Suppliers\SupplierAddRate.js" />
+    <Content Include="Scripts\Suppliers\SupplierList.js" />
+    <Content Include="Scripts\Suppliers\SupplierListExpand.js" />
     <Content Include="serviceworker.js" />
     <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
     <EntityDeploy Include="Models\JobDB.edmx">
@@ -3581,6 +3586,7 @@
     <Content Include="Views\DriverInstructions\Details.cshtml" />
     <Content Include="Views\DriverInstructions\Edit.cshtml" />
     <Content Include="Views\DriverInstructions\Index.cshtml" />
+    <Content Include="Views\Suppliers\Index_VSteel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

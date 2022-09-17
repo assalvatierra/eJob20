@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -25,15 +26,24 @@ namespace JobsV1.Controllers
                 new SelectListItem { Value = "AOP", Text = "Acc. On Process" }
                 };
 
+        private static string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+
         // GET: Suppliers
         [Authorize]
         public ActionResult Index()
         {
-            
             return View(db.Suppliers.ToList());
-
         }
-        
+
+        // GET: Suppliers
+        [Authorize]
+        public ActionResult Index_VSteel(string search, string category, string status, string sort)
+        {
+            List<cProductList> supList = supdb.getProductList(search, category, status, "LATEST-DATE");
+
+            return View(supList);
+        }
+
         //Ajax - Table Result 
         //GET the list of suppliers
         public string TableResult(string search, string category, string status, string sort)
@@ -108,7 +118,8 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryId,Website,Code")] Supplier supplier)
+        public ActionResult Create([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId," +
+            "SupplierTypeId,Status,Address,CountryId,Website,Code")] Supplier supplier)
         {
             if (ModelState.IsValid && InputValidation(supplier))
             {

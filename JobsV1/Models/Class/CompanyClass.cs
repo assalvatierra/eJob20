@@ -69,6 +69,9 @@ namespace JobsV1.Models
         //-----AJAX Functions for generating table list---------//
         public List<cCompanyList> generateCompanyList(string search, string searchCat, string status, string sort, string user)
         {
+            try
+            {
+
             List<CompanyList> custList = new List<CompanyList>();
 
             string sql = "SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) "+ 
@@ -79,8 +82,8 @@ namespace JobsV1.Models
                  "FROM CustEntMains cem " +
                  "LEFT JOIN CustEntities cet ON cet.CustEntMainId = cem.Id " +
                  "LEFT JOIN Customers cust ON cust.Id = cet.CustomerId ) as com " +
-                 "WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE')) ";
-                 //") WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE' AND AssignedTo='" + user+"'))";
+                 //"WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE')) ";
+                 " WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE' AND AssignedTo='" + user+"'))";
                  
             if (status != null)
             {
@@ -171,6 +174,12 @@ namespace JobsV1.Models
             
 
             return getCompanyList(custList, user);
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
 

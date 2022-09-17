@@ -8,8 +8,12 @@
 <h2>Inventory Product</h2>
 
 <h3>@ViewBag.SupplierName</h3>
-<a href="" id="catbtn" data-toggle="modal" data-target="#ItemAddModal" style="margin-bottom:10px;">Add Product</a>
 
+@Html.ActionLink("Back to List", "Index") <span> | </span>
+@Html.ActionLink("Supplier Details", "Details", new { id = ViewBag.SupplierId })
+
+<br />
+<a href="" class="btn btn-default" id="catbtn" data-toggle="modal" data-target="#ItemAddModal" style="margin-bottom:10px;">Add Product</a>
 
 <table class="table">
     <tr>
@@ -87,7 +91,7 @@
                 </td>
                 <td>
 
-                    <a href="#" id="catbtn" data-toggle="modal" data-target="#editInvRate" 
+                    <a href="#" id="catbtn" data-toggle="modal" data-target="#editInvRate"
                        onclick="editInvRate(@rate.Id, '@rate.Particulars', '@rate.Material', @rate.ItemRate , @rate.SupplierUnit.Id, '@rate.DtValidFrom',
                                 '@rate.DtValidTo', '@rate.Remarks', @rate.SupplierInvItemId, '@rate.By', '@rate.ProcBy', '@rate.TradeTerm',
                                 '@rate.Tolerance', '@rate.Origin', '@rate.DtEntered')">Edit</a> |
@@ -102,11 +106,11 @@
 @Html.ActionLink("Back to Supplier Details", "Details", new { id = ViewBag.SupplierId })
 
 @{Html.RenderPartial("CreateInvRate", (IEnumerable<JobsV1.Models.SupplierInvItem>)ViewBag.InvItems,
-                                      new ViewDataDictionary { { "SupplierId", ViewBag.Id } , { "Model.Id", ViewBag.Id },
+                                            new ViewDataDictionary { { "SupplierId", ViewBag.Id } , { "Model.Id", ViewBag.Id },
                 { "SupplierName", ViewBag.SupplierName } , { "ItemList", ViewBag.ItemList }, { "UnitList", ViewBag.UnitList } });}
 
 @section Scripts{
     <script src="~/Scripts/Job/SupplierAddRate.js"></script>
     <script src="~/Scripts/Suppliers/SupInvItems.js"></script>
-    
+
 }
