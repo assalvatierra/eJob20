@@ -165,11 +165,6 @@
 
                         @if (USER == item.AssignedTo || ISADMIN)
                         {
-
-                            @*@Html.ActionLink("Edit Contact", "CompanyDetail", new { slid = item.Id, CustId = item.CustomerId }) |*@
-                            @*@Html.ActionLink("Files List", "FileList", new { custid = item.CustomerId, salesleadId = item.Id })*@
-                            @*@Html.ActionLink("Details", "LeadDetails", new { id = item.Id }) |*@
-
                             <span>
                                 [
                                 @Html.ActionLink("Edit Lead", "Edit", new { id = item.Id }) |
@@ -187,11 +182,9 @@
                                 <img src=@Url.Content(@salescat.SalesLeadCatCode.iconPath)
                                      alt=@salescat.SalesLeadCatCode.CatName height="20" width="20"
                                      title=@salescat.SalesLeadCatCode.CatName />
-                                @*<span class="label label-default">@salescat.SalesLeadCatCode.CatName  </span>*@
                             }
                         </span>
-                        @*<span class="label label-default" style="margin-left:5px;"> Status: @{Html.RenderAction("GetLastestActivityType", new { id = item.Id }); } </span>*@
-
+                       
                         <br />
                         <span style="font-weight:600;color:#282828;">
                             @Html.DisplayFor(modelItem => item.SalesCode) -
@@ -206,48 +199,34 @@
                         </span>
                         <br />
 
-
                         <span style="font:bold 8px, arial, verdana; color:maroon ;">
                             Activities
-
-                            <!-- Latest Activity Status -->
-                            @if (USER == item.AssignedTo || ISADMIN)
-                            {
+                            @{
+                                var latestActivity = new JobsV1.Models.CustEntActivity();
                                 if (item.SalesLeadCompanies.FirstOrDefault() != null)
                                 {
                                     if (item.SalesLeadCompanies.FirstOrDefault()
                                         .CustEntMain.CustEntActivities.OrderByDescending(c => c.Id).FirstOrDefault() != null)
                                     {
-
-                                        var latestActivity = item.SalesLeadCompanies.FirstOrDefault()
+                                        latestActivity = item.SalesLeadCompanies.FirstOrDefault()
                                             .CustEntMain.CustEntActivities.OrderByDescending(c => c.Id).FirstOrDefault();
-
-                                        <span class="label label-default cursor-hand" onclick="ShowUpdateActivityStatus_Modal(@item.Id)"
-                                              style="color:white;">
-                                            @latestActivity.CustEntActStatu.Status - @latestActivity.Type
-                                        </span>
-
                                     }
                                 }
-                            }
-                            else
-                            {
 
-                                if (item.SalesLeadCompanies.FirstOrDefault() != null)
+                                <!-- Latest Activity Status -->
+                                if (USER == item.AssignedTo || ISADMIN)
                                 {
-                                    if (item.SalesLeadCompanies.FirstOrDefault()
-                                       .CustEntMain.CustEntActivities.OrderByDescending(c => c.Id).FirstOrDefault() != null)
-                                    {
-                                        var latestActivity = item.SalesLeadCompanies.FirstOrDefault()
-                                                    .CustEntMain.CustEntActivities.OrderByDescending(c => c.Id).FirstOrDefault();
-
-                                        <span class="label label-default " style="color:white;cursor:no-drop;">
-                                            @latestActivity.CustEntActStatu.Status - @latestActivity.Type
-                                        </span>
-                                    }
+                                    <span class="label label-default cursor-hand" onclick="ShowUpdateActivityStatus_Modal(@item.Id)" style="color:white;">
+                                        @latestActivity.CustEntActStatu.Status - @latestActivity.Type
+                                    </span>
+                                }
+                                else
+                                {
+                                     <span class="label label-default " style="color:white;cursor:no-drop;">
+                                           @latestActivity.CustEntActStatu.Status - @latestActivity.Type
+                                     </span>
                                 }
                             }
-
 
                             <br />
                         </span>

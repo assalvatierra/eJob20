@@ -359,6 +359,7 @@ function ReturnAmount(e) {
     var amount = $("#ReturnAmount-Amount").val();
     var invoiceDate = $("#ReturnAmount-Date").val();
     var id = $("#ReturnAmount-Id").val();
+    var released_amount = $("#ReturnAmount-PreAmount").val();
 
     var budgetAmount = $("#ReturnAmount-BudgetAmount").val();
     var varianceCheck = CheckAmountVarianceIsPass(budgetAmount, amount);
@@ -368,10 +369,14 @@ function ReturnAmount(e) {
     if (varianceCheck) {
         POST_ReturnAmount(id, amount, remarks, invoiceDate);
     } else {
-        if (confirm("The Returned Amount " + amount 
-            + " have reached the 30% variance of Budget Amount "
-            + budgetAmount + ". Do you want to return?")) {
-            POST_ReturnAmount(id, amount, remarks, invoiceDate);
+        if (released_amount > 0) {
+            var verification_msg = "The Returned Amount " + amount
+                + " have reached the 30% variance of Budget Amount "
+                + budgetAmount + ". Do you want to return?";
+
+            if (confirm(verification_msg)){
+                POST_ReturnAmount(id, amount, remarks, invoiceDate);
+            }
         }
     }
 }

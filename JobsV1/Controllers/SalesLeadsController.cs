@@ -23,11 +23,7 @@ namespace JobsV1.Controllers
 
         // Job Status
         private int JOBINQUIRY = 1;
-        //private int JOBRESERVATION = 2;
         private int JOBCONFIRMED = 3;
-        //private int JOBCLOSED = 4;
-        //private int JOBCANCELLED = 5;
-        //private int JOBTEMPLATE = 6;
 
         private enum salesLead_status {
             New = 1
@@ -764,8 +760,10 @@ namespace JobsV1.Controllers
         {
             string strMsg = "";
 
-            if (db.SalesStatus.Where(s => s.SalesLeadId == slId && 
-                s.SalesStatusCodeId == StatusId && s.SalesStatusStatusId == 1).FirstOrDefault() == null)
+            if (db.SalesStatus.Where(s => s.SalesLeadId == slId
+                 && s.SalesStatusCodeId == StatusId 
+                 && s.SalesStatusStatusId == 1)
+                .FirstOrDefault() == null)
             {
                 strMsg = UpdateLeadStatus(slId, StatusId);
             }
@@ -781,17 +779,9 @@ namespace JobsV1.Controllers
         public string UpdateLeadStatus(int slId, int StatusId)
         {
             string strMsg;
-            //string defaultStatusId = "1";
             try
             {
-                //db.Database.ExecuteSqlCommand(@"
-                //    Insert into SalesStatus([DtStatus],[SalesStatusCodeId],[SalesLeadId],[SalesStatusStatusId])
-                //    Values('" + date.GetCurrentDateTime().ToString("MM/dd/yyyy HH:mm:ss") + "','" + StatusId + "','" + slId.ToString() + "','"+ defaultStatusId + @"');
-                //    ");
-
-                //db.SaveChanges();
-
-
+               
                 var salesStatus = new SalesStatus();
                 salesStatus.DtStatus = date.GetCurrentDateTime();
                 salesStatus.SalesLeadId = slId;
@@ -833,7 +823,12 @@ namespace JobsV1.Controllers
                     case 8:
                         //Closed
                         Session["SLFilterID"] = 8;
-                        AddActivityStatus(slId, "Closed", "Closed");
+                        AddActivityStatus(slId, "Close", "Closed");
+                        break;
+                    case 11:
+                        //Quotation
+                        Session["SLFilterID"] = 11;
+                        AddActivityStatus(slId, "Quotation", "Quotation");
                         break;
                     case 15:
                         //Approved by Aldrin
@@ -1062,7 +1057,7 @@ namespace JobsV1.Controllers
                 activity.Status = activityStatus;
                 activity.Remarks = status;
                 activity.Type = status;
-                activity.ActivityType = "Status Update";
+                activity.ActivityType = "Others";
                 activity.SalesLeadId = id;
                 activity.CustEntActActionStatusId = 1; //open
                 activity.CustEntActActionCodesId = 11; //others
@@ -1074,12 +1069,25 @@ namespace JobsV1.Controllers
                         //activity.CustEntActActionStatusId = 4; //awarded
                         activity.CustEntActStatusId = 4;
                         activity.ActivityType = "Sales";
+                        activity.Status = activityStatus;
+                        activity.Type = "Buying Inquiry";
                         break;
                     case "Rejected":
                         activity.CustEntActStatusId = 5;
+                        activity.Status = "Close";
+                        activity.Type = "Others";
                         break;
                     case "Closed":
                         activity.CustEntActStatusId = 5;
+                        activity.Status = "Close";
+                        activity.Type = "Others";
+                        break;
+                    case "Quotation":
+                        activity.CustEntActStatusId = 1;
+                        activity.Status = "Open";
+                        activity.Type = "Others";
+                        activity.ActivityType = "Quotation";
+                        activity.Remarks = "Quotation Sent";
                         break;
                     default:
                         activity.CustEntActStatusId = 1;
@@ -1154,7 +1162,7 @@ namespace JobsV1.Controllers
 
         #endregion
 
-        #region Add Request
+        #region Activity Code
         public ActionResult ListActivityCodes(int id)
         {
             var data = db.SalesActCodes.ToList();
