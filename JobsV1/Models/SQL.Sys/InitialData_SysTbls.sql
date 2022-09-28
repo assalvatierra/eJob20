@@ -11,7 +11,7 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Customers','Job Orders',0,'CustEntMains','Index','',20,5),
 ('Equipments','Job Orders',0,'SupplierItems','Index','',20,6),
 ('Packages','Job Orders',0,'CarRatePackages','Index','',20,7),
-('Reporting','Job Orders',0,'Reporting','Index','',20,8)
+('Reporting','Job Orders',0,'Reporting','Index','',20,8),
 ('Accounts','Accounts',0,'Accounting/AccntMains','Index','',20,10),
 ('HR','HRIS',0,'Personel/HrPersonels','Index','',20,11),
 ('Products','Products',0,'Products/SMProducts','Index','',20,12),
