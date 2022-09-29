@@ -74,16 +74,24 @@ namespace JobsV1.Models
 
             List<CompanyList> custList = new List<CompanyList>();
 
-            string sql = "SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) "+ 
-                 "FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), " +
-                 "City = (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), " +
-                 "cust.Name as ContactName, cust.Email as ContactEmail, cust.Contact1 as ContactNumber, " +
-                 "cet.Position as ContactPosition " +
-                 "FROM CustEntMains cem " +
-                 "LEFT JOIN CustEntities cet ON cet.CustEntMainId = cem.Id " +
-                 "LEFT JOIN Customers cust ON cust.Id = cet.CustomerId ) as com " +
+                string sql = "SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) " +
+                     "FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), " +
+                     "City = (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), " +
+                     "cust.Name as ContactName, cust.Email as ContactEmail, cust.Contact1 as ContactNumber, " +
+                     "cet.Position as ContactPosition " +
+                     "FROM CustEntMains cem " +
+                     "LEFT JOIN CustEntities cet ON cet.CustEntMainId = cem.Id " +
+                     "LEFT JOIN Customers cust ON cust.Id = cet.CustomerId ) as com ";
+
+                if (user == "admin")
+                {
+                    sql +=  " WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE'))";
+                }
+                else
+                {
+                    sql += " WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE' AND AssignedTo='" + user + "'))";
+                }
                  //"WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE')) ";
-                 " WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE' AND AssignedTo='" + user+"'))";
                  
             if (status != null)
             {
