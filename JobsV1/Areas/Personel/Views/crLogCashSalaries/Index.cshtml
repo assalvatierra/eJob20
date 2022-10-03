@@ -40,52 +40,64 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
+        if (item.crLogCashGroups.FirstOrDefault() != null)
+        {
 
-        var StatusRequest = item.crLogCashGroups.FirstOrDefault().crLogCashRelease.crLogCashStatus
-            .OrderByDescending(s => s.crCashReqStatusId).First().crCashReqStatusId;
+            var StatusRequest = item.crLogCashGroups.FirstOrDefault().crLogCashRelease.crLogCashStatus
+                .OrderByDescending(s => s.crCashReqStatusId).First().crCashReqStatusId;
 
-        var salary = item.crLogCashGroups.Where(c=>c.crLogCashRelease.crLogCashTypeId <= 2)
-        .Sum(c => c.crLogCashRelease.Amount);
-        var deductions = item.crLogCashGroups.Where(c => c.crLogCashRelease.crLogCashTypeId > 2)
-                .Sum(c => c.crLogCashRelease.Amount);
-        var driverSalary = salary - deductions;
-        TotalSalary = TotalSalary + driverSalary;
+            var salary = item.crLogCashGroups.Where(c => c.crLogCashRelease.crLogCashTypeId <= 2)
+            .Sum(c => c.crLogCashRelease.Amount);
 
-        RequestCount += 1;
+            var deductions = item.crLogCashGroups.Where(c => c.crLogCashRelease.crLogCashTypeId > 2)
+                    .Sum(c => c.crLogCashRelease.Amount);
 
-        <tr>
-            <td>
-                @item.Date.ToString("MMM dd yyyy")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.crLogDriver.Name)
-            </td>
-            <td>
-                @driverSalary.ToString("#,##0.00")
-            </td>
-            <td>
-                @if (item.crLogCashGroups.FirstOrDefault() != null) {
-                    if (StatusRequest == STATUS_REQUEST)
+            var driverSalary = salary - deductions;
+            TotalSalary = TotalSalary + driverSalary;
+
+            RequestCount += 1;
+
+            <tr>
+                <td>
+                    @item.Date.ToString("MMM dd yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.crLogDriver.Name)
+                </td>
+                <td>
+                    @driverSalary.ToString("#,##0.00")
+                </td>
+                <td>
+                    @if (item.crLogCashGroups.FirstOrDefault() != null)
                     {
-                        <a class="cursor-hand" onclick="ApproveSalary(this, @item.Id)"> Approve </a>
+                        if (StatusRequest == STATUS_REQUEST)
+                        {
+                            <a class="cursor-hand" onclick="ApproveSalary(this, @item.Id)"> Approve </a>
+                        }
                     }
-                }
-            </td>
-            <td>
-                @Html.ActionLink("Salary Details", "Details", new { id = item.Id }) <span> | </span>
+                </td>
+                <td>
+                    @Html.ActionLink("Salary Details", "Details", new { id = item.Id }) <span> | </span>
 
-                @if (StatusRequest != STATUS_REQUEST)
-                {
-                    @Html.ActionLink("Print", "PrintSalary", new { id = item.Id }) <span> | </span>
-                }
-                else
-                {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <span> | </span>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                }
-            </td>
-        </tr>
+                    @if (StatusRequest != STATUS_REQUEST)
+                    {
+                        @Html.ActionLink("Print", "PrintSalary", new { id = item.Id }) <span> | </span>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <span> | </span>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    }
+                </td>
+            </tr>
+
+        }
+        else
+        {
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        }
     }
 
     <tr>
