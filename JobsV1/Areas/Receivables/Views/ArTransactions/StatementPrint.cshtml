@@ -97,7 +97,7 @@
     <tr>
         <th width="120"> Date</th>
         <th width="90"> Invoice # </th>
-        <th> Desc </th>
+        <th> Description (Service Date) </th>
         <th width="120"> Due Date </th>
         <th> Charges </th>
         <th> Payments </th>
@@ -127,7 +127,7 @@
 
             </td>
             <td>
-                @transaction.StatusId -
+               
                 @transaction.Description
                 @if (transaction.EndDate != null)
                 {
