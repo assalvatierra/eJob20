@@ -65,32 +65,39 @@ namespace JobsV1.Controllers
         //        status = company list string
         public string TableResult(string search, string searchCat,string status, string sort)
         {
-            //get lit of customers
-            List<cCompanyList> custList = new List<cCompanyList>();
-            var user = HttpContext.User.Identity.Name;
+            try
+            {
 
-            if(SITECONFIG == "AutoCare")
-            {
-                custList = comdb.generateCompanyList(search, searchCat, status, sort, "admin");
-            }
-            else
-            {
-                //handle user roles
-                if (User.IsInRole("Admin"))
+                //get lit of customers
+                List<cCompanyList> custList = new List<cCompanyList>();
+                var user = HttpContext.User.Identity.Name;
+
+                if(SITECONFIG == "AutoCare")
                 {
                     custList = comdb.generateCompanyList(search, searchCat, status, sort, "admin");
                 }
                 else
                 {
-                    custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
+                    //handle user roles
+                    if (User.IsInRole("Admin"))
+                    {
+                        custList = comdb.generateCompanyList(search, searchCat, status, sort, "admin");
+                    }
+                    else
+                    {
+                        custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
+                    }
                 }
 
+                //custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
+
+                //convert list to json object
+                return JsonConvert.SerializeObject(custList, Formatting.Indented);
             }
-
-            //custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
-
-            //convert list to json object
-            return JsonConvert.SerializeObject(custList, Formatting.Indented);
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [Authorize]

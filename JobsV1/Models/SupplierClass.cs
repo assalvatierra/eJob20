@@ -68,6 +68,7 @@ namespace JobsV1.Models
         public string Particulars { get; set; }
         public int    IsValid { get; set; }
         public string Origin { get; set; }
+        public string Material { get; set; }
     }
 
     public class cSupplierItemRate
@@ -281,7 +282,7 @@ namespace JobsV1.Models
             //sql query with comma separated item list
             string sql =
                 "SELECT * FROM (SELECT sii.Id, ii.Description as Name, Supplier = ( SELECT supp.Name FROM Suppliers supp WHERE sii.SupplierId = supp.Id )," +
-                " sir.Particulars, sii.SupplierId, sir.ItemRate, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status, sir.Origin, " +
+                " sir.Particulars, sii.SupplierId, sir.ItemRate, sir.Material, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status, sir.Origin, " +
                 " IsValid = IIF(convert(datetime, sir.DtValidTo) < convert(datetime, GETDATE()), 1, 0) "+
                 " FROM SupplierInvItems sii LEFT JOIN Suppliers sup ON sii.Id = sup.Id "+
                 " LEFT JOIN SupplierItemRates sir on sii.Id = sir.SupplierInvItemId "+
@@ -306,21 +307,23 @@ namespace JobsV1.Models
             //handle search by name filter
             if (search != null || search != "")
             {
+               
 
                 switch (category)
                 {
                     case "PRODUCT":
-                        sql += "AND prods.Name Like '%" + search + "%'  ";
+                        sql += " AND prods.Name Like '%" + search + "%'  ";
                         break;
                     case "ORIGIN":
                         sql += " AND prods.Origin Like '%" + search + "%' ";
                         break;
+                    case "MATERIAL":
+                        sql += " AND prods.Material Like '%" + search + "%' ";
+                        break;
                     default:
-                        sql += "AND prods.Name Like '%" + search + "%'  ";
+                        sql += " AND prods.Name Like '%" + search + "%'  ";
                         break;
                 }
-
-               
             }
 
             if (sort != null)

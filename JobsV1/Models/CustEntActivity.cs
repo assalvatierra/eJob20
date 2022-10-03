@@ -29,6 +29,7 @@ namespace JobsV1.Models
         public string SalesCode { get; set; }
         public Nullable<decimal> Amount { get; set; }
         public string Status { get; set; }
+        public string Commodity { get; set; }
         public string Remarks { get; set; }
         public int CustEntMainId { get; set; }
         public string Type { get; set; }

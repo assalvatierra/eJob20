@@ -107,9 +107,39 @@
                 </td>
                 <td></td>
             </tr>
+
+            <!--foreach (var company in Model)
+            {
+                <tr>
+                    <td>
+                        company.Name
+                    </td>
+                    <td>
+                        company.CityId
+                    </td>
+                    <td>
+                       
+                    </td>
+                    <td>
+                        company.Contact1 
+                    </td>
+                    <td>
+                        company.Contact1
+                    </td>
+                    <td>
+                        company.AssignedTo
+                    </td>
+                    <td>
+                        Html.ActionLink("Edit", "Edit", new { id = company.Id }) |
+                       Html.ActionLink("Details", "Details", new { id = company.Id }) 
+                    </td>
+                </tr>
+            }-->
         </tbody>
     </table>
 </div>
+
+
 @section Scripts{
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/Scripts/Job/CustEntMainList.js"></script>

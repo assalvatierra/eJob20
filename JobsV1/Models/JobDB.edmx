@@ -1264,6 +1264,7 @@
     <Property Name="CustEmail" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="SalesCode" Type="nvarchar" Nullable="true" MaxLength="40" />
     <Property Name="ItemWeight" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="Commodity" Type="nvarchar" Nullable="true" MaxLength="250" />
   </EntityType>
   <EntityType Name="SalesStatusCodes">
     <Key>
@@ -2031,6 +2032,7 @@
     <Property Name="SalesCode" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="Amount" Type="decimal" Nullable="true" />
     <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Commodity" Type="nvarchar" Nullable="true" MaxLength="250" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="250" />
     <Property Name="CustEntMainId" Type="int" Nullable="false" />
     <Property Name="Type" Type="nvarchar" Nullable="true" MaxLength="20" />
@@ -6189,6 +6191,7 @@
           <NavigationProperty Name="SalesLeadSupActivities" Relationship="JobDB.SalesLeadSupActivitySalesLead" FromRole="SalesLead" ToRole="SalesLeadSupActivity" />
           <Property Name="ItemWeight" Type="String" Nullable="true" MaxLength="20" />
           <NavigationProperty Name="SalesLeadFiles" Relationship="JobDB.SalesLeadSalesLeadFile" FromRole="SalesLead" ToRole="SalesLeadFile" />
+          <Property Name="Commodity" Type="String" Nullable="true" MaxLength="250" />
         </EntityType>
         <EntityType Name="SalesStatusCode">
           <Key>
@@ -8009,6 +8012,7 @@
           <Property Name="SalesCode" Type="String" Nullable="true" MaxLength="20" />
           <Property Name="Amount" Type="Decimal" Nullable="true" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Commodity" Type="String" Nullable="true" MaxLength="250" />
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="250" />
           <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntActivity" FromRole="CustEntActivity" ToRole="CustEntMain" />
           <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
@@ -9631,6 +9635,7 @@
           <ScalarProperty Name="CustEmail" ColumnName="CustEmail" />
           <ScalarProperty Name="SalesCode" ColumnName="SalesCode" />
           <ScalarProperty Name="ItemWeight" ColumnName="ItemWeight" />
+          <ScalarProperty Name="Commodity" ColumnName="Commodity" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -10471,6 +10476,7 @@
           <ScalarProperty Name="SalesCode" ColumnName="SalesCode" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Commodity" ColumnName="Commodity" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
           <ScalarProperty Name="Type" ColumnName="Type" />
