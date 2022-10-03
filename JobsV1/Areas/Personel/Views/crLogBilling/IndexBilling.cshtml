@@ -37,21 +37,16 @@
 </p>
 <div>
     <p>
-        @*@Html.ActionLink("Add New Trip", "Create") |
-            @Html.ActionLink("Copy Trip", "CopyTrip") |
-            @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
-            @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease") |*@
-        @*OT Billing |
-            @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", new { company = ViewBag.Company }) | |
-            @Html.ActionLink("Sunday Billing", "IndexBillingSunday")*@
-        <div class="col-md-7">
+        <div class="col-md-5">
             @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog", null, new { @class = " btn btn-default" })
         </div>
         <!-- Billing Links -->
-        <div class="col-md-5 btn-group">
+        <div class="col-md-7 btn-group">
             @Html.ActionLink("OT Billing", "IndexBilling", null, new { @class = " btn btn-default active" })
-            @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", null, new { @class = " btn btn-default" })
-            @Html.ActionLink("Sunday Billing", "IndexBillingSunday", null, new { @class = " btn btn-default" })
+            @Html.ActionLink("DailyRate Billing", "IndexBillingDaily", null, new { @class = " btn btn-default" })
+            @Html.ActionLink("Default Billing", "IndexBillingDaily_Default", null, new { @class = " btn btn-default" })
+            @Html.ActionLink("OS Billing", "IndexBillingDailyOS", null, new { @class = " btn btn-default" })
+            @*@Html.ActionLink("Sunday Billing", "IndexBillingSunday", null, new { @class = " btn btn-default" })*@
         </div>
     </p>
 </div>
