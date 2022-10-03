@@ -212,17 +212,20 @@
                 }
             </td>
             <td>
-                @foreach (var inv in @item.JobServiceItems)
+                @foreach (var inv in item.JobServiceItems)
                 {
-                    <img src=@Url.Content(@inv.InvItem.InvItemCategories.Where(s=>s.InvItemId == inv.InvItemId).FirstOrDefault().InvItemCat.ImgPath) width="20" height="20" />
-                    <span> (</span>
-                    @inv.InvItem.ItemCode
-                    <span>) </span>
-                    @inv.InvItem.Description
+                    var itemIcon = inv.InvItem.InvItemCategories.Where(s => s.InvItemId == inv.InvItemId).FirstOrDefault();
 
+                    if (itemIcon != null)
+                    {
+                        <img src=@Url.Content(itemIcon.InvItemCat.ImgPath) width="20" height="20" />
+                    }
+                    <span>
+                        ( @inv.InvItem.ItemCode )
+                          @inv.InvItem.Description
+                    </span>
                     if (inv.InvItem.ContactInfo != "" && inv.InvItem.ContactInfo != null)
                     {
-                        
                         <br />
                         <img src="~/Images/Phone001.png" width="20" height="20" />
                         @inv.InvItem.ContactInfo
@@ -252,7 +255,7 @@
                 }
 
                 @*<br /><a href="~/Reports/TripVoucher/Viewer.aspx?SrvId=@item.Id&JobId=@item.JobMainId&file=@item.JobMain.Customer.Name">Trip Voucher</a>*@
-                
+
                 @*if (pickup != null)
                 {
                     <span>Office:</span> pickup.ProviderContact

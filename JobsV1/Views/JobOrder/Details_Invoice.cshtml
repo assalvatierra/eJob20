@@ -83,10 +83,11 @@
         <td>
             <!--Company-->
             @{
+
                 if (ViewBag.IsBilling)
                 {
                     //If Company have billing details
-                    <br /> @ViewBag.custCompany
+                    <br /> <span> @ViewBag.custCompany </span>
                     <br /><span> Address: </span> @ViewBag.custCompanyAddress
                     <br /><span> Business Style.: </span> @ViewBag.custCompanyStyle
                     <br /><span> TIN : </span> @ViewBag.custCompanyTIN
@@ -112,6 +113,7 @@
                 else
                 {
                     <span>
+                        @ViewBag.custCompany <br />
                         @Html.DisplayFor(model => model.Description) <span> / </span>
                         @Html.DisplayFor(model => model.Customer.Name)
                     </span>
