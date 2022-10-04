@@ -19,6 +19,8 @@
     int STATUS_RETURNED = 5;
     int STATUS_NEW = 7;
     int STATUS_CANCELLED = 6;
+
+    decimal total_amount_today = 0;
 }
 
 @if (apTransToday.Count > 0)
@@ -86,6 +88,7 @@
 
                 decimal budgetAmount = item.BudgetAmt ?? 0;
                 decimal amountVariance = budgetAmount * (decimal)0.3;
+                total_amount_today += item.Amount;
 
                 //get total transaction payment
                 foreach (var transpayment in item.ApTransPayments)
@@ -365,7 +368,7 @@
                                     {
                                         if (item.ApTransTypeId != TYPE_PO)
                                         {
-<li>
+                                            <li>
                                                 <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
                                             </li>
                                         }
@@ -414,6 +417,16 @@
                         </td>
                     </tr>
                 }
+        <!-- Total Amount Row -->
+        <tr>
+            <td colspan="12">
+
+            </td>
+            <td>
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Amount </span><br />
+                <span style="font-size:18px;">@total_amount_today.ToString("#,##0.00")</span>
+            </td>
+        </tr>
 
     </table>
 
