@@ -106,7 +106,7 @@
             </td>
             <td></td>
         </tr>
-        @foreach (var tripGroup in Model.OTTrips.GroupBy(c => c.Unit))
+        @foreach (var tripGroup in Model.OTTrips.GroupBy(c => c.Unit).OrderBy(c=>c.Key.Count()))
         {
             <tr>
                 <td colspan="7">

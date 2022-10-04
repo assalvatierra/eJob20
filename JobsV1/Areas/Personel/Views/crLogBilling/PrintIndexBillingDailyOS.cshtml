@@ -14,6 +14,9 @@
 
     string BillingTIN = ViewBag.BillingTIN;
     string BillingStyle = ViewBag.BillingStyle;
+
+    IEnumerable<string> DriverList = ViewBag.DriverList;
+    IEnumerable<string> UnitList = ViewBag.UnitList;
 }
 
 <style>
@@ -180,11 +183,32 @@
                     <b>Business Style: @BillingStyle </b>
                 }
             </td>
-            <td>
+            <td width="200">
                 <p class="pull-right" style="padding-right:5px;">
                     SOA #: @ViewBag.SOANum <br />
                     Date : @ViewBag.DateToday  
                 </p>
+            </td>
+        </tr>
+        <tr class="no-padding-child">
+            <td colspan="3">
+                <div>
+                    <span>  DRIVER:  </span>
+                    @foreach (var driver in DriverList)
+                    {
+                        <span> @driver / </span>
+                    }
+                </div>
+
+                <br />
+
+                <div>
+                    <span>  UNIT:  </span>
+                    @foreach (var unit in UnitList)
+                    {
+                        <span> @unit / </span>
+                    }
+                </div>
             </td>
         </tr>
     </table>
@@ -237,7 +261,7 @@
             </td>
 
             <td class="border-left text-center border-bottom" width="140" style="padding:2px;">
-                <span style="font-size:9px;padding:0px;"> NO&nbsp;OF&nbsp;HOURS </span>
+                <span style="font-size:9px;padding:0px;"> HOURS </span>
 
             </td>
             <td class="border-left text-center border-bottom" width="180" style="padding:2px;">
@@ -297,7 +321,7 @@
                 Totalof_Subtotal_Rate_OT_Addon += subtotal_Rate_OT_Addon;
 
                 <tr class="no-padding-child">
-                    <td>
+                    <td class="border-left border-bottom">
                         @if (dateDisplayed == false)
                         {
                             dateDisplayed = true;
@@ -305,7 +329,7 @@
 
                         @currentDate
                     </td>
-                    <td class="border-left text-center">
+                    <td class="border-left border-bottom text-center">
                         <span cl> @trip.Driver</span>
                     </td>
                     @*<td class="border-left">
@@ -315,13 +339,13 @@
                             <br /><span>@trip.Remarks</span>
                         }
                     </td>*@
-                    <td class="border-left text-right">
+                    <td class="border-left border-bottom text-right">
                         <span> @trip.Rate.ToString("#,##0.00") </span>
                     </td>
-                    <td class="border-left text-center">
+                    <td class="border-left border-bottom text-center">
                         <span> @trip.OTHours.ToString("#,##0.0") </span>
                     </td>
-                    <td class="border-left text-right">
+                    <td class="border-left border-bottom text-right">
                         @if (trip.OTRate > 0)
                         {
                             <span>
@@ -329,17 +353,17 @@
                             </span>
                         }
                     </td>
-                    <td class="border-left text-right">
+                    <td class="border-left border-bottom text-right">
                         <span>
                             @subtotal_Rate_OT.ToString("#,##0.00")
                         </span>
                     </td>
-                    <td class="border-left text-right">
+                    <td class="border-left border-bottom text-right">
                         <span>
                             @trip.Remarks
                         </span>
                     </td>
-                    <td class="border-left text-right">
+                    <td class="border-left border-bottom text-right">
                         @if (trip.AddOns != 0)
                         {
 
@@ -349,10 +373,10 @@
                         }
 
                     </td>
-                    <td class="border-left text-right">
+                    <td class="border-left border-bottom text-right">
 
                     </td>
-                    <td class="border-left text-right">
+                    <td class="border-left border-bottom text-right">
                         @subtotal_Rate_OT_Addon.ToString("#,##0.00")
                     </td>
                 </tr>
@@ -398,10 +422,7 @@
             <td  class="border-left text-right">
                 <span> @TotalAddon.ToString("#,##0.00") </span>
             </td>
-            <td  class="border-left text-right">
-
-            </td>
-            <td  class="border-left text-right">
+            <td  class="border-left text-right" colspan="2">
                 <b style="font-size:14px;"> @Totalof_Subtotal_Rate_OT_Addon.ToString("#,##0.00") </b>
             </td>
         </tr>

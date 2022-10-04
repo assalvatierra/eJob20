@@ -637,7 +637,6 @@ namespace JobsV1.Areas.Personel.Controllers
 
             tripBilling.Company = company;
 
-
             // OTT trips
             var OTTrips = tripLogs.ToList();
             OTTrips.ForEach((t) => {
@@ -673,29 +672,12 @@ namespace JobsV1.Areas.Personel.Controllers
                 billingAddress = "";
             }
 
-            //get summary
-            var logSummary = crServices.GetCrLogSummary(tripLogs);
-            ViewBag.DriversLogSummary = logSummary.CrDrivers ?? new List<CrDriverLogs>();
-            ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
-            ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
-
             ViewBag.FilteredsDate = String.IsNullOrEmpty(startDate) ? dt.GetCurrentDate().ToString() : startDate;
             ViewBag.FilteredeDate = String.IsNullOrEmpty(endDate) ? dt.GetCurrentDate().ToString() : endDate;
-            ViewBag.FilteredUnit = unit ?? "all";
-            ViewBag.FilteredDriver = driver ?? "all";
-            ViewBag.FilteredCompany = company ?? "all";
-            ViewBag.SortBy = sortby ?? "Date";
-            ViewBag.Owner = owner ?? "all";
-
-            ViewBag.crLogUnitList = dl.GetUnits().ToList();
-            ViewBag.crLogDriverList = dl.GetDrivers().ToList();
-            ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
-            ViewBag.crLogOwnerList = dl.GetOwners().ToList();
 
             ViewBag.CompanyBilling = billingName;
             ViewBag.BillingAddress = billingAddress;
         
-
             ViewBag.SOANum = SOANum;
             ViewBag.DateToday = dt.GetCurrentDate().ToString("MMM dd yyyy");
             ViewBag.DueDate = dt.GetCurrentDate().AddDays(16).ToString("MMM dd yyyy");
@@ -938,7 +920,6 @@ namespace JobsV1.Areas.Personel.Controllers
             var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby, owner);
 
             crLogTripBilling tripBilling = new crLogTripBilling();
-            tripBilling.SundayTrips = new List<crBilling_Daily>();
             tripBilling.OTTrips = new List<crBilling_OT>();
             tripBilling.Company = company;
 
@@ -983,6 +964,9 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 billingName = company;
             }
+
+            ViewBag.DriverList = tripBilling.OTTrips.Select(c => c.Driver).Distinct();
+            ViewBag.UnitList = tripBilling.OTTrips.Select(c => c.Unit).Distinct();
 
             ViewBag.FilteredsDate = String.IsNullOrEmpty(startDate) ? dt.GetCurrentDate().ToString() : startDate;
             ViewBag.FilteredeDate = String.IsNullOrEmpty(endDate) ? dt.GetCurrentDate().ToString() : endDate;
