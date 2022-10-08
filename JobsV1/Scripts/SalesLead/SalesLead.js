@@ -2,6 +2,16 @@
  *  Sales Leads
  */
 
+
+var STATUS_APPROVED = 5;
+var STATUS_AWARDED = 6;
+var STATUS_ACCEPTED = 10;
+var STATUS_APPROVED_CHCKER = 16;
+var STATUS_APPROVED_OWNER = 15;
+var STATUS_QUOTATION = 11;
+var STATUS_REJECTED = 7;
+var STATUS_CLOSE = 8;
+
 // Filter Loading on click
 $("#newLead, #acceptedLead, #closedLead, #ongoing, #rejectedLead, #allLead").click(() => {
     $("#overlay").show();
@@ -184,7 +194,9 @@ function UpdateLeadStatus(e, leadId, statusId) {
         //on update success
         $(e).parent().removeClass("btn-primary");
         $(e).parent().addClass("btn-success");
-        if (statusId == 15 || statusId == 16 || statusId == 5) {
+        if (statusId == STATUS_APPROVED || statusId == STATUS_AWARDED || statusId == STATUS_QUOTATION
+            || statusId == STATUS_REJECTED || statusId == STATUS_REJECTED || statusId == STATUS_CLOSE
+            || statusId == STATUS_APPROVED_OWNER || statusId == STATUS_APPROVED_CHCKER) {
             window.location.reload(false);
         }
         //window.location.reload(false);
