@@ -180,36 +180,50 @@
                 @if (address.isPrimary == true && address.isBilling == true)
                 {
                     <text>
-                        Branch / Billing Address:
+                        <span> Branch / Billing Address:</span><br />
                     </text>
                 }
                 else if (address.isPrimary == true && address.isBilling == false)
                 {
                     <text>
-                        Branch Address:
+                        <span>  Branch Address:</span><br />
                     </text>
                 }
                 else if (address.isPrimary == false && address.isBilling == true)
                 {
                     <text>
-                        Billing Address:
+                        <span>Billing Address:</span><br />
                     </text>
                 }
                 else
                 {
-                    <text> Address:</text>
+                    <text>
+                        <span> Address:</span><br />
+                    </text>
                 }
             </p>
 
         }
-        <p class="comp-address">
-            <b> &nbsp;&nbsp; @address.Line1  @address.Line2  @address.Line3  @address.Line4  @address.Line5 </b>
-            <span class="comp-address-actions" style="display:none;">
-                <a class="cursor-pointer" id="catbtn" data-toggle="modal" data-target="#comAddressEdit"
-                   onclick="edit_setAddress(@address.Id,'@address.Line1','@address.Line2','@address.Line3','@address.Line4','@address.Line5','@address.isPrimary','@address.isBilling')"> Edit  </a> |
-                <a class="cursor-pointer" onclick="ajax_RemoveAddress(@address.Id)">Delete</a>
-            </span>
-        </p>
+        else
+        {
+
+            <p class="comp-address">
+                <b> &nbsp;&nbsp; 
+                @address.Line1 <br />
+                @address.Line2 <br />
+                @address.Line3 <br />
+                @address.Line4 <br />
+                @address.Line5 <br />
+                </b>
+                <span class="comp-address-actions" style="display:none;">
+                    <a class="cursor-pointer" id="catbtn" data-toggle="modal" data-target="#comAddressEdit"
+                       onclick="edit_setAddress(@address.Id,'@address.Line1','@address.Line2','@address.Line3','@address.Line4','@address.Line5','@address.isPrimary','@address.isBilling')"> Edit  </a> |
+                    <a class="cursor-pointer" onclick="ajax_RemoveAddress(@address.Id)">Delete</a>
+                </span>
+            </p>
+
+        }
+
     }
 </div>
 
