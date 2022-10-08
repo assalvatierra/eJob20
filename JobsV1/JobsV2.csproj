@@ -2704,6 +2704,7 @@
     <Content Include="bin\ArModels.dll.config" />
     <Content Include="bin\ArServices.dll.config" />
     <Content Include="bin\JobsV1.dll.config" />
+    <Content Include="Areas\Personel\Views\crLogBilling\PrintIndexBillingDaily_Default.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
@@ -3586,7 +3587,6 @@
     <Content Include="Views\DriverInstructions\Details.cshtml" />
     <Content Include="Views\DriverInstructions\Edit.cshtml" />
     <Content Include="Views\DriverInstructions\Index.cshtml" />
-    <Content Include="Views\Suppliers\Index_VSteel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
