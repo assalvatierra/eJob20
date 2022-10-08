@@ -685,6 +685,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.UserName = getStaffName(HttpContext.User.Identity.Name);
             ViewBag.UserSign = getStaffSign(HttpContext.User.Identity.Name);
 
+
             return View(tripBilling);
         }
 

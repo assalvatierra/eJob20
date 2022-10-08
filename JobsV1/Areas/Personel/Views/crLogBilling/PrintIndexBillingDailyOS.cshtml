@@ -88,6 +88,13 @@
 
     /* Table Header*/
 
+
+    .table-header {
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        border-top: 1px solid black;
+    }
+
     .table-header tr {
         padding: 5px;
         border: 1px solid black !important;
@@ -126,6 +133,7 @@
         width: 100%;
         border-left: 1px solid black;
         border-right: 1px solid black;
+        border-top: 1px solid black;
         margin-bottom: 0px;
     }
 
@@ -286,10 +294,6 @@
         @foreach (var tripGroup in Model.OTTrips.GroupBy(c => c.DtTrip))
         {
 
-            decimal subtotalRate = 0;
-            decimal subtotalOTRate = 0;
-            decimal subtotalAddOn = 0;
-
             var currentDate = tripGroup.Key.ToString("dd-MMM");
             var dateDisplayed = false;
             var dtcolor = "black";
@@ -302,6 +306,9 @@
             foreach (var trip in tripGroup)
             {
 
+                decimal subtotalRate = 0;
+                decimal subtotalOTRate = 0;
+                decimal subtotalAddOn = 0;
 
                 TotalCount += 1;
                 TotalRate += trip.Rate;
@@ -313,9 +320,8 @@
                 subtotalOTRate += trip.OTRate;
                 subtotalAddOn += trip.AddOns;
 
-
-                decimal subtotal_Rate_OT = TotalRate + TotalOTRate;
-                decimal subtotal_Rate_OT_Addon = subtotal_Rate_OT + TotalAddon;
+                decimal subtotal_Rate_OT = trip.Rate + trip.OTRate;
+                decimal subtotal_Rate_OT_Addon = trip.Rate + trip.OTRate + trip.AddOns;
 
                 Totalof_Subtotal_Rate_OT += subtotal_Rate_OT;
                 Totalof_Subtotal_Rate_OT_Addon += subtotal_Rate_OT_Addon;
@@ -414,7 +420,7 @@
                 <span> @TotalOTRate.ToString("#,##0.00") </span>
             </td>
             <td  class="border-left text-right">
-                <span> @Totalof_Subtotal_Rate_OT.ToString("#,##0.00") </span>
+                <b> @Totalof_Subtotal_Rate_OT.ToString("#,##0.00") </b>
             </td>
             <td  class="border-left text-right">
 
