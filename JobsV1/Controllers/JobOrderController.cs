@@ -2115,7 +2115,7 @@ namespace JobsV1.Controllers
                 sData += "\nParticulars:" + svc.Particulars;
                 sData += "\n  " + svc.Remarks;
                 if (svc.JobMain.NoOfPax != 0)
-                    sData += "\nNo.Pax:  " + svc.JobMain.NoOfPax;
+                    sData += "\nNo Pax:  " + svc.JobMain.NoOfPax;
 
                 sData += "\n\nThank you for Trusting \n" + custName;
             }
