@@ -238,7 +238,7 @@ namespace JobsV1.Areas.Payables.Controllers
         {
             try
             {
-                var cashFlows = db.ApTransPosts.ToList();
+                var cashFlows = db.ApTransPosts.ToList().OrderByDescending(c=>c.DtPost);
                 return View(cashFlows);
             }
             catch

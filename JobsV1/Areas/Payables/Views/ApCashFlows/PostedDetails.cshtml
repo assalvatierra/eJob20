@@ -67,6 +67,11 @@
                         @item.DEBIT.ToString("#,##0.00")
                     }
                 </td>
+                <td>
+
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })<span> |</span>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
             </tr>
         }
 
@@ -117,6 +122,7 @@
             <span id="totalBalance">@TotalBalance.ToString("#,##0.00")</span>
         </td>
         <td>
+
         </td>
     </tr>
 </table>
