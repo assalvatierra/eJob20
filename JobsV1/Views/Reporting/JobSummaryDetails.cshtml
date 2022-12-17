@@ -4,7 +4,9 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 
     decimal Triplog_Rate = 0;
+    decimal Triplog_Rate_Addon = 0;
     decimal Triplog_RateOT = 0;
+    decimal Triplog_TotalRate = 0;
     decimal Triplog_DriverAmount = 0;
     decimal Triplog_DriverOT = 0;
     decimal Triplog_DriverRate = 0;
@@ -58,7 +60,10 @@
             Rate
         </th>
         <th>
-            OT 
+            Addon
+        </th>
+        <th>
+            OT
         </th>
         <th>
             Drivers
@@ -71,11 +76,16 @@
     @foreach (var trip in Model.TripLogs.OrderBy(d => d.DtTrip))
     {
 
-        Triplog_Rate += trip.Rate + trip.Addon;
+        Triplog_Rate += trip.Rate;
+        Triplog_Rate_Addon += trip.Addon;
         Triplog_RateOT += trip.AddonOT ?? decimal_zero;
-        Triplog_DriverAmount += trip.DriverFee + trip.DriverOT;
+        Triplog_TotalRate += Triplog_Rate + Triplog_Rate_Addon + Triplog_RateOT;
+
         Triplog_DriverRate += trip.DriverFee;
         Triplog_DriverOT += trip.DriverOT;
+        Triplog_DriverAmount += trip.DriverFee + trip.DriverOT;
+        
+
         TriplogCount = TriplogCount + 1;
 
         <tr>
@@ -93,6 +103,9 @@
             </td>
             <td>
                 @trip.Rate
+            </td>
+            <td>
+                @trip.Addon
             </td>
             <td>
                 @trip.AddonOT
@@ -114,6 +127,9 @@
             @Triplog_Rate.ToString("#,##0.00")
         </td>
         <td>
+            @Triplog_Rate_Addon.ToString("#,##0.00")
+        </td>
+        <td>
             @Triplog_RateOT.ToString("#,##0.00")
         </td>
         <td>
@@ -124,7 +140,13 @@
         </td>
     </tr>
     <tr>
-        <td colspan="7">
+        <td colspan="4">
+            
+        </td>
+        <td colspan="4">
+            <b>
+                @Triplog_TotalRate.ToString("#,##0.00")
+            </b>
         </td>
         <td colspan="1">
 

@@ -136,8 +136,8 @@
     }
     <!-- TOTALS CALCULATIONS -->
     @{
-        TotalBalance = TotalCashIn - TotalCashout - TotalFunded;
-        TotalProjectedBalance = TotalBalance - TotalRequest;
+        TotalBalance = TotalCashIn - TotalCashout;
+        TotalProjectedBalance = TotalBalance - TotalRequest - TotalFunded;
 
         decimal PettyCash = 0;
         decimal ForWithdrawPetty = 0;

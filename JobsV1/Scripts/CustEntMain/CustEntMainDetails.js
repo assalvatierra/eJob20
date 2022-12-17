@@ -251,7 +251,7 @@ function ajax_EditAddress() {
     };
 
 
-    var url = '/CustEntMains/CreateAddress';
+    var url = '/CustEntMains/EditAddress';
 
     //Post data from server using ajax call
     $.ajax({
@@ -260,6 +260,9 @@ function ajax_EditAddress() {
         data: data,
         dataType: 'application/json; charset=utf-8',
         success: function (data) {
+            if (data == "200") {
+                location.reload();
+            }
         },
         error: function (data) {
             location.reload();

@@ -1793,6 +1793,7 @@ namespace JobsV1.Controllers
             if (jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault() != null)
             {
                 var company = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain;
+                custCompany = company.Name;
 
                 if (company.CustEntAddresses != null )
                 {
@@ -1808,7 +1809,7 @@ namespace JobsV1.Controllers
             }
 
             ViewBag.custCompany = custCompany;
-            ViewBag.custCompanyAddress = billingLine1;
+            ViewBag.custCompanyAddress = billingLine1 ;
             ViewBag.custCompanyTel = billingLine2;
             ViewBag.custCompanyTIN = billingLine3;
             ViewBag.custCompanyStyle = billingLine4;
@@ -1874,7 +1875,7 @@ namespace JobsV1.Controllers
             if (jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault() != null)
             {
                 var company = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain;
-
+                custCompany = company.Name;
                 if (company.CustEntAddresses != null)
                 {
                     var billingdetails = company.CustEntAddresses.Where(c => c.isBilling).FirstOrDefault();
@@ -2114,7 +2115,7 @@ namespace JobsV1.Controllers
                 sData += "\nParticulars:" + svc.Particulars;
                 sData += "\n  " + svc.Remarks;
                 if (svc.JobMain.NoOfPax != 0)
-                    sData += "\nNo.Pax:  " + svc.JobMain.NoOfPax;
+                    sData += "\nNo Pax:  " + svc.JobMain.NoOfPax;
 
                 sData += "\n\nThank you for Trusting \n" + custName;
             }

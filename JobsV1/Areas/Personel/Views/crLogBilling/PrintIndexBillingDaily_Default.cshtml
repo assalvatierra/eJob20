@@ -4,19 +4,13 @@
     ViewBag.Title = ViewBag.Company + " Billing Particulars - Daily AWESOMEOS";
     Layout = "~/Views/Shared/_PrintLayout.cshtml";
     int TotalCount = 0;
-    double TotalOTHrs = 0;
     decimal TotalRate = 0;
     decimal TotalOTRate = 0;
     decimal TotalAddon = 0;
-    decimal Totalof_Subtotal_Rate_OT = 0;
-    decimal Totalof_Subtotal_Rate_OT_Addon = 0;
     decimal Total = 0;
 
     string BillingTIN = ViewBag.BillingTIN;
     string BillingStyle = ViewBag.BillingStyle;
-
-    IEnumerable<string> DriverList = ViewBag.DriverList;
-    IEnumerable<string> UnitList = ViewBag.UnitList;
 }
 
 <style>
@@ -64,11 +58,6 @@
         padding-right:5px;
     }
 
-
-    .border-bottom {
-        border-bottom: 1px solid black;
-    }
-
     .border-left span {
         padding: 5px;
     }
@@ -87,13 +76,6 @@
         }
 
     /* Table Header*/
-
-
-    .table-header {
-        border-left: 1px solid black;
-        border-right: 1px solid black;
-        border-top: 1px solid black;
-    }
 
     .table-header tr {
         padding: 5px;
@@ -133,7 +115,6 @@
         width: 100%;
         border-left: 1px solid black;
         border-right: 1px solid black;
-        border-top: 1px solid black;
         margin-bottom: 0px;
     }
 
@@ -151,8 +132,8 @@
 <div class="paper-size">
     <table class="table-bordered table-header">
         <tr>
-            <td class="table-header-logo-td text-right" >
-                <img src="~/Images/LOGO_AJRENTACAR.jpg" width="100" class="pull-right" style="margin-right:20px;"/>
+            <td class="table-header-logo-td">
+                <img src="~/Images/LOGO_AJRENTACAR.jpg" width="100" class="pull-right" style="margin-right:20px;" />
             </td>
             <td class="table-header-logo-td">
                 <span class="header-text-company">
@@ -191,32 +172,11 @@
                     <b>Business Style: @BillingStyle </b>
                 }
             </td>
-            <td width="200">
+            <td>
                 <p class="pull-right" style="padding-right:5px;">
                     SOA #: @ViewBag.SOANum <br />
                     Date : @ViewBag.DateToday  
                 </p>
-            </td>
-        </tr>
-        <tr class="no-padding-child">
-            <td colspan="3">
-                <div>
-                    <span>  DRIVER:  </span>
-                    @foreach (var driver in DriverList)
-                    {
-                        <span> @driver / </span>
-                    }
-                </div>
-
-                <br />
-
-                <div>
-                    <span>  UNIT:  </span>
-                    @foreach (var unit in UnitList)
-                    {
-                        <span> @unit / </span>
-                    }
-                </div>
             </td>
         </tr>
     </table>
@@ -224,77 +184,34 @@
     <table class="table table-report" style="border:1px solid black;">
 
         <tr>
-            <td class="border-left text-center" width="70">
+            <td class="border-left" width="70">
                 <h6 class="text-center" style="font-weight: 600; margin: 5px;">Date </h6>
             </td>
-            <td class="border-left text-center" width="110">
+            <td class="border-left" width="110">
                 <h6 class="text-center" style="font-weight: 600; margin: 5px;">Driver </h6>
             </td>
-            <td class="border-left text-center" width="150">
-                <b> 10&nbsp;HRS RATE </b>
+            <td class="border-left">
+                <h6 class="text-center" style="font-weight: 600; margin: 5px;">Description </h6>
             </td>
-            <td class="border-left border-bottom text-center" colspan="2">
-                <b> OVERTIME</b>
+            <td colspan="1" class="border-left">
+                <h6 style="font-weight: 600; margin: 5px;">Amount</h6>
             </td>
-            <td class="border-left text-center">
-                <b> TOTAL</b>
-            </td>
-            <td class="border-left border-bottom text-center" colspan="2">
-                <b> Additional&nbsp;Charges</b>
-            </td>
-            <td class="border-left text-center">
-                <b> Remarks</b>
-            </td>
-            <td class="border-left text-center">
-                <b> Subtotal</b>
-            </td>
-            @*<td colspan="1" class="border-left">
-            <h6 style="font-weight: 600; margin: 5px;">Amount</h6>
-        </td>
-        <td colspan="1" class="border-left">
-            <h6 style="font-weight: 600; margin: 5px;">Overtime</h6>
-
-        </td>
-        <td colspan="1" class="border-left" width="60">
-            <h6 style="font-weight: 600; margin: 5px;">Add'l</h6>
-
-        </td>*@
-        </tr>
-        <tr>
-            <td class="border-left border-bottom">
-            </td>
-            <td class="border-left border-bottom">
-            </td>
-            <td class="border-left border-bottom">
-            </td>
-
-            <td class="border-left text-center border-bottom" width="140" style="padding:2px;">
-                <span style="font-size:9px;padding:0px;"> HOURS </span>
+            <td colspan="1" class="border-left">
+                <h6 style="font-weight: 600; margin: 5px;">Overtime</h6>
 
             </td>
-            <td class="border-left text-center border-bottom" width="180" style="padding:2px;">
-                <span style="font-size: 9px; padding: 0px;"> 350&nbsp;PER&nbsp;HOUR </span>
+            <td colspan="1" class="border-left" width="60">
+                <h6 style="font-weight: 600; margin: 5px;">Add'l</h6>
 
-            </td>
-            <td class="border-left border-bottom">
-            </td>
-            <td class="border-left text-center border-bottom" width="140" style="padding:2px;">
-                <span style="font-size:9px;padding:0px;"> DESTINATION </span>
-
-            </td>
-            <td class="border-left text-center border-bottom" width="140" style="padding:2px;">
-                <span style="font-size:9px;padding:0px;"> AMOUNT </span>
-
-            </td>
-            <td class="border-left border-bottom">
-            </td>
-            <td class="border-left border-bottom">
             </td>
         </tr>
         @foreach (var tripGroup in Model.OTTrips.GroupBy(c => c.DtTrip))
         {
+            decimal subtotalRate = 0;
+            decimal subtotalOTRate = 0;
+            decimal subtotalAddOn = 0;
 
-            var currentDate = tripGroup.Key.ToString("dd-MMM");
+            var currentDate = tripGroup.Key.ToString("dd-MMM-yy");
             var dateDisplayed = false;
             var dtcolor = "black";
 
@@ -303,31 +220,22 @@
                 dtcolor = "blue";
             }
 
-            foreach (var trip in tripGroup)
-            {
+                foreach (var trip in tripGroup)
+                {
 
-                decimal subtotalRate = 0;
-                decimal subtotalOTRate = 0;
-                decimal subtotalAddOn = 0;
 
-                TotalCount += 1;
-                TotalRate += trip.Rate;
-                TotalOTRate += trip.OTRate;
-                TotalAddon += trip.AddOns;
-                TotalOTHrs += trip.OTHours;
+                    TotalCount += 1;
+                    TotalRate += trip.Rate;
+                    TotalOTRate += trip.OTRate;
+                    TotalAddon += trip.AddOns;
 
-                subtotalRate += trip.Rate;
-                subtotalOTRate += trip.OTRate;
-                subtotalAddOn += trip.AddOns;
+                    subtotalRate += trip.Rate;
+                    subtotalOTRate += trip.OTRate;
+                    subtotalAddOn += trip.AddOns;
 
-                decimal subtotal_Rate_OT = trip.Rate + trip.OTRate;
-                decimal subtotal_Rate_OT_Addon = trip.Rate + trip.OTRate + trip.AddOns;
-
-                Totalof_Subtotal_Rate_OT += subtotal_Rate_OT;
-                Totalof_Subtotal_Rate_OT_Addon += subtotal_Rate_OT_Addon;
 
                 <tr class="no-padding-child">
-                    <td class="border-left border-bottom">
+                    <td>
                         @if (dateDisplayed == false)
                         {
                             dateDisplayed = true;
@@ -335,23 +243,21 @@
 
                         @currentDate
                     </td>
-                    <td class="border-left border-bottom text-center">
+                    <td class="border-left text-center">
                         <span cl> @trip.Driver</span>
                     </td>
-                    @*<td class="border-left">
-                        <span>@trip.Unit (@trip.StartTime - @trip.EndTime)</span>
+                    <td class="border-left">
+                        <span>@trip.Unit (@trip.StartTime - @trip.EndTime)
+                        </span>
                         @if (!String.IsNullOrEmpty(trip.Remarks))
                         {
                             <br /><span>@trip.Remarks</span>
                         }
-                    </td>*@
-                    <td class="border-left border-bottom text-right">
+                    </td>
+                    <td class="border-left text-right">
                         <span> @trip.Rate.ToString("#,##0.00") </span>
                     </td>
-                    <td class="border-left border-bottom text-center">
-                        <span> @trip.OTHours.ToString("#,##0.0") </span>
-                    </td>
-                    <td class="border-left border-bottom text-right">
+                    <td class="border-left text-right">
                         @if (trip.OTRate > 0)
                         {
                             <span>
@@ -359,17 +265,7 @@
                             </span>
                         }
                     </td>
-                    <td class="border-left border-bottom text-right">
-                        <span>
-                            @subtotal_Rate_OT.ToString("#,##0.00")
-                        </span>
-                    </td>
-                    <td class="border-left border-bottom text-right">
-                        <span>
-                            @trip.Remarks
-                        </span>
-                    </td>
-                    <td class="border-left border-bottom text-right">
+                    <td class="border-left text-right">
                         @if (trip.AddOns != 0)
                         {
 
@@ -378,12 +274,6 @@
                             </span>
                         }
 
-                    </td>
-                    <td class="border-left border-bottom text-right">
-
-                    </td>
-                    <td class="border-left border-bottom text-right">
-                        @subtotal_Rate_OT_Addon.ToString("#,##0.00")
                     </td>
                 </tr>
                 }
@@ -394,7 +284,7 @@
         }
         <tr class="no-padding-child" style="border-top:1px solid black;margin-top:20px;">
             @*<td colspan="3"> Total Count: @TotalCount</td>*@
-            @*<td colspan="2"> Total : @TotalCount </td>
+            <td colspan="2"> Total : @TotalCount </td>
             <td colspan="1">
                 <span class="pull-left"> Sub-Total </span>
             </td>
@@ -406,34 +296,16 @@
             </td>
             <td class="text-right">
                 <span style="font-weight: bold; font-size: 12px;padding-left:15px;padding:5px;"> @TotalAddon.ToString("#,##0.00")  </span>
-            </td>*@
-            <td colspan="2"  class="border-left text-center">
-                <b> GRAND TOTAL </b>
-            </td>
-            <td  class="border-left text-right">
-                <span> @TotalRate.ToString("#,##0.00") </span>
-            </td>
-            <td  class="border-left text-center">
-                <span> @TotalOTHrs.ToString("#,##0.0") </span>
-            </td>
-            <td  class="border-left text-right">
-                <span> @TotalOTRate.ToString("#,##0.00") </span>
-            </td>
-            <td  class="border-left text-right">
-                <b> @Totalof_Subtotal_Rate_OT.ToString("#,##0.00") </b>
-            </td>
-            <td  class="border-left text-right">
-
-            </td>
-            <td  class="border-left text-right">
-                <span> @TotalAddon.ToString("#,##0.00") </span>
-            </td>
-            <td  class="border-left text-right" colspan="2">
-                <b style="font-size:14px;"> @Totalof_Subtotal_Rate_OT_Addon.ToString("#,##0.00") </b>
             </td>
         </tr>
-        
-        @*<tr style="border-top:1px solid black;margin-top:20px;">
+        <tr class="no-padding-child">
+            <td colspan="1">
+            </td>
+            <td colspan="5">
+                <h5 class="no-margin" style="font-size:12px;font-weight:600;"> </h5>
+            </td>
+        </tr>
+        <tr style="border-top:1px solid black;margin-top:20px;">
             <td colspan="2"></td>
             <td colspan="1">
                 <h5 style="font-weight: bold; font-size: 13px;margin:0px;"> GRAND TOTAL </h5>
@@ -442,7 +314,7 @@
                 <span style="font-weight: bold; font-size: 15px;"> Php @Total.ToString("#,##0.00") </span>
             </td>
             <td></td>
-        </tr>*@
+        </tr>
     </table>
     <div>
         <p>
