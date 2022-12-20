@@ -13,7 +13,7 @@ namespace JobsV1.Areas.Masterlists.Controllers
 {
     public class CitiesController : Controller
     {
-        private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
+        private JobDBContainer db = new JobDBContainer();
 
         // GET: Masterlists/Cities
         public ActionResult Index()
