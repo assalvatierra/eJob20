@@ -70,11 +70,15 @@
                 <input value="@transaction.Id" type="checkbox" class="print-Checkbox" onclick="CheckRepeatItems(this)" />
             </th>
             <td>
-                @transaction.InvoiceId
-                @*@if (transaction.InvoiceId != null)
+                @if (transaction.InvoiceId != 0 && transaction.InvoiceRef != null)
                 {
-                    @Html.ActionLink(transaction.InvoiceId, "JobSummaryDetails", "Reporting", new { id = transaction.InvoiceId }, new { target = "_blank" })
-                }*@
+                    @Html.ActionLink(transaction.InvoiceRef, "JobSummaryDetails", "Reporting", new { area = "", id = transaction.InvoiceId }, new { target = "_blank" })
+
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => transaction.InvoiceRef)
+                }
             </td>
             <td>
                 @transaction.DtInvoice.ToString("MMM dd yyyy")
