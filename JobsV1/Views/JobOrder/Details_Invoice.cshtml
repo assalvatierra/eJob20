@@ -86,10 +86,13 @@
 
                 if (ViewBag.IsBilling)
                 {
-                    //If Company have billing details
+                    //If Company have billing details 
                     <br /> <span> @ViewBag.custCompany </span>
                     <br /><span> Address: </span> @ViewBag.custCompanyAddress
-                    <br /><span> &emsp;&emsp;&emsp;&emsp; </span> @ViewBag.custCompanyTel
+                    if (!String.IsNullOrEmpty(ViewBag.custCompanyTel))
+                    {
+                        <br /><span> &emsp;&emsp;&emsp;&emsp; </span> @ViewBag.custCompanyTel
+                    }
                     <br /><span> Business Style.: </span> @ViewBag.custCompanyStyle
                     <br /><span> TIN : </span> @ViewBag.custCompanyTIN
                 }
@@ -107,10 +110,6 @@
                 else if (ViewBag.custCompany == Model.Description.Trim())
                 {
                     <br /> @ViewBag.custCompany
-                    <br /><span> Address: </span> @ViewBag.custCompanyAddress
-                    <br /><span> &nbsp;&nbsp; </span> @ViewBag.custCompanyTel
-                    <br /><span> Business Style.: </span> @ViewBag.custCompanyStyle
-                    <br /><span> TIN : </span> @ViewBag.custCompanyTIN
                 }
                 else
                 {
