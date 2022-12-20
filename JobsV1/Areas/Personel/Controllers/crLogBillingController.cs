@@ -837,6 +837,7 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
 
+
         // GET: Personel/CarRentalLog/IndexBilling
         public ActionResult PrintIndexBillingDailyOS(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
         {
@@ -1076,7 +1077,8 @@ namespace JobsV1.Areas.Personel.Controllers
             });
 
             // OTT trips
-            var OTTrips = tripLogs.Where(c => OTServices.GetTripLogOTHours(c) > 0 && c.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
+            var OTTrips = tripLogs.Where(c => OTServices.GetTripLogOTHours(c) > 0 
+                            && c.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
             OTTrips.ForEach((t) => {
                 double OTHrs = OTServices.GetTripLogOTHours(t);
                 tripBilling.OTTrips.Add(new crBilling_OT
@@ -1204,7 +1206,10 @@ namespace JobsV1.Areas.Personel.Controllers
             });
 
             // OTT trips
-            var OTTrips = tripLogs.Where(c => OTServices.GetTripLogOTHours(c) > 0 && c.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
+            var OTTrips = tripLogs.Where(c => OTServices.GetTripLogOTHours(c) > 0
+                                        && c.DtTrip.DayOfWeek == DayOfWeek.Sunday)
+                                        .ToList();
+
             OTTrips.ForEach((t) => {
                 double OTHrs = OTServices.GetTripLogOTHours(t);
                 tripBilling.OTTrips.Add(new crBilling_OT
@@ -1242,6 +1247,485 @@ namespace JobsV1.Areas.Personel.Controllers
             return View(tripBilling);
 
         }
+
+
+        // GET: Personel/CarRentalLog/IndexBilling
+        public ActionResult IndexSupplierBilling(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
+        {
+
+            #region Session
+            if (!startDate.IsNullOrWhiteSpace())
+            {
+                Session["triplog-startDate"] = startDate;
+            }
+            else
+            {
+                if (Session["triplog-startDate"] != null)
+                {
+                    startDate = Session["triplog-startDate"].ToString();
+                }
+                startDate = dt.GetCurrentDate().ToString("MM/dd/yyyy");
+            }
+
+            if (!endDate.IsNullOrWhiteSpace())
+            {
+                Session["triplog-endDate"] = endDate;
+            }
+            else
+            {
+                if (Session["triplog-endDate"] != null)
+                {
+                    endDate = Session["triplog-endDate"].ToString();
+                }
+                endDate = dt.GetCurrentDate().ToString("MM/dd/yyyy");
+            }
+
+            if (!unit.IsNullOrWhiteSpace())
+            {
+                Session["triplog-unit"] = unit;
+            }
+            else
+            {
+                if (Session["triplog-unit"] != null)
+                {
+                    unit = Session["triplog-unit"].ToString();
+                }
+                else
+                {
+                    unit = "all";
+                }
+
+            }
+
+            if (!driver.IsNullOrWhiteSpace())
+            {
+                Session["triplog-driver"] = driver;
+            }
+            else
+            {
+                if (Session["triplog-driver"] != null)
+                {
+                    driver = Session["triplog-driver"].ToString();
+                }
+                else
+                {
+                    driver = "all";
+                }
+            }
+
+            if (!company.IsNullOrWhiteSpace())
+            {
+                Session["triplog-company"] = company;
+            }
+            else
+            {
+                if (Session["triplog-company"] != null)
+                {
+                    company = Session["triplog-company"].ToString();
+                }
+                else
+                {
+                    company = "all";
+                }
+            }
+
+            if (!owner.IsNullOrWhiteSpace())
+            {
+                Session["triplog-owner"] = owner;
+            }
+            else
+            {
+                if (Session["triplog-owner"] != null)
+                {
+                    owner = Session["triplog-owner"].ToString();
+                }
+                else
+                {
+                    owner = "all";
+                }
+
+            }
+            #endregion
+
+            var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby, owner);
+
+            crBillingDetails_Supplier tripBilling = new crBillingDetails_Supplier();
+            tripBilling.Daily = new List<crBillingDetails_Daily>();
+            tripBilling.DriversSalary = new List<crBillingDrivers_Salary>();
+            tripBilling.Supplier = owner;
+            tripBilling.BillingDate = startDate + " " + endDate;
+            tripBilling.GeneratedDate = dt.GetCurrentDate();
+            tripBilling.PONum = "0";
+            tripBilling.Supplier = owner;
+
+            // Daily trips
+            var OTTrips = tripLogs.OrderBy(t => t.crLogUnit.OrderNo).ToList();
+
+            OTTrips.ForEach((t) => {
+                double OTHrs = OTServices.GetTripLogOTHours(t);
+                tripBilling.Daily.Add(new crBillingDetails_Daily
+                {
+                    Id = t.Id,
+                    Driver = t.crLogDriver.Name,
+                    DtTrip = t.DtTrip,
+                    Unit = t.crLogUnit.Description,
+                    StartTime = t.StartTime,
+                    EndTime = t.EndTime,
+                    Rate = t.Rate,
+                    OTHours = OTHrs,
+                    OTRate = OTServices.GetTripLogOTCompanyRate(t, OTHrs),
+                    AddOns = t.Addon
+                });
+            });
+
+            tripBilling.SubTotalRate = tripBilling.Daily.Sum(t => t.Rate);
+            tripBilling.SubTotalOT = tripBilling.Daily.Sum(t => t.OTRate);
+            tripBilling.SubTotalAddon = tripBilling.Daily.Sum(t => t.AddOns);
+            tripBilling.SubTotaDriverRate = OTTrips.Sum(t=>t.DriverFee);
+            tripBilling.SubTotalDriverOT   = OTTrips.Sum(t=>t.DriverOT);
+
+            tripBilling.TotalNet = tripBilling.SubTotalRate + tripBilling.SubTotalOT + tripBilling.SubTotalAddon;
+
+
+            // driver deductions
+            if (tripBilling.SubTotaDriverRate > 0)
+            {
+
+                tripBilling.DriversSalary.Add(new crBillingDrivers_Salary
+                {
+                    DriverDetails = "Driver Salary",
+                    DriversSalary = tripBilling.SubTotaDriverRate,
+                    DriverOTRate = tripBilling.SubTotalDriverOT
+                });
+            }
+
+            tripBilling.SubTotalDeductions = tripBilling.SubTotaDriverRate + tripBilling.SubTotalDriverOT;
+
+            tripBilling.TotalBalanceLessTax = (tripBilling.TotalNet * (Decimal)0.1);
+            tripBilling.TotalBalance = tripBilling.TotalNet - tripBilling.SubTotalDeductions - tripBilling.TotalBalanceLessTax;
+
+
+            ViewBag.FilteredsDate = String.IsNullOrEmpty(startDate) ? dt.GetCurrentDate().ToString() : startDate;
+            ViewBag.FilteredeDate = String.IsNullOrEmpty(endDate) ? dt.GetCurrentDate().ToString() : endDate;
+            ViewBag.FilteredUnit = unit ?? "all";
+            ViewBag.FilteredDriver = driver ?? "all";
+            ViewBag.FilteredCompany = company ?? "all";
+            ViewBag.SortBy = sortby ?? "Date";
+            ViewBag.Owner = owner ?? "all";
+
+            ViewBag.crLogUnitList = dl.GetUnits().ToList();
+            ViewBag.crLogDriverList = dl.GetDrivers().ToList();
+            ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
+            ViewBag.crLogOwnerList = dl.GetOwners().ToList();
+            ViewBag.Company = company;
+
+            return View(tripBilling);
+        }
+
+
+        // GET: Personel/CarRentalLog/PrintIndexSupplierBilling
+        public ActionResult PrintIndexSupplierBilling(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
+        {
+
+            #region Session
+            if (!startDate.IsNullOrWhiteSpace())
+            {
+                Session["triplog-startDate"] = startDate;
+            }
+            else
+            {
+                if (Session["triplog-startDate"] != null)
+                {
+                    startDate = Session["triplog-startDate"].ToString();
+                }
+            }
+
+            if (!endDate.IsNullOrWhiteSpace())
+            {
+                Session["triplog-endDate"] = endDate;
+            }
+            else
+            {
+                if (Session["triplog-endDate"] != null)
+                {
+                    endDate = Session["triplog-endDate"].ToString();
+                }
+            }
+
+            if (!unit.IsNullOrWhiteSpace())
+            {
+                Session["triplog-unit"] = unit;
+            }
+            else
+            {
+                if (Session["triplog-unit"] != null)
+                {
+                    unit = Session["triplog-unit"].ToString();
+                }
+            }
+
+            if (!driver.IsNullOrWhiteSpace())
+            {
+                Session["triplog-driver"] = driver;
+            }
+            else
+            {
+                if (Session["triplog-driver"] != null)
+                {
+                    driver = Session["triplog-driver"].ToString();
+                }
+            }
+
+            if (!company.IsNullOrWhiteSpace())
+            {
+                Session["triplog-company"] = company;
+            }
+            else
+            {
+                if (Session["triplog-company"] != null)
+                {
+                    company = Session["triplog-company"].ToString();
+                }
+            }
+
+
+            if (!owner.IsNullOrWhiteSpace())
+            {
+                Session["triplog-owner"] = owner;
+            }
+            else
+            {
+                if (Session["triplog-owner"] != null)
+                {
+                    owner = Session["triplog-owner"].ToString();
+                }
+            }
+
+            var includeDriverSalary = Session["triplog-owner"].ToString();
+          
+            #endregion
+            var SOANum = "";
+
+            var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby, owner);
+
+            crBillingDetails_Supplier tripBilling = new crBillingDetails_Supplier();
+            tripBilling.Daily = new List<crBillingDetails_Daily>();
+            tripBilling.DriversSalary = new List<crBillingDrivers_Salary>();
+            tripBilling.Supplier = owner;
+            tripBilling.BillingDate = DateTime.Parse(startDate).ToString("MMM dd yyyy") + " - " + DateTime.Parse(endDate).ToString("MMM dd yyyy");
+            tripBilling.GeneratedDate = dt.GetCurrentDate();
+            tripBilling.PONum = "0";
+            tripBilling.Supplier = owner;
+            
+
+            // Daily trips
+            var OTTrips = tripLogs.OrderBy(t => t.crLogUnit.OrderNo).ToList();
+
+            OTTrips.ForEach((t) => {
+
+                SOANum = t.crLogTripJobMains.FirstOrDefault() != null ?
+                            t.crLogTripJobMains.FirstOrDefault().JobMainId.ToString() : "";
+
+                double OTHrs = OTServices.GetTripLogOTHours(t);
+                tripBilling.Daily.Add(new crBillingDetails_Daily
+                {
+                    Id = t.Id,
+                    Driver = t.crLogDriver.Name,
+                    DtTrip = t.DtTrip,
+                    Unit = t.crLogUnit.Description,
+                    StartTime = t.StartTime,
+                    EndTime = t.EndTime,
+                    Rate = t.Rate,
+                    OTHours = OTHrs,
+                    OTRate = OTServices.GetTripLogOTCompanyRate(t, OTHrs),
+                    AddOns = t.Addon
+                });
+            });
+
+            tripBilling.SubTotalRate = tripBilling.Daily.Sum(t => t.Rate);
+            tripBilling.SubTotalOT = tripBilling.Daily.Sum(t => t.OTRate);
+            tripBilling.SubTotalAddon = tripBilling.Daily.Sum(t => t.AddOns);
+            tripBilling.SubTotaDriverRate = OTTrips.Sum(t => t.DriverFee);
+            tripBilling.SubTotalDriverOT = OTTrips.Sum(t => t.DriverOT);
+
+            tripBilling.TotalNet = tripBilling.SubTotalRate + tripBilling.SubTotalOT + tripBilling.SubTotalAddon;
+
+            if (includeDriverSalary == "true")
+            {
+
+            }
+
+            // driver deductions
+            if (tripBilling.SubTotaDriverRate > 0 )
+            {
+                tripBilling.DriversSalary.Add(new crBillingDrivers_Salary
+                {
+                    DriverDetails = "Driver Salary",
+                    DriversSalary = tripBilling.SubTotaDriverRate,
+                    DriverOTRate = tripBilling.SubTotalDriverOT
+                });
+            }
+          
+            tripBilling.SubTotalDeductions = tripBilling.SubTotaDriverRate + tripBilling.SubTotalDriverOT;
+
+            tripBilling.TotalBalanceLessTax = (tripBilling.TotalNet * (Decimal)0.1);
+            tripBilling.TotalBalance = tripBilling.TotalNet - tripBilling.SubTotalDeductions - tripBilling.TotalBalanceLessTax;
+
+
+            tripBilling.PONum = SOANum;
+            ViewBag.DateToday = dt.GetCurrentDate().ToString("MMM dd yyyy");
+            ViewBag.DueDate = dt.GetCurrentDate().AddDays(16).ToString("MMM dd yyyy");
+            ViewBag.Company = company;
+
+            ViewBag.UserName = getStaffName(HttpContext.User.Identity.Name);
+            ViewBag.UserSign = getStaffSign(HttpContext.User.Identity.Name);
+
+            return View(tripBilling);
+        }
+
+
+        // GET: Personel/CarRentalLog/PrintIndexSupplierBilling
+        public ActionResult PrintIndexSupplierBillingNoDriver(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
+        {
+
+            #region Session
+            if (!startDate.IsNullOrWhiteSpace())
+            {
+                Session["triplog-startDate"] = startDate;
+            }
+            else
+            {
+                if (Session["triplog-startDate"] != null)
+                {
+                    startDate = Session["triplog-startDate"].ToString();
+                }
+            }
+
+            if (!endDate.IsNullOrWhiteSpace())
+            {
+                Session["triplog-endDate"] = endDate;
+            }
+            else
+            {
+                if (Session["triplog-endDate"] != null)
+                {
+                    endDate = Session["triplog-endDate"].ToString();
+                }
+            }
+
+            if (!unit.IsNullOrWhiteSpace())
+            {
+                Session["triplog-unit"] = unit;
+            }
+            else
+            {
+                if (Session["triplog-unit"] != null)
+                {
+                    unit = Session["triplog-unit"].ToString();
+                }
+            }
+
+            if (!driver.IsNullOrWhiteSpace())
+            {
+                Session["triplog-driver"] = driver;
+            }
+            else
+            {
+                if (Session["triplog-driver"] != null)
+                {
+                    driver = Session["triplog-driver"].ToString();
+                }
+            }
+
+            if (!company.IsNullOrWhiteSpace())
+            {
+                Session["triplog-company"] = company;
+            }
+            else
+            {
+                if (Session["triplog-company"] != null)
+                {
+                    company = Session["triplog-company"].ToString();
+                }
+            }
+
+
+            if (!owner.IsNullOrWhiteSpace())
+            {
+                Session["triplog-owner"] = owner;
+            }
+            else
+            {
+                if (Session["triplog-owner"] != null)
+                {
+                    owner = Session["triplog-owner"].ToString();
+                }
+            }
+
+            var includeDriverSalary = Session["triplog-owner"].ToString();
+
+            #endregion
+            var SOANum = "";
+
+            var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby, owner);
+
+            crBillingDetails_Supplier tripBilling = new crBillingDetails_Supplier();
+            tripBilling.Daily = new List<crBillingDetails_Daily>();
+            tripBilling.DriversSalary = new List<crBillingDrivers_Salary>();
+            tripBilling.Supplier = owner;
+            tripBilling.BillingDate = DateTime.Parse(startDate).ToString("MMM dd yyyy") + " - " + DateTime.Parse(endDate).ToString("MMM dd yyyy");
+            tripBilling.GeneratedDate = dt.GetCurrentDate();
+            tripBilling.PONum = "0";
+            tripBilling.Supplier = owner;
+
+
+            // Daily trips
+            var OTTrips = tripLogs.OrderBy(t => t.crLogUnit.OrderNo).ToList();
+
+            OTTrips.ForEach((t) => {
+
+                SOANum = t.crLogTripJobMains.FirstOrDefault() != null ?
+                            t.crLogTripJobMains.FirstOrDefault().JobMainId.ToString() : "";
+
+                double OTHrs = OTServices.GetTripLogOTHours(t);
+                tripBilling.Daily.Add(new crBillingDetails_Daily
+                {
+                    Id = t.Id,
+                    Driver = t.crLogDriver.Name,
+                    DtTrip = t.DtTrip,
+                    Unit = t.crLogUnit.Description,
+                    StartTime = t.StartTime,
+                    EndTime = t.EndTime,
+                    Rate = t.Rate,
+                    OTHours = OTHrs,
+                    OTRate = OTServices.GetTripLogOTCompanyRate(t, OTHrs),
+                    AddOns = t.Addon
+                });
+            });
+
+            tripBilling.SubTotalRate = tripBilling.Daily.Sum(t => t.Rate);
+            tripBilling.SubTotalOT = tripBilling.Daily.Sum(t => t.OTRate);
+            tripBilling.SubTotalAddon = tripBilling.Daily.Sum(t => t.AddOns);
+            tripBilling.SubTotaDriverRate = OTTrips.Sum(t => t.DriverFee);
+            tripBilling.SubTotalDriverOT = OTTrips.Sum(t => t.DriverOT);
+
+            tripBilling.TotalNet = tripBilling.SubTotalRate + tripBilling.SubTotalOT + tripBilling.SubTotalAddon;
+
+            tripBilling.TotalBalanceLessTax = (tripBilling.TotalNet * (Decimal)0.1);
+            tripBilling.TotalBalance = tripBilling.TotalNet -  tripBilling.TotalBalanceLessTax;
+
+
+            tripBilling.PONum = SOANum;
+            ViewBag.DateToday = dt.GetCurrentDate().ToString("MMM dd yyyy");
+            ViewBag.DueDate = dt.GetCurrentDate().AddDays(16).ToString("MMM dd yyyy");
+            ViewBag.Company = company;
+
+            ViewBag.UserName = getStaffName(HttpContext.User.Identity.Name);
+            ViewBag.UserSign = getStaffSign(HttpContext.User.Identity.Name);
+
+            return View(tripBilling);
+        }
+
 
         // GET: Personel/CarRentalLog/Edit/5
         public ActionResult EditBilling(int? id)

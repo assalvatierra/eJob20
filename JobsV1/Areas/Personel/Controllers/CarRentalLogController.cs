@@ -61,6 +61,10 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     unit = Session["triplog-unit"].ToString();
                 }
+                else
+                {
+                    unit = "all";
+                }
             }
                
             if (!driver.IsNullOrWhiteSpace())
@@ -72,6 +76,10 @@ namespace JobsV1.Areas.Personel.Controllers
                 if(Session["triplog-driver"] != null)
                 {
                     driver = Session["triplog-driver"].ToString();
+                }
+                else
+                {
+                    driver = "all";
                 }
             }
                
@@ -85,6 +93,10 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     company = Session["triplog-company"].ToString();
                 }
+                else
+                {
+                    company = "all";
+                }
             }
 
             if (!owner.IsNullOrWhiteSpace())
@@ -96,6 +108,10 @@ namespace JobsV1.Areas.Personel.Controllers
                 if (Session["triplog-owner"] != null)
                 {
                     owner = Session["triplog-owner"].ToString();
+                }
+                else
+                {
+                    owner = "all";
                 }
             }
 
@@ -124,6 +140,8 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogDriverList  = dl.GetDrivers().ToList();
             ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
             ViewBag.crLogOwnerList   = dl.GetOwners().ToList();
+
+            ViewBag.AvailableUnits = crServices.GetAvailableUnitsOnDate(tripLogs);
 
             ViewBag.IsAdmin = User.IsInRole("Admin");
 
