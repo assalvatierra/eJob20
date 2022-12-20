@@ -1187,6 +1187,7 @@ namespace JobsV1.Controllers
             ViewBag.sId = slId;
             return View(data);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddActivityCode([Bind(Include = "Id,SalesLeadId,SalesActCodeId,Particulars,DtActivity,SalesActStatusId,DtEntered,EnteredBy")] SalesActivity salesActivity)
@@ -1216,6 +1217,19 @@ namespace JobsV1.Controllers
             var slid = db.SalesActivities.Where(s => s.Id == id).FirstOrDefault().SalesLeadId;
             db.Database.ExecuteSqlCommand("DELETE FROM SalesActivities where Id=" + id);
             return RedirectToAction("Index", new { leadId = slid});
+        }
+
+        //GET: SalesLeads/CheckDuplicateSalesCode?salesCode={salesCode}
+        [HttpGet]
+        public bool CheckDuplicateSalesCode(string salesCode)
+        {
+            var salesCodeCount = db.SalesLeads.Where(s => salesCode == s.SalesCode).Count();
+
+            if (salesCodeCount > 0)
+            {
+                return true;
+            }
+            return false;
         }
         #endregion
 

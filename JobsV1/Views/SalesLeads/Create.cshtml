@@ -134,9 +134,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SalesCode, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SalesCode, new { htmlAttributes = new { @class = "form-control", @maxlength = "40" } })
+                @Html.EditorFor(model => model.SalesCode, new { htmlAttributes = new { @class = "form-control", @id="SalesCode", @maxlength = "40" } })
                 <p style="font-size:10px;color:gray;"> Enter the Sales Code of customer activities to Sync the data </p>
                 @Html.ValidationMessageFor(model => model.SalesCode, "", new { @class = "text-danger" })
+                <p style="font-size:10px;color:red;" id="salesCode-validation-msg"> </p>
             </div>
         </div>
 
@@ -391,6 +392,38 @@
                 }
             });
         }
+
+
+        //Check sales Code for duplicates
+        function CheckSalesCode() {
+            var salesCode = $("#SalesCode").val();
+
+            $.ajax({
+                url: '/SalesLeads/CheckDuplicateSalesCode',
+                type: "GET",
+                data: {
+                    salesCode: salesCode
+                },
+                dataType: 'application/json; charset=utf-8',
+                error: function (res) {
+                    //console.log("ERROR");
+                    console.log(res);
+
+                    if (res['responseText'] == "True") {
+                        console.log("Sales Code already exists. ");
+                        $("#salesCode-validation-msg").text("Sales Code already exists.")
+                    } else {
+                        //clear message
+                        $("#salesCode-validation-msg").text("")
+                    }
+                }
+            });
+        }
+
+        //check input on SalesCode 
+        $('#SalesCode').focusout(function () {
+            CheckSalesCode();
+        })
 
     </script>
 }
