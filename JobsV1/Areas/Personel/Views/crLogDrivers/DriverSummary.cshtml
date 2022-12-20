@@ -419,7 +419,7 @@
                         <span>
                             @Html.ActionLink("Edit", "EditCashTrx", new { id = item.Id })&nbsp;|&nbsp;
                             @*@Html.ActionLink("Close", "CloseCashTrx", new { id = item.Id })*@
-                            <a onclick="CloseJob()" > Close </a>
+                            <a onclick="CLoseTrip(this, @item.Id)" > Close </a>
                         </span>
                     }
                 </td>
@@ -498,7 +498,7 @@
         })
 
         var CloseJob = ((e, id) => {
-            $.post("Personel/crLogDrivers/DriverSummary/CloseTrxPost",
+            $.post("Personel/crLogDrivers/CloseTrxPost",
                 {
                     Id: id
                 },
@@ -507,5 +507,18 @@
                 }
             )
         });
+
+        function CLoseTrip(e,id) {
+            $.post("/Personel/crLogDrivers/CloseTrxPost",
+                {
+                    Id: id
+                },
+                (response) => {
+                    $(e).parent().parent().parent().hide();
+
+                    console.log(response)
+                }
+            )
+        }
     </script>
 }

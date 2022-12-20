@@ -106,7 +106,8 @@
                         </td>
                         <td>
                             @*@Html.ActionLink("Remove", "RemoveTripLogClosingId", new { id = trip.Id })*@
-                            <a onclick="RemoveTripLogSalary(this, @trip.Id)"> Remove </a>
+                            @*<a onclick="RemoveTripLogSalary(this, @trip.Id)"> Remove </a> |*@ 
+                            @*@Html.ActionLink("Job Summary", "JobSummaryDetails", "Reporting", new { area = "", id = trip.crLogTripJobMains.FirstOrDefault().JobMainId, target = "_blank" }, null)*@
                         </td>
                     </tr>
                 }

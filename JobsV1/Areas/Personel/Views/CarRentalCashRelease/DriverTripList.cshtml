@@ -40,6 +40,9 @@
         <th> Rate </th>
         <th> Drivers Fee </th>
         <th> Drivers OT </th>
+        <th>
+
+        </th>
     </tr>
 
     @foreach (var log in Model)
@@ -93,6 +96,13 @@
                         @log.DriverOT
                     }*@
             </td>
+            <td>
+                @if (log.crLogTripJobMains.FirstOrDefault() != null)
+                {
+                    @Html.ActionLink("Job Summary", "JobSummaryDetails", "Reporting", new { area = "", id = log.crLogTripJobMains.FirstOrDefault().JobMainId, target = "_blank" }, null)
+                }
+
+            </td>
         </tr>
     }
 
@@ -113,6 +123,7 @@
             <td>
                 @otherSalary.Amount.ToString("#,##0.00")
             </td>
+            <td></td>
             <td></td>
         </tr>
     }
@@ -138,6 +149,7 @@
                 @ca.Amount.ToString("#,##0.00")
             </td>
             <td></td>
+            <td></td>
         </tr>
     }
 
@@ -155,6 +167,7 @@
         <td>
             @TotalDriverOT.ToString("N0")
         </td>
+            <td></td>
     </tr>
 
 
@@ -177,6 +190,7 @@
                 - @payment.Amount.ToString("#,##0.00")
             </td>
             <td></td>
+            <td></td>
         </tr>
     }
 
@@ -197,6 +211,7 @@
             <td>
                 - @contribution.Amount.ToString("#,##0.00")
             </td>
+            <td></td>
             <td></td>
         </tr>
     }
@@ -219,6 +234,7 @@
                 - @others.Amount.ToString("#,##0.00")
             </td>
             <td></td>
+            <td></td>
         </tr>
     }
 
@@ -231,6 +247,7 @@
         <td colspan="4"> </td>
         <td> Net </td>
         <td> <b>@total.ToString("#,##0.00")</b> </td>
+            <td></td>
     </tr>
 
     @if (tripLogErr.Length > 0)
@@ -239,6 +256,7 @@
             <td colspan="5">
                 <p class="text-center"> @tripLogErr  </p>
             </td>
+            <td></td>
         </tr>
     }
 </table>
