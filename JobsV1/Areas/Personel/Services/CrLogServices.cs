@@ -598,6 +598,23 @@ namespace JobsV1.Areas.Personel.Services
             }
         }
 
+        public List<string> GetAvailableUnitsOnDate(List<crLogTrip> crLogTrips)
+        {
+            List<string> unitsAvailable = new List<string>();
+
+            var tripUnits = crLogTrips.Select(c => c.crLogUnit).ToList();
+            var RealBreezeUnits = db.crLogUnits.Where(c => c.crLogOwner.Name == "Realbreeze" && c.Status == "ACT").ToList();
+
+            RealBreezeUnits.ForEach(rbUnit => {
+                if (!tripUnits.Contains(rbUnit))
+                {
+                    unitsAvailable.Add(rbUnit.Description);
+                }
+            });
+
+            return unitsAvailable;
+        }
+
         public int SaveDbChanges()
         {
            return db.SaveChanges();

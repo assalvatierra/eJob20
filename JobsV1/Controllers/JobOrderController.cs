@@ -1945,6 +1945,17 @@ namespace JobsV1.Controllers
                 bank = db.Banks.Find(2);
             }
 
+            if (jobMain.Branch.Name == "RealBreeze - Cebu")
+            {
+                sCompany = "Real Breeze Travel & Tours - Cebu City";
+                sLine1 = "Tel# (082) 333-5157; (+63) 916 755 8473; ";
+                sLine2 = "Email: travel.realbreeze@gmail.com; Website: http://www.realbreezetravel.com/CEBU";
+                sLine3 = " ";
+                sLine4 = " ";
+                sLogo = "RealBreezeLogo01.png";
+                bank = db.Banks.Find(3);
+            }
+
             ViewBag.sCompany = sCompany;
             ViewBag.sLine1 = sLine1;
             ViewBag.sLine2 = sLine2;

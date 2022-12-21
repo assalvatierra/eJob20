@@ -44,9 +44,13 @@
     {
         if (item.crLogCashGroups.FirstOrDefault() != null)
         {
+            var StatusRequest = 1;
+            if (item.crLogCashGroups.FirstOrDefault().crLogCashRelease.crLogCashStatus != null)
+            {
+                  StatusRequest = item.crLogCashGroups.FirstOrDefault().crLogCashRelease.crLogCashStatus
+                        .OrderByDescending(s => s.crCashReqStatusId).First().crCashReqStatusId;
+            }
 
-            var StatusRequest = item.crLogCashGroups.FirstOrDefault().crLogCashRelease.crLogCashStatus
-                .OrderByDescending(s => s.crCashReqStatusId).First().crCashReqStatusId;
 
             var salary = item.crLogCashGroups.Where(c => c.crLogCashRelease.crLogCashTypeId <= 2)
             .Sum(c => c.crLogCashRelease.Amount);

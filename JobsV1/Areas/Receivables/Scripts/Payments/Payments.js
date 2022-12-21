@@ -20,7 +20,7 @@ function InitDatePicker() {
             }
         },
         function (start, end, label) {
-             alert(start.format('YYYY-MM-DD h:mm A'));
+             //alert(start.format('YYYY-MM-DD h:mm A'));
         }
     );
 

@@ -1,27 +1,15 @@
-﻿@model JobsV1.Areas.Personel.Models.crLogTripBilling
+﻿@model JobsV1.Areas.Personel.Models.crBillingDetails_Supplier
 
 @{
     ViewBag.Title = "Trip Log";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
     int TotalCount = 0;
     decimal TotalRate = 0;
     decimal TotalOTRate = 0;
-    double TotalOT = 0;
+    decimal TotalAddon = 0;
     decimal Total = 0;
-
-
-    var paramDefault = new
-    {
-        startDate = ViewBag.FilteredsDate,
-        endDate = ViewBag.FilteredeDate,
-        unit = ViewBag.FilteredUnit,
-        driver = ViewBag.FilteredDriver,
-        company = ViewBag.FilteredCompany,
-        sortby = ViewBag.SortBy,
-        owner = ViewBag.Owner
-    };
 }
-<style href=""></style>
 <style>
     .PanelContainer-main {
         background-color: #eff3f6;
@@ -33,8 +21,122 @@
         border: none;
     }
 
-    .table > tbody > tr > td{
-        border-top:none;
+    .table > tbody > tr > td {
+        border-top: none;
+    }
+
+    .PanelContainer-main {
+        background-color: #eff3f6;
+        border: none;
+    }
+
+    .container-content {
+        background-color: #eff3f6;
+        border: none;
+    }
+
+    .table > tbody > tr > td {
+        border-top: none;
+    }
+
+    .no-padding-child td {
+        padding: 3px !important;
+        padding-left: 5px !important;
+    }
+
+        .no-padding-child td:first-child {
+            padding-left: 10px !important;
+        }
+
+    .with-border {
+        border: 1px solid black !important;
+    }
+
+    .td-border {
+        border: 1px solid black;
+    }
+
+    .paper-size {
+        width: 680px;
+    }
+
+    .div-no-margin p {
+        margin-bottom: 0px;
+    }
+
+    .border-left {
+        border-left: 1px solid black;
+        padding-right: 5px;
+    }
+
+        .border-left span {
+            padding: 5px;
+        }
+
+    .table-bordered {
+        width: 100%;
+        border: 1px solid black;
+    }
+
+        .table-bordered > tbody > tr > td {
+            border: 1px solid black;
+        }
+
+    .table-header tr td {
+        padding: 5px;
+    }
+
+    /* Table Header*/
+
+    .table-header tr {
+        padding: 5px;
+        border: 1px solid black !important;
+    }
+
+    .table-header-logo-td {
+        padding: 5px;
+    }
+
+        .table-header-logo-td > img {
+            float: left;
+        }
+
+    .table-header-text-td {
+        text-align: left;
+    }
+
+    .header-text-company {
+        font: bold 18px arial, verdana;
+        display: block;
+        left: -50px;
+        text-align: left;
+    }
+
+    .header-text-details {
+        font: 9px arial, verdana;
+        color: royalblue;
+        display: block;
+    }
+
+    /*Table Statement Title */
+
+    .table-statement {
+        width: 100%;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        margin-bottom: 0px;
+    }
+
+    .no-border-right {
+        border-right: none !important;
+    }
+
+    .no-border-left {
+        border-left: none !important;
+    }
+
+    .td-border-top{
+        border-top:1px solid black !important;
     }
 </style>
 
@@ -46,18 +148,16 @@
     @Html.ActionLink("Units", "Index", "crLogUnits") |
     @Html.ActionLink("Companies", "Index", "crLogCompanies") |
     @Html.ActionLink("Cash Transactions", "Index", "CarRentalCashRelease") |
-    @Html.ActionLink("Expenses", "Index", "CrLogFuels", null, null) |
-    @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses")
+    @Html.ActionLink("Expenses", "Index", "CrLogFuels", null, null) 
 </p>
 <p>
     <div class="col-md-7">
         @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog", null, new { @class = " btn btn-default" })
     </div>
     <div class="col-md-5 btn-group">
-        @Html.ActionLink("OT Billing", "IndexBilling", paramDefault, new { @class = " btn btn-default" })
-        @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", paramDefault, new { @class = " btn btn-default active" })
-        @Html.ActionLink("Supplier Billing", "IndexSupplierBilling", paramDefault, new { @class = " btn btn-default" })
-        @*@Html.ActionLink("Sunday Billing", "IndexBillingSunday", null, new { @class = " btn btn-default" })*@
+        @Html.ActionLink("OT Billing", "IndexBilling", null, new { @class = " btn btn-default" })
+        @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", null, new { @class = " btn btn-default " })
+        @Html.ActionLink("Supplier Billing", "IndexSupplierBilling", null, new { @class = " btn btn-default active" })
     </div>
 </p>
 
@@ -67,8 +167,7 @@
     <button type="button" class="btn btn-default" onclick="PrevDay()"> &#171; Prev Day </button>
     <button type="button" class="btn btn-default" onclick="NextDay()"> Next Day &#187; </button>
     <button type="button" class="btn btn-default pull-right" onclick="PrintBilling()">  <img src="~/Images/Icons/icon-print.png" width="14" /> Print Form </button>
-    <button type="button" class="btn btn-default pull-right" onclick="PrintBillingOS()">  <img src="~/Images/Icons/icon-print.png" width="14" /> Print Form OS </button>
-    <button type="button" class="btn btn-default pull-right" onclick="PrintBillingDefault()">  <img src="~/Images/Icons/icon-print.png" width="14" /> Print Form Default </button>
+    <button type="button" class="btn btn-default pull-right" onclick="PrintBillingNoDriver()">  <img src="~/Images/Icons/icon-print.png" width="14" /> Print Form No Driver </button>
 </p>
 
 <!-- Filter Modal -->
@@ -97,7 +196,7 @@
                                 <input type="text" name="startDate" id="filter-sdate" class="form-control" style="margin-bottom:10px;" />
                                 <label for="filter-date-label"> End Date: </label>
                                 <input type="text" name="endDate" id="filter-edate" class="form-control" />
-                            </div>dropdown-search
+                            </div>
 
 
                             <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
@@ -132,7 +231,7 @@
                                     }
                                 </select>
                             </div>
-                            
+
                             <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
                                 <label for="filter-company">Owner:</label>
                                 <select name="owner" id="filter-owner" class="form-control dropdown-search" style="width:95%;">
@@ -169,143 +268,230 @@
 <br />
 <hr />
 
-<h4>Daily Rates </h4>
-<table class="table" style="width: 100%; border: 2px solid black;">
-    <tr>
-        <td colspan="3">
-            <h6 class="text-center" style="font-weight: 600; margin: 5px;">Description </h6>
-        </td>
-        <td colspan="1">
-            <h6 style="font-weight: 600; margin: 5px;">Basic Rate</h6>
-        </td>
-        <td colspan="2">
-            <h6 style="font-weight: 600; margin: 5px;">Overtime</h6>
-
-        </td>
-    </tr>
-    @foreach (var tripGroup in Model.OTTrips.GroupBy(c => c.Unit))
-    {
+<div class="paper-size">
+    <table class="table-bordered table-header">
         <tr>
-            <td colspan="7"></td>
+            <td class="table-header-logo-td">
+                <img src="~/Images/LOGO_AJRENTACAR.jpg" width="100" class="pull-right" style="margin-right:20px;" />
+            </td>
+            <td class="table-header-logo-td">
+                <span class="header-text-company">
+                    AJ88 Davao Car Rental Services
+                </span>
+                <span class="header-text-details">
+                    <br />Door 1 Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000
+                    <br />Tel# (+63)82 333-5157; (+63)916-755-8473; (+63)933-089-5358
+                    <br />Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com
+                </span>
+            </td> 
         </tr>
+    </table>
+    <table class="table table-statement">
         <tr>
-            <td colspan="7">
-                <span style="font-weight:700;">@tripGroup.Key - @tripGroup.Count() Days</span>
+            <td colspan="3" class="no-padding td-border-top">
+                <h2 class="text-center no-margin"> Statement Account </h2>
+                <p class="text-center no-margin">
+                    @Model.BillingDate
+                </p>
             </td>
         </tr>
+        <tr class="no-padding-child">
+            <td colspan="2">
+                <b>To: @Model.Supplier </b><br />
+                Company : @ViewBag.Company
+            </td>
+            <td>
+                <p class="pull-right" style="padding-right:5px;">
+                    SOA #: @Model.PONum <br />
+                    Date : @Model.GeneratedDate.ToString("MMM dd yyyy")
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table table-report" style="border:1px solid black;">
+
         <tr>
-            <td colspan="7"></td>
+            <td class="border-left" width="70">
+                <h6 class="text-center" style="font-weight: 600; margin: 5px;">Date </h6>
+            </td>
+            <td class="border-left" width="110">
+                <h6 class="text-center" style="font-weight: 600; margin: 5px;">Driver </h6>
+            </td>
+            <td class="border-left">
+                <h6 class="text-center" style="font-weight: 600; margin: 5px;">Description </h6>
+            </td>
+            <td colspan="1" class="border-left">
+                <h6 style="font-weight: 600; margin: 5px;">Amount</h6>
+            </td>
+            <td colspan="1" class="border-left">
+                <h6 style="font-weight: 600; margin: 5px;">Overtime</h6>
+
+            </td>
+            <td colspan="1" class="border-left" width="60">
+                <h6 style="font-weight: 600; margin: 5px;">Add'l</h6>
+
+            </td>
         </tr>
 
 
-        decimal subtotalRate = 0;
-        decimal subtotalOTRate = 0;
-        decimal subtotalOTHrs = 0;
-        foreach (var trip in tripGroup)
+        @foreach (var tripGroup in Model.Daily.GroupBy(c => c.DtTrip))
         {
-            var dtcolor = "black";
+            var currentDate = tripGroup.Key.ToString("MMM dd");
 
-
-            if (trip.DtTrip.DayOfWeek.ToString() == "Saturday")
+            foreach (var trip in tripGroup)
             {
-                dtcolor = "blue";
+                TotalCount += 1;
+
+                <tr class="no-padding-child">
+                    <td>
+                        @currentDate
+                    </td>
+                    <td class="border-left text-center">
+                        <span cl> @trip.Driver</span>
+                    </td>
+                    <td class="border-left">
+                        <span>
+                            @trip.Unit (@trip.StartTime - @trip.EndTime)
+                        </span>
+                        @if (!String.IsNullOrEmpty(trip.Remarks))
+                        {
+                            <br /><span>@trip.Remarks</span>
+                        }
+                    </td>
+                    <td class="border-left text-right">
+                        <span> @trip.Rate.ToString("#,##0.00") </span>
+                    </td>
+                    <td class="border-left text-right">
+                        @if (trip.OTRate > 0)
+                        {
+                            <span>
+                                @trip.OTRate.ToString("#,##0.00")
+                            </span>
+                        }
+                    </td>
+                    <td class="border-left text-right">
+                        @if (trip.AddOns != 0)
+                        {
+
+                            <span>
+                                @trip.AddOns.ToString("#,##0.00")
+                            </span>
+                        }
+
+                    </td>
+                </tr>
             }
+        }
 
-            TotalCount += 1;
-            TotalRate += trip.Rate;
-            TotalOTRate += trip.OTRate;
-            TotalOT += trip.OTHours;
+        <tr class="no-padding-child" style="border-top:1px solid black;margin-top:20px;">
+            <td colspan="2"> Total : @TotalCount </td>
+            <td colspan="1">
+                <span class="pull-left"> Sub-Total </span>
+            </td>
+            <td class="text-right">
+                <span style="font-weight: bold; font-size: 12px; padding: 5px;"> @Model.SubTotalRate.ToString("#,##0.00") </span>
+            </td>
+            <td class="text-right">
+                <span style="font-weight: bold; font-size: 12px; padding: 5px;"> @Model.SubTotalOT.ToString("#,##0.00") </span>
+            </td>
+            <td class="text-right">
+                <span style="font-weight: bold; font-size: 12px;padding-left:15px;padding:5px;"> @Model.SubTotalAddon.ToString("#,##0.00")  </span>
+            </td>
+        </tr>
 
-            subtotalRate += trip.Rate;
-            subtotalOTRate += trip.OTRate;
-            subtotalOTHrs += (decimal)trip.OTHours;
+        <tr class="no-padding-child">
+            <td colspan="6">
+                <b> Deductions</b>
+                <span class="pull-right">
+                    <input type="checkbox" id="checkboxDriverSalary" />
 
-            <tr style=" font-family:Calibri !important;">
-                <td>@trip.Driver</td>
-                <td style="color:@dtcolor;">@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
-                <td>
-                    @*@trip.Unit*@
+                </span>
+            </td>
+        </tr>
+
+        @foreach (var driversSalary in Model.DriversSalary)
+        {
+
+            <tr class="no-padding-child">
+                <td colspan="4">
+
+                    @driversSalary.DriverDetails
                 </td>
-                <td>@trip.Rate.ToString("#,##0") </td>
-                <td>
-                    @if (trip.OTRate > 0)
-                    {
-                        <span>
-                            @trip.OTRate.ToString("#,##0")
-                        </span>
-                    }
+                <td colspan="1">
+                    <h5 class="no-margin" style="font-size:12px;font-weight:600;"> @driversSalary.DriversSalary </h5>
                 </td>
-                <td>
-                    @if (trip.OTHours > 0)
-                    {
-                        <span>
-                            @trip.OTHours.ToString("#,##0.0")
-                        </span>
-                    }
-                </td>
-                <td>
-                    @if (trip.OTHours > 0)
-                    {
-                        <span>
-                            Hrs
-                        </span>
-                    }
+                <td colspan="1">
+                    <h5 class="no-margin" style="font-size:12px;font-weight:600;">  @driversSalary.DriverOTRate </h5>
                 </td>
             </tr>
-
         }
-        <tr style="border-top: 1px solid black;" class="no-padding-child">
-            <td colspan="3">
-                <b class="pull-right" style="padding-right:15px;"> Subtotal </b>
+
+        <tr class="no-padding-child" style="border-top:1px solid black;margin-top:20px;">
+            <td colspan="2"> Total : @TotalCount </td>
+            <td colspan="2">
+                <span class="pull-left"> Sub-Total </span>
             </td>
-            <td>
-                <b> @subtotalRate.ToString("#,##0")</b>
+            <td class="text-right">
+                <span style="font-weight: bold; font-size: 12px; padding: 5px;"> @Model.SubTotaDriverRate.ToString("#,##0.00") </span>
             </td>
-            <td>
-                @if (subtotalOTRate > 0)
-                {
-                    <b> @subtotalOTRate.ToString("#,##0")</b>
-                }
-            </td>
-            <td>
-                @if (subtotalOTHrs > 0)
-                {
-                    <b>@subtotalOTHrs.ToString("#,##0.0") Hrs</b>
-                }
+            <td class="text-right">
+                <span style="font-weight: bold; font-size: 12px;padding-left:15px;padding:5px;"> @Model.SubTotalDriverOT.ToString("#,##0.00")  </span>
             </td>
         </tr>
-    }
 
-    @{
-        Total = TotalRate + TotalOTRate;
-    }
-    <tr style="border-top:1px solid gray;">
-        <td colspan="3"> Total Count: @TotalCount</td>
-        <td>
-            <span style="font-size:9px;"> Total Rate</span><br />
-            <span style="font-weight:bold;"> @TotalRate.ToString("#,##0") </span>
-        </td>
-        <td>
-            <span style="font-size:9px;"> Total OT Rate</span><br />
-            <span style="font-weight:bold;"> @TotalOTRate.ToString("#,##0") </span>
-        </td>
-        <td>
-            <span style="font-size:9px;"> Total OT Hours</span><br />
-            <span style="font-weight:bold;"> @TotalOT.ToString("#,##0.0") </span>
-        </td>
-        <td> Hrs </td>
-    </tr>
-    <tr style="border-top:1px solid gray;">
-        <td colspan="4"></td>
-        <td>
-            <span style="font-size:9px;"> Total </span><br />
-            <span style="font-weight:bold;"> @Total.ToString("#,##0") </span>
-        </td>
-        <td></td>
-        <td></td>
-    </tr>
-</table>
+        <tr style="border-top:1px solid black;margin-top:20px;">
+            <td colspan="2"></td>
+            <td colspan="1">
+                <h5 style="font-weight: bold; font-size: 11px;margin:0px;"> TOTAL CHARGES </h5>
+            </td>
+            <td colspan="2">
+                <span style="font-weight: bold; font-size: 11px;"> @Model.TotalNet.ToString("#,##0.00") </span>
+            </td>
+            <td></td>
+        </tr>
+        <tr style="border-top:1px solid black;margin-top:20px;">
+            <td colspan="2"></td>
+            <td colspan="1">
+                <h5 style="font-weight: bold; font-size: 11px;margin:0px;"> TOTAL DEDUCTIONS </h5>
+            </td>
+            <td colspan="2">
+                <span style="font-weight: bold; font-size: 11px;"> @Model.SubTotalDeductions.ToString("#,##0.00") </span>
+            </td>
+            <td></td>
+        </tr>
+        <tr style="border-top:1px solid black;margin-top:20px;">
+            <td colspan="2"></td>
+            <td colspan="1">
+                <h5 style="font-weight: bold; font-size: 11px;margin:0px;"> Less 10% Tax </h5>
+            </td>
+            <td colspan="2">
+                <span style="font-weight: bold; font-size: 11px;"> @Model.TotalBalanceLessTax.ToString("#,##0.00") </span>
+            </td>
+            <td></td>
+        </tr>
+        <tr style="border-top:1px solid black;margin-top:20px;">
+            <td colspan="2"></td>
+            <td colspan="1">
+                <h5 style="font-weight: bold; font-size: 13px;margin:0px;"> GRAND TOTAL </h5>
+            </td>
+            <td colspan="2">
+                <span style="font-weight: bold; font-size: 15px;"> Php @Model.TotalBalance.ToString("#,##0.00") </span>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+    <div>
+        <p>
+            Received by : ________________________
+        </p>
+        <p>
+            Received Date : ______________________
+        </p>
+        <br />
+    </div>
 
+</div>
 
 
 @Html.Partial("_VehicleSummaryFilter")
@@ -476,24 +662,38 @@
 
         function PrintBilling() {
             ShowLoading();
-            location.href = "/Personel/crLogBilling/PrintIndexBillingDaily"
+            location.href = "/Personel/crLogBilling/PrintIndexSupplierBilling"
         }
 
-        function PrintBillingDefault() {
+        function PrintBillingNoDriver() {
             ShowLoading();
-            location.href = "/Personel/crLogBilling/PrintIndexBillingDaily_Default"
+            location.href = "/Personel/crLogBilling/PrintIndexSupplierBillingNoDriver"
         }
-
-        function PrintBillingOS() {
-            ShowLoading();
-            location.href = "/Personel/crLogBilling/PrintIndexBillingDailyOS"
-        }
-
 
         //For Initializing search in dropdowns
         //Add class dropdown-search in dropdown inputs
         function InitDropdownSearch() {
             $('.dropdown-search').select2();
+        }
+
+        function CheckIncludePaymentDriversSalary() {
+
+
+            //set session for including drivers salary in 
+            var includeDriverSalary = localStorage['includeDriverSalary'];
+            if ($('#checkboxDriverSalary').is(":checked")) {
+
+                if (!includeDriverSalary) {
+                    // open popup
+                    localStorage['includeDriverSalary'] = "true";
+                }
+
+            } else {
+                if (!includeDriverSalary) {
+                    // open popup
+                    localStorage['includeDriverSalary'] = "false";
+                }
+            }
         }
     </script>
 }

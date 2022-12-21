@@ -135,7 +135,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.SalesCode, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.SalesCode, new { htmlAttributes = new { @class = "form-control", @maxlength = "40" } })
+            @Html.EditorFor(model => model.SalesCode, new { htmlAttributes = new { @class = "form-control", @maxlength = "20" } })
             <p style="font-size:10px;color:gray;"> Enter the Sales Code of customer activities to Sync the data </p>
             @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
         </div>

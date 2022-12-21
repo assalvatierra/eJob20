@@ -6,6 +6,8 @@
 
     bool isAdmin = ViewBag.IsAdmin;
 
+    List<string> availableUnits = ViewBag.AvailableUnits;
+
     var paramDefault = new
     {
         startDate = ViewBag.FilteredsDate,
@@ -34,7 +36,7 @@
     }
 
     #body {
-        width:auto !important;
+        width: auto !important;
     }
 
     .main-content > .container {
@@ -54,7 +56,7 @@
     @Html.ActionLink("Drivers", "Index", "crLogDrivers") |
     @Html.ActionLink("Units", "Index", "crLogUnits") |
     @Html.ActionLink("Companies", "Index", "crLogCompanies") |
-    @Html.ActionLink("Cash Transactions", "Index", "CarRentalCashRelease") 
+    @Html.ActionLink("Cash Transactions", "Index", "CarRentalCashRelease") |
     @Html.ActionLink("Salary Request", "Index", "crLogCashSalaries")
 </p>
 
@@ -77,6 +79,7 @@
     <div class="col-md-4 btn-group">
         @Html.ActionLink("OT Billing", "IndexBilling", "crLogBilling", paramDefault, new { @class = " btn btn-default" })
         @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", "crLogBilling", paramDefault, new { @class = " btn btn-default" })
+        @Html.ActionLink("Supplier Billing", "IndexSupplierBilling", "crLogBilling", paramDefault, new { @class = " btn btn-default" })
         @*@Html.ActionLink("Sunday Billing", "IndexBillingSunday", "crLogBilling", paramDefault, new { @class = " btn btn-default" })*@
     </div>
 </div>
@@ -165,7 +168,7 @@
 
                             <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
                                 <label for="filter-company">Company:</label>
-                                <select name="company" id="filter-company" class="form-control ">
+                                <select name="company" id="filter-company" class="form-control dropdown-search" style="width:95%;">
                                     <option value="all">All</option>
                                     @foreach (var unit in ViewBag.crLogCompanyList as List<JobsV1.Areas.Personel.Models.crLogCompany>)
                                     {
@@ -176,7 +179,7 @@
 
                             <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
                                 <label for="filter-company">Owner:</label>
-                                <select name="owner" id="filter-owner" class="form-control">
+                                <select name="owner" id="filter-owner" class="form-control dropdown-search" style="width:95%;">
                                     <option value="all">All</option>
                                     @foreach (var owner in ViewBag.crLogOwnerList as List<JobsV1.Areas.Personel.Models.crLogOwner>)
                                     {
@@ -217,7 +220,10 @@
         <th id="tb-hd-AllowEdit" hidden>
             <a class="cursor-hand" onclick="AllowEditAll()"> Edit All </a>
         </th>
+        <td>
+        </td>
         <th width="150">
+
             Date
         </th>
         <th>
@@ -233,7 +239,7 @@
             Description
         </th>
         <th>
-            
+
         </th>
         <th>
             Rate
@@ -286,7 +292,7 @@
             color = "black";
         }
 
-        //Highlight red triplog when no job link 
+        //Highlight red triplog when no job link
         //if trip is under office, ignore highlight
         if (item.crLogTripJobMains.Count() == 0 && item.crLogCompany.Name != "Office")
         {
@@ -316,6 +322,7 @@
         totalDriverFee += item.DriverFee;
         totalDriverOT += item.DriverOT;
 
+
         <tr id="trip-@item.Id" style="color:@tripcolor;">
             <td class="trip-Finalize" hidden>
                 @if (!item.IsFinal)
@@ -330,11 +337,17 @@
                     <input type="checkbox" value="@item.Id" />
                 }
             </td>
+            <td>
+                @count <span>.  </span>
+            </td>
             <td class="td-date">
+
+
                 @item.DtTrip.ToString("MMM dd yyyy")
+
                 <span style="color:@color;"> @item.DtTrip.ToString(" (ddd) ")</span><br />
 
-                @if (item.IsFinal && item.AllowEdit == false )
+                @if (item.IsFinal && item.AllowEdit == false)
                 {
                     <!-- Lock img icon -->
                     <i class="fa fa-lock" title="Locked"></i>
@@ -407,12 +420,12 @@
                 @if (item.AddonOT != null)
                 {
 
-                var AddOnOT = (decimal)item.AddonOT;
-                totalOTRate = totalOTRate + AddOnOT;
+                    var AddOnOT = (decimal)item.AddonOT;
+                    totalOTRate = totalOTRate + AddOnOT;
 
-                <span>
-                    @AddOnOT.ToString("#,##0.00")
-                </span>
+                    <span>
+                        @AddOnOT.ToString("#,##0.00")
+                    </span>
                 }
             </td>
             <td>
@@ -431,6 +444,20 @@
                 @item.DriverFee.ToString("#,##0.00")
             </td>
             <td>
+                @{
+                    decimal DriversOT = 0;
+                    if (item.OTRate != null && item.AddonOT != null && item.OTRate != 0)
+                    {
+                        decimal calcTimeOT = ((decimal)item.AddonOT / (decimal)item.OTRate);
+                        DriversOT = calcTimeOT * (decimal)item.DriverOTRate;
+                    }
+                }
+
+                @if (DriversOT != item.DriverOT)
+                {
+                    <i class="fa fa-warning" title="Drivers OT Does not match with OT Rate"></i>
+                }
+
                 @item.DriverOT.ToString("#,##0.00")
             </td>
             <td>
@@ -521,7 +548,7 @@
 
     @{
         <tr>
-            <td colspan="6">
+            <td colspan="7">
                 <p> Total Count: @count </p>
             </td>
             <td>
@@ -550,9 +577,35 @@
             </td>
             <td colspan="3"></td>
         </tr>
+
     }
 
 </table>
+
+
+@if (availableUnits.Count() > 0)
+{
+    <hr />
+    <h4> Available Units </h4>
+    <table class="table">
+        <tr>
+            <th>
+                Unit
+            </th>
+        </tr>
+        @foreach (var unit in availableUnits)
+        {
+            <tr>
+                <td>
+                    <span class="status-circle-green"> </span> &nbsp;
+                    @unit
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
 
 @Html.Partial("_LogSummaryModal", null, new ViewDataDictionary { { "DriversLogSummary" , ViewBag.DriversLogSummary },
     { "CompaniesLogSummary", ViewBag.CompaniesLogSummary }, { "UnitsLogSummary", ViewBag.UnitsLogSummary } })

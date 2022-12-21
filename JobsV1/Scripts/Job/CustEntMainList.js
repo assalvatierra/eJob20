@@ -223,14 +223,12 @@ function LoadTable(data) {
         var IsAssigned = temp[x]["IsAssigned"] != null ? temp[x]["IsAssigned"] : " ";
 
         if (website.length > 5) {
-          //  website = "<a href='https://" + website + "' target='_blank' >" + website.substring(0, 15) + "... </a>";
             website = "<a href='https://" + website + "' > <img src='/Images/Icons/icons-website.png' width='25' s> </a>";
         }
         
         content = "<tr>";
         content += "<td class='table-name-col'><b style='font-weight:700;'>"
                 +  "<a  href='/CustEntMains/Details/" + temp[x]["Id"] + "'> " + temp[x]["Name"] + "</a></b></td>";
-        //content += "<td>" + website +"  </td>";
         content += "<td>" + City + "</td>";
         content += "<td>" + categories + "</td>";
         content += "<td>" + parseStatus(Status) + "</td>";
@@ -250,22 +248,7 @@ function LoadTable(data) {
                         }
                     }
                 }
-        //content += "</td>";
-
-        ////Contact Person Positions
-        //content += "<td>";
-
-        //for (var pos = 0; pos < ContactPosition.length; pos++) {
-        //    if (typeof ContactPosition[pos] === "undefined") {
-        //        console.log("something is undefined");
-        //    } else {
-        //       if (ContactPosition[pos] != null) {
-        //           var positions = ContactPosition[pos].toString();
-        //           content += " " + positions + " <br>";
-        //       }
-                       
-        //    }
-        //}
+       
         content += "</td>";
 
          //Contact Person Email and Number
@@ -287,7 +270,7 @@ function LoadTable(data) {
         if (Exclusive == "EXCLUSIVE") {
             if (IsAssigned == true) {
                 content += "<td>"
-                content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details </a> |";
+                content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details </a><br>";
                 content += "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a><br> ";
                 //content += "<p>" + Exclusive + "</p>";
                 content += "</td>";

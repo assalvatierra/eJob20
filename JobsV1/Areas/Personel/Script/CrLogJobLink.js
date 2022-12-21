@@ -105,10 +105,10 @@ function ConfirmTripDate(dtStart, dtEnd) {
     console.log("jobDtEnd: " + jobDtEnd);
     console.log("tripdate: " + tripdate);
 
-    if (tripdate < jobDtStart || tripdate > jobDtEnd) {
+    if (tripdate < jobDtStart || tripdate > jobDtEnd  ) {
 
         if (confirm("Trip date is not within the Job date.")) {
-            return false;
+            return true;
         } else {
             return false;
         }
