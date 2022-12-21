@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/16/2022 18:29:39
+-- Date Created: 12/21/2022 16:21:57
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -500,6 +500,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvCarRcmdStatusInvCarRcmdRequest]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvCarRcmdRequests] DROP CONSTRAINT [FK_InvCarRcmdStatusInvCarRcmdRequest];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CustomerCustGroupType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustGroupTypes] DROP CONSTRAINT [FK_CustomerCustGroupType];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustTypeCustGroupType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustGroupTypes] DROP CONSTRAINT [FK_CustTypeCustGroupType];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -987,6 +993,12 @@ IF OBJECT_ID(N'[dbo].[InvCarRcmdStatus]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvCarRcmdRequests]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvCarRcmdRequests];
+GO
+IF OBJECT_ID(N'[dbo].[CustTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustTypes];
+GO
+IF OBJECT_ID(N'[dbo].[CustGroupTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustGroupTypes];
 GO
 
 -- --------------------------------------------------
@@ -2658,6 +2670,21 @@ CREATE TABLE [dbo].[InvCarRcmdRequests] (
 );
 GO
 
+-- Creating table 'CustTypes'
+CREATE TABLE [dbo].[CustTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] nvarchar(20)  NOT NULL
+);
+GO
+
+-- Creating table 'CustGroupTypes'
+CREATE TABLE [dbo].[CustGroupTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [CustomerId] int  NOT NULL,
+    [CustTypeId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -3625,6 +3652,18 @@ GO
 -- Creating primary key on [Id] in table 'InvCarRcmdRequests'
 ALTER TABLE [dbo].[InvCarRcmdRequests]
 ADD CONSTRAINT [PK_InvCarRcmdRequests]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustTypes'
+ALTER TABLE [dbo].[CustTypes]
+ADD CONSTRAINT [PK_CustTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustGroupTypes'
+ALTER TABLE [dbo].[CustGroupTypes]
+ADD CONSTRAINT [PK_CustGroupTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -6045,6 +6084,36 @@ GO
 CREATE INDEX [IX_FK_InvCarRcmdStatusInvCarRcmdRequest]
 ON [dbo].[InvCarRcmdRequests]
     ([InvCarRcmdStatusId]);
+GO
+
+-- Creating foreign key on [CustomerId] in table 'CustGroupTypes'
+ALTER TABLE [dbo].[CustGroupTypes]
+ADD CONSTRAINT [FK_CustomerCustGroupType]
+    FOREIGN KEY ([CustomerId])
+    REFERENCES [dbo].[Customers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustomerCustGroupType'
+CREATE INDEX [IX_FK_CustomerCustGroupType]
+ON [dbo].[CustGroupTypes]
+    ([CustomerId]);
+GO
+
+-- Creating foreign key on [CustTypeId] in table 'CustGroupTypes'
+ALTER TABLE [dbo].[CustGroupTypes]
+ADD CONSTRAINT [FK_CustTypeCustGroupType]
+    FOREIGN KEY ([CustTypeId])
+    REFERENCES [dbo].[CustTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustTypeCustGroupType'
+CREATE INDEX [IX_FK_CustTypeCustGroupType]
+ON [dbo].[CustGroupTypes]
+    ([CustTypeId]);
 GO
 
 -- --------------------------------------------------
