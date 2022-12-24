@@ -1,0 +1,19 @@
+Soln
+
+-- Shared
+  +-- Libraries  
+
+-- DbSchema
+  +-- Entity Diagram (EDMx)
+  +-- Models
+  
+-- Module
+  +-- DTO/POCO
+  +-- DBLayer
+  +-- Interfaces
+  +-- Services
+  +-- API (optional)
+
+-- Application
+  +-- Controllers
+  +-- Views  
