@@ -528,11 +528,16 @@ values ('Google.Inc','COP-001','Davao City','888-9888','888-9881','','google.com
 insert into CustEntAssigns(Assigned, Remarks, CustEntMainId, Date)
 values ('demo@gmail.com', '' , 2 , '11-30-2019');
 
-insert into CustEntities(CustEntMainId, CustomerId, Position) 
-values  (2,2,'Staff'), (2,3,'Manager'),
-		(3,4,'Procurement'), 
-		(4,5,'Purchaser'),
-		(5,6,'Assistant Procurement');
+-- Customers / Assigned Agent Types --
+insert into CustAssocTypes([Type]) 
+values ('Contact'), ('Agent');
+
+insert into CustEntities(CustEntMainId, CustomerId, Position, CustAssocTypeId) 
+values  (2,2,'Staff',1), 
+	    (2,3,'Manager', 1),
+		(3,4,'Procurement', 1), 
+		(4,5,'Purchaser', 1),
+		(5,6,'Assistant Procurement', 1);
 		
 insert into CustCats(CustomerId, CustCategoryId) 
 values	(1,3),(2,2),
@@ -1068,3 +1073,5 @@ insert into CustEntActPostSaleStatus([Status]) values
 
 insert into SalesLeads([Date],[Details],[Remarks],[CustomerId], [CustName], [DtEntered],[EnteredBy],[Price],[AssignedTo],[CustPhone],[CustEmail],[SalesCode]) 
 values ('3/8/2021', 'Sales Lead Sample 01', '', 2, 'John Doe', '3/8/2021', 'admin', 75000, 'admin@gmail.com', '0912 345 6789', 'johndoe@gmail.com', 'SL-001');
+
+
