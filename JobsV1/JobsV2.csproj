@@ -804,6 +804,7 @@
     <Compile Include="Models\Class\AppointmentClass.cs" />
     <Compile Include="Models\Class\CashierClass.cs" />
     <Compile Include="Models\Class\CompanyClass.cs" />
+    <Compile Include="Models\Class\CustAgentClass.cs" />
     <Compile Include="Models\Class\CustEntCode.cs" />
     <Compile Include="Models\Class\CustNotifClass.cs" />
     <Compile Include="Models\Class\DashboardServices.cs" />
@@ -826,6 +827,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Currency.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustAssocType.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CustCat.cs">
@@ -2197,6 +2201,7 @@
     <Content Include="Scripts\Chartjs\Chart.js" />
     <Content Include="Scripts\Chartjs\utils.js" />
     <Content Include="Scripts\cleave.min.js" />
+    <Content Include="Scripts\CustEntMain\CustEntAssignContact.js" />
     <Content Include="Scripts\CustEntMain\CustEntMainDetails.js" />
     <Content Include="Scripts\CustEntMain\CustEntVehicle.js" />
     <Content Include="Scripts\CustNotif\CreateNotif.js" />
@@ -2649,7 +2654,6 @@
     <Content Include="Areas\Payables\Views\ApTransRepeats\Details.cshtml" />
     <Content Include="Areas\Payables\Views\ApTransRepeats\Edit.cshtml" />
     <Content Include="Areas\Payables\Views\ApTransRepeats\Index.cshtml" />
-    <Content Include="Areas\Personel\Views\crLogBilling\IndexBillingDaily - Copy.cshtml" />
     <Content Include="Areas\Personel\Views\crLogDrivers\DriverExpenseHistory.cshtml" />
     <Content Include="Areas\Personel\Views\crLogDrivers\DriverSummary.cshtml" />
     <Content Include="Areas\Personel\Views\crLogDrivers\DriverSummaryTripEdit.cshtml" />
@@ -2705,6 +2709,9 @@
     <Content Include="bin\ArServices.dll.config" />
     <Content Include="bin\JobsV1.dll.config" />
     <Content Include="Areas\Personel\Views\crLogBilling\PrintIndexBillingDaily_Default.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\IndexSupplierBilling.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\PrintIndexSupplierBilling.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\PrintIndexSupplierBillingNoDriver.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
@@ -3587,6 +3594,7 @@
     <Content Include="Views\DriverInstructions\Details.cshtml" />
     <Content Include="Views\DriverInstructions\Edit.cshtml" />
     <Content Include="Views\DriverInstructions\Index.cshtml" />
+    <Content Include="Views\Customers\CreateAgent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

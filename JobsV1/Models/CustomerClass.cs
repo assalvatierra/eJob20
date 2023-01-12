@@ -195,6 +195,25 @@ namespace JobsV1.Models
             return FilesList;
         }
 
+
+        public void CreateSocialAccount(int custId, string account)
+        {
+            try
+            {
+
+                CustSocialAcc social = new CustSocialAcc();
+                social.CustomerId = custId;
+                social.Facebook = account;
+                social.Skype = "";
+                social.Viber = "";
+
+                db.CustSocialAccs.Add(social);
+                db.SaveChanges();
+
+            }
+            catch { }
+        }
+
         //get customer jobs on Partial View
         #region Customer jobs
         //get customer jobs and details
@@ -482,11 +501,11 @@ namespace JobsV1.Models
                 //handle status filter
                 if (status != "ALL")
                 {
-                    sql += " AND  c.Name Like '%" + search + "%' ";
+                    sql += " AND c.Name Like '%" + search + "%' ";
                 }
                 else
                 {
-                    sql += " AND  c.Name Like '%" + search + "%' ";
+                    sql += " AND c.Name Like '%" + search + "%' ";
                 }
             }
 
@@ -495,23 +514,23 @@ namespace JobsV1.Models
                 switch (sort)
                 {
                     case "DATE":
-                        sql += "ORDER BY Id ASC;";
+                        sql += " ORDER BY Id ASC;";
                         break;
                     case "NAME":
-                        sql += "ORDER BY Name ASC;";
+                        sql += " ORDER BY Name ASC;";
                         break;
                     case "JOBSCOUNT":
-                        sql += "ORDER BY JobCount DESC;";
+                        sql += " ORDER BY JobCount DESC;";
                         break;
                     default:
-                        sql += "ORDER BY JobCount DESC , Name ASC;";
+                        sql += " ORDER BY JobCount DESC , Name ASC;";
                         break;
                 }
             }
             else
             {
                 //terminator
-                sql += "ORDER BY JobCount ASC , Name ASC;";
+                sql += " ORDER BY JobCount ASC , Name ASC;";
 
             }
 
@@ -529,7 +548,7 @@ namespace JobsV1.Models
             string sql = "SELECT c.Id, c.Name, c.Contact1, c.Contact2 , c.Status,"
                         + " JobCount = (SELECT Count(x.Id) FROM [JobMains] x WHERE x.CustomerId = c.Id ) ,"
                         + " Company = (SELECT Top(1)  CompanyName = (SELECT Top(1) cem.Name FROM [CustEntMains] cem where ce.CustEntMainId = cem.Id ORDER BY cem.Id DESC)"
-                        + " FROM [CustEntities] ce WHERE ce.CustomerId = c.Id  ORDER BY ce.Id DESC) FROM Customers c"
+                        + " FROM [CustEntities] ce WHERE ce.CustomerId = c.Id  ORDER BY ce.Id DESC) FROM Customers c "
                         ;
 
             //handle status filter
@@ -563,23 +582,23 @@ namespace JobsV1.Models
                 switch (sort)
                 {
                     case "DATE":
-                        sql += "ORDER BY Id ASC;";
+                        sql += " ORDER BY Id ASC;";
                         break;
                     case "NAME":
-                        sql += "ORDER BY Name ASC;";
+                        sql += " ORDER BY Name ASC;";
                         break;
                     case "JOBSCOUNT":
-                        sql += "ORDER BY JobCount DESC;";
+                        sql += " ORDER BY JobCount DESC;";
                         break;
                     default:
-                        sql += "ORDER BY JobCount DESC , Name ASC;";
+                        sql += " ORDER BY JobCount DESC , Name ASC;";
                         break;
                 }
             }
             else
             {
                 //terminator
-                sql += "ORDER BY JobCount ASC , Name ASC;";
+                sql += " ORDER BY JobCount ASC , Name ASC;";
 
             }
 

@@ -121,19 +121,8 @@ namespace JobsV1.Controllers
                 top = 30;
             }
 
-            //get logged user account
-            var user = HttpContext.User.Identity.Name;
-
-            //check previlages
-            var isAdmin = User.IsInRole("Admin");
-            var isAssigned = custEntMain.AssignedTo == user ? true : false;
-            var isServiceAdvisor = User.IsInRole("ServiceAdvisor");
-
-            //check jobcount
-            var jobcount = db.JobEntMains.Where(s => s.CustEntMainId == id).Count();
-
             //contacts 
-            var companyContactEntity = db.CustEntities.Where(c => c.CustEntMainId == id).Select(c => c.CustomerId).ToList();
+            var companyContactEntity = custEntMain.CustEntities.Select(c => c.CustomerId).ToList();
 
             List<CompanyLeadsTbl> salesLeads = new List<CompanyLeadsTbl>();
 
@@ -151,16 +140,27 @@ namespace JobsV1.Controllers
             ViewBag.City = db.Cities.Find(custEntMain.CityId) != null ? db.Cities.Find(custEntMain.CityId).Name : "NA";
             ViewBag.ContactList = new SelectList(db.Customers.Where(c=>c.Status != "INC").OrderBy(s=>s.Name).ToList(), "Id", "Name",1);
             ViewBag.Documents = GetDocumentList((int)id);
-            ViewBag.CustDocuments = db.CustEntDocuments.Where(c=>c.CustEntMainId == id).ToList();
+            ViewBag.CustDocuments = custEntMain.CustEntDocuments; 
+            ViewBag.CustomerVehicles = custEntMain.Vehicles.OrderBy(v=>v.VehicleModel.VehicleBrand.Brand).ToList();
+            ViewBag.VehicleModelList = db.VehicleModels.OrderBy(v => v.VehicleBrand.Brand).ThenBy(v => v.Make).ToList();
+            ViewBag.CompanyContacts = db.Customers.Where(c => companyContactEntity.Contains(c.Id)).OrderBy(c=>c.Name).ToList();
+            ViewBag.AgentList = custEntMain.CustEntities.Where(c => c.CustAssocTypeId == 2).ToList();
+           
+            ViewBag.SiteConfig = SITECONFIG;
+
+            //get logged user account
+            var user = HttpContext.User.Identity.Name;
+
+            //check previlages
+            var isAdmin = User.IsInRole("Admin");
+            var isAssigned = custEntMain.AssignedTo == user ? true : false;
+            var isServiceAdvisor = User.IsInRole("ServiceAdvisor");
+
             ViewBag.CompanyId = id;
+            ViewBag.HaveJob = db.JobEntMains.Where(s => s.CustEntMainId == id).Count() != 0 ? true : false;
             ViewBag.isAllowedHistory = isAdmin || isAssigned ? true : false;
             ViewBag.IsAllowedVehicles = isAdmin || isAssigned || isServiceAdvisor ? true : false;
             ViewBag.IsAdmin = isAdmin;
-            ViewBag.HaveJob = jobcount != 0 ? true : false;
-            ViewBag.CustomerVehicles = db.Vehicles.Where(v => v.CustEntMainId == id).OrderBy(v=>v.VehicleModel.VehicleBrand.Brand).ToList();
-            ViewBag.VehicleModelList = db.VehicleModels.OrderBy(v => v.VehicleBrand.Brand).ThenBy(v => v.Make).ToList();
-            ViewBag.CompanyContacts = db.Customers.Where(c => companyContactEntity.Contains(c.Id)).OrderBy(c=>c.Name).ToList();
-            ViewBag.SiteConfig = SITECONFIG;
 
             custEntMain.AssignedTo = comdb.removeSpecialChar(custEntMain.AssignedTo);
 
@@ -614,7 +614,7 @@ namespace JobsV1.Controllers
 
         }
 
-
+        [HttpPost]
         public string EditAddress( int id, string line1, string line2, string line3, string line4, string line5,  bool isPrimary , bool isBilling)
         {
             CustEntAddress editAddress = db.CustEntAddresses.Find(id);
@@ -622,7 +622,9 @@ namespace JobsV1.Controllers
             editAddress.Line2 = line2;
             editAddress.Line3 = line3;
             editAddress.Line4 = line4;
-            editAddress.Line5 = line5; 
+            editAddress.Line5 = line5;
+            editAddress.isPrimary = isPrimary;
+            editAddress.isBilling = isBilling;
 
             db.Entry(editAddress).State = EntityState.Modified;
             db.SaveChanges();
@@ -630,7 +632,7 @@ namespace JobsV1.Controllers
             return "200";
         }
 
-
+        [HttpPost]
         // GET: CustEntAddresses/Delete/5
         public string DeleteAddress(int? id)
         {

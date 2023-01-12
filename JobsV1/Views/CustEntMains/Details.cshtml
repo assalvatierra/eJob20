@@ -25,34 +25,34 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-12 no-padding">
+    <div class="col-lg-12">
         <h1> @Html.DisplayFor(model => model.Name) ( <span id="status"> </span> ) </h1>
     </div>
-    <div class="col-lg-6 no-padding">
+    <div class="col-lg-6">
         <P>
-          
+
         </P>
 
-        <p > 
-            <b class="text-muted" style="margin-right:20px;">Telephone:</b> 
+        <p>
+            <b class="text-muted" style="margin-right:20px;">Telephone:</b>
             @Html.DisplayFor(model => model.Contact1)
         </p>
-        <p> 
-            <b class="text-muted" style="margin-right:64px;">Fax:</b> 
-            
+        <p>
+            <b class="text-muted" style="margin-right:64px;">Fax:</b>
+
             @Html.DisplayFor(model => model.Contact2)
         </p>
-        <p> 
-            <b class="text-muted" style="margin-right:43px;">Mobile:</b> 
-            @Html.DisplayFor(model => model.Mobile) 
+        <p>
+            <b class="text-muted" style="margin-right:43px;">Mobile:</b>
+            @Html.DisplayFor(model => model.Mobile)
         </p>
-        <p> 
+        <p>
             <b class="text-muted" style="margin-right:32px;">Website:</b>
-            <a href="http://@Html.DisplayFor(model => model.Website)/">  @Html.DisplayFor(model => model.Website) </a> 
+            <a href="http://@Html.DisplayFor(model => model.Website)/">  @Html.DisplayFor(model => model.Website) </a>
         </p>
-        <p> 
+        <p>
             <b class="text-muted" style="margin-right:59px;">City:</b>
-            @ViewBag.City 
+            @ViewBag.City
         </p>
         <p>
             <b class="text-muted" style="margin-right:44px;">Status:</b>
@@ -102,13 +102,22 @@
             <span>
                 @Html.DisplayFor(model => model.AssignedTo)
             </span>
-            <p  style="padding-left:9px;">
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-               
-
-            </p>
+        <p style="padding-left:9px;">
         </p>
-        @* <h5>Address: @Html.DisplayFor(model => model.Address) </h5>*@
+        <p>
+            <b class="text-muted" style="margin-right:9px;">Assigned Agent:</b>
+
+            <span>
+
+            </span>
+
+            <span>
+                @*<a class="cursor-hand" onclick="InitialAddAssignedAgentModal(@customerid)"> + Add Agent </a>*@
+
+                @Html.ActionLink("+Add Agent", "CreateAgent", "Customers", new { custEntMainId = Model.Id }, null)
+            </span>
+        </p>
+
     </div>
 
     <div class="col-lg-6" style="margin-top:0px;">
@@ -120,39 +129,41 @@
                 {
                     <img src="~/Images/SalesLead/approve-icon.png" width="12" />
                 }
-                @doc.SupDocument.Description 
-                
+                @doc.SupDocument.Description
+
                 @if (ViewBag.IsAdmin)
                 {
                     if (doc.IsApproved != 1)
                     {
                         <a class="cursor-hand" onclick="ApproveCompanyDocs('@doc.Id')">&nbsp;[ Approve ] </a>
                     }
-                    
+
                 }
                 @if (doc.IsApproved != 1)
                 {
-                     
-                    <a href="#" onclick="PromptRemoveDocument('@doc.SupDocument.Description', @doc.Id, @Model.Id)">&nbsp;[ x ] </a> 
+
+                    <a href="#" onclick="PromptRemoveDocument('@doc.SupDocument.Description', @doc.Id, @Model.Id)">&nbsp;[ x ] </a>
                 }
                 else
                 {
                     if (ViewBag.IsAdmin)
                     {
-                        <a href="#" onclick="PromptRemoveDocument('@doc.SupDocument.Description', @doc.Id, @Model.Id)">&nbsp;[ x ] </a> 
+                        <a href="#" onclick="PromptRemoveDocument('@doc.SupDocument.Description', @doc.Id, @Model.Id)">&nbsp;[ x ] </a>
                     }
-                    
+
                 }
-            <br />
+                <br />
             </span>
         }
 
         <a href="#" id="catbtn" data-toggle="modal" data-target="#createDocuments">Edit</a>
+
+
     </div>
 </div>
 
 <!-- Categories -->
-<div class="row">
+<div class="row" style="margin:10px;">
     <h3> Categories </h3>
     <a href="#" id="catbtn" data-toggle="modal" data-target="#categoryModal">Add Category</a>
     @foreach (var cat in Model.CustEntCats as IEnumerable<JobsV1.Models.CustEntCat>)
@@ -165,7 +176,7 @@
 </div>
 
 <!-- Address -->
-<div class="row">
+<div class="row" style="margin:10px;">
     <h3>Address</h3>
     @*@Html.ActionLink("Add Address", "CreateAddress", "CustEntAddresses", new { companyId = Model.Id }, null)*@
 
@@ -208,12 +219,13 @@
         {
 
             <p class="comp-address">
-                <b> &nbsp;&nbsp; 
-                @address.Line1 <br />
-                @address.Line2 <br />
-                @address.Line3 <br />
-                @address.Line4 <br />
-                @address.Line5 <br />
+                <b>
+                    &nbsp;&nbsp;
+                    @address.Line1 <br />
+                    @address.Line2 <br />
+                    @address.Line3 <br />
+                    @address.Line4 <br />
+                    @address.Line5 <br />
                 </b>
                 <span class="comp-address-actions" style="display:none;">
                     <a class="cursor-pointer" id="catbtn" data-toggle="modal" data-target="#comAddressEdit"
@@ -228,7 +240,7 @@
 </div>
 
 <!-- Contacts -->
-<div class="row">
+<div class="row" style="margin:10px;">
 
     <h3>Contacts </h3>
     <a class="cursor-pointer" onclick="InitialAddContactModal(@Model.Id)"> Add Contact  </a>
@@ -242,14 +254,13 @@
             <th>  Social Media </th>
             <th>  Status </th>
         </tr>
-        @foreach (var custcompany in Model.CustEntities as IEnumerable<JobsV1.Models.CustEntity>)
+        @foreach (var custcompany in Model.CustEntities.Where(c => c.CustAssocType.Type == "Contact") as IEnumerable<JobsV1.Models.CustEntity>)
         {
             if (custcompany.Customer != null)
             {
 
                 <tr>
                     <td>
-                        @* @Html.ActionLink(custcompany.Customer.Name, "Details", "Customers", new { id = custcompany.Customer.Id }, null)*@
                         @custcompany.Customer.Name
                     </td>
                     <td>
@@ -373,9 +384,9 @@
 {
     <div class="row" id="VehiclesTable">
         @{Html.RenderPartial("PartialView_Vehicles", (List<JobsV1.Models.Vehicle>)ViewBag.CustomerVehicles,
-                              new ViewDataDictionary { { "companyId", Model.Id }, { "VehicleModelList", ViewBag.VehicleModelList },
+                                      new ViewDataDictionary { { "companyId", Model.Id }, { "VehicleModelList", ViewBag.VehicleModelList },
                                   { "CompanyContacts", ViewBag.CompanyContacts },{ "IsAllowedVehicles", ViewBag.IsAllowedVehicles } });}
-   
+
     </div>
 }
 
@@ -434,13 +445,13 @@
                 <td>@job.AssignedTo</td>
                 <td> @job.PaymentStatus </td>
                 <td>
-                    @Html.ActionLink("Repair Order", "RepairOrder", "RptGmsAuto", new { id = job.Id }, new { target = "_blank" }) | 
+                    @Html.ActionLink("Repair Order", "RepairOrder", "RptGmsAuto", new { id = job.Id }, new { target = "_blank" }) |
 
                     @if (job.Status == "CLOSED")
                     {
-                    <span>
-                        @Html.ActionLink("Service Billing", "ServiceBilling", "RptGmsAuto", new { id = job.Id }, new { target = "_blank" }) |
-                    </span>
+                        <span>
+                            @Html.ActionLink("Service Billing", "ServiceBilling", "RptGmsAuto", new { id = job.Id }, new { target = "_blank" }) |
+                        </span>
                     }
 
 
@@ -458,6 +469,7 @@
 @{ Html.RenderPartial("PartialView_Details_AddressCreate", null); }
 @{ Html.RenderPartial("PartialView_Details_AddressEdit", null); }
 @{ Html.RenderPartial("PartialView_Details_ContactCreate", new ViewDataDictionary { { "CompanyId", ViewBag.CompanyId }, { "ContactList", ViewBag.ContactList } }); }
+@*@{ Html.RenderPartial("PartialView_Create_AssignedAgent", new ViewDataDictionary { { "CompanyId", ViewBag.CompanyId }, { "AgentList", ViewBag.AgentList } }); }*@
 
 @Html.Partial("_SearchCustomerModal")
 <!-- End of Modal -->
@@ -466,6 +478,7 @@
     <script src="~/Scripts/CustEntMain/CompanyDetails.js"></script>
     <script src="~/Scripts/CustEntMain/CompanyReport.js"></script>
     <script src="~/Scripts/CustEntMain/CustEntMainDetails.js"></script>
+    <script src="~/Scripts/CustEntMain/CustEntAssignContact.js"></script>
     <script src="~/Scripts/CustEntMain/CustomerSearch.js"></script>
     <script src="~/Scripts/CustEntMain/CustEntVehicle.js"></script>
     <script>

@@ -18,6 +18,7 @@ namespace JobsV1.Controllers
     {
         private JobDBContainer db = new JobDBContainer();
         private CustomerClass custdb = new CustomerClass();
+        private CustAgentClass agentClass = new CustAgentClass();
         private JobVehicleClass jvc = new JobVehicleClass();
 
         private List<SelectListItem> StatusList = new List<SelectListItem> {
@@ -69,9 +70,11 @@ namespace JobsV1.Controllers
             PartialView_Jobs((int)id,(int)top, sdate,edate,status, sortdate);
             PartialView_Categories(id);
             PartialView_CustomerFiles(id);
+            PartialView_CustSocial((int)id);
+
+            //
             ViewBag.categoryList = db.CustCategories.ToList();
             ViewBag.custId = (int)id;
-            PartialView_CustSocial((int)id);
             ViewBag.HaveJob = db.JobMains.Where(j => j.CustomerId == id).FirstOrDefault() != null ? true : false;
             ViewBag.SiteConfig = SITECONFIG;
             ViewBag.CustomerVehicles = db.Vehicles.Where(v => v.CustomerId == id).OrderBy(v=>v.VehicleModel.VehicleBrand.Brand).ToList();
@@ -117,7 +120,7 @@ namespace JobsV1.Controllers
 
                     //socialAcc = "fb.com/melissa";
                     //create social account
-                    createSocialAccount(customer.Id, socialAcc);
+                    custdb.CreateSocialAccount(customer.Id, socialAcc);
 
                     return RedirectToAction("Details", new { id = customer.Id });
                 }
@@ -125,6 +128,54 @@ namespace JobsV1.Controllers
 
             return View(customer);
         }
+
+
+        // GET: Customers/Create
+        public ActionResult CreateAgent(int custEntMainId)
+        {
+            ViewBag.Status = new SelectList(StatusList, "value", "text");
+            ViewBag.Type = new SelectList(db.CustAssocTypes, "Id", "Type", 2);
+            ViewBag.custEntMainId = custEntMainId;
+
+            return View();
+        }
+
+        // POST: Customers/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateAgent([Bind(Include = "Id,Name,Email,Contact1,Contact2,Remarks,Status")] Customer customer, 
+            string socialAcc, int CustEntMainId, string Company, string Position)
+        {
+            if (ModelState.IsValid)
+            {
+                if (customer.Status == null || customer.Status.Trim() == "") customer.Status = "ACT";
+
+                if (HaveNameDuplicate(customer.Name))
+                {
+                    ViewBag.Msg = "Customer Name already exist.";
+                    return RedirectToAction("Create");
+                }
+                else
+                {
+                    db.Customers.Add(customer);
+                    db.SaveChanges();
+
+                    //create social account
+                    custdb.CreateSocialAccount(customer.Id, socialAcc);
+
+                    agentClass.CreateAgent(customer.Id, CustEntMainId, Company, Position);
+
+                    return RedirectToAction("Details", "CustEntMains",new { id = CustEntMainId });
+                }
+            }
+
+            ViewBag.Status = new SelectList(StatusList, "value", "text");
+            ViewBag.Type = new SelectList(db.CustAssocTypes, "Id", "Type", 2);
+            return View(customer);
+        }
+
 
         // GET: Customers/CreateCustomer
         public ActionResult CreateCustomer()
@@ -158,17 +209,6 @@ namespace JobsV1.Controllers
             }
         }
 
-        private void createSocialAccount(int custId, string account)
-        {
-            CustSocialAcc social = new CustSocialAcc();
-            social.CustomerId = custId;
-            social.Facebook = account;
-            social.Skype = "";
-            social.Viber = "";
-           
-            db.CustSocialAccs.Add(social);
-            db.SaveChanges();
-        }
 
         // GET: Customers/CompanyCreate
         public ActionResult CompanyCreate()
@@ -481,7 +521,7 @@ namespace JobsV1.Controllers
         //check if Customer Name have duplicate
         public bool HaveNameDuplicate(string custName)
         {
-            var custDuplicate = db.Customers.Where(s => custName.Contains(s.Name)).ToList().Count();
+            var custDuplicate = db.Customers.Where(s => custName == s.Name).ToList().Count();
 
             if (custDuplicate != 0)
             {
