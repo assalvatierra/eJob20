@@ -136,6 +136,7 @@ namespace JobsV1.Controllers
             ViewBag.Status = new SelectList(StatusList, "value", "text");
             ViewBag.Type = new SelectList(db.CustAssocTypes, "Id", "Type", 2);
             ViewBag.custEntMainId = custEntMainId;
+            ViewBag.AgentList = db.CustEntities.Where(c => c.CustAssocTypeId == 2).Select(c => c.Customer).ToList();
 
             return View();
         }
@@ -146,33 +147,37 @@ namespace JobsV1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateAgent([Bind(Include = "Id,Name,Email,Contact1,Contact2,Remarks,Status")] Customer customer, 
-            string socialAcc, int CustEntMainId, string Company, string Position)
+            string socialAcc, int CustEntMainId, string AgentCompany, string AgentPosition, int? CustAgentId)
         {
             if (ModelState.IsValid)
             {
                 if (customer.Status == null || customer.Status.Trim() == "") customer.Status = "ACT";
 
-                if (HaveNameDuplicate(customer.Name))
-                {
-                    ViewBag.Msg = "Customer Name already exist.";
-                    return RedirectToAction("Create");
-                }
-                else
-                {
-                    db.Customers.Add(customer);
-                    db.SaveChanges();
+                    if (CustAgentId == null || CustAgentId == 0)
+                    {
 
-                    //create social account
-                    custdb.CreateSocialAccount(customer.Id, socialAcc);
+                        db.Customers.Add(customer);
+                        db.SaveChanges();
 
-                    agentClass.CreateAgent(customer.Id, CustEntMainId, Company, Position);
+                        //create social account
+                        custdb.CreateSocialAccount(customer.Id, socialAcc);
+                        
+                        //create new Agent
+                        agentClass.CreateAgent(customer.Id, CustEntMainId, AgentCompany, AgentPosition);
+                    }
+                    else
+                    {
+                        //assign new Agent to company
+                        agentClass.CreateAgent((int)CustAgentId, CustEntMainId, AgentCompany, AgentPosition);
+                    }
 
                     return RedirectToAction("Details", "CustEntMains",new { id = CustEntMainId });
-                }
+                
             }
 
             ViewBag.Status = new SelectList(StatusList, "value", "text");
             ViewBag.Type = new SelectList(db.CustAssocTypes, "Id", "Type", 2);
+
             return View(customer);
         }
 
@@ -279,6 +284,63 @@ namespace JobsV1.Controllers
             return View(customer);
         }
 
+
+        // GET: Customers/Edit/5
+        public ActionResult EditAgent(int? id, int? custEntMainId, int? custEntId)
+        {
+            if (id == null || custEntMainId == null || custEntId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+
+            CustEntity agent = db.CustEntities.Find(custEntId);
+            if (agent == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            ViewBag.Status = new SelectList(StatusList, "value", "text", customer.Status);
+            ViewBag.CustEntMainId = custEntMainId;
+            ViewBag.CustEntId = custEntId;
+            ViewBag.AgentCompany = agent.Company;
+            ViewBag.AgentPosition = agent.Position;
+
+            return View(customer);
+        }
+
+        // POST: Customers/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditAgent([Bind(Include = "Id,Name,Email,Contact1,Contact2,Remarks,Status")] Customer customer,
+            int CustEntMainId, string AgentCompany, string AgentPosition, int CustEntId)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+
+                agentClass.EditAgent(CustEntId, CustEntMainId, AgentCompany, AgentPosition);
+
+                return RedirectToAction("Details", "CustEntMains", new { id = CustEntMainId });
+            }
+
+            ViewBag.Status = new SelectList(StatusList, "value", "text", customer.Status);
+            ViewBag.AgentCompany = AgentCompany;
+            ViewBag.AgentPosition = AgentPosition;
+
+            return View(customer);
+        }
+
+
         // GET: Customers/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -304,6 +366,42 @@ namespace JobsV1.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+
+
+        // GET: Customers/RemoveAgent/5
+        public ActionResult RemoveAgent(int? id, int custEntMainId)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CustEntity agent = db.CustEntities.Find(id);
+            if (agent == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.custEntMainId = custEntMainId;
+            return View(agent);
+        }
+
+        // POST: Customers/Delete/5
+        [HttpPost, ActionName("RemoveAgent")]
+        [ValidateAntiForgeryToken]
+        public ActionResult RemoveAgent(int id)
+        {
+            CustEntity agent = db.CustEntities.Find(id);
+
+            int companyId = agent.CustEntMainId;
+
+            db.CustEntities.Remove(agent);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", "CustEntMains", new { id = companyId });
+        }
+
 
         protected override void Dispose(bool disposing)
         {
@@ -573,6 +671,37 @@ namespace JobsV1.Controllers
             }
         }
 
+
+        //GET : /Customers/GetAgentCompanyDetails
+        [HttpGet]
+        public JsonResult GetAgentCompanyDetails(int id)
+        {
+            try
+            {
+                var custAgent = db.Customers.Find(id);
+
+                if (custAgent.CustEntities.Count() > 0)
+                {
+
+                    return Json(new
+                    {
+                        custAgent.Id,
+                        custAgent.Name,
+                        Company = custAgent.CustEntities.First().Company,
+                        Position = custAgent.CustEntities.First().Position
+
+                    },
+                    JsonRequestBehavior.AllowGet);
+
+                }
+
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
 
         #region Customer Social details

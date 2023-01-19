@@ -538,6 +538,56 @@ namespace JobsV1.Controllers
             return View(custEntMain);
         }
 
+
+        // GET: CustEntMains/Edit/5
+        public ActionResult EditStatus(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CustEntMain custEntMain = db.CustEntMains.Find(id);
+            if (custEntMain == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
+            ViewBag.Status = new SelectList(StatusList, "value", "text", custEntMain.Status);
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", custEntMain.AssignedTo);
+            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", custEntMain.Exclusive);
+            ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
+            ViewBag.isOwner = User.IsInRole("Owner");
+            return View(custEntMain);
+        }
+
+        // POST: CustEntMains/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditStatus([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive,CustEntAccountTypeId, Remarks")] CustEntMain custEntMain)
+        {
+            if (ModelState.IsValid)
+            {
+                if (CompanyCreateValidation(custEntMain))
+                {
+                    db.Entry(custEntMain).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = custEntMain.Id });
+                }
+            }
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
+            ViewBag.Status = new SelectList(StatusList, "value", "text", custEntMain.Status);
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
+            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+            ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
+            ViewBag.isOwner = User.IsInRole("Owner");
+
+            return View(custEntMain);
+        }
+
+
         // GET: CustEntMains/Delete/5
         public ActionResult Delete(int? id)
         {
