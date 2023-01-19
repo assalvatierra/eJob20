@@ -26,7 +26,7 @@ namespace JobsV1.CustomHelper
             int preId = -1;
 
             htmlString += "<tr >";
-            foreach (var item in menu)
+            foreach (var item in menu.DistinctBy(c=>c.Menu))
             {
                 htmlString += "<td >";
                 if (item.ParentId == parentId || item.ParentId == preId)
