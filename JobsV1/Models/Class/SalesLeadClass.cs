@@ -69,7 +69,7 @@ namespace JobsV1.Models.Class
 
                 foreach (var companylead in leadcompany)
                 {
-                    var lead = db.SalesLeads.Find(companylead.Id);
+                    var lead = db.SalesLeads.Find(companylead.SalesLeadId);
                     leadsList.Add(new CompanyLeadsTbl {
                         id = lead.Id,
                         Desc = lead.Details,

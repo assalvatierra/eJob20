@@ -2207,6 +2207,7 @@
     <Content Include="Scripts\CustNotif\CreateNotif.js" />
     <Content Include="Scripts\CustNotif\CustNotifs.js" />
     <Content Include="Scripts\CustNotif\Activities.js" />
+    <Content Include="Scripts\Customer\CustAgentSearch.js" />
     <Content Include="Scripts\Customer\Vehicle.js" />
     <Content Include="Scripts\dataTables.min.js" />
     <Content Include="Scripts\DateRangePicker\DefaultDate.js" />
@@ -3595,6 +3596,10 @@
     <Content Include="Views\DriverInstructions\Edit.cshtml" />
     <Content Include="Views\DriverInstructions\Index.cshtml" />
     <Content Include="Views\Customers\CreateAgent.cshtml" />
+    <Content Include="Views\Customers\EditAgent.cshtml" />
+    <Content Include="Views\Customers\RemoveAgent.cshtml" />
+    <Content Include="Views\CustEntMains\EditStatus.cshtml" />
+    <Content Include="Views\Customers\_SearchAgentModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

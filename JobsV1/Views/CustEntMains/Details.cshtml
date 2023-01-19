@@ -55,37 +55,6 @@
             @ViewBag.City
         </p>
         <p>
-            <b class="text-muted" style="margin-right:44px;">Status:</b>
-
-            @switch (Html.DisplayFor(model => model.Status).ToString())
-            {
-                case "ACC":
-                    <text> ACCREDITED </text>;
-                    break;
-                case "ACP":
-                    <text> ACCREDITATION ON PROCESS </text>;
-                    break;
-                case "BIL":
-                    <text> BILLING/TERMS </text>;
-                    break;
-                case "ACT":
-                    <text> ACTIVE </text>;
-                    break;
-                case "INC":
-                    <text> INACTIVE </text>;
-                    break;
-                case "BAD":
-                    <text> BAD ACCOUNT </text>;
-                    break;
-                case "SUS":
-                    <text> SUSPENDED </text>;
-                    break;
-                case "PRI":
-                    <text> PRIORITY </text>;
-                    break;
-            }
-        </p>
-        <p>
             <b class="text-muted" style="margin-right:18px;">Exclusivity:</b>
             <span>
                 @Html.DisplayFor(model => model.Exclusive)
@@ -107,15 +76,41 @@
         <p>
             <b class="text-muted" style="margin-right:9px;">Assigned Agent:</b>
 
-            <span>
+            <table class="table table-no-border">
+                @foreach (var agent in ViewBag.AgentList as IEnumerable<JobsV1.Models.CustEntity>)
+                {
+                    <tr>
+                        <td>
 
-            </span>
+                            <b>  @agent.Customer.Name </b>
+                        </td>
+                        <td>
 
-            <span>
-                @*<a class="cursor-hand" onclick="InitialAddAssignedAgentModal(@customerid)"> + Add Agent </a>*@
+                            @agent.Customer.Email <br />
+                            @agent.Customer.Contact1
+                        </td>
+                        <td>
+                            @agent.Position
 
-                @Html.ActionLink("+Add Agent", "CreateAgent", "Customers", new { custEntMainId = Model.Id }, null)
-            </span>
+                        </td>
+                        <td>
+                            @agent.Company<br />
+                            @agent.Customer.Remarks
+                        </td>
+                        <td>
+                            @Html.ActionLink("  Edit ", "EditAgent", "Customers", new { id = agent.CustomerId, custEntMainId = Model.Id, custEntId = agent.Id }, null) |
+                            @Html.ActionLink("  Remove ", "RemoveAgent", "Customers", new { id = agent.Id, custEntMainId = Model.Id }, null)
+                        </td>
+
+                    </tr>
+                }
+                <tr>
+                    <td colspan="5">
+
+                        @Html.ActionLink("+Add Agent", "CreateAgent", "Customers", new { custEntMainId = Model.Id }, null)
+                    </td>
+                </tr>
+            </table>
         </p>
 
     </div>
@@ -158,10 +153,51 @@
 
         <a href="#" id="catbtn" data-toggle="modal" data-target="#createDocuments">Edit</a>
 
+        <hr />
+
+        <div>
+            <h3> Status: </h3>
+            <p>
+                @switch (Html.DisplayFor(model => model.Status).ToString())
+                {
+                    case "ACC":
+                        <span class="badge badge-pill badge-success"> ACCREDITED </span>;
+                        break;
+                    case "ACP":
+                        <span class="badge badge-pill badge-warning"> ACCREDITATION ON PROCESS </span>;
+                        break;
+                    case "BIL":
+                        <span class="badge badge-pill badge-primary"> BILLING/TERMS </span>;
+                        break;
+                    case "ACT":
+                        <span class="badge badge-pill badge-primary"> ACTIVE </span>;
+                        break;
+                    case "INC":
+                        <span class="badge badge-pill badge-info"> INACTIVE </span>;
+                        break;
+                    case "BAD":
+                        <span class="badge badge-pill badge-danger"> BAD ACCOUNT </span>;
+                        break;
+                    case "SUS":
+                        <span class="badge badge-pill badge-danger"> SUSPENDED </span>;
+                        break;
+                    case "PRI":
+                        <span class="badge badge-pill badge-success"> PRIORITY </span>;
+                        break;
+                }
+            </p>
+            <p>
+               Remarks: @Model.Remarks
+            </p>
+            <p>
+                @Html.ActionLink("Edit", "EditStatus", new { id = Model.Id }) 
+            </p>
+        </div>
 
     </div>
 </div>
 
+<hr />
 <!-- Categories -->
 <div class="row" style="margin:10px;">
     <h3> Categories </h3>
@@ -236,6 +272,30 @@
 
         }
 
+    }
+</div>
+
+
+<!-- Company Clauses -->
+<div class="row" id="Clauses" style="margin:10px;">
+    <h3>Clauses</h3>
+    @Html.ActionLink("Add Clause", "CreateClause", new { companyId = Model.Id }, null)
+    @foreach (var clause in Model.CustEntClauses as IEnumerable<JobsV1.Models.CustEntClauses>)
+    {
+
+        <div class="comp-clauses">
+            <b> @clause.Title </b> &nbsp; &nbsp;
+            <span class="comp-clauses-actions">
+                <a href="#" id="catbtn" data-toggle="modal" data-target="#comClauseEdit"
+                   onclick="edit_setClause(@clause.Id,'@clause.Title','@clause.ValidStart','@clause.ValidEnd','@clause.Desc1','@clause.Desc2','@clause.Desc3')">Edit</a> |
+                <a href="#" onclick="ajax_RemoveClause(@clause.Id)">Delete</a>
+            </span>
+            <p> @clause.ValidStart.ToShortDateString() - @clause.ValidEnd.ToShortDateString() </p>
+            <p> @clause.Desc1 </p>
+            <p> @clause.Desc2 </p>
+            <p> @clause.Desc3 </p>
+
+        </div><br />
     }
 </div>
 
@@ -319,35 +379,11 @@
             }
         }
     </table>
-
-    <hr />
 </div>
 
-<!-- Company Clauses -->
-<div class="row" id="Clauses">
-    <h3>Clauses</h3>
-    @Html.ActionLink("Add Clause", "CreateClause", new { companyId = Model.Id }, null)
-    @foreach (var clause in Model.CustEntClauses as IEnumerable<JobsV1.Models.CustEntClauses>)
-    {
-
-        <div class="comp-clauses">
-            <b> @clause.Title </b> &nbsp; &nbsp;
-            <span class="comp-clauses-actions">
-                <a href="#" id="catbtn" data-toggle="modal" data-target="#comClauseEdit"
-                   onclick="edit_setClause(@clause.Id,'@clause.Title','@clause.ValidStart','@clause.ValidEnd','@clause.Desc1','@clause.Desc2','@clause.Desc3')">Edit</a> |
-                <a href="#" onclick="ajax_RemoveClause(@clause.Id)">Delete</a>
-            </span>
-            <p> @clause.ValidStart.ToShortDateString() - @clause.ValidEnd.ToShortDateString() </p>
-            <p> @clause.Desc1 </p>
-            <p> @clause.Desc2 </p>
-            <p> @clause.Desc3 </p>
-
-        </div><br />
-    }
-</div>
-
+<hr />
 <!-- Sales Leads -->
-<div class="row" id="SalesLeadTable">
+<div class="row" id="SalesLeadTable" style="margin:10px;">
     <h3>Sales Leads</h3>
 
     <table class="table table-striped">
@@ -363,7 +399,7 @@
             <tr>
                 <td>
                     @*<a href="@Url.Action("addCategory", "CustEntMains", new { id = item.Id, companyId = Model.Id })" > @item.Desc </a>*@
-                    @Html.ActionLink(item.Desc, "LeadDetails", "SalesLeads", new { id = item.id }, null)
+                    @Html.ActionLink(item.Desc, "Details", "SalesLeads", new { id = item.id }, null)
                 </td>
                 <td>
                     @item.Desc
@@ -384,13 +420,13 @@
 {
     <div class="row" id="VehiclesTable">
         @{Html.RenderPartial("PartialView_Vehicles", (List<JobsV1.Models.Vehicle>)ViewBag.CustomerVehicles,
-                                      new ViewDataDictionary { { "companyId", Model.Id }, { "VehicleModelList", ViewBag.VehicleModelList },
+                                        new ViewDataDictionary { { "companyId", Model.Id }, { "VehicleModelList", ViewBag.VehicleModelList },
                                   { "CompanyContacts", ViewBag.CompanyContacts },{ "IsAllowedVehicles", ViewBag.IsAllowedVehicles } });}
 
     </div>
 }
 
-
+<hr />
 <!-- Job List-->
 <div class="row" id="jobList">
     <h3>Job List</h3>
@@ -469,7 +505,6 @@
 @{ Html.RenderPartial("PartialView_Details_AddressCreate", null); }
 @{ Html.RenderPartial("PartialView_Details_AddressEdit", null); }
 @{ Html.RenderPartial("PartialView_Details_ContactCreate", new ViewDataDictionary { { "CompanyId", ViewBag.CompanyId }, { "ContactList", ViewBag.ContactList } }); }
-@*@{ Html.RenderPartial("PartialView_Create_AssignedAgent", new ViewDataDictionary { { "CompanyId", ViewBag.CompanyId }, { "AgentList", ViewBag.AgentList } }); }*@
 
 @Html.Partial("_SearchCustomerModal")
 <!-- End of Modal -->
