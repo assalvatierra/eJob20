@@ -1,6 +1,6 @@
 ﻿//Show hide edit / delete of address
 $(document).ready(function () {
-  
+    $("#add-contact-error").hide();
 });
 
 
@@ -47,15 +47,20 @@ function checkDuplicate() {
 }
 
 function checkName() {
-    var custId = $("#asc-custId").val();
+    var custId = $("#ac-custId").val();
+
+    console.log("custId: " + custId);
+
     $("#asc-add-contact-error").hide();
 
      $.get("/CustEntMains/CheckNameDuplicate", { custName: $('#ac-name').val() }, (result) => {
           console.log(result);
-          if (result == 'True' && custId == 1) {
-              $("#add-contact-error").show();
-              isNameUnique = false;
-          } 
+         if (result == 'True' && custId == 1) {
+             $("#add-contact-error").show();
+             isNameUnique = false;
+         } else {
+             $("#add-contact-error").hide();
+         }
      });
 }
 
@@ -109,6 +114,8 @@ function ajax_AddContact() {
         social:     $("#ac-social").val(),
         status:     $("#ac-status").val()
     };
+
+    console.log(data);
 
     $.post("/CustEntMains/AddContact", data, (result) => {
         if (result == 'True') {
@@ -223,5 +230,7 @@ function clearAddContactFields(){
     $('#ac-mobile').val("");
     $('#ac-social').val("");
     $('#ac-position').val("");
+
+    $("#add-contact-error").hide();
 }
 

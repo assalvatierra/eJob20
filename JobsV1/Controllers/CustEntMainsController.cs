@@ -832,7 +832,8 @@ namespace JobsV1.Controllers
 
             return RedirectToAction("Details", new { id = companyId });
         }
-        
+
+        [HttpPost]
         public bool AddContact(int? companyId, int? customerId, string name, string position, string email, string tel, string mobile, string social, string status)
         {
             try
@@ -878,6 +879,7 @@ namespace JobsV1.Controllers
                 custEnt.CustEntMainId = (int)companyId;
                 custEnt.CustomerId = (int)customerId;
                 custEnt.Position = position;
+                custEnt.CustAssocTypeId = 1; // Contact
 
                 db.CustEntities.Add(custEnt);
                 db.SaveChanges();
@@ -897,7 +899,7 @@ namespace JobsV1.Controllers
         //check if Customer Name have duplicate
         public bool CheckNameDuplicate(string custName)
         {
-            var custDuplicate = db.Customers.Where(s => custName.Contains(s.Name)).ToList().Count();
+            var custDuplicate = db.Customers.Where(s => custName == s.Name).ToList().Count();
 
             if (custDuplicate != 0)
             {

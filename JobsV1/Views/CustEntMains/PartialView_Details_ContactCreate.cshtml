@@ -27,7 +27,9 @@
                 <div class="form-group cform col-md-12" id="ac-name-group">
                     <b class="col-md-2"> Name </b>
                     <div class="col-md-4" style="width:300px">
-                        <input id="ac-name" class="form-control" type="text" maxlength="80" onblur="checkName()">
+                        <input id="ac-name" class="form-control" type="text" maxlength="80" onblur="checkName()" on>
+
+                        <label class="text-danger" id="add-contact-error"> Name already exist </label>
                     </div>
 
                     <span style="float:left">
@@ -77,7 +79,6 @@
                         <input id="ac-status" class="form-control" type="text" maxlength="80" value="ACT">
                     </div><p></p>
                 </div>
-                <label class="text-danger col-md-offset-2 col-md-6" id="add-contact-error" style="display:none;"> Name already exist </label>
             </div>
 
             <div class="modal-footer">

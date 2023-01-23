@@ -2129,6 +2129,7 @@
     <Content Include="Images\Icons\SMS.png" />
     <Content Include="Images\SolidSteel\Solid Steel Logo.jpg" />
     <Content Include="Images\SolidSteel\V-Steel-Logo-2022.png" />
+    <Content Include="Models\Migration\1-20-2023-Add-CustAssocTypes.sql" />
     <Content Include="Models\SQL.Job\Reports\AddChecklist.SQL" />
     <Content Include="Models\SQL.Job\Reports\AsExpenseDB.sql" />
     <Content Include="Models\SQL.CarCoop\CarRentalInitial.sql" />
