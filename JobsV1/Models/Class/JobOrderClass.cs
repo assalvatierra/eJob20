@@ -951,13 +951,10 @@ namespace JobsV1.Models
         //GET : the lastest date of the job based on the date today
         public DateTime GetMinMaxServiceDate(int mainId, string getType)
         {
-            var count = 1;
-
             //update jobdate
             var main = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault();
 
-            DateTime minDate = main.JobDate.Date;
-            DateTime maxDate = main.JobDate.Date;
+            List<DateTime> dateList = new List<DateTime>();
 
             //loop though all jobservices in the jobmain
             //to get the latest date
@@ -966,37 +963,29 @@ namespace JobsV1.Models
 
                 var svcDtStart = ((DateTime)svc.DtStart);
                 var svcDtEnd = ((DateTime)svc.DtEnd);
-                //get min date
+                
+                //add date to list
+                dateList.Add(svcDtStart);
+                dateList.Add(svcDtEnd);
 
-                if (count == 1)
-                {
-                    //set 1st service as start date
-                    minDate = svcDtStart;
-                    maxDate = svcDtEnd;
-                }
+            }
 
-                // minDate >= (DateTime)svc.DtStart;
-                if (DateTime.Compare(minDate, svcDtStart.Date) >= 0)
-                {
-                    minDate = svcDtStart; //if minDate > Dtstart
-                }
+            //sort date ascending
+            dateList = dateList.OrderBy(x => x.Date).ToList();
 
-                //get max date
-                if (DateTime.Compare(maxDate, svcDtEnd.Date) <= 0)
-                {
-                    maxDate = svcDtEnd;
-                }
-
-                count++;
+            //handle empty service date
+            if (dateList.Count == 0)
+            {
+                dateList.Add(main.JobDate);
             }
 
             //return main.JobDate;
             if (getType.ToLower() == "min")
-                return minDate;
+                return dateList.First();
             else if (getType.ToLower() == "max")
-                return maxDate;
+                return dateList.Last();
             else
-                return minDate;
+                return dateList.Last();
         }
 
         public decimal GetJobDiscountAmount(int jobId)
