@@ -441,7 +441,7 @@ namespace JobsV1.Areas.Receivables.Controllers
 
                     if (!IsUserExist(Name) && !IsCompanyExist(Company))
                     {
-                        //new account, new user
+                        //new account
                         var acctId = CreateUser(Company, Name, Email, Mobile);
                         arTransaction.ArAccountId = acctId;
 
@@ -458,6 +458,16 @@ namespace JobsV1.Areas.Receivables.Controllers
                         //existing company new user
                         var acctId = CreateAccountContact(Company, Name, Email, Mobile);
                         arTransaction.ArAccContactId = acctId;
+                    }
+                    else if (IsUserExist(Name) && !IsCompanyExist(Company))
+                    {
+
+                        //link existing user to company
+                        arTransaction.ArAccContactId = GetUserAccountContactId(Name);
+
+                        //create company
+                        var acctId = CreateUser(Company, Name, Email, Mobile);
+                        arTransaction.ArAccountId = acctId;
                     }
                     else
                     {
@@ -705,7 +715,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             ViewBag.PreparedBy = GetStaffName(user);
             ViewBag.PreparedSign = GetStaffSign(user);
 
-            return View(accStatements.OrderBy(c => c.InvoiceDate));
+            return View(accStatements.OrderBy(c => c.DueDate));
         }
 
         private string GetUser()
