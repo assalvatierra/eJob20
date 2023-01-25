@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -595,6 +597,36 @@ namespace JobsV1.Areas.Payables.Controllers
                 return ap.TransactionMgr.EditTransaction(payable);
             }
             catch
+            {
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public bool CloseAllExpenses(string monthYear)
+        {
+
+            try
+            {
+
+                var MonthlyExpTrx = ap.TransactionMgr.GetApTransactionsReleasedByByMonthYear(monthYear);
+
+                foreach (var trx in MonthlyExpTrx)
+                {
+                    var _tempTrx = trx;
+                    trx.ApTransStatusId = (int)STATUS.CLOSED;
+
+                    //update payable
+                    var updateResponse = ap.TransactionMgr.EditTransaction_ModifiedOnly(trx);
+                }
+
+                //save all changes
+                ap.TransactionMgr.SaveChanges();
+
+                return true;
+
+            }
+            catch (Exception ex)
             {
                 return false;
             }
