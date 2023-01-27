@@ -18,6 +18,7 @@ namespace JobsV1.Controllers
     {
         private JobDBContainer db = new JobDBContainer();
         private CustomerClass custdb = new CustomerClass();
+        private CustAgentClass agentClass = new CustAgentClass();
         private JobVehicleClass jvc = new JobVehicleClass();
 
         private List<SelectListItem> StatusList = new List<SelectListItem> {
@@ -69,9 +70,11 @@ namespace JobsV1.Controllers
             PartialView_Jobs((int)id,(int)top, sdate,edate,status, sortdate);
             PartialView_Categories(id);
             PartialView_CustomerFiles(id);
+            PartialView_CustSocial((int)id);
+
+            //
             ViewBag.categoryList = db.CustCategories.ToList();
             ViewBag.custId = (int)id;
-            PartialView_CustSocial((int)id);
             ViewBag.HaveJob = db.JobMains.Where(j => j.CustomerId == id).FirstOrDefault() != null ? true : false;
             ViewBag.SiteConfig = SITECONFIG;
             ViewBag.CustomerVehicles = db.Vehicles.Where(v => v.CustomerId == id).OrderBy(v=>v.VehicleModel.VehicleBrand.Brand).ToList();
@@ -117,7 +120,7 @@ namespace JobsV1.Controllers
 
                     //socialAcc = "fb.com/melissa";
                     //create social account
-                    createSocialAccount(customer.Id, socialAcc);
+                    custdb.CreateSocialAccount(customer.Id, socialAcc);
 
                     return RedirectToAction("Details", new { id = customer.Id });
                 }
@@ -125,6 +128,59 @@ namespace JobsV1.Controllers
 
             return View(customer);
         }
+
+
+        // GET: Customers/Create
+        public ActionResult CreateAgent(int custEntMainId)
+        {
+            ViewBag.Status = new SelectList(StatusList, "value", "text");
+            ViewBag.Type = new SelectList(db.CustAssocTypes, "Id", "Type", 2);
+            ViewBag.custEntMainId = custEntMainId;
+            ViewBag.AgentList = db.CustEntities.Where(c => c.CustAssocTypeId == 2).Select(c => c.Customer).ToList();
+
+            return View();
+        }
+
+        // POST: Customers/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateAgent([Bind(Include = "Id,Name,Email,Contact1,Contact2,Remarks,Status")] Customer customer, 
+            string socialAcc, int CustEntMainId, string AgentCompany, string AgentPosition, int? CustAgentId)
+        {
+            if (ModelState.IsValid)
+            {
+                if (customer.Status == null || customer.Status.Trim() == "") customer.Status = "ACT";
+
+                    if (CustAgentId == null || CustAgentId == 0)
+                    {
+
+                        db.Customers.Add(customer);
+                        db.SaveChanges();
+
+                        //create social account
+                        custdb.CreateSocialAccount(customer.Id, socialAcc);
+                        
+                        //create new Agent
+                        agentClass.CreateAgent(customer.Id, CustEntMainId, AgentCompany, AgentPosition);
+                    }
+                    else
+                    {
+                        //assign new Agent to company
+                        agentClass.CreateAgent((int)CustAgentId, CustEntMainId, AgentCompany, AgentPosition);
+                    }
+
+                    return RedirectToAction("Details", "CustEntMains",new { id = CustEntMainId });
+                
+            }
+
+            ViewBag.Status = new SelectList(StatusList, "value", "text");
+            ViewBag.Type = new SelectList(db.CustAssocTypes, "Id", "Type", 2);
+
+            return View(customer);
+        }
+
 
         // GET: Customers/CreateCustomer
         public ActionResult CreateCustomer()
@@ -158,17 +214,6 @@ namespace JobsV1.Controllers
             }
         }
 
-        private void createSocialAccount(int custId, string account)
-        {
-            CustSocialAcc social = new CustSocialAcc();
-            social.CustomerId = custId;
-            social.Facebook = account;
-            social.Skype = "";
-            social.Viber = "";
-           
-            db.CustSocialAccs.Add(social);
-            db.SaveChanges();
-        }
 
         // GET: Customers/CompanyCreate
         public ActionResult CompanyCreate()
@@ -239,6 +284,63 @@ namespace JobsV1.Controllers
             return View(customer);
         }
 
+
+        // GET: Customers/Edit/5
+        public ActionResult EditAgent(int? id, int? custEntMainId, int? custEntId)
+        {
+            if (id == null || custEntMainId == null || custEntId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+
+            CustEntity agent = db.CustEntities.Find(custEntId);
+            if (agent == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            ViewBag.Status = new SelectList(StatusList, "value", "text", customer.Status);
+            ViewBag.CustEntMainId = custEntMainId;
+            ViewBag.CustEntId = custEntId;
+            ViewBag.AgentCompany = agent.Company;
+            ViewBag.AgentPosition = agent.Position;
+
+            return View(customer);
+        }
+
+        // POST: Customers/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditAgent([Bind(Include = "Id,Name,Email,Contact1,Contact2,Remarks,Status")] Customer customer,
+            int CustEntMainId, string AgentCompany, string AgentPosition, int CustEntId)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+
+                agentClass.EditAgent(CustEntId, CustEntMainId, AgentCompany, AgentPosition);
+
+                return RedirectToAction("Details", "CustEntMains", new { id = CustEntMainId });
+            }
+
+            ViewBag.Status = new SelectList(StatusList, "value", "text", customer.Status);
+            ViewBag.AgentCompany = AgentCompany;
+            ViewBag.AgentPosition = AgentPosition;
+
+            return View(customer);
+        }
+
+
         // GET: Customers/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -264,6 +366,42 @@ namespace JobsV1.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+
+
+        // GET: Customers/RemoveAgent/5
+        public ActionResult RemoveAgent(int? id, int custEntMainId)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CustEntity agent = db.CustEntities.Find(id);
+            if (agent == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.custEntMainId = custEntMainId;
+            return View(agent);
+        }
+
+        // POST: Customers/Delete/5
+        [HttpPost, ActionName("RemoveAgent")]
+        [ValidateAntiForgeryToken]
+        public ActionResult RemoveAgent(int id)
+        {
+            CustEntity agent = db.CustEntities.Find(id);
+
+            int companyId = agent.CustEntMainId;
+
+            db.CustEntities.Remove(agent);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", "CustEntMains", new { id = companyId });
+        }
+
 
         protected override void Dispose(bool disposing)
         {
@@ -481,7 +619,7 @@ namespace JobsV1.Controllers
         //check if Customer Name have duplicate
         public bool HaveNameDuplicate(string custName)
         {
-            var custDuplicate = db.Customers.Where(s => custName.Contains(s.Name)).ToList().Count();
+            var custDuplicate = db.Customers.Where(s => custName == s.Name).ToList().Count();
 
             if (custDuplicate != 0)
             {
@@ -533,6 +671,37 @@ namespace JobsV1.Controllers
             }
         }
 
+
+        //GET : /Customers/GetAgentCompanyDetails
+        [HttpGet]
+        public JsonResult GetAgentCompanyDetails(int id)
+        {
+            try
+            {
+                var custAgent = db.Customers.Find(id);
+
+                if (custAgent.CustEntities.Count() > 0)
+                {
+
+                    return Json(new
+                    {
+                        custAgent.Id,
+                        custAgent.Name,
+                        Company = custAgent.CustEntities.First().Company,
+                        Position = custAgent.CustEntities.First().Position
+
+                    },
+                    JsonRequestBehavior.AllowGet);
+
+                }
+
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
 
         #region Customer Social details

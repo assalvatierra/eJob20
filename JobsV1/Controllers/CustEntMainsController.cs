@@ -121,19 +121,8 @@ namespace JobsV1.Controllers
                 top = 30;
             }
 
-            //get logged user account
-            var user = HttpContext.User.Identity.Name;
-
-            //check previlages
-            var isAdmin = User.IsInRole("Admin");
-            var isAssigned = custEntMain.AssignedTo == user ? true : false;
-            var isServiceAdvisor = User.IsInRole("ServiceAdvisor");
-
-            //check jobcount
-            var jobcount = db.JobEntMains.Where(s => s.CustEntMainId == id).Count();
-
             //contacts 
-            var companyContactEntity = db.CustEntities.Where(c => c.CustEntMainId == id).Select(c => c.CustomerId).ToList();
+            var companyContactEntity = custEntMain.CustEntities.Select(c => c.CustomerId).ToList();
 
             List<CompanyLeadsTbl> salesLeads = new List<CompanyLeadsTbl>();
 
@@ -151,16 +140,27 @@ namespace JobsV1.Controllers
             ViewBag.City = db.Cities.Find(custEntMain.CityId) != null ? db.Cities.Find(custEntMain.CityId).Name : "NA";
             ViewBag.ContactList = new SelectList(db.Customers.Where(c=>c.Status != "INC").OrderBy(s=>s.Name).ToList(), "Id", "Name",1);
             ViewBag.Documents = GetDocumentList((int)id);
-            ViewBag.CustDocuments = db.CustEntDocuments.Where(c=>c.CustEntMainId == id).ToList();
+            ViewBag.CustDocuments = custEntMain.CustEntDocuments; 
+            ViewBag.CustomerVehicles = custEntMain.Vehicles.OrderBy(v=>v.VehicleModel.VehicleBrand.Brand).ToList();
+            ViewBag.VehicleModelList = db.VehicleModels.OrderBy(v => v.VehicleBrand.Brand).ThenBy(v => v.Make).ToList();
+            ViewBag.CompanyContacts = db.Customers.Where(c => companyContactEntity.Contains(c.Id)).OrderBy(c=>c.Name).ToList();
+            ViewBag.AgentList = custEntMain.CustEntities.Where(c => c.CustAssocTypeId == 2).ToList();
+           
+            ViewBag.SiteConfig = SITECONFIG;
+
+            //get logged user account
+            var user = HttpContext.User.Identity.Name;
+
+            //check previlages
+            var isAdmin = User.IsInRole("Admin");
+            var isAssigned = custEntMain.AssignedTo == user ? true : false;
+            var isServiceAdvisor = User.IsInRole("ServiceAdvisor");
+
             ViewBag.CompanyId = id;
+            ViewBag.HaveJob = db.JobEntMains.Where(s => s.CustEntMainId == id).Count() != 0 ? true : false;
             ViewBag.isAllowedHistory = isAdmin || isAssigned ? true : false;
             ViewBag.IsAllowedVehicles = isAdmin || isAssigned || isServiceAdvisor ? true : false;
             ViewBag.IsAdmin = isAdmin;
-            ViewBag.HaveJob = jobcount != 0 ? true : false;
-            ViewBag.CustomerVehicles = db.Vehicles.Where(v => v.CustEntMainId == id).OrderBy(v=>v.VehicleModel.VehicleBrand.Brand).ToList();
-            ViewBag.VehicleModelList = db.VehicleModels.OrderBy(v => v.VehicleBrand.Brand).ThenBy(v => v.Make).ToList();
-            ViewBag.CompanyContacts = db.Customers.Where(c => companyContactEntity.Contains(c.Id)).OrderBy(c=>c.Name).ToList();
-            ViewBag.SiteConfig = SITECONFIG;
 
             custEntMain.AssignedTo = comdb.removeSpecialChar(custEntMain.AssignedTo);
 
@@ -538,6 +538,56 @@ namespace JobsV1.Controllers
             return View(custEntMain);
         }
 
+
+        // GET: CustEntMains/Edit/5
+        public ActionResult EditStatus(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CustEntMain custEntMain = db.CustEntMains.Find(id);
+            if (custEntMain == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
+            ViewBag.Status = new SelectList(StatusList, "value", "text", custEntMain.Status);
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", custEntMain.AssignedTo);
+            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", custEntMain.Exclusive);
+            ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
+            ViewBag.isOwner = User.IsInRole("Owner");
+            return View(custEntMain);
+        }
+
+        // POST: CustEntMains/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditStatus([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive,CustEntAccountTypeId, Remarks")] CustEntMain custEntMain)
+        {
+            if (ModelState.IsValid)
+            {
+                if (CompanyCreateValidation(custEntMain))
+                {
+                    db.Entry(custEntMain).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = custEntMain.Id });
+                }
+            }
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
+            ViewBag.Status = new SelectList(StatusList, "value", "text", custEntMain.Status);
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
+            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+            ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
+            ViewBag.isOwner = User.IsInRole("Owner");
+
+            return View(custEntMain);
+        }
+
+
         // GET: CustEntMains/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -614,7 +664,7 @@ namespace JobsV1.Controllers
 
         }
 
-
+        [HttpPost]
         public string EditAddress( int id, string line1, string line2, string line3, string line4, string line5,  bool isPrimary , bool isBilling)
         {
             CustEntAddress editAddress = db.CustEntAddresses.Find(id);
@@ -622,7 +672,9 @@ namespace JobsV1.Controllers
             editAddress.Line2 = line2;
             editAddress.Line3 = line3;
             editAddress.Line4 = line4;
-            editAddress.Line5 = line5; 
+            editAddress.Line5 = line5;
+            editAddress.isPrimary = isPrimary;
+            editAddress.isBilling = isBilling;
 
             db.Entry(editAddress).State = EntityState.Modified;
             db.SaveChanges();
@@ -630,7 +682,7 @@ namespace JobsV1.Controllers
             return "200";
         }
 
-
+        [HttpPost]
         // GET: CustEntAddresses/Delete/5
         public string DeleteAddress(int? id)
         {
@@ -780,7 +832,8 @@ namespace JobsV1.Controllers
 
             return RedirectToAction("Details", new { id = companyId });
         }
-        
+
+        [HttpPost]
         public bool AddContact(int? companyId, int? customerId, string name, string position, string email, string tel, string mobile, string social, string status)
         {
             try
@@ -826,6 +879,7 @@ namespace JobsV1.Controllers
                 custEnt.CustEntMainId = (int)companyId;
                 custEnt.CustomerId = (int)customerId;
                 custEnt.Position = position;
+                custEnt.CustAssocTypeId = 1; // Contact
 
                 db.CustEntities.Add(custEnt);
                 db.SaveChanges();
@@ -845,7 +899,7 @@ namespace JobsV1.Controllers
         //check if Customer Name have duplicate
         public bool CheckNameDuplicate(string custName)
         {
-            var custDuplicate = db.Customers.Where(s => custName.Contains(s.Name)).ToList().Count();
+            var custDuplicate = db.Customers.Where(s => custName == s.Name).ToList().Count();
 
             if (custDuplicate != 0)
             {

@@ -340,6 +340,8 @@
         <EntityTypeShape EntityType="JobDB.InvCarRcmdRequest" Width="1.5" PointX="49.25" PointY="18.125" />
         <AssociationConnector Association="JobDB.InvCarMntRcmdInvCarRcmdRequest" />
         <AssociationConnector Association="JobDB.InvCarRcmdStatusInvCarRcmdRequest" />
+        <EntityTypeShape EntityType="JobDB.CustAssocType" Width="1.5" PointX="8.75" PointY="8" IsExpanded="true" />
+        <AssociationConnector Association="JobDB.CustAssocTypeCustEntity" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

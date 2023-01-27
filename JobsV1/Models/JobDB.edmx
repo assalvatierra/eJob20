@@ -167,6 +167,7 @@
     <EntitySet Name="InvCarMntPriorities" EntityType="JobDB.Store.InvCarMntPriorities" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvCarRcmdStatus" EntityType="JobDB.Store.InvCarRcmdStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvCarRcmdRequests" EntityType="JobDB.Store.InvCarRcmdRequests" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustAssocTypes" EntityType="JobDB.Store.CustAssocTypes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -811,6 +812,10 @@
       <End Role="InvCarRcmdStatus" EntitySet="InvCarRcmdStatus" />
       <End Role="InvCarRcmdRequest" EntitySet="InvCarRcmdRequests" />
     </AssociationSet>
+    <AssociationSet Name="CustAssocTypeCustEntity" Association="JobDB.Store.CustAssocTypeCustEntity">
+      <End Role="CustAssocType" EntitySet="CustAssocTypes" />
+      <End Role="CustEntity" EntitySet="CustEntities" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -1319,6 +1324,8 @@
     <Property Name="CustEntMainId" Type="int" Nullable="false" />
     <Property Name="CustomerId" Type="int" Nullable="false" />
     <Property Name="Position" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="CustAssocTypeId" Type="int" Nullable="false" />
+    <Property Name="Company" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <EntityType Name="SalesActStatus">
     <Key>
@@ -2476,6 +2483,13 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="InvCarMntRcmdId" Type="int" Nullable="false" />
     <Property Name="InvCarRcmdStatusId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustAssocTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="20" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -4409,6 +4423,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CustAssocTypeCustEntity">
+    <End Role="CustAssocType" Type="JobDB.Store.CustAssocTypes" Multiplicity="1" />
+    <End Role="CustEntity" Type="JobDB.Store.CustEntities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustAssocType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntity">
+        <PropertyRef Name="CustAssocTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -5218,6 +5244,11 @@
           <AssociationSet Name="InvCarRcmdStatusInvCarRcmdRequest" Association="JobDB.InvCarRcmdStatusInvCarRcmdRequest">
             <End Role="InvCarRcmdStatus" EntitySet="InvCarRcmdStatus" />
             <End Role="InvCarRcmdRequest" EntitySet="InvCarRcmdRequests" />
+          </AssociationSet>
+          <EntitySet Name="CustAssocTypes" EntityType="JobDB.CustAssocType" />
+          <AssociationSet Name="CustAssocTypeCustEntity" Association="JobDB.CustAssocTypeCustEntity">
+            <End Role="CustAssocType" EntitySet="CustAssocTypes" />
+            <End Role="CustEntity" EntitySet="CustEntities" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -6294,6 +6325,9 @@
           <NavigationProperty Name="Customer" Relationship="JobDB.CustomerCustEntity" FromRole="CustEntity" ToRole="Customer" />
           <Property Name="CustomerId" Type="Int32" Nullable="false" />
           <Property Name="Position" Type="String" Nullable="true" MaxLength="50" />
+          <NavigationProperty Name="CustAssocType" Relationship="JobDB.CustAssocTypeCustEntity" FromRole="CustEntity" ToRole="CustAssocType" />
+          <Property Name="CustAssocTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Company" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
         <Association Name="CustEntMainCustEntity">
           <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="1" />
@@ -9141,6 +9175,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CustAssocType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="20" />
+          <NavigationProperty Name="CustEntities" Relationship="JobDB.CustAssocTypeCustEntity" FromRole="CustAssocType" ToRole="CustEntity" />
+        </EntityType>
+        <Association Name="CustAssocTypeCustEntity">
+          <End Type="JobDB.CustAssocType" Role="CustAssocType" Multiplicity="1" />
+          <End Type="JobDB.CustEntity" Role="CustEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustAssocType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntity">
+              <PropertyRef Name="CustAssocTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9695,6 +9749,8 @@
           <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
           <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="CustAssocTypeId" ColumnName="CustAssocTypeId" />
+          <ScalarProperty Name="Company" ColumnName="Company" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -10970,6 +11026,14 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="InvCarMntRcmdId" ColumnName="InvCarMntRcmdId" />
           <ScalarProperty Name="InvCarRcmdStatusId" ColumnName="InvCarRcmdStatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustAssocTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustAssocType)">
+        <MappingFragment StoreEntitySet="CustAssocTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

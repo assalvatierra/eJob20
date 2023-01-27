@@ -12,17 +12,18 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CustEntity
+    public partial class CustAssocType
     {
-        public int Id { get; set; }
-        public int CustEntMainId { get; set; }
-        public int CustomerId { get; set; }
-        public string Position { get; set; }
-        public int CustAssocTypeId { get; set; }
-        public string Company { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CustAssocType()
+        {
+            this.CustEntities = new HashSet<CustEntity>();
+        }
     
-        public virtual CustEntMain CustEntMain { get; set; }
-        public virtual Customer Customer { get; set; }
-        public virtual CustAssocType CustAssocType { get; set; }
+        public int Id { get; set; }
+        public string Type { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustEntity> CustEntities { get; set; }
     }
 }

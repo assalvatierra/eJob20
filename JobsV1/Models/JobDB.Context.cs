@@ -186,5 +186,6 @@ namespace JobsV1.Models
         public virtual DbSet<InvCarMntPriority> InvCarMntPriorities { get; set; }
         public virtual DbSet<InvCarRcmdStatus> InvCarRcmdStatus { get; set; }
         public virtual DbSet<InvCarRcmdRequest> InvCarRcmdRequests { get; set; }
+        public virtual DbSet<CustAssocType> CustAssocTypes { get; set; }
     }
 }

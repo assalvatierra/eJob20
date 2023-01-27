@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/16/2022 18:29:39
+-- Date Created: 12/23/2022 10:54:41
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -500,6 +500,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvCarRcmdStatusInvCarRcmdRequest]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvCarRcmdRequests] DROP CONSTRAINT [FK_InvCarRcmdStatusInvCarRcmdRequest];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CustAssocTypeCustEntity]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustEntities] DROP CONSTRAINT [FK_CustAssocTypeCustEntity];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -987,6 +990,9 @@ IF OBJECT_ID(N'[dbo].[InvCarRcmdStatus]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvCarRcmdRequests]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvCarRcmdRequests];
+GO
+IF OBJECT_ID(N'[dbo].[CustAssocTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustAssocTypes];
 GO
 
 -- --------------------------------------------------
@@ -1497,7 +1503,9 @@ CREATE TABLE [dbo].[CustEntities] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [CustEntMainId] int  NOT NULL,
     [CustomerId] int  NOT NULL,
-    [Position] nvarchar(50)  NULL
+    [Position] nvarchar(50)  NULL,
+    [CustAssocTypeId] int  NOT NULL,
+    [Company] nvarchar(80)  NULL
 );
 GO
 
@@ -2658,6 +2666,13 @@ CREATE TABLE [dbo].[InvCarRcmdRequests] (
 );
 GO
 
+-- Creating table 'CustAssocTypes'
+CREATE TABLE [dbo].[CustAssocTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] nvarchar(20)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -3625,6 +3640,12 @@ GO
 -- Creating primary key on [Id] in table 'InvCarRcmdRequests'
 ALTER TABLE [dbo].[InvCarRcmdRequests]
 ADD CONSTRAINT [PK_InvCarRcmdRequests]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustAssocTypes'
+ALTER TABLE [dbo].[CustAssocTypes]
+ADD CONSTRAINT [PK_CustAssocTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -6045,6 +6066,21 @@ GO
 CREATE INDEX [IX_FK_InvCarRcmdStatusInvCarRcmdRequest]
 ON [dbo].[InvCarRcmdRequests]
     ([InvCarRcmdStatusId]);
+GO
+
+-- Creating foreign key on [CustAssocTypeId] in table 'CustEntities'
+ALTER TABLE [dbo].[CustEntities]
+ADD CONSTRAINT [FK_CustAssocTypeCustEntity]
+    FOREIGN KEY ([CustAssocTypeId])
+    REFERENCES [dbo].[CustAssocTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustAssocTypeCustEntity'
+CREATE INDEX [IX_FK_CustAssocTypeCustEntity]
+ON [dbo].[CustEntities]
+    ([CustAssocTypeId]);
 GO
 
 -- --------------------------------------------------

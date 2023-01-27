@@ -174,6 +174,11 @@
                     <span style="font:bolder 12px, arial, verdana; color:black;font-weight:600;">
                         Items
                     </span> <br />
+
+                    @if (item.SalesLeadItems != null)
+                    {
+
+
                     <div id="SalesLeadItems-@item.Id">
                         @foreach (var invItems in item.SalesLeadItems)
                         {
@@ -215,6 +220,9 @@
                             </div>
                         }
                     </div>
+
+                    }
+
                     <br />
 
                     <!--Add Item-->
@@ -319,9 +327,12 @@
                     <b class="col-md-2"> Items: </b>
                     <div class="col-md-7">
                         <select name="InvItems" class="form-control" id="SupItem-Items">
-                            @foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
+                            @if (ViewBag.InvItems != null)
                             {
-                                <option value="@item.Id"> @item.Description </option>
+                                foreach (var item in ViewBag.InvItems as IEnumerable<JobsV1.Models.InvItem>)
+                                {
+                                    <option value="@item.Id"> @item.Description </option>
+                                }
                             }
                         </select>
                     </div>
@@ -372,9 +383,12 @@
                     <b class="col-md-2"> Items: </b>
                     <div class="col-md-7">
                         <select name="InvItems" class="form-control" id="edit-supItem-Items">
-                            @foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
+                            @if (ViewBag.InvItems != null)
                             {
-                                <option value="@item.Id"> @item.Description </option>
+                                foreach (var item in ViewBag.InvItems as IEnumerable<JobsV1.Models.InvItem>)
+                                {
+                                    <option value="@item.Id"> @item.Description </option>
+                                }
                             }
                         </select>
                     </div>
@@ -403,7 +417,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-@{Html.RenderPartial("AddSupItemPartial", null, new ViewDataDictionary { { "ItemSuppliers", ViewBag.cItemSupplier } });}
+@{Html.RenderPartial("AddSupItemPartial", null, new ViewDataDictionary { { "ItemSuppliers", ViewBag.cItemSupplier }, { "InvItems", ViewBag.InvItems } });}
 
 <p>
     @Html.ActionLink("Create New", "Create") |
