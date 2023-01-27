@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -110,7 +110,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             foreach (var driver in crLogCashReleases.ToList().GroupBy(c=>c.crLogDriverId))
             {
-                foreach (var cashtrxReq in driver.Take(1))
+                foreach (var cashtrxReq in driver.OrderByDescending(c=>c.Id).Take(1))
                 {
                     cashtrxReq.Amount = DriverSalaryAmount(cashtrxReq.Id);
                     cashReleases.Add(cashtrxReq);

@@ -151,6 +151,7 @@
         <tr>
             <td colspan="16">
                 <span style="font-weight:bold;">@payablesGroup.Key</span>
+                <button class="btn btn-default pull-right" onclick="CloseAll('@payablesGroup.Key');"> Close All </button>
             </td>
         </tr>
 
@@ -538,6 +539,29 @@
     <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransRepeating.js"></script>
     <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransCreate.js"></script>
     <script>
-                $(Initialize('@status','@sortBy'));
+        $(Initialize('@status', '@sortBy'));
+
+
+        function CloseAll(monthYear) {
+
+            console.log(monthYear);
+
+            if (confirm("Do you want to close all transctions for the month of " + monthYear + " ?")) {
+                $.post("/Payables/ApTransactions/CloseAllExpenses",
+                    {
+                        monthYear: monthYear
+                    },
+                    (response) => {
+                        console.log("Update Status : " + response);
+                        if (response == "True") {
+                            alert("CLosing Done");
+                            window.location.reload(false);
+                        } else {
+                            alert("Unable to Close Expenses.");
+                        }
+                    }
+                );
+            }
+        }
     </script>
 }
