@@ -5,7 +5,16 @@
     string USER = ViewBag.User as string;
     bool ISADMIN = (bool)ViewData["IsAdmin"];
     string AssignedTo = ViewData["AssignedTo"] as string;
+    int itemID = (int)ViewData["Id"];
 }
+
+<!-- Items with Prices -->
+<br />
+<br />
+<span style="font:bolder 12px, arial, verdana; color:black;font-weight:600;">
+    ITEMS
+</span>
+<br />
 
 @foreach (var invItems in Model)
 {
@@ -90,9 +99,17 @@
             }
         </div>
 
-        <!--Add Item-->
-        <!-- Disabled on Sales Lead -->
-        @*<a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="getItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id )">[ Add Supplier ]</a>*@
-
     </div>
+}
+
+<br />
+
+@if (USER == AssignedTo || ISADMIN)
+{
+    <span>
+        <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" 
+           onclick="setLeadId(@itemID)">
+            [ Add Item ]
+        </a>
+    </span>
 }
