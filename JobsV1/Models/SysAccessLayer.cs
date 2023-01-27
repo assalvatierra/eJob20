@@ -164,7 +164,7 @@ namespace JobsV1
         //with username
         public IList<Models.SysMenu> getModMenu2(int id, string username)
         {
-            var sMenu = this.getSubMenu2(id, username).OrderBy(s => s.Seqno).ToList();
+            var sMenu = this.getSubMenu2(id, username).OrderBy(s => s.Seqno).Distinct().ToList();
             return sMenu;
         }
 

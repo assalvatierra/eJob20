@@ -71,46 +71,11 @@
                             <br /><br /><span style="color:red; font: normal 18px arial, verdana;">@item.Price.ToString("##,###")</span>
                         }
                     </div>
+                    
+                    @Html.Partial("_PartialLeadItemWeight", item,
+                            new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", item.AssignedTo }, { "IsAdmin", ISADMIN } })
 
-                    <p>
-                        <nobr>
-                            @if (item.ItemWeight != null)
-                            {
-
-                                if (USER == item.AssignedTo || ISADMIN)
-                                {
-                                    <a class="cursor-hand" onclick="ShowSalesLeadWeight(@item.Id)">
-                                        <img src="~/Images/Icons/icons-weight.png" width="12" />
-                                        &nbsp; @item.ItemWeight&nbsp;TONS
-                                    </a>
-                                }
-                                else
-                                {
-                                    <span>
-                                        <img src="~/Images/Icons/icons-weight.png" width="12" />
-                                        &nbsp; @item.ItemWeight&nbsp;TONS
-                                    </span>
-                                }
-                            }
-                            else
-                            {
-
-                                if (USER == item.AssignedTo || ISADMIN)
-                                {
-                                    <a class="cursor-hand" onclick="ShowSalesLeadWeight(@item.Id)">
-                                        <img src="~/Images/Icons/icons-weight.png" width="12" />&nbsp;
-                                        Update Weight
-                                    </a>
-                                }
-
-                            }
-                        </nobr>
-                    </p>
-
-
-
-                    @{
-                        foreach (var status in item.SalesStatus)
+                    @foreach (var status in item.SalesStatus)
                         {
                             if (status.SalesStatusCodeId == 5)
                             {
@@ -122,13 +87,11 @@
                                 <img src="~/Images/SalesLead/close-icon.png" height="20" alt="ACCEPTED" />
                             }
                         }
-                    }
+                    
                 </td>
                 <td>
                     <!--Sales Lead Status-->
                     @Html.Partial("_PartialLeadStatus", item)
-
-                    <!-- End of Status -->
 
                     <div>
                         <span style="color:darkgreen;font:bold 16px arial, verdana;">
@@ -184,7 +147,7 @@
                                      title=@salescat.SalesLeadCatCode.CatName />
                             }
                         </span>
-                       
+
                         <br />
                         <span style="font-weight:600;color:#282828;">
                             @Html.DisplayFor(modelItem => item.SalesCode) -
@@ -193,167 +156,37 @@
                         <span style="font-weight:600;color:darkblue;">
                             @Html.DisplayFor(modelItem => item.Details)
                         </span>
-                        <br />
-                        <span style="font:500 arial, verdana;">
-                            @Html.DisplayFor(modelItem => item.Remarks)
-                        </span>
-                        <br />
 
-                        <span style="font:bold 8px, arial, verdana; color:maroon ;">
-                            Activities
-                            @{
-                                var latestActivity = new JobsV1.Models.CustEntActivity();
-                                if (item.SalesLeadCompanies.FirstOrDefault() != null)
-                                {
-                                    if (item.SalesLeadCompanies.FirstOrDefault()
-                                        .CustEntMain.CustEntActivities.OrderByDescending(c => c.Id).FirstOrDefault() != null)
-                                    {
-                                        latestActivity = item.SalesLeadCompanies.FirstOrDefault()
-                                            .CustEntMain.CustEntActivities.OrderByDescending(c => c.Id).FirstOrDefault();
-                                    }
-                                }
-
-                                <!-- Latest Activity Status -->
-                                if (USER == item.AssignedTo || ISADMIN)
-                                {
-                                    <span class="label label-default cursor-hand" onclick="ShowUpdateActivityStatus_Modal(@item.Id)" style="color:white;">
-                                        @latestActivity.CustEntActStatu.Status - @latestActivity.Type
-                                    </span>
-                                }
-                                else
-                                {
-                                     <span class="label label-default " style="color:white;cursor:no-drop;">
-                                           @latestActivity.CustEntActStatu.Status - @latestActivity.Type
-                                     </span>
-                                }
-                            }
-
+                        @if (!String.IsNullOrEmpty(item.Commodity))
+                        {
                             <br />
-                        </span>
-
-
-
-                        <!-- Activities-->
-                        @if (!String.IsNullOrWhiteSpace(item.SalesCode))
-                        {
-
-                            if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
-                            {
-                                var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
-
-                                var activities = company.CustEntActivities.Where(s => s.SalesCode == item.SalesCode);
-                                @Html.Partial("CustActivitiesPartial", activities,
-                                                                  new ViewDataDictionary { { "AssignedTo", item.AssignedTo } })
-
-                                if (USER == item.AssignedTo || ISADMIN)
-                                {
-                                    <span>
-                                        @Html.ActionLink("[ Add Activity ]", "ListCustActivityCodes",
-                                         new
-                                         {
-                                             id = item.Id,
-                                             salesCode = item.SalesCode,
-                                             projectName = item.Details,
-                                             amount = item.Price,
-                                             companyId = company.Id
-                                         })
-                                    </span>
-                                }
-
-                            }
-                            <!-- Procurement Activities -->
-                            if (ISADMIN)
-                            {
-                                <!-- Late Loading Procurment / Supplier Activities -->
-                                @Html.Partial("_PartialProcActivities", item.SalesLeadSupActivities,
-                                   new ViewDataDictionary { { "AssignedTo", item.AssignedTo } })
-                            }
+                            <span style="font:500 arial, verdana;">
+                                Commodity:  @Html.DisplayFor(modelItem => item.Commodity)
+                            </span>
                         }
-                        else
+
+                        @if (!String.IsNullOrEmpty(item.Remarks))
                         {
-                            var salesCode = item.SalesCode ?? "";
-                            @*@String.IsNullOrWhiteSpace(item.SalesCode)*@
-                            <span style="font:bold 8px, arial, verdana; color:maroon ;">
-                                Activities
-                                @* <span class="label label-default" style="margin-left:5px;"> @{Html.RenderAction("GetLastestActivityType", new { id = item.Id }); } </span>*@
-                                <br />
+                            <br />
+                            <span style="font:500 arial, verdana;">
+                                Remarks: @Html.DisplayFor(modelItem => item.Remarks)
                             </span>
 
-                            <span style="font:bold 8px, arial, verdana; color: royalblue;">
-                                @foreach (var tmpAct in item.SalesActivities)
-                                {
-                                    if (tmpAct.SalesActStatusId == 1)
-                                    {
-                                        <span style="color:red;font-weight:800;">! </span>
-                                        <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
-                                             alt=@tmpAct.SalesActCode.iconPath height="16"
-                                             title=@tmpAct.SalesActCode.iconPath />
-
-                                        <span style="color:maroon;"> @tmpAct.SalesActCode.Name - @tmpAct.Particulars  </span>
-                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                        @Html.ActionLink("Done |", "SalesActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })
-                                        @Html.ActionLink(" [x]", "SalesActivityRemove", new { id = tmpAct.Id })
-
-                                        <br />
-                                    }
-                                    if (tmpAct.SalesActStatusId == 2)
-                                    {
-                                        <span style="color:darkgray;font-weight:800;">&#10004; </span>
-                                        <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
-                                             alt=@tmpAct.SalesActCode.iconPath height="16"
-                                             title=@tmpAct.SalesActCode.iconPath />
-                                        <span style="color:darkgray;">@tmpAct.Particulars</span>
-                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                        <br />
-                                    }
-                                    if (tmpAct.SalesActStatusId == 3)
-                                    {
-                                        <span style="color:darkgray;font-weight:800;">&#x2022; </span>
-                                        <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
-                                             alt=@tmpAct.SalesActCode.iconPath height="16"
-                                             title=@tmpAct.SalesActCode.iconPath />
-                                        <span style="color:darkgray;">@tmpAct.Particulars</span>
-                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                        <br />
-                                    }
-                                }
-                            </span>
-
-                            if (USER == item.AssignedTo || ISADMIN)
-                            {
-                                <span>[ @Html.ActionLink("Add Activity", "ListActivityCodes", new { id = item.Id }) ]</span>
-                            }
                         }
 
 
-                        <!-- Items with Prices -->
-                        <br /><br />
-                        <span style="font:bolder 12px, arial, verdana; color:black;font-weight:600;">
-                            ITEMS
-                        </span> <br />
+                        @Html.Partial("_PartialSalesLeadActivities", item,
+                                new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", item.AssignedTo }, { "IsAdmin", ISADMIN } })
 
                         <!-- Late Loading Procurment / Supplier Items -->
+                        @Html.Partial("_PartialSupplierItems", item.SalesLeadItems,
+                                new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", item.AssignedTo }, { "IsAdmin", ISADMIN } })
 
-                        @Html.Partial("_PartialSupplierItems", item.SalesLeadItems)
-
-                        <br />
-
-                        @if (USER == item.AssignedTo || ISADMIN)
-                        {
-                            <span>
-                                <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" onclick="setLeadId(@item.Id)">
-                                    [ Add Item ]
-                                </a>
-                            </span>
-                        }
 
                         <!--Add Files-->
-                        <div style="margin:7px 0px 7px 0px;">
+                        @Html.Partial("_PartialLeadFiles", item.SalesLeadFiles.OrderByDescending(c => c.Id).FirstOrDefault(),
+                              new ViewDataDictionary { { "Id", item.Id }, { "FileCount", item.SalesLeadFiles.Count() } })
 
-                            @Html.Partial("_PartialLeadFiles", item.SalesLeadFiles.OrderByDescending(c => c.Id).FirstOrDefault(),
-                                new ViewDataDictionary { { "Id", item.Id }, { "FileCount", item.SalesLeadFiles.Count() } })
-
-                        </div>
 
                         <span style="font: status-bar; color:gray;">
                             Entered: @Html.DisplayFor(modelItem => item.EnteredBy)

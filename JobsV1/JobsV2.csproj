@@ -3587,6 +3587,13 @@
     <Content Include="Views\DriverInstructions\Details.cshtml" />
     <Content Include="Views\DriverInstructions\Edit.cshtml" />
     <Content Include="Views\DriverInstructions\Index.cshtml" />
+
+    <Content Include="Views\Suppliers\Index_VSteel.cshtml" />
+    <Content Include="Views\SalesLeads\_PartialSalesActivities.cshtml" />
+    <Content Include="Views\SalesLeads\_PartialLatestCustActivity.cshtml" />
+    <Content Include="Views\SalesLeads\_PartialSalesLeadActivities.cshtml" />
+    <Content Include="Views\SalesLeads\_PartialLeadItemWeight.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -3605,6 +3612,7 @@
     <Folder Include="Areas\Products\Views\Home\" />
     <Folder Include="Areas\Receivables\Scripts\Actions\" />
     <Folder Include="Areas\Receivables\Scripts\Credits\" />
+    <Folder Include="Models\Services\" />
     <Folder Include="Views\CustomHelper\" />
   </ItemGroup>
   <ItemGroup>
