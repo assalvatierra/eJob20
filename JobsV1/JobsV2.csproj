@@ -3601,12 +3601,10 @@
     <Content Include="Views\Customers\RemoveAgent.cshtml" />
     <Content Include="Views\CustEntMains\EditStatus.cshtml" />
     <Content Include="Views\Customers\_SearchAgentModal.cshtml" />
-    <Content Include="Views\Suppliers\Index_VSteel.cshtml" />
     <Content Include="Views\SalesLeads\_PartialSalesActivities.cshtml" />
     <Content Include="Views\SalesLeads\_PartialLatestCustActivity.cshtml" />
     <Content Include="Views\SalesLeads\_PartialSalesLeadActivities.cshtml" />
     <Content Include="Views\SalesLeads\_PartialLeadItemWeight.cshtml" />
-
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

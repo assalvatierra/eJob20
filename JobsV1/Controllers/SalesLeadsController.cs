@@ -855,18 +855,9 @@ namespace JobsV1.Controllers
         private void RevolveForApprove(int id)
         {
             var salesLead = db.SalesLeads.Find(id);
-
-            var price = salesLead.Price;
-
             var ApprovedCount = 0;
-
             var allowedUsers= db.SalesStatusRestrictions.ToList().Select(s=>s.SalesStatusCodeId);
             var leadStatus = salesLead.SalesStatus.Where(s => allowedUsers.Contains(s.SalesStatusCodeId)).ToList();
-
-            var lastActivityType= sldb.GetLastActivityType(id);
-            string Bidding = "Bidding Only";
-            string BuyingInquiry = "Buying Inquiry";
-            string FirmInquiry = "Firm Inquiry";
 
             if (leadStatus.Count() > 0)
             {
@@ -876,32 +867,14 @@ namespace JobsV1.Controllers
                 }
             }
 
-            decimal ThreeMil = (decimal)3000000;
-            decimal OneMil = (decimal)1000000;
-
-            //price filter
-            if ((price >= OneMil && price <= ThreeMil && lastActivityType == Bidding) ||
-                (price < OneMil && lastActivityType == FirmInquiry || lastActivityType == BuyingInquiry))
+            if (ApprovedCount == 2)
             {
-
-                if (ApprovedCount == 1)
-                {
-                    //mark as approved
-                    UpdateLeadStatus(id, 5);
-                }
-            }
-
-            if ((price >= ThreeMil) ||
-                (price >= OneMil && price <= ThreeMil && (lastActivityType == FirmInquiry || lastActivityType == BuyingInquiry)))
-            {
-                if (ApprovedCount == 2)
-                {
-                    //mark as approved
-                    UpdateLeadStatus(id, 5);
-                }
+                //mark as approved
+                UpdateLeadStatus(id, 5);
             }
 
         }
+
 
         public string GetLeadStatusCount(int statusId)
         {

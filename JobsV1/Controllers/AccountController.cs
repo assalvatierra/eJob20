@@ -72,7 +72,7 @@ namespace JobsV1.Controllers
         {
             if (!ModelState.IsValid)
             {
-                trail.recordTrail("Login",model.Email,"Login success");
+                trail.recordTrail("Login",model.Email,"Login not valid");
                 return View(model);
             }
             

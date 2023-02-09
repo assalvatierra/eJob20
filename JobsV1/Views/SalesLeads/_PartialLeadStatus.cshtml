@@ -14,16 +14,18 @@
 
     var item = Model;
 
+    int STATUS_REJECT = 7;
+    int STATUS_CLOSED = 9;
+    int STATUS_AWARDED = 6;
+    int STATUS_FORAPPROVAL = 4;
+    int STATUS_APPROVED = 5;
     var APPROVED_BY_ADMIN = 15;
     var APPROVED_BY_CHECKER = 16;
-}
-
-
-
-@{
     bool ForApproveOnce = false;
 }
-@foreach (var salesstat in SalesStatCode)
+
+
+@foreach (var salesstat in SalesStatCode.OrderBy(s => s.SeqNo))
 {
     if (item.SalesStatus.Where(s => s.SalesStatusStatusId == 1).Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
     {
@@ -110,19 +112,19 @@
                 if (ISADMIN)
                 {
                     //APPROVED BY ADMIN
-                    <span>&#187;</span>
-                    <button class="btn btn-primary btn-arrow-right cursor-hand ">
-                        <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
-                    </button>
+                    @*<span>&#187;</span>
+                        <button class="btn btn-primary btn-arrow-right cursor-hand" >
+                            <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                        </button>*@
                 }
                 else
                 {
 
                     //disable status
-                    <span>&#187;</span>
-                    <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
-                        <a class="link-white link-status"> @salesstat.Name </a>
-                    </button>
+                    @*<span>&#187;</span>
+                        <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                            <a class="link-white link-status"> @salesstat.Name </a>
+                        </button>*@
                 }
             }
             else
@@ -130,24 +132,24 @@
                 if (USER == item.AssignedTo || ISADMIN)
                 {
                     //APPROVED BY ASSIGNED STAFF
-                    <span>&#187;</span>
-                    <button class="btn btn-primary btn-arrow-right cursor-hand ">
-                        <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
-                    </button>
+                    @*<span>&#187;</span>
+                        <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                            <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                        </button>*@
                 }
                 else
                 {
 
                     //disable status
-                    <span>&#187;</span>
-                    <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
-                        <a class="link-white link-status"> @salesstat.Name </a>
-                    </button>
+                    @*<span>&#187;</span>
+                        <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                            <a class="link-white link-status"> @salesstat.Name </a>
+                        </button>*@
                 }
             }
 
         }
-        else if (salesstat.Id == 16)
+        else if (salesstat.Id == APPROVED_BY_CHECKER)
         {
             //approved by Aldrin OR Approved by Checker
             var statusCode = item.SalesStatus.Where(s => s.SalesStatusCodeId == 16).ToList();
@@ -162,7 +164,8 @@
 
 
             //If Price is Less than 2 MILLION Approved by CHECKER
-            if ((item.Price < TwoMillionCondition))
+            //if ((item.Price < TwoMillionCondition))
+            if (true)
             {
                 //Check if user is allowed to approved
                 if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
@@ -170,7 +173,7 @@
                     var allowedUser = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER)
                         .FirstOrDefault().SalesStatusAllowedUser.User;
 
-                    if (allowedUser == USER)
+                    if (allowedUser == USER || ISADMIN)
                     {
 
                         <span>&#187;</span>
@@ -193,21 +196,17 @@
                     if (!ForApproveOnce && !isApproved)
                     {
                         ForApproveOnce = true;
+
+                        //disable status
+                        <span>&#187;</span>
+                        <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                            <a class="link-white link-status"> @salesstat.Name </a>
+                        </button>
                     }
                 }
-
-                //APPROVED BY ADMIN
-                if (ISADMIN)
-                {
-                    <span>&#187;</span>
-                    <button class="btn btn-primary btn-arrow-right cursor-hand ">
-                        <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @APPROVED_BY_CHECKER)"> @salesstat.Name </a>
-                    </button>
-                }
-
             }
         }
-        else if (salesstat.Id == 15)
+        else if (salesstat.Id == APPROVED_BY_ADMIN)
         {
             //approved by Aldrin
             var statusCode = item.SalesStatus.Where(s => s.SalesStatusCodeId == 16).ToList();
@@ -220,7 +219,8 @@
             }
 
             //If Price is greather than 2 MILLION Approved by ALDRIN / ADMIN
-            if ((item.Price >= TwoMillionCondition))
+            //if ((item.Price >= TwoMillionCondition))
+            if (true)
             {
                 //approved by Aldrin only
                 if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
@@ -243,8 +243,7 @@
                         </button>
                     }
                 }
-
-                if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User != USER).FirstOrDefault() != null)
+                else if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User != USER).FirstOrDefault() != null)
                 {
                     var OtherallowedUsers = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User != USER)
                         .ToList();
@@ -258,6 +257,16 @@
                     }
 
                 }
+                else
+                {
+                    //disable status
+                    <span>&#187;</span>
+                    <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                        <a class="link-white link-status"> @salesstat.Name </a>
+                    </button>
+                }
+
+
 
             }
 

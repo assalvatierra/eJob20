@@ -145,7 +145,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" id="Create-Btn" />
             </div>
         </div>
     </div>
@@ -413,9 +413,11 @@
                     if (res['responseText'] == "True") {
                         console.log("Sales Code already exists. ");
                         $("#salesCode-validation-msg").text("Sales Code already exists.")
+                        $("#Create-Btn").attr("disabled", true);
                     } else {
                         //clear message
                         $("#salesCode-validation-msg").text("")
+                        $(":submit").removeAttr("disabled");
                     }
                 }
             });
@@ -426,5 +428,9 @@
             CheckSalesCode();
         })
 
+        //check input on SalesCode 
+        $('#SalesCode').keyup(function () {
+            CheckSalesCode();
+        })
     </script>
 }

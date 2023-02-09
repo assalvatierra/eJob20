@@ -19,6 +19,7 @@
     decimal Receivables_Payment = 0;
     decimal Receivables_Deposit = 0;
 
+    decimal TotalTriplog_Rate = 0;
     decimal TotalNetAmount = 0;
 
     decimal decimal_zero = 0;
@@ -79,7 +80,6 @@
         Triplog_Rate += trip.Rate;
         Triplog_Rate_Addon += trip.Addon;
         Triplog_RateOT += trip.AddonOT ?? decimal_zero;
-        Triplog_TotalRate += Triplog_Rate + Triplog_Rate_Addon + Triplog_RateOT;
 
         Triplog_DriverRate += trip.DriverFee;
         Triplog_DriverOT += trip.DriverOT;
@@ -118,6 +118,10 @@
             </td>
 
         </tr>
+    }
+
+    @{ 
+        Triplog_TotalRate += Triplog_Rate + Triplog_Rate_Addon + Triplog_RateOT;
     }
     <tr>
         <td colspan="4">
