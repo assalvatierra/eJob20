@@ -17,7 +17,11 @@
         </p>
 
         <hr />
-        <h3>@Model.Name  </h3>
+        <h3>
+            @Model.Name
+
+            ( <span id="status"> @Model.Status </span> )
+        </h3>
 
         <p> @Html.ActionLink("< View History >", "Records", "SupplierActivities", new { id = Model.Id }, new { @class="btn btn-default btn-xs" }) </p>
 

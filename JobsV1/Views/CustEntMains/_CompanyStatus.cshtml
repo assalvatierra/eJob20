@@ -1,0 +1,32 @@
+﻿@model string
+@{ 
+    string status = ViewBag.Status;
+}
+
+@switch (Model)
+{
+    case "ACC":
+        <span class="badge badge-pill badge-success"> ACCREDITED </span>;
+        break;
+    case "ACP":
+        <span class="badge badge-pill badge-warning"> ACCREDITATION ON PROCESS </span>;
+        break;
+    case "BIL":
+        <span class="badge badge-pill badge-primary"> BILLING/TERMS </span>;
+        break;
+    case "ACT":
+        <span class="badge badge-pill badge-primary"> ACTIVE </span>;
+        break;
+    case "INC":
+        <span class="badge badge-pill badge-info"> INACTIVE </span>;
+        break;
+    case "BAD":
+        <span class="badge badge-pill badge-danger"> BAD ACCOUNT </span>;
+        break;
+    case "SUS":
+        <span class="badge badge-pill badge-danger"> SUSPENDED </span>;
+        break;
+    case "PRI":
+        <span class="badge badge-pill badge-success"> PRIORITY </span>;
+        break;
+}

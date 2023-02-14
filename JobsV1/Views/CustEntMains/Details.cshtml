@@ -12,7 +12,8 @@
     <p>
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
         @Html.ActionLink("Back to List", "Index")
-        @if (ViewBag.isAllowedHistory)
+
+        @if (ViewBag.IsAdmin)
         {
             @Html.ActionLink("| View Activity History ", "Index", "CustEntActivities", new { id = Model.Id }, null)
         }
@@ -26,7 +27,11 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h1> @Html.DisplayFor(model => model.Name) ( <span id="status"> </span> ) </h1>
+        <h1> @Html.DisplayFor(model => model.Name) 
+
+        ( <span id="status"> @Model.Status </span> )
+
+        </h1>
     </div>
     <div class="col-lg-6">
         <P>
@@ -158,33 +163,7 @@
         <div>
             <h3> Status: </h3>
             <p>
-                @switch (Html.DisplayFor(model => model.Status).ToString())
-                {
-                    case "ACC":
-                        <span class="badge badge-pill badge-success"> ACCREDITED </span>;
-                        break;
-                    case "ACP":
-                        <span class="badge badge-pill badge-warning"> ACCREDITATION ON PROCESS </span>;
-                        break;
-                    case "BIL":
-                        <span class="badge badge-pill badge-primary"> BILLING/TERMS </span>;
-                        break;
-                    case "ACT":
-                        <span class="badge badge-pill badge-primary"> ACTIVE </span>;
-                        break;
-                    case "INC":
-                        <span class="badge badge-pill badge-info"> INACTIVE </span>;
-                        break;
-                    case "BAD":
-                        <span class="badge badge-pill badge-danger"> BAD ACCOUNT </span>;
-                        break;
-                    case "SUS":
-                        <span class="badge badge-pill badge-danger"> SUSPENDED </span>;
-                        break;
-                    case "PRI":
-                        <span class="badge badge-pill badge-success"> PRIORITY </span>;
-                        break;
-                }
+                @Html.Partial("_CompanyStatus", Model.Status)
             </p>
             <p>
                Remarks: @Model.Remarks
@@ -193,7 +172,6 @@
                 @Html.ActionLink("Edit", "EditStatus", new { id = Model.Id }) 
             </p>
         </div>
-
     </div>
 </div>
 
