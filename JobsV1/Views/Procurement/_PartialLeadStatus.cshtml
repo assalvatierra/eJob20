@@ -5,6 +5,7 @@
 
     string USER = ViewBag.User as string;
     bool ISADMIN = ViewBag.IsAdmin;
+    bool ISCHECKER = ViewBag.IsChecker;
     string AssignedTo = ViewData["AssignedTo"] as string;
 
     string ActivityStatusType = ViewBag.ActivityStatusType;
@@ -47,12 +48,12 @@
         var OneMLimit = 1000000;
         var ThreeMLimit = 3000000;
 
-        if (salesstat.Id == STATUS_REJECT || salesstat.Id == STATUS_CLOSED || salesstat.Id == STATUS_AWARDED 
-            || salesstat.Id == STATUS_FORAPPROVAL || salesstat.Id == STATUS_APPROVED)
+        if (salesstat.Id == STATUS_REJECT || salesstat.Id == STATUS_CLOSED || salesstat.Id == STATUS_AWARDED
+            || salesstat.Id == STATUS_APPROVED)
         {
             // REJECT = 7, CLOSED = 8
 
-            if (USER == item.AssignedTo || ISADMIN)
+            if (USER == item.AssignedTo || ISADMIN || ISCHECKER)
             {
                 <span>&#187;</span>
                 <button class="btn btn-primary btn-arrow-right cursor-hand">
@@ -70,122 +71,76 @@
             }
 
         }
+        else if (salesstat.Id == STATUS_FORAPPROVAL)
+        {
+            // hide for approval
+        }
         else if (salesstat.Id == STATUS_APPROVED)
         {
 
             var actStatusType = ActivityStatusType;
 
             //APPROVED - 5
-            if (((item.Price > OneMLimit && item.Price < ThreeMLimit) && actStatusType == BIDDING) ||
-                ((item.Price <= OneMLimit) && (actStatusType == FIRM || actStatusType == BUYING)) ||
-                  item.Price > ThreeMLimit ||
-                ((item.Price > OneMLimit && item.Price < ThreeMLimit) && (actStatusType == FIRM || actStatusType == BUYING))
-                 )
+            if (ISADMIN || ISCHECKER)
             {
-                //disabled status
-                @*<span>&#187;</span>
-                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
-                    <a class="link-white link-status"> @salesstat.Name </a>
-                </button>*@
-
+                <span>&#187;</span>
+                <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                    <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                </button>
             }
             else
             {
-                @*<span>&#187;</span>
-                <button class="btn btn-primary btn-arrow-right cursor-hand ">
-                    <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
-                </button>*@
+                //disabled status
+                <span>&#187;</span>
+                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                    <a class="link-white link-status"> @salesstat.Name </a>
+                </button>
             }
 
         }
         else if (salesstat.Id == APPROVED_BY_CHECKER)
         {
-            //approved by Aldrin OR Approved by Checker
-            var statusCode = item.SalesStatus.Where(s => s.SalesStatusCodeId == 16).ToList();
 
-            var actStatusType = ActivityStatusType;
-            bool isApproved = false;
-
-            if (statusCode.Count() > 0)
-            {
-                isApproved = true;
-            }
-
-
-            //If Price is Less than 2 MILLION Approved by CHECKER
-            //if ((item.Price < TwoMillionCondition))
-            if (true)
-            {
-                //Check if user is allowed to approved
-                if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
-                {
-                    var allowedUser = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER)
-                        .FirstOrDefault().SalesStatusAllowedUser.User;
-
-                    if (allowedUser == USER)
-                    {
-                        <span>&#187;</span>
-                        <button class="btn btn-primary btn-arrow-right cursor-hand ">
-                            <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @APPROVED_BY_CHECKER)"> @salesstat.Name </a>
-                        </button>
-                    }
-                    else
-                    {
-                        //disable status
-                        <span>&#187;</span>
-                        <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
-                            <a class="link-white link-status"> @salesstat.Name </a>
-                        </button>
-                    }
-                }
-                else
-                {
-                    if (!ForApproveOnce && !isApproved)
-                    {
-                        ForApproveOnce = true;
-
-                        //disable status for non checker and assigned
-                        <span>&#187;</span>
-                        <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
-                            <a class="link-white link-status"> @salesstat.Name </a>
-                        </button>
-                    }
-                }
-
-                //APPROVED BY ADMIN
-                if (ISADMIN)
+                if (ISCHECKER|| ISADMIN)
                 {
                     <span>&#187;</span>
                     <button class="btn btn-primary btn-arrow-right cursor-hand ">
                         <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @APPROVED_BY_CHECKER)"> @salesstat.Name </a>
                     </button>
                 }
-
-            }
-        }
-        else if (salesstat.Id == APPROVED_BY_ADMIN)
-        {
-            //approved by Aldrin
-            var statusCode = item.SalesStatus.Where(s => s.SalesStatusCodeId == 16).ToList();
-
-            bool isApproved = false;
-
-            if (statusCode.Count() > 0)
-            {
-                isApproved = true;
-            }
-
-            //If Price is greather than 2 MILLION Approved by ALDRIN / ADMIN
-            //if ((item.Price >= TwoMillionCondition))
-            if (true)
-            {
-                //approved by Aldrin only
-                if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
+                else
                 {
-                    var allowedUser = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER)
-                        .FirstOrDefault().SalesStatusAllowedUser.User;
-                    if (allowedUser == USER)
+                    //disable status
+                    <span>&#187;</span>
+                    <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                        <a class="link-white link-status"> @salesstat.Name </a>
+                    </button>
+                }
+                //}
+            }
+            else if (salesstat.Id == APPROVED_BY_ADMIN)
+            {
+                //approved by Aldrin
+                var statusCode = item.SalesStatus.Where(s => s.SalesStatusCodeId == 16).ToList();
+
+                bool isApproved = false;
+
+                if (statusCode.Count() > 0)
+                {
+                    isApproved = true;
+                }
+
+                //If Price is greather than 2 MILLION Approved by ALDRIN / ADMIN
+                //if ((item.Price >= TwoMillionCondition))
+                if (true)
+                {
+                    //approved by Aldrin only
+                    if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
                     {
+                        var allowedUser = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER)
+                            .FirstOrDefault().SalesStatusAllowedUser.User;
+                        if (allowedUser == USER || ISADMIN)
+                        {
                         <span>&#187;</span>
                         <button class="btn btn-primary btn-arrow-right cursor-hand ">
                             <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @APPROVED_BY_ADMIN)"> @salesstat.Name </a>
@@ -201,7 +156,7 @@
                     }
                 }
                 else
-                {
+{
                     //disable status
                     <span>&#187;</span>
                     <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
@@ -213,7 +168,7 @@
 
         }
         else
-        {
+{
             <span>&#187;</span>
             <button class="btn btn-primary btn-arrow-right cursor-hand ">
                 <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
