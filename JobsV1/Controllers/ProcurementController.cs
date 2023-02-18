@@ -98,6 +98,7 @@ namespace JobsV1.Controllers
             ViewBag.User = HttpContext.User.Identity.Name;
             ViewBag.UserName = GetUserName();
             ViewBag.IsAdmin = IsUserAdmin();
+            ViewBag.IsChecker = User.IsInRole("Checker");
 
             //for adding new item 
             AddSupItemPartial();

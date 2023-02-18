@@ -306,6 +306,7 @@ namespace JobsV1.Controllers
                 ViewBag.CurrentFilter = sortid;
                 ViewBag.StatusCodes = db.SalesStatusCodes.ToList();
                 ViewBag.InvItems = db.InvItems.ToList();
+                ViewBag.IsChecker = User.IsInRole("Checker");
 
                 //for adding new item 
                 AddSupItemPartial();
@@ -349,6 +350,7 @@ namespace JobsV1.Controllers
             ViewBag.User = HttpContext.User.Identity.Name;
             ViewBag.ActTypes = db.CustEntActTypes.ToList();
             ViewBag.IsAdmin = IsUserAdmin();
+            ViewBag.IsChecker = User.IsInRole("Checker");
 
             //for adding new item 
             AddSupItemPartial();
