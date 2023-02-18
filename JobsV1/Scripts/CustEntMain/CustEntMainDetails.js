@@ -3,7 +3,7 @@ $(document).ready(function () {
     AddressInitial();
     ClauseInitial();
 
-    $("#status").text(parseStatusText('@Model.Status'));
+    $("#status").text(parseStatusText(this.text));
 
 });
 
