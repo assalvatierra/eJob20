@@ -18,6 +18,7 @@ namespace JobsV1.Models.Class
         public decimal Amount { get; set; }
         public decimal ProcAmount { get; set; }
         public string Role { get; set; }
+        public string Remarks { get; set; }
     }
 
     public class cUserPerformanceReport
@@ -29,6 +30,7 @@ namespace JobsV1.Models.Class
         public int Procurement { get; set; }
         public int CallsAndEmail { get; set; }
         public int Close { get; set; }
+        public string Remarks { get; set; }
     }
 
     public class cUserSalesReport
@@ -218,7 +220,7 @@ namespace JobsV1.Models.Class
 
             string sql =
                " SELECT	UserName,"+
-		       "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'"+ sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'"+ edate + "') ),"+
+		       "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND ca.Remarks = 'Quotation Sent' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'"+ sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'"+ edate + "') ),"+
                "         Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Meeting' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         Sales = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         ProcMeeting = (SELECT COUNT(*) FROM SupplierActivities sa WHERE sa.ActivityType = 'Meeting' AND au.UserName = sa.Assigned AND convert(datetime, sa.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, sa.DtActivity) < convert(datetime,'" + edate + "') )," +
@@ -252,7 +254,7 @@ namespace JobsV1.Models.Class
 
             string sql =
                " SELECT	UserName," +
-               "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
+               "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND ca.Remarks = 'Quotation Sent' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Meeting' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         Sales = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         ProcMeeting = (SELECT COUNT(*) FROM SupplierActivities sa WHERE sa.ActivityType = 'Meeting' AND au.UserName = sa.Assigned AND convert(datetime, sa.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, sa.DtActivity) < convert(datetime,'" + edate + "') )," +
@@ -283,6 +285,7 @@ namespace JobsV1.Models.Class
 
             return userPerf;
         }
+
 
 
         public string GetUserRole(string user)
@@ -328,7 +331,7 @@ namespace JobsV1.Models.Class
 
                 //sql query with comma separated item list
                 string sql =
-                   @"  SELECT Id , Date, Assigned, ProjectName, SalesCode, Amount, Status,CustEntMainId,Type,ActivityType,CustEntActStatusId,CustEntActActionStatusId,CustEntActActionCodesId,
+                   @"  SELECT Id , Date, Assigned, ProjectName, SalesCode, Amount, Remarks, Status,CustEntMainId,Type,ActivityType,CustEntActStatusId,CustEntActActionStatusId,CustEntActActionCodesId,
 	                   Company = (SELECT Name FROM CustEntMains cem WHERE cem.Id = act.CustEntMainId ),
                            Points = ISNULL((SELECT Points FROM CustEntActivityTypes type WHERE type.Type = act.ActivityType), 0),
 	                   SalesLeadId = ISNULL(SalesLeadId, 0 )
@@ -339,6 +342,10 @@ namespace JobsV1.Models.Class
 
                 //Filter and Remove points on Duplicate Activity with the same code
                 activity = FilterDuplicateActivity(activity);
+
+
+                //Filter and Remove points on Quotation Activity
+                activity = FilterQuotationActivity(activity);
 
                 return activity;
             }
@@ -377,6 +384,30 @@ namespace JobsV1.Models.Class
         }
 
 
+        private List<cUserActivity> FilterQuotationActivity(List<cUserActivity> activityList)
+        {
+            //holds the Ids of unique activity
+            List<string> tempCodes = new List<string>();
+
+            foreach (var act in activityList)
+            {
+                if(act.ActivityType == "Quotation")
+                {
+                    if (act.Remarks == "Quotation Sent" || act.Remarks == "Awarded")
+                    {
+                        act.Points = 8;
+                    }
+                    else
+                    {
+                        act.Points = 0;
+                    }
+                }
+            }
+
+            return activityList;
+        }
+
+
         //GET : return user performance report based on the count of each Activity Type
         public cUserPerformanceReport GetUserPerformance(List<cUserActivity> activities, string user)
         {
@@ -388,7 +419,7 @@ namespace JobsV1.Models.Class
             performance.Meeting = activities.Where(a => a.ActivityType == "Meeting").Count();
             performance.Quotation = activities.Where(a => a.ActivityType == "Quotation").Count();
             performance.Procurement = activities.Where(a => a.ActivityType == "Procurement").Count();
-            performance.CallsAndEmail = activities.Where(a => a.ActivityType == "Calls/Email").Count();
+            performance.CallsAndEmail = activities.Where(a => a.ActivityType == "CallsAndEmail").Count();
 
 
             return performance;
