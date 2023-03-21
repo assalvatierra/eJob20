@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using JobsV1.Areas.Personel.Models;
 using Microsoft.Ajax.Utilities;
 using JobsV1.Areas.Personel.Services;
+using WebGrease.Css.Extensions;
 
 namespace JobsV1.Areas.Personel.Controllers
 {
@@ -954,6 +955,7 @@ namespace JobsV1.Areas.Personel.Controllers
             var billingAddress = "";
             var billingTIN = "";
             var billingStyle = "";
+            var billingRemarks = "";
 
             if (crlogcompany != null)
             {
@@ -961,14 +963,35 @@ namespace JobsV1.Areas.Personel.Controllers
                 billingAddress = crlogcompany.BillingAddress;
                 billingTIN = crlogcompany.BillingTIN;
                 billingStyle = crlogcompany.BillingStyle;
+                billingRemarks = crlogcompany.BillingRemarks;
             }
             else
             {
                 billingName = company;
             }
 
-            ViewBag.DriverList = tripBilling.OTTrips.Select(c => c.Driver).Distinct();
-            ViewBag.UnitList = tripBilling.OTTrips.Select(c => c.Unit).Distinct();
+            //For Billing Details
+          
+            List<string> DriverList = new List<string>();
+            OTTrips.ForEach((t) => {
+                if (!DriverList.Contains(t.crLogDriver.Name))
+                {
+                    string driverString =  t.crLogDriver.Remarks + " - " + t.crLogDriver.Name;
+                    DriverList.Add(driverString);
+                }
+            });
+
+            List<string> UnitList = new List<string>();
+            OTTrips.ForEach((t) => {
+                if (!UnitList.Contains(t.crLogDriver.Name))
+                {
+                    string driverString = t.crLogUnit.Remarks + " - " + t.crLogUnit.Description ;
+                    UnitList.Add(driverString);
+                }
+            });
+
+            ViewBag.DriverList = DriverList.Distinct();
+            ViewBag.UnitList = UnitList.Distinct();
 
             ViewBag.FilteredsDate = String.IsNullOrEmpty(startDate) ? dt.GetCurrentDate().ToString() : startDate;
             ViewBag.FilteredeDate = String.IsNullOrEmpty(endDate) ? dt.GetCurrentDate().ToString() : endDate;
@@ -977,6 +1000,8 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.BillingAddress = billingAddress;
             ViewBag.BillingTIN = billingTIN;
             ViewBag.BillingStyle = billingStyle;
+            ViewBag.BillingRemarks = billingRemarks;
+
 
             ViewBag.SOANum = SOANum;
             ViewBag.DateToday = dt.GetCurrentDate().ToString("MMM dd yyyy");
@@ -1361,7 +1386,13 @@ namespace JobsV1.Areas.Personel.Controllers
             // Daily trips
             var OTTrips = tripLogs.OrderBy(t => t.crLogUnit.OrderNo).ToList();
 
+            string SOANum = "0";
+
             OTTrips.ForEach((t) => {
+
+                SOANum = t.crLogTripJobMains.FirstOrDefault() != null ?
+                          t.crLogTripJobMains.FirstOrDefault().JobMainId.ToString() : "";
+
                 double OTHrs = OTServices.GetTripLogOTHours(t);
                 tripBilling.Daily.Add(new crBillingDetails_Daily
                 {
@@ -1378,6 +1409,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 });
             });
 
+            tripBilling.PONum = SOANum;
             tripBilling.SubTotalRate = tripBilling.Daily.Sum(t => t.Rate);
             tripBilling.SubTotalOT = tripBilling.Daily.Sum(t => t.OTRate);
             tripBilling.SubTotalAddon = tripBilling.Daily.Sum(t => t.AddOns);
@@ -1401,10 +1433,9 @@ namespace JobsV1.Areas.Personel.Controllers
 
             tripBilling.SubTotalDeductions = tripBilling.SubTotaDriverRate + tripBilling.SubTotalDriverOT;
 
-            tripBilling.TotalBalanceLessTax = (tripBilling.TotalNet * (Decimal)0.1);
+            tripBilling.TotalBalanceLessTax = (tripBilling.TotalNet * (Decimal)0.15);
             tripBilling.TotalBalance = tripBilling.TotalNet - tripBilling.SubTotalDeductions - tripBilling.TotalBalanceLessTax;
-
-
+            
             ViewBag.FilteredsDate = String.IsNullOrEmpty(startDate) ? dt.GetCurrentDate().ToString() : startDate;
             ViewBag.FilteredeDate = String.IsNullOrEmpty(endDate) ? dt.GetCurrentDate().ToString() : endDate;
             ViewBag.FilteredUnit = unit ?? "all";
@@ -1424,7 +1455,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
 
         // GET: Personel/CarRentalLog/PrintIndexSupplierBilling
-        public ActionResult PrintIndexSupplierBilling(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
+        public ActionResult PrintIndexSupplierBilling(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner, string BillingRemarks)
         {
 
             #region Session
@@ -1568,7 +1599,7 @@ namespace JobsV1.Areas.Personel.Controllers
           
             tripBilling.SubTotalDeductions = tripBilling.SubTotaDriverRate + tripBilling.SubTotalDriverOT;
 
-            tripBilling.TotalBalanceLessTax = (tripBilling.TotalNet * (Decimal)0.1);
+            tripBilling.TotalBalanceLessTax = (tripBilling.TotalNet * (Decimal)0.15);
             tripBilling.TotalBalance = tripBilling.TotalNet - tripBilling.SubTotalDeductions - tripBilling.TotalBalanceLessTax;
 
 
@@ -1711,7 +1742,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             tripBilling.TotalNet = tripBilling.SubTotalRate + tripBilling.SubTotalOT + tripBilling.SubTotalAddon;
 
-            tripBilling.TotalBalanceLessTax = (tripBilling.TotalNet * (Decimal)0.1);
+            tripBilling.TotalBalanceLessTax = (tripBilling.TotalNet * (Decimal)0.15);
             tripBilling.TotalBalance = tripBilling.TotalNet -  tripBilling.TotalBalanceLessTax;
 
 

@@ -148,7 +148,7 @@ namespace JobsV1.Areas.Personel.Controllers
             //check and finalize trip every 6pm
             //if (string.IsNullOrEmpty(startDate))
             //{
-                crServices.CheckTripFinalizeRange(tripLogs);
+            //    crServices.CheckTripFinalizeRange(tripLogs);
             //}
 
             return View(tripLogs);

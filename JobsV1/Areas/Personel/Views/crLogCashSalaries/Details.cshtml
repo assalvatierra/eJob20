@@ -49,7 +49,7 @@
             <th> Remarks </th>
             <th> Amount </th>
             <th> OT  </th>
-            <th></th>
+            <th> Job Link</th>
         </tr>
     </thead>
     <tbody>
@@ -106,8 +106,15 @@
                         </td>
                         <td>
                             @*@Html.ActionLink("Remove", "RemoveTripLogClosingId", new { id = trip.Id })*@
-                            @*<a onclick="RemoveTripLogSalary(this, @trip.Id)"> Remove </a> |*@ 
-                            @*@Html.ActionLink("Job Summary", "JobSummaryDetails", "Reporting", new { area = "", id = trip.crLogTripJobMains.FirstOrDefault().JobMainId, target = "_blank" }, null)*@
+                            @*<a onclick="RemoveTripLogSalary(this, @trip.Id)"> Remove </a> |*@
+                            @if (trip.crLogTripJobMains.Count != 0)
+                            {
+                                var jobId = trip.crLogTripJobMains.FirstOrDefault().JobMainId;
+
+                                @Html.ActionLink(jobId.ToString(), "JobSummaryDetails", "Reporting", new { area = "", id = jobId, target = "_blank" }, null)
+                            }
+
+
                         </td>
                     </tr>
                 }

@@ -14,9 +14,11 @@
 
     string BillingTIN = ViewBag.BillingTIN;
     string BillingStyle = ViewBag.BillingStyle;
+    string BillingRemarks = ViewBag.BillingRemarks;
 
     IEnumerable<string> DriverList = ViewBag.DriverList;
     IEnumerable<string> UnitList = ViewBag.UnitList;
+    IEnumerable<string> DriverUnit = ViewBag.DriverUnitList;
 }
 
 <style>
@@ -188,35 +190,42 @@
 
                 @if (!String.IsNullOrEmpty(BillingStyle))
                 {
-                    <b>Business Style: @BillingStyle </b>
+                    <b>Business Style: @BillingStyle </b><br />
+                }
+                @if (!String.IsNullOrEmpty(BillingRemarks))
+                {
+                    <b> @BillingRemarks </b>
                 }
             </td>
             <td width="200">
                 <p class="pull-right" style="padding-right:5px;">
                     SOA #: @ViewBag.SOANum <br />
-                    Date : @ViewBag.DateToday  
+                    Date : @ViewBag.DateToday     
                 </p>
             </td>
         </tr>
         <tr class="no-padding-child">
             <td colspan="3">
+                <br />
                 <div>
-                    <span>  DRIVER:  </span>
+                    <span> DRIVER: </span><br />
                     @foreach (var driver in DriverList)
                     {
-                        <span> @driver / </span>
+                        <span> @driver  </span><br />
                     }
                 </div>
 
                 <br />
 
                 <div>
-                    <span>  UNIT:  </span>
+                    <span>  UNIT:  </span><br />
                     @foreach (var unit in UnitList)
                     {
-                        <span> @unit / </span>
+                        <span> @unit  </span><br />
                     }
                 </div>
+
+               
             </td>
         </tr>
     </table>

@@ -161,6 +161,7 @@
     <Property Name="contact2" Type="nvarchar(max)" Nullable="true" />
     <Property Name="OrderNo" Type="int" Nullable="true" />
     <Property Name="Status" Type="nvarchar" Nullable="true" MaxLength="3" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="180" />
   </EntityType>
   <EntityType Name="crLogUnits">
     <Key>
@@ -171,6 +172,7 @@
     <Property Name="OrderNo" Type="int" Nullable="true" />
     <Property Name="Status" Type="nvarchar" Nullable="true" MaxLength="3" />
     <Property Name="crLogOwnerId" Type="int" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <EntityType Name="crLogCompanies">
     <Key>
@@ -185,6 +187,7 @@
     <Property Name="BillingName" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="BillingTIN" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="BillingStyle" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="BillingRemarks" Type="nvarchar" Nullable="true" MaxLength="180" />
   </EntityType>
   <EntityType Name="crLogTrips">
     <Key>
@@ -970,6 +973,7 @@
           <NavigationProperty Name="crLogCashSalaries" Relationship="CarRentalLogDB.crLogDrivercrLogCashSalary" FromRole="crLogDriver" ToRole="crLogCashSalary" />
           <NavigationProperty Name="crLogDriverPayments" Relationship="CarRentalLogDB.crLogDrivercrLogDriverPayment" FromRole="crLogDriver" ToRole="crLogDriverPayment" />
           <NavigationProperty Name="crLogDriverTerms" Relationship="CarRentalLogDB.crLogDrivercrLogDriverTerm" FromRole="crLogDriver" ToRole="crLogDriverTerm" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="180" />
         </EntityType>
         <EntityType Name="crLogUnit">
           <Key>
@@ -985,6 +989,7 @@
           <NavigationProperty Name="CrRptUnits" Relationship="CarRentalLogDB.crLogUnitCrRptUnit" FromRole="crLogUnit" ToRole="CrRptUnit" />
           <NavigationProperty Name="crLogOwner" Relationship="CarRentalLogDB.crLogOwnercrLogUnit" FromRole="crLogUnit" ToRole="crLogOwner" />
           <Property Name="crLogOwnerId" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
         <EntityType Name="crLogCompany">
           <Key>
@@ -1001,6 +1006,7 @@
           <Property Name="BillingName" Type="String" Nullable="true" MaxLength="80" />
           <Property Name="BillingTIN" Type="String" Nullable="true" MaxLength="80" />
           <Property Name="BillingStyle" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="BillingRemarks" Type="String" Nullable="true" MaxLength="180" />
         </EntityType>
         <EntityType Name="crLogTrip">
           <Key>
@@ -1678,6 +1684,7 @@
           <ScalarProperty Name="contact2" ColumnName="contact2" />
           <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1689,6 +1696,7 @@
           <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="crLogOwnerId" ColumnName="crLogOwnerId" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1704,6 +1712,7 @@
           <ScalarProperty Name="BillingName" ColumnName="BillingName" />
           <ScalarProperty Name="BillingTIN" ColumnName="BillingTIN" />
           <ScalarProperty Name="BillingStyle" ColumnName="BillingStyle" />
+          <ScalarProperty Name="BillingRemarks" ColumnName="BillingRemarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

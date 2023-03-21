@@ -32,6 +32,7 @@ namespace JobsV1.Areas.Personel.Models
         public string contact2 { get; set; }
         public Nullable<int> OrderNo { get; set; }
         public string Status { get; set; }
+        public string Remarks { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<crLogTrip> crLogTrips { get; set; }

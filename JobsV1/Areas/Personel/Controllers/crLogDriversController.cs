@@ -70,7 +70,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name, Contact1, Contact2, OrderNo, Status")] crLogDriver crLogDriver)
+        public ActionResult Create([Bind(Include = "Id,Name, Contact1, Contact2, OrderNo, Status, Remarks")] crLogDriver crLogDriver)
         {
             if (ModelState.IsValid && InputValidation(crLogDriver))
             {
@@ -106,7 +106,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Contact1, Contact2, OrderNo, Status")] crLogDriver crLogDriver)
+        public ActionResult Edit([Bind(Include = "Id,Name,Contact1, Contact2, OrderNo, Status, Remarks")] crLogDriver crLogDriver)
         {
             if (ModelState.IsValid && InputValidation(crLogDriver))
             {

@@ -30,6 +30,7 @@ namespace JobsV1.Areas.Personel.Models
         public string BillingName { get; set; }
         public string BillingTIN { get; set; }
         public string BillingStyle { get; set; }
+        public string BillingRemarks { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<crLogTrip> crLogTrips { get; set; }

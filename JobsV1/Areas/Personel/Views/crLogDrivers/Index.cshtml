@@ -27,6 +27,7 @@
         <th> OrderNo</th>
         <th> Status</th>
         <th></th>
+        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -52,6 +53,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
         </td>
         <td>
             @Html.ActionLink("Summary", "DriverSummary", new { id = item.Id }, null) |

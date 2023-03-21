@@ -231,7 +231,9 @@ namespace JobsV1.Areas.Personel.Controllers
 
             var cashRequests = db.crLogCashReleases
                 .Where(c => c.crLogCashStatus.OrderByDescending(d=>d.crCashReqStatusId)
-                .FirstOrDefault().crCashReqStatusId == 1).ToList();
+                .FirstOrDefault().crCashReqStatusId == 1 || 
+                       c.crLogCashStatus.OrderByDescending(d => d.crCashReqStatusId)
+                        .FirstOrDefault().crCashReqStatusId == 2).ToList();
 
             return View(cashRequests);
         }

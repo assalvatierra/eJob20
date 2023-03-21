@@ -53,7 +53,5 @@ namespace JobsV1.Areas.Personel.Models
         public virtual DbSet<crLogCashSalary> crLogCashSalaries { get; set; }
         public virtual DbSet<crLogDriverPayment> crLogDriverPayments { get; set; }
         public virtual DbSet<crLogDriverTerm> crLogDriverTerms { get; set; }
-
-        public System.Data.Entity.DbSet<JobsV1.Models.City> Cities { get; set; }
     }
 }
