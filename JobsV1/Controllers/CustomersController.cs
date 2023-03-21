@@ -660,6 +660,7 @@ namespace JobsV1.Controllers
                     defaultCustomer.Id,
                     defaultCustomer.Name,
                     defaultCustomer.Contact1,
+                    defaultCustomer.Contact2,
                     defaultCustomer.Email,
                     Company = company.Name
                 },
