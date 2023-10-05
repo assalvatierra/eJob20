@@ -12,6 +12,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Microsoft.Ajax.Utilities;
 using System.Net.Http;
+using PayPal.Api;
 
 namespace JobsV1.Controllers
 {
@@ -35,7 +36,7 @@ namespace JobsV1.Controllers
         private DateClass date = new DateClass();
 
         // GET: SalesLeads
-        public ActionResult IndexOld(int? sortid, int? leadId)
+        public ActionResult IndexOld(int? sortid, int? leadId, string search)
         {
 
             if (sortid != null)
@@ -52,7 +53,7 @@ namespace JobsV1.Controllers
             }
 
             //get salesl eads leads
-            var salesLeads = sldb.GetSalesLeads((int)sortid);
+            var salesLeads = sldb.GetSalesLeads((int)sortid, search);
 
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
@@ -71,7 +72,7 @@ namespace JobsV1.Controllers
 
         // GET: SalesLeads
         [Authorize]
-        public ActionResult Index(int? sortid, int? leadId)
+        public ActionResult Index(int? sortid, int? leadId, string search)
         {
 
             if (sortid != null)
@@ -88,7 +89,7 @@ namespace JobsV1.Controllers
             }
 
             //get sales leads list
-            var salesLeads = sldb.GetSalesLeads((int)sortid);
+            var salesLeads = sldb.GetSalesLeads((int)sortid, search);
 
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
@@ -137,7 +138,7 @@ namespace JobsV1.Controllers
             }
 
             //get sales leads list
-            var salesLeads = sldb.GetSalesLeads((int)sortid);
+            var salesLeads = sldb.GetSalesLeads((int)sortid, null);
 
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
@@ -189,7 +190,7 @@ namespace JobsV1.Controllers
                 }
             }
 
-            var salesLeads = sldb.GetSalesLeads((int)sortid);
+            var salesLeads = sldb.GetSalesLeads((int)sortid, null);
 
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
@@ -762,15 +763,15 @@ namespace JobsV1.Controllers
         [HttpPost]
         public bool PostLeadStatus(int slId, int StatusId)
         {
-            string strMsg = "";
+            string strMsg = "False";
 
-            if (db.SalesStatus.Where(s => s.SalesLeadId == slId
-                 && s.SalesStatusCodeId == StatusId 
-                 && s.SalesStatusStatusId == 1)
-                .FirstOrDefault() == null)
-            {
+            //if (db.SalesStatus.Where(s => s.SalesLeadId == slId
+            //     && s.SalesStatusCodeId == StatusId 
+            //     && s.SalesStatusStatusId == 1)
+            //    .FirstOrDefault() == null)
+            //{
                 strMsg = UpdateLeadStatus(slId, StatusId);
-            }
+            //}
 
             if (strMsg == "Success")
             {
@@ -885,7 +886,7 @@ namespace JobsV1.Controllers
             try
             {
 
-                var salesLeadCount = sldb.GetSalesLeads((int)statusId).Count();
+                var salesLeadCount = sldb.GetSalesLeads((int)statusId, null).Count();
 
                 if (salesLeadCount > 0)
                 {
@@ -908,7 +909,7 @@ namespace JobsV1.Controllers
             try
             {
 
-                var salesLeadCount = sldb.GetSalesLeads((int)statusId).Count();
+                var salesLeadCount = sldb.GetSalesLeads((int)statusId, null).Count();
 
                 if (salesLeadCount > 0)
                 {

@@ -291,7 +291,7 @@ namespace JobsV1.Controllers
         //check if supplierName have duplicate
         public bool HaveSupNameDuplicate(string supName)
         {
-            var supDuplicate = db.SupplierContacts.Where(s => supName.Contains(s.Name)).ToList().Select(s=>s.Id);
+            var supDuplicate = db.SupplierContacts.Where(s => supName == s.Name).ToList().Select(s=>s.Id);
 
             if (supDuplicate.Count() != 0)
             {
@@ -584,10 +584,14 @@ namespace JobsV1.Controllers
                     }
                     else
                     {
-                        return "Name is already been used.";
+                        if (HaveSupNameDuplicate(supContact.Name))
+                        {
+                            return "Name is already been used.";
+                        }
                     }
-
                 }
+
+                return "False";
             }
             catch
             {

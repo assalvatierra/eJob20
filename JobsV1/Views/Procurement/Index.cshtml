@@ -40,6 +40,13 @@
 <div class="view-header">
     <h2> Procurement Activities</h2>
 
+        <div style="display:flex">
+            <input id="saleslead-input-search" class="form-control" type="text" style="margin-top: 10px;"/>
+            <div class="input-group-append">
+                <button class="btn btn-default" onclick="SeachSalesLead()"  style="margin-top: 10px;"> Search </button>
+            </div>
+        </div>
+      
 </div>
 
 <div class="view-content content-min-width">
@@ -399,6 +406,13 @@
 
         function UpdateProcActivity_Edit(activityId) {
             window.location.href = "/Procurement/EditProcActivityCode/" + activityId;
+        }
+
+
+
+        function SeachSalesLead() {
+            searchString = $("#saleslead-input-search").val();
+            window.location.href = "Procurement?search=" + searchString;
         }
 
     </script>

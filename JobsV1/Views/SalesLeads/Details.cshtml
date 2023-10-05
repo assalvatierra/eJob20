@@ -44,14 +44,27 @@
 </div>
 
 <div class="view-content content-min-width">
-    <p>
-    @Html.ActionLink("Back to List", "Index")
 
-    @if (ISADMIN)
-    {
-        <span> -  Viewing as Admin</span>
-    }
-   </p>
+
+    <p>
+        Go to:
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("For Approval", "Index", new { sortid = 4 }, new { @id = "status-4", @class = "link-white" })
+        </span>
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("Approved", "Index", new { sortid = 5 }, new { @id = "status-5", @class = "link-white" })
+        </span>
+    </p>
+
+
+    <p>
+        @Html.ActionLink("Back to List", "Index")
+
+        @if (ISADMIN)
+        {
+            <span> -  Viewing as Admin</span>
+        }
+    </p>
     <table class="table table-no-border">
 
         @{
@@ -71,23 +84,23 @@
                             <br /><br /><span style="color:red; font: normal 18px arial, verdana;">@item.Price.ToString("##,###")</span>
                         }
                     </div>
-                    
+
                     @Html.Partial("_PartialLeadItemWeight", item,
                             new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", item.AssignedTo }, { "IsAdmin", ISADMIN } })
 
                     @foreach (var status in item.SalesStatus)
+                    {
+                        if (status.SalesStatusCodeId == 5)
                         {
-                            if (status.SalesStatusCodeId == 5)
-                            {
-                                <img src="~/Images/Customers/Category/Active-30.png" height="20" alt="ACCEPTED" />
-                            }
-
-                            if (status.SalesStatusCodeId == 7)
-                            {
-                                <img src="~/Images/SalesLead/close-icon.png" height="20" alt="ACCEPTED" />
-                            }
+                            <img src="~/Images/Customers/Category/Active-30.png" height="20" alt="ACCEPTED" />
                         }
-                    
+
+                        if (status.SalesStatusCodeId == 7)
+                        {
+                            <img src="~/Images/SalesLead/close-icon.png" height="20" alt="ACCEPTED" />
+                        }
+                    }
+
                 </td>
                 <td>
                     <!--Sales Lead Status-->
@@ -182,12 +195,12 @@
                         @Html.Partial("_PartialSupplierItems", item.SalesLeadItems,
                                 new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", item.AssignedTo }, { "IsAdmin", ISADMIN } })
 
-
+                        <br />
                         <!--Add Files-->
                         @Html.Partial("_PartialLeadFiles", item.SalesLeadFiles.OrderByDescending(c => c.Id).FirstOrDefault(),
                               new ViewDataDictionary { { "Id", item.Id }, { "FileCount", item.SalesLeadFiles.Count() } })
 
-
+                        <br />
                         <span style="font: status-bar; color:gray;">
                             Entered: @Html.DisplayFor(modelItem => item.EnteredBy)
                             @@ @Html.DisplayFor(modelItem => item.DtEntered)

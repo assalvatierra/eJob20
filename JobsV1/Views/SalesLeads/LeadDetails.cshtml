@@ -8,9 +8,18 @@
 
 <h2>Sales Lead: Details</h2>
 
+<p>
+    Go to:
+    <span class="label label-primary filter-link">
+        @Html.ActionLink("For Approval", "Index", new { sortid = 4 }, new { @id = "status-4", @class = "link-white" })
+    </span>
+    <span class="label label-primary filter-link">
+        @Html.ActionLink("Approved", "Index", new { sortid = 5 }, new { @id = "status-5", @class = "link-white" })
+    </span>
+</p>
 
 <p>
-    @Html.ActionLink("Back to List", "Index", new { sortid = 5 }) 
+    @Html.ActionLink("Back to List", "Index", new { sortid = 5 })
 </p>
 <table class="table">
 

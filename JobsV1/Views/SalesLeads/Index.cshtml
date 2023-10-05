@@ -38,12 +38,19 @@
 
 <div class="view-header">
     <h2>Sales Lead: List </h2>
+
+    <div style="display:flex;">
+        <input id="saleslead-input-search" class="form-control" type="text" style="margin-top: 15px;" />
+        <div class="input-group-append">
+            <button class="btn btn-primary" onclick="SeachSalesLead()" style="margin-top: 15px; margin-right: 20px;"> Search </button>
+        </div>
+    </div>
+
     <div class="header-btn-list">
         <div class="btn-group">
             @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
         </div>
     </div>
-
 </div>
 
 <div class="view-content content-min-width">
@@ -58,7 +65,7 @@
     {
 
         <p>
-            Viewing as not admin 
+            Viewing as not admin
         </p>
     }
 
@@ -127,7 +134,7 @@
                     </div>
 
                     @Html.Partial("_PartialLeadItemWeight", item,
-             new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", USER }, { "IsAdmin", ISADMIN } })
+                        new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", USER }, { "IsAdmin", ISADMIN } })
 
                     @{
                         foreach (var status in item.SalesStatus)
@@ -240,11 +247,12 @@
 
                         <!--Add Files-->
 
+                        <br />
                         @Html.Partial("_PartialLeadFiles", item.SalesLeadFiles.OrderByDescending(c => c.Id).FirstOrDefault(),
                             new ViewDataDictionary { { "Id", item.Id }, { "FileCount", item.SalesLeadFiles.Count() } })
 
 
-
+                        <br />
                         <span style="font: status-bar; color:gray;">
                             Entered: @Html.DisplayFor(modelItem => item.EnteredBy)
                             @@ @Html.DisplayFor(modelItem => item.DtEntered)
@@ -279,6 +287,7 @@
 
 @section scripts
 {
+    <script src="~/Scripts/Filters/FormInputFilter.js"></script>
     <script src="~/Scripts/Job/Scroll.js"></script>
     <script type="text/javascript" src="~/Scripts/SalesLead/SalesLead.js"></script>
     <script type="text/javascript" src="~/Scripts/SalesLead/AddSupItem.js"></script>
@@ -332,6 +341,11 @@
             window.location.href = "/SalesLeads/EditCustActivityCode/" + activityId;
         }
 
+
+        function SeachSalesLead() {
+            searchString = $("#saleslead-input-search").val();
+            window.location.href = "SalesLeads?search=" + searchString;
+        }
 
     </script>
 

@@ -33,7 +33,7 @@ namespace JobsV1.Controllers
 
         // GET: Procurement
         [Authorize]
-        public ActionResult Index(int? id, int? sortid, int? leadId)
+        public ActionResult Index(int? id, int? sortid, int? leadId, string search)
         {
             if (sortid != null)
                 Session["SLFilterID"] = (int)sortid;
@@ -49,7 +49,7 @@ namespace JobsV1.Controllers
             }
 
             //get sales leads
-            var salesLeads = sldb.GetProcurementLeads((int)sortid);
+            var salesLeads = sldb.GetProcurementLeads((int)sortid, search);
 
             ViewBag.LeadId = id;
             ViewBag.CurrentFilter = sortid;
@@ -279,11 +279,12 @@ namespace JobsV1.Controllers
                     ViewBag.Currency = new SelectList(db.Currencies, "Name", "Name");
 
                     ViewBag.Id = slId;
+                    ViewBag.ActCodeId = ActCodeId;
 
                     return View(activity);
                 }
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = slId });
             }
             catch
             {
@@ -335,6 +336,10 @@ namespace JobsV1.Controllers
                     break;
                 case 10:
                     // Status
+                    ActivityType = "Others";
+                    break;
+                case 11:
+                    // Closed
                     ActivityType = "Others";
                     break;
                 default:
@@ -393,6 +398,11 @@ namespace JobsV1.Controllers
                 case 10:
                     //Status Update   
                     ActivityStatus = 1;
+                    //AddActivityStatus(slId, "Close", "Closed");
+                    break;
+                case 11:
+                    //Status Update   
+                    ActivityStatus = 4;
                     break;
                 default:
                     //Status Update
@@ -412,6 +422,14 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                if (supplierActivity.Amount == null)
+                {
+                    supplierActivity.Amount = 0;
+                }
+
+                supplierActivity.ProjName = supplierActivity.ProjName.Truncate(80);
+
                 supplierActivity.SupplierActActionStatusId = 1; // default 
                 supplierActivity.Amount = Decimal.Parse(supplierActivity.Amount.ToString());
 

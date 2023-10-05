@@ -10,6 +10,7 @@ namespace JobsV1.Models.Class
     public class CompanyLeadsTbl
     {
         public int id { get; set; }
+        public DateTime Date { get; set; }
         public string Desc { get; set; }
         public string Remarks { get; set; }
         public string status { get; set; }
@@ -74,7 +75,8 @@ namespace JobsV1.Models.Class
                         id = lead.Id,
                         Desc = lead.Details,
                         Remarks = lead.Remarks,
-                        status = getStatus(lead.Id)
+                        status = getStatus(lead.Id),
+                        Date = lead.Date
                     });
                 }
 
@@ -193,10 +195,20 @@ namespace JobsV1.Models.Class
         }
 
 
-        public List<SalesLead> GetSalesLeads(int sortId )
+        public List<SalesLead> GetSalesLeads(int sortId, string search)
         {
 
             var salesLeads = new List<SalesLead>();
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                salesLeads = salesLeads = db.SalesLeads
+                    .Where(s => s.SalesLeadCompanies.FirstOrDefault().CustEntMain.Name.Contains(search) ||
+                              s.Details.Contains(search) || s.SalesCode == search)
+                                 .ToList();
+
+                return salesLeads;
+            }
 
             switch (sortId)
             {
@@ -229,7 +241,8 @@ namespace JobsV1.Models.Class
                 case 5:
                     // Approved
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4 && ss.SalesStatusStatusId == 1)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4 && ss.SalesStatusStatusId == 1
+                                        && s.Date.Year > 2021)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 5 ) 
                                 .ToList();
                     break;
@@ -272,10 +285,20 @@ namespace JobsV1.Models.Class
         }
 
 
-        public List<SalesLead> GetProcurementLeads(int sortId)
+        public List<SalesLead> GetProcurementLeads(int sortId, string search)
         {
 
             var salesLeads = new List<SalesLead>();
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                salesLeads = salesLeads = db.SalesLeads
+                    .Where(s=>s.SalesLeadCompanies.FirstOrDefault().CustEntMain.Name.Contains(search) || 
+                              s.Details.Contains(search) || s.SalesCode == search )
+                                 .ToList();
+
+                return salesLeads;
+            }
 
             switch (sortId)
             {
@@ -401,7 +424,7 @@ namespace JobsV1.Models.Class
         public List<cSalesLead> GetcSalesLeads(int sortId)
         {
 
-            var salesLeads = GetSalesLeads(sortId);
+            var salesLeads = GetSalesLeads(sortId, null);
 
 
             List<cSalesLead> cSalesLeads = new List<cSalesLead>();
@@ -465,7 +488,7 @@ namespace JobsV1.Models.Class
         public List<cSalesLead> GetcProcLeads(int sortId)
         {
 
-            var salesLeads = GetProcurementLeads(sortId);
+            var salesLeads = GetProcurementLeads(sortId, null);
 
 
             List<cSalesLead> cSalesLeads = new List<cSalesLead>();

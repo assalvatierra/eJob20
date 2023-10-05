@@ -39,10 +39,12 @@ namespace JobsV1.Models
         public List<string> ContactName { get; set; }
         public List<string> ContactPosition { get; set; }
         public List<string> ContactMobileEmail { get; set; }
+        public List<string> ContactRemarks { get; set; }
         public string AssignedTo { get; set; }
         public string Status { get; set; }
         public string Exclusive { get; set; }
         public bool IsAssigned { get; set; }
+        public DateTime? LastUpdate { get; set; }
     }
 
     public class cCompanyContact
@@ -72,7 +74,7 @@ namespace JobsV1.Models
             try
             {
 
-            List<CompanyList> custList = new List<CompanyList>();
+                List<CompanyList> custList = new List<CompanyList>();
 
                 string sql = "SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) " +
                      "FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), " +
@@ -91,34 +93,33 @@ namespace JobsV1.Models
                 {
                     sql += " WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE' AND AssignedTo='" + user + "'))";
                 }
-                 //"WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE')) ";
                  
-            if (status != null)
-            {
-
-                if (status == "ALL")
+                if (status != null)
                 {
+
+                    if (status == "ALL")
+                    {
+
+                    }
+                    else
+                    {
+                        sql += " AND com.Status = '" + status + "' ";
+                    }
 
                 }
                 else
                 {
-                    sql += " AND com.Status = '" + status + "' ";
+                    //status is null
+                    sql += " AND com.Status != 'INC' OR com.Status != 'BAD' ";
                 }
 
-            }
-            else
-            {
-                //status is null
-                sql += " AND com.Status != 'INC' OR com.Status != 'BAD' ";
-            }
 
-
-            //handle search by name filter
-            if (search != null || search != "")
-            {
-                sql += " AND ";
-                //search using the search by category
-                switch (searchCat)
+                //handle search by name filter
+                if (search != null || search != "")
+                {
+                    sql += " AND ";
+                    //search using the search by category
+                    switch (searchCat)
                     {
                         case "Company":
                             sql += " com.Name Like '%" + search + "%' ";
@@ -139,12 +140,12 @@ namespace JobsV1.Models
                             sql += " ";
                             break;
                     }
-            }
+                }
 
-            if (sort != null)
-            {
-                switch (sort)
+                if (sort != null)
                 {
+                    switch (sort)
+                    {
                     //add more options for sorting
                     case "NAME":
                         sql += " ORDER BY com.Name ASC;";
@@ -169,19 +170,25 @@ namespace JobsV1.Models
                     default:
                         sql += " ORDER BY com.Name ASC;";
                         break;
-                } 
-            }
-            else
-            {
-                //terminator
-                sql += " ORDER BY com.Name ASC;";
+                    } 
+                }
+                else
+                {
+                    //terminator
+                    sql += " ORDER BY com.Name ASC;";
 
-            }
+                }
 
-            custList = db.Database.SqlQuery<CompanyList>(sql).ToList();
+                custList = db.Database.SqlQuery<CompanyList>(sql).ToList();
             
+                var sortedCompanyList = getCompanyList(custList, user);
 
-            return getCompanyList(custList, user);
+                if (sort == "UPDATE")
+                {
+                    sortedCompanyList = sortedCompanyList.OrderByDescending(x => x.LastUpdate).ToList();
+                }
+
+                return sortedCompanyList;
 
             }
             catch(Exception ex)
@@ -311,6 +318,7 @@ namespace JobsV1.Models
                 List<string> contactNames = new List<string>(); 
                 List<string> contactPositions = new List<string>(); 
                 List<string> contactNumberEmail = new List<string>();
+                List<string> contactRemarks = new List<string>();
                 var isAssigned = false;
                 
                 if (user == com.AssignedTo || user == "admin")
@@ -336,6 +344,11 @@ namespace JobsV1.Models
                             temp = items.Customer.Contact1;
                         }
                         contactNumberEmail.Add(temp + " <br> " + items.Customer.Email);
+
+                        if (items.Customer.Remarks != null)
+                        {
+                            contactRemarks.Add(items.Customer.Remarks);
+                        }
                     }
                 }
 
@@ -354,8 +367,11 @@ namespace JobsV1.Models
                     ContactName = contactNames,
                     ContactPosition = contactPositions,
                     ContactMobileEmail = contactNumberEmail,
+                    ContactRemarks = contactNumberEmail,
                     Exclusive = com.Exclusive,
-                    IsAssigned = isAssigned
+                    IsAssigned = isAssigned,
+                    LastUpdate = GetCompanyActivityLastUpdate(com.Id)
+                   
                 });
 
                 prevId = com.Id;
@@ -378,11 +394,24 @@ namespace JobsV1.Models
             {
                 return input;
             }
-
         }
-        
+
+        private DateTime? GetCompanyActivityLastUpdate(int companyId)
+        {
+            var companyActs = db.CustEntActivities.Where(c => c.CustEntMainId == companyId).OrderBy(c=>c.Date).ToList();
+
+            if (companyActs.Count > 0)
+            {
+                var lastActivity = companyActs.Last().Date;
+
+                return lastActivity;
+            }
+
+            return null;
+        }
+
         #endregion
-        
-        
+
+
     }
 }

@@ -50,7 +50,8 @@
                 @Html.DisplayFor(modelItem => item.ProjectName)
             </td>
             <td>
-                <a style="cursor:pointer;" onclick="SearchCodeActivities('@item.SalesCode')">  @Html.DisplayFor(modelItem => item.SalesCode) </a>
+                @*<a style="cursor:pointer;" onclick="SearchCodeActivities('@item.SalesCode')">  @Html.DisplayFor(modelItem => item.SalesCode) </a>*@
+                @Html.ActionLink(item.SalesCode, "IndexActivity", "Activities", new { code = item.SalesCode }, null)
             </td>
             <td>
                 @if (item.Amount != null)

@@ -39,7 +39,7 @@ namespace JobsV1.Controllers
             if (id != null)
             {
                 var custEntActivities = db.CustEntActivities.Where(c=>c.CustEntMainId == id).Include(c => c.CustEntMain);
-                ViewBag.companyName = db.CustEntMains.Find(id).Name;
+               
                 ViewBag.Id = id;
 
                 foreach (var act in custEntActivities)
@@ -54,6 +54,7 @@ namespace JobsV1.Controllers
 
             return View(custEntActivitiesList);
         }
+
 
         // GET: CustEntActivities/Details/5
         public ActionResult Details(int? id)

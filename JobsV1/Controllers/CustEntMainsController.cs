@@ -54,8 +54,8 @@ namespace JobsV1.Controllers
         {
             ViewBag.IsAdmin = User.IsInRole("Admin");
 
-            var companies = db.CustEntMains.ToList();
-            return View(companies);
+            //var companies = db.CustEntMains.ToList();
+            return View();
         }
 
         //Ajax - Table Result 
@@ -72,12 +72,6 @@ namespace JobsV1.Controllers
                 List<cCompanyList> custList = new List<cCompanyList>();
                 var user = HttpContext.User.Identity.Name;
 
-                if(SITECONFIG == "AutoCare")
-                {
-                    custList = comdb.generateCompanyList(search, searchCat, status, sort, "admin");
-                }
-                else
-                {
                     //handle user roles
                     if (User.IsInRole("Admin"))
                     {
@@ -87,8 +81,7 @@ namespace JobsV1.Controllers
                     {
                         custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
                     }
-                }
-
+               
                 //custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
 
                 //convert list to json object

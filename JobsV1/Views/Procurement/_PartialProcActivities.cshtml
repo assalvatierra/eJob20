@@ -22,12 +22,14 @@
                 var amount = tmpAct.Amount ?? 0;
                 if (tmpAct.SupplierActActionStatusId == 1)
                 {
+                    var amountstr = amount == 0 ? "" : " - " + @amount.ToString("N0") + @tmpAct.Currency;
+
                     <span style="color:red;font-weight:800;">! </span>
                     <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
                             alt=@tmpAct.SupplierActActionCode.IconPath height="16"
                             title=@tmpAct.SupplierActActionCode.IconPath />
 
-                    <span style="color:maroon;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency - @tmpAct.Type | @tmpAct.Remarks </span>
+                    <span style="color:maroon;"> @tmpAct.SupplierActActionCode.Name @amountstr - @tmpAct.Type | @tmpAct.Remarks </span>
                     <span style="font:status-bar;color:darkgray;padding-left:8px;">
                         @tmpAct.DtActivity.ToString("MMM-dd-yyyy")
                         &nbsp;By: @tmpAct.Assigned.Split('@')[0]

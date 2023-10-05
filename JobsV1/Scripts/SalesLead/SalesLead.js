@@ -194,12 +194,8 @@ function UpdateLeadStatus(e, leadId, statusId) {
         //on update success
         $(e).parent().removeClass("btn-primary");
         $(e).parent().addClass("btn-success");
-        if (statusId == STATUS_APPROVED || statusId == STATUS_AWARDED || statusId == STATUS_QUOTATION
-            || statusId == STATUS_REJECTED || statusId == STATUS_REJECTED || statusId == STATUS_CLOSE
-            || statusId == STATUS_APPROVED_OWNER || statusId == STATUS_APPROVED_CHCKER) {
-            window.location.reload(false);
-        }
-        //window.location.reload(false);
+      
+
     }).fail((result) => {
         //on update failed
         //console.log("On Fail");

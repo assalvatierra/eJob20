@@ -59,7 +59,7 @@
                                 @if (supItem.SupplierItemRate.ItemRate != null)
 
                                 {
-                                    @Decimal.Parse(supItem.SupplierItemRate.ItemRate).ToString("##,###") <span> / </span>
+                                    @supItem.SupplierItemRate.ItemRate<span> / </span>
                                 }
 
                                 @supItem.SupplierItemRate.SupplierUnit.Unit  -

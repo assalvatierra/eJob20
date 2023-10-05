@@ -81,6 +81,60 @@ namespace JobsV1.Controllers
             }
         }
 
+
+        // GET: IndexActivity
+        public ActionResult IndexActivity(string code)
+        {
+            if (code != null)
+            {
+                var custEntActivities = db.CustEntActivities.Where(c => c.SalesCode == code).Include(c => c.CustEntMain);
+                var activities = custEntActivities.OrderByDescending(c => c.Date).ToList();
+                var _tempActivities = new List<CustEntActivity>();
+
+                foreach (var act in activities)
+                {
+                    act.Date =  DateTime.Parse( act.Date.ToShortDateString());
+                    _tempActivities.Add(act);
+                }
+
+                List<CustEntActivity> GroupActivities = new List<CustEntActivity>();
+                foreach (var act in _tempActivities.GroupBy(c=> c.Date ))
+                {
+                    CustEntActivity tempAct = act.FirstOrDefault();
+                    string tempRemarks = "";
+                    foreach (var groupedAct in act )
+                    {
+                        tempRemarks += groupedAct.Remarks + " " + Environment.NewLine;
+
+                    }
+                    tempAct.Remarks = tempRemarks;
+
+                    GroupActivities.Add(tempAct);
+                }
+
+                ViewBag.code = code;
+                ViewBag.SalesLeadId = GetSalesLeadId(activities);
+                return View(GroupActivities);
+            }
+
+
+           
+            return View(new List<CustEntActivity>());
+        }
+
+        private int GetSalesLeadId(List<CustEntActivity> activities)
+        {
+            if(activities.Count > 0){
+                if (activities.First().SalesLeadId != null)
+                {
+                    return (int)activities.First().SalesLeadId;
+                }
+            }
+
+            return 0;
+        }
+
+
         #region Performance 
         public ViewResult Performance(string sdate, string edate)
         {

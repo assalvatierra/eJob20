@@ -6,6 +6,12 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
+@*<style> 
+    .container {
+        margin-left:25px;
+    }
+</style>*@
+
 <div class="view-header">
 
     <h2>Companies </h2>
@@ -35,9 +41,10 @@
                     Sort: &nbsp;
                 </button>
                 <button id="sort-Name" class="btn btn-default status-link sort-link status-active" onclick="SortBy(this, 'NAME')"> Name </button>
-                <button class="btn btn-default status-link sort-link"  onclick="SortBy(this, 'CITY')">     City   </button>
-                <button class="btn btn-default status-link sort-link"  onclick="SortBy(this, 'CATEGORY')"> Category  </button>
-                <button class="btn btn-default status-link sort-link " onclick="SortBy(this, 'STATUS')">  Status  </button>
+                <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'CITY')">     City   </button>
+                <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'CATEGORY')"> Category  </button>
+                <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'STATUS')">   Status  </button>
+                <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'UPDATE')">   Last Update  </button>
             </div>
         </div>
 
@@ -67,6 +74,9 @@
     <table class="js-sort-table table" id="company-Table" data-sortable>
         <thead>
             <tr>
+                <th>
+                    
+                </th>
                 <th class="col-md-1">
                     Name
                 </th>
@@ -85,6 +95,9 @@
                 <th class="col-md-1" style="min-width:230px">
                     Contact Details
                 </th>
+                <th class="col-md-1" style="white-space:nowrap">
+                    Last Update
+                </th>
                 <th class="col-md-1">
                     AssignedTo
                 </th>
@@ -94,7 +107,7 @@
         <tbody>
             <tr id="table-row-loading">
                 <td colspan="4"> </td>
-                <td colspan="4">
+                <td colspan="5">
                     <br />
                     <img src="~/Images/GIF/loading.gif" height="25" />
                     Loading Companies, please wait...
