@@ -2,7 +2,6 @@
 /*
  * Filter Numbers only input 
  */
-$(function () {
     $("input[type='number']").keydown(function (event) {
 
         if (event.shiftKey == true) {
@@ -19,8 +18,6 @@ $(function () {
             event.preventDefault();
 
     });
-});
-
 
 /*
  * Dropdown Search
@@ -31,3 +28,9 @@ $(function () {
 function InitDropdownSearch() {
     $('.dropdown-search').select2();
 }
+
+
+//Add class dropdown-search in dropdown inputs
+$(document).ready(function () {
+    $('.dropdown-search').select2();
+});

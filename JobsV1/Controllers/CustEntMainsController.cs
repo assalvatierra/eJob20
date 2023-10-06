@@ -354,29 +354,29 @@ namespace JobsV1.Controllers
                 if (CompanyCreateValidation(custEntMain))
                 {
 
-                    //var DuplicateCount = db.CustEntMains.Where(s => custEntMain.Name.Contains(s.Name)).ToList().Count();
+                    var DuplicateCount = db.CustEntMains.Where(s => custEntMain.Name.Substring(0,10).ToLower() == s.Name.Substring(0, 10).ToLower()).ToList().Count();
 
-                    //if (false)
-                    //{
+                    if (DuplicateCount == 0)
+                    {
                         //create company
                         db.CustEntMains.Add(custEntMain);
                         db.SaveChanges();
 
                         //update company code
                         UpdateCompanyCode(custEntMain.Id);
-                    //}
-                    //else
-                    //{
-                    //    ViewBag.Msg = "Customer Name already exist.";
+                    }
+                    else
+                    {
+                        ViewBag.Msg = "Name already exist.";
 
-                    //    ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
-                    //    ViewBag.Status = new SelectList(StatusList, "value", "text");
-                    //    ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
-                    //    ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
-                    //    ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name");
+                        ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
+                        ViewBag.Status = new SelectList(StatusList, "value", "text");
+                        ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+                        ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+                        ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name");
 
-                    //    return View(custEntMain);
-                    //}
+                        return View(custEntMain);
+                    }
 
                     if (id != null)
                     {
@@ -521,13 +521,16 @@ namespace JobsV1.Controllers
                     db.SaveChanges();
                     return RedirectToAction("Details", new { id = custEntMain.Id });
                 }
+
             }
+
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.Status = new SelectList(StatusList, "value", "text",custEntMain.Status);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
             ViewBag.isOwner = User.IsInRole("Owner");
+
             return View(custEntMain);
         }
 
@@ -602,8 +605,20 @@ namespace JobsV1.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             CustEntMain custEntMain = db.CustEntMains.Find(id);
+
+
+            CustEntAssign custEntAssign = db.CustEntAssigns.Where(c=>c.CustEntMainId == custEntMain.Id).FirstOrDefault();
+
+            if (custEntAssign != null)
+            {
+                db.CustEntAssigns.Remove(custEntAssign);
+                db.SaveChanges();
+            }
+
+
             db.CustEntMains.Remove(custEntMain);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

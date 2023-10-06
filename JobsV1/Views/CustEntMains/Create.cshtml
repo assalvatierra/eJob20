@@ -11,119 +11,120 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Company</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @maxlength = 60 } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>Company</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @maxlength = 60 } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                <p id="model-name-msg" style="display:none;color:red;"> </p>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <b class="col-md-2 control-label"> Code </b>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @maxlength = 30 } })
-            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <b class="col-md-2 control-label"> Code </b>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @maxlength = 30 } })
+                @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @maxlength = 180 } })
-            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @maxlength = 180 } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <b class="col-md-2 control-label"> Landline </b>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Contact1, new { htmlAttributes = new { @class = "form-control", @maxlength = 80 } })
-            @Html.ValidationMessageFor(model => model.Contact1, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <b class="col-md-2 control-label"> Landline </b>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Contact1, new { htmlAttributes = new { @class = "form-control", @maxlength = 80 } })
+                @Html.ValidationMessageFor(model => model.Contact1, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <b class="col-md-2 control-label"> Fax </b>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Contact2, new { htmlAttributes = new { @class = "form-control", @maxlength = 80 } })
-            @Html.ValidationMessageFor(model => model.Contact2, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <b class="col-md-2 control-label"> Fax </b>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Contact2, new { htmlAttributes = new { @class = "form-control", @maxlength = 80 } })
+                @Html.ValidationMessageFor(model => model.Contact2, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <b class="col-md-2 control-label"> Mobile </b>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control", @maxlength = 80 } })
-            @Html.ValidationMessageFor(model => model.Contact2, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <b class="col-md-2 control-label"> Mobile </b>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control", @maxlength = 80 } })
+                @Html.ValidationMessageFor(model => model.Contact2, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Website, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control", @maxlength = 180 } })
-            @Html.ValidationMessageFor(model => model.Contact2, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Website, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control", @maxlength = 180 } })
+                @Html.ValidationMessageFor(model => model.Contact2, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group" style="display:none;">
-        @Html.LabelFor(model => model.iconPath, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.iconPath, new { htmlAttributes = new { @class = "form-control", @maxlength = 150 } })
-            @Html.ValidationMessageFor(model => model.iconPath, "", new { @class = "text-danger" })
+        <div class="form-group" style="display:none;">
+            @Html.LabelFor(model => model.iconPath, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.iconPath, new { htmlAttributes = new { @class = "form-control", @maxlength = 150 } })
+                @Html.ValidationMessageFor(model => model.iconPath, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("Status", null, htmlAttributes: new { @class = "form-control", @id = "cityId" })
-            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Status", null, htmlAttributes: new { @class = "form-control", @id = "cityId" })
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <b class="control-label col-md-2"> City </b>
-        <div class="col-md-10">
-            @Html.DropDownList("CityId", null, htmlAttributes: new { @class = "form-control", @id = "cityId" })
-            @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <b class="control-label col-md-2"> City </b>
+            <div class="col-md-10">
+                @Html.DropDownList("CityId", null, htmlAttributes: new { @class = "form-control dropdown-search select2", @id = "cityId" })
+                @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.AssignedTo, "AssignedTo", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("AssignedTo", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.AssignedTo, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.AssignedTo, "AssignedTo", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("AssignedTo", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AssignedTo, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Exclusive, "Exclusivity", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("Exclusive", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Exclusive, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Exclusive, "Exclusivity", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Exclusive", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Exclusive, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group" id="Account-Type-Input">
-        @Html.LabelFor(model => model.CustEntAccountType, "Account", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("CustEntAccountTypeId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.CustEntAccountType, "", new { @class = "text-danger" })
+        <div class="form-group" id="Account-Type-Input">
+            @Html.LabelFor(model => model.CustEntAccountType, "Account", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CustEntAccountTypeId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CustEntAccountType, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
         </div>
     </div>
-</div>
 }
 
 <div>
@@ -133,21 +134,36 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+
+
+    <link href="~/Content/select2.min.css" rel="stylesheet" />
+    <script src="~/Scripts/BootstrapSelect/select2.min.js"></script>
+    <script src="~/Scripts/Filters/FormInputFilter.js"></script>
+    <script>
+        $(document).ready(new function () {
+
+            var msg = "@ViewBag.Msg";
+
+            if (msg != "") {
+                $("#model-name-msg").show();
+                $("#model-name-msg").text("@ViewBag.Msg");
+            }
+
+            if ('@isOwner' == 'True') {
+                $("#Account-Type-Input").show();
+            } else {
+                $("#Account-Type-Input").hide();
+            }
+
+            $('.dropdown-search').select2();
+            
+        });
+
+
+        $('input[name="Name"]').on('change keyup paste', function (e) {
+            $("#model-name-msg").hide();
+        });
+
+    </script>
 }
-
-
-<script src="~/Scripts/jquery-3.3.1.js"> </script>
-<script>
-    $(document).ready(new function () {
-        var msg ="@ViewBag.Msg";
-        if (msg != "") {
-            alert("Company Name already exist.");
-        }
-
-        if ('@isOwner' == 'True') {
-            $("#Account-Type-Input").show();
-        } else {
-            $("#Account-Type-Input").hide();
-        }
-    });
-</script>

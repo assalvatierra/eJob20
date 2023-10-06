@@ -22,6 +22,7 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @maxlength = 60 } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                <p id="model-name-msg" style="display:none;color:red;"> </p>
             </div>
         </div>
 
@@ -91,7 +92,7 @@
         <div class="form-group">
             <b class="control-label col-md-2"> City </b>
             <div class="col-md-10">
-                @Html.DropDownList("CityId", null, htmlAttributes: new { @class = "form-control", @id = "cityId" })
+                @Html.DropDownList("CityId", null, htmlAttributes: new { @class = "form-control dropdown-search", @id = "cityId" })
                 @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -144,8 +145,10 @@
 <script>
     $(document).ready(new function () {
         var msg ="@ViewBag.Msg";
+       
         if (msg != "") {
-            alert("Company Name already exist.");
+            $("#model-name-msg").show();
+            $("#model-name-msg").text("@ViewBag.Msg");
         }
 
 
@@ -154,5 +157,13 @@
         } else {
             $("#Account-Type-Input").hide();
         }
+
+        $('.dropdown-search').select2();
     });
+
+
+    $('input[name="Name"]').on('change keyup paste', function (e) {
+        $("#model-name-msg").hide();
+    });
+
 </script>

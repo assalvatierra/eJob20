@@ -174,14 +174,15 @@ function ajax_loadContent() {
         }
     })
 
-    //console.log(result);
+    console.log(result);
 }
 
 //display simple/limited information 
 //of suppliers
 function LoadTable(data) {
-    
-    //console.log(data);
+
+    console.log("Table data");
+    console.log(data);
 
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
@@ -199,9 +200,13 @@ function LoadTable(data) {
     var prevId = 0;
     var City = "-";
     var Assigned = "-";
+    var LastUpdate = " ";
+
+    var count = 0;
 
     //populate table content
     for (var x = 0; x < temp.length; x++) {
+        
         Address = temp[x]["Address"] != null ? temp[x]["Address"] : " ";
         company = temp[x]["Remarks"] != null ? temp[x]["Remarks"] : " ";
         website = temp[x]["Website"] != null ? temp[x]["Website"] : " ";
@@ -210,6 +215,7 @@ function LoadTable(data) {
         mobile = temp[x]["Mobile"] != null ? temp[x]["Mobile"] : " ";
         City = temp[x]["City"] != null ? temp[x]["City"] : " ";
         Assigned = temp[x]["AssignedTo"] != null ? temp[x]["AssignedTo"] : " ";
+        LastUpdate = temp[x]["LastUpdate"] != null ? moment(getFormattedDate(temp[x]["LastUpdate"])).format("MMM DD YYYY ") : " ";
 
         var categories = temp[x]["Category"] != null ? temp[x]["Category"] : " ";
         var Status = temp[x]["Status"] != null ? temp[x]["Status"] : " ";
@@ -221,12 +227,16 @@ function LoadTable(data) {
         var ContactMobileEmail = temp[x]["ContactMobileEmail"] != null ? temp[x]["ContactMobileEmail"] : " ";
         var Exclusive = temp[x]["Exclusive"] != null ? temp[x]["Exclusive"] : "PUBLIC";
         var IsAssigned = temp[x]["IsAssigned"] != null ? temp[x]["IsAssigned"] : " ";
+        var ContactRemarks = temp[x]["ContactRemarks"] != null ? temp[x]["ContactRemarks"] : " ";
 
         if (website.length > 5) {
             website = "<a href='https://" + website + "' > <img src='/Images/Icons/icons-website.png' width='25' s> </a>";
         }
+
+        count = count + 1;
         
         content = "<tr>";
+        content += "<td>" + count + "</td>"
         content += "<td class='table-name-col'><b style='font-weight:700;'>"
                 +  "<a  href='/CustEntMains/Details/" + temp[x]["Id"] + "'> " + temp[x]["Name"] + "</a></b></td>";
         content += "<td>" + City + "</td>";
@@ -251,7 +261,7 @@ function LoadTable(data) {
        
         content += "</td>";
 
-         //Contact Person Email and Number
+        //Contact Person Email and Number
         content += "<td>";
         for (var contact = 0; contact < ContactMobileEmail.length; contact++) {
             if (typeof ContactMobileEmail[contact] === "undefined") {
@@ -261,7 +271,9 @@ function LoadTable(data) {
                 content += " " + contactdetails + " <br>";
             }
         }
+
         content += "</td>";
+        content += "<td>" + LastUpdate + "</td>"
         content += "<td>" + Assigned + "</td>";
 
         //  EXCLUSIVE permissions to DETAILS and HISTORY 
@@ -387,4 +399,25 @@ function CompanySearch(){
     LoadingAnimation();
 
     ajax_loadContent();
+}
+
+
+function getFormattedDate(date) {
+    var start = new Date(date);
+
+    let year = start.getFullYear();
+    let month = (1 + start.getMonth()).toString().padStart(2, '0');
+    let day = start.getDate().toString().padStart(2, '0');
+
+    const dateFormatted = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+    }).format(start);
+
+    //console.log(dateFormatted); // "09/30/2020"
+
+    var formattedDate = moment(dateFormatted).format('MMM DD YYYY');
+
+    return formattedDate;
 }
