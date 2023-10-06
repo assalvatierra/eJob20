@@ -4,6 +4,8 @@ using System.Linq;
 using System.Data.Entity;
 using System.Web;
 using JobsV1.Models;
+using System.Threading.Tasks;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 namespace JobsV1.Models.Class
 {
@@ -195,7 +197,7 @@ namespace JobsV1.Models.Class
         }
 
 
-        public List<SalesLead> GetSalesLeads(int sortId, string search)
+        public async Task<List<SalesLead>> GetSalesLeads(int sortId, string search)
         {
 
             var salesLeads = new List<SalesLead>();
@@ -213,71 +215,87 @@ namespace JobsV1.Models.Class
             switch (sortId)
             {
                 case 1:// Inquiry
-                    salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 0 && ss.SalesStatusStatusId == 1)
-                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo < 3 )
-                                .ToList();
+                    salesLeads = await db.SalesLeads
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 0 && ss.SalesStatusStatusId == 1
+                                 && ss.SalesLead.Date > DbFunctions.AddMonths(DateTime.Now, -12) )
+                                .OrderByDescending(ss=>ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo < 3 )
+                                .OrderByDescending(s=>s.Date)
+                                .ToListAsync();
                     break;
                 case 2:// Sales
-                    salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 1 && ss.SalesStatusStatusId == 1)
-                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 2 )
-                                .ToList();
+                    //salesLeads = await db.SalesLeads
+                    //            .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 1 && ss.SalesStatusStatusId == 1
+                    //             && ss.SalesLead.Date > DbFunctions.AddMonths(DateTime.Now, -12))
+                    //            .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 2 )
+                    //            .ToListAsync();
+
+                    salesLeads = await db.SalesLeads
+                               .Where(s => s.SalesStatus.OrderByDescending(c => c.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 2
+                                && s.SalesStatus.OrderByDescending(c => c.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusStatusId == 1
+                                && s.Date > DbFunctions.AddMonths(DateTime.Now, -12))
+                                .OrderByDescending(s => s.Date)
+                               .ToListAsync();
                     break;
                 case 3:// Procurement
-                    salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 2 && ss.SalesStatusStatusId == 1)
-                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 3 )
-                                .ToList();
+                    salesLeads = await db.SalesLeads
+                                .Where(s => s.SalesStatus.OrderByDescending(c=>c.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 3
+                                 && s.SalesStatus.OrderByDescending(c => c.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusStatusId == 1
+                                 && s.Date > DbFunctions.AddMonths(DateTime.Now, -12))
+                                .OrderByDescending(s => s.Date)
+                                .ToListAsync();
+
+                    //salesLeads = db.SalesLeads
+                    //            .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 2 && ss.SalesStatusStatusId == 1)
+                    //            .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 3)
+                    //            .ToList();
                     break;
 
                 case 4:
                     // For Approval
-                    salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 3 && ss.SalesStatusStatusId == 1)
-                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 4 )
-                                .ToList();
+                    //salesLeads = await db.SalesLeads
+                    //            .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo == 4 && ss.SalesStatusStatusId == 1
+                    //             && ss.SalesLead.Date > DbFunctions.AddMonths(DateTime.Now, -12))
+                    //            .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 4)
+                    //            .OrderBy(s => s.Date)
+                    //            .ToListAsync();
+
+                    salesLeads = await db.SalesLeads
+                               .Where(s => s.SalesStatus.OrderByDescending(c => c.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 4
+                                && s.SalesStatus.OrderByDescending(c => c.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusStatusId == 1
+                                && s.Date > DbFunctions.AddMonths(DateTime.Now, -12))
+                               .OrderByDescending(s => s.Date)
+                               .ToListAsync();
                     break;
                 case 5:
                     // Approved
-                    salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4 && ss.SalesStatusStatusId == 1
-                                        && s.Date.Year > 2021)
-                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 5 ) 
-                                .ToList();
+                    //salesLeads = await db.SalesLeads
+                    //            .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId == 5 && ss.SalesStatusStatusId == 1
+                    //                    && ss.SalesLead.Date > DbFunctions.AddMonths(DateTime.Now, -12))
+                    //            .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 5)
+                    //            .OrderBy(s => s.Date)
+                    //            .ToListAsync();
+
+                    salesLeads = await db.SalesLeads
+                          .Where(s => s.SalesStatus.OrderByDescending(c => c.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 5
+                           && s.SalesStatus.OrderByDescending(c => c.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusStatusId == 1
+                           && s.Date > DbFunctions.AddMonths(DateTime.Now, -12))
+                          .OrderByDescending(s => s.Date)
+                          .ToListAsync();
                     break;
-                case 6:
-                    // Awarded
-                    salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 5 && ss.SalesStatusStatusId == 1)
-                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 6) 
-                                .ToList();
-                    break;
-                case 7:
-                    // Rejected 
-                    salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 6 && ss.SalesStatusStatusId == 1)
-                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 7)
-                                .ToList();
-                    break;
-                case 8:
-                    // Closed 
-                    salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 7 && ss.SalesStatusStatusId == 1)
-                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 8)
-                                .ToList();
-                    break;
+               
                 case 9:
                     // All
-                    salesLeads = db.SalesLeads
-                                 .ToList();
+                    salesLeads = await db.SalesLeads
+                                 .ToListAsync();
                     break;
                 default:
                     // new Leads
-                    salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 0)
-                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo < 3)
-                                .ToList();
+                    salesLeads = await db.SalesLeads
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo == sortId
+                                    && ss.SalesLead.Date > DbFunctions.AddMonths(DateTime.Now, -12))
+                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == sortId)
+                                .OrderByDescending(s => s.Date)
+                                .ToListAsync();
                     break;
             }
 
@@ -321,14 +339,16 @@ namespace JobsV1.Models.Class
                 case 5:
                     // Approved
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4 && ss.SalesStatusStatusId == 1)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4 && ss.SalesStatusStatusId == 1
+                                        && ss.SalesLead.Date > DbFunctions.AddMonths(DateTime.Now, -12))
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 5)
                                 .ToList();
                     break;
                 case 6:
                     // Awarded
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 5 && ss.SalesStatusStatusId == 1)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 5 && ss.SalesStatusStatusId == 1
+                                        && ss.SalesLead.Date > DbFunctions.AddMonths(DateTime.Now, -12))
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 6)
                                 .ToList();
                     break;
@@ -421,10 +441,10 @@ namespace JobsV1.Models.Class
         }
 
 
-        public List<cSalesLead> GetcSalesLeads(int sortId)
+        public async Task<List<cSalesLead>> GetcSalesLeads(int sortId)
         {
 
-            var salesLeads = GetSalesLeads(sortId, null);
+            var salesLeads = await GetSalesLeads(sortId, null);
 
 
             List<cSalesLead> cSalesLeads = new List<cSalesLead>();
@@ -483,7 +503,31 @@ namespace JobsV1.Models.Class
             return cSalesLeads;
         }
 
+        public int GetLeadStatusCount(int statusId)
+        {
+            var salesLeadscount = 0;
+            switch (statusId)
+            {
+                case 1:// Inquiry
+                    salesLeadscount = db.SalesLeads
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 0 && ss.SalesStatusStatusId == 1
+                                 && ss.SalesLead.Date > DbFunctions.AddMonths(DateTime.Now, -12))
+                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo < 3)
+                                .OrderBy(s => s.Date).Count();
+                    break;
+                default:// Sales
 
+                    salesLeadscount = db.SalesLeads
+                               .Where(s => s.SalesStatus.OrderByDescending(c => c.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == statusId
+                                && s.SalesStatus.OrderByDescending(c => c.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusStatusId == 1
+                                && s.Date > DbFunctions.AddMonths(DateTime.Now, -12))
+                                .OrderBy(s => s.Date).Count();
+                    break;
+            }
+
+            return salesLeadscount;
+
+        }
 
         public List<cSalesLead> GetcProcLeads(int sortId)
         {

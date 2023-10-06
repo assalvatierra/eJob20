@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Microsoft.Ajax.Utilities;
 using System.Net.Http;
 using PayPal.Api;
+using System.Threading.Tasks;
 
 namespace JobsV1.Controllers
 {
@@ -65,14 +66,14 @@ namespace JobsV1.Controllers
             //for adding new item 
             ViewBag.InvItems = db.InvItems.ToList();
 
-            return View(salesLeads.OrderByDescending(s=>s.Date));
+            return View(salesLeads);
         }
 
 
 
         // GET: SalesLeads
         [Authorize]
-        public ActionResult Index(int? sortid, int? leadId, string search)
+        public async Task<ActionResult> Index(int? sortid, int? leadId, string search)
         {
 
             if (sortid != null)
@@ -89,7 +90,7 @@ namespace JobsV1.Controllers
             }
 
             //get sales leads list
-            var salesLeads = sldb.GetSalesLeads((int)sortid, search);
+            var salesLeads = await sldb.GetSalesLeads((int)sortid, search);
 
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
@@ -104,14 +105,14 @@ namespace JobsV1.Controllers
             //for adding new item 
             ViewBag.InvItems = db.InvItems.ToList();
 
-            return View(salesLeads.OrderByDescending(s => s.Date));
+            return View(salesLeads);
         }
 
 
 
         //GET: SalesLeads/ForApproval
         [Authorize]
-        public ActionResult ForApproval(int? sortid, int? leadId)
+        public async Task<ActionResult> ForApproval(int? sortid, int? leadId)
         {
             //sortid = 4;
             //Session["SLFilterID"] = 4;
@@ -138,7 +139,7 @@ namespace JobsV1.Controllers
             }
 
             //get sales leads list
-            var salesLeads = sldb.GetSalesLeads((int)sortid, null);
+            var salesLeads = await sldb.GetSalesLeads((int)sortid, null);
 
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
@@ -156,7 +157,7 @@ namespace JobsV1.Controllers
             //for adding new item 
             AddSupItemPartial();
 
-            return View(salesLeads.OrderByDescending(s => s.Date));
+            return View(salesLeads);
         }
 
         public List<SalesStatusCode> GetSalesStatuses()
@@ -200,7 +201,7 @@ namespace JobsV1.Controllers
             //for adding new item 
             AddSupItemPartial();
 
-            return View(salesLeads.OrderByDescending(s => s.Date));
+            return View(salesLeads);
         }
 
 
@@ -885,8 +886,8 @@ namespace JobsV1.Controllers
         {
             try
             {
-
-                var salesLeadCount = sldb.GetSalesLeads((int)statusId, null).Count();
+                //var salesLeadCount = sldb.GetSalesLeads((int)statusId, null);
+                var salesLeadCount = sldb.GetLeadStatusCount(statusId);
 
                 if (salesLeadCount > 0)
                 {
@@ -909,7 +910,9 @@ namespace JobsV1.Controllers
             try
             {
 
-                var salesLeadCount = sldb.GetSalesLeads((int)statusId, null).Count();
+                //var salesLeadCount = sldb.GetSalesLeads((int)statusId, null).Count();
+
+                var salesLeadCount = sldb.GetLeadStatusCount(statusId);
 
                 if (salesLeadCount > 0)
                 {

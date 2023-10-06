@@ -61,13 +61,6 @@
             Viewing as Admin
         </p>
     }
-    else
-    {
-
-        <p>
-            Viewing as not admin
-        </p>
-    }
 
     <!-- Status Filters -->
     <p>
@@ -115,12 +108,7 @@
 
         @foreach (var item in Model)
         {
-
-            if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
-            {
-                var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
-            }
-
+             
             <tr>
                 <td id="lead@(item.Id)" class="td-no-border" style="padding-right: 20px;">
                     <div style="text-align:center;" class="date-box">
@@ -133,11 +121,10 @@
                         }
                     </div>
 
-                    @Html.Partial("_PartialLeadItemWeight", item,
-                        new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", USER }, { "IsAdmin", ISADMIN } })
+                    @Html.Partial("_PartialLeadItemWeight", item, new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", USER }, { "IsAdmin", ISADMIN } })
 
                     @{
-                        foreach (var status in item.SalesStatus)
+                        @*foreach (var status in item.SalesStatus)
                         {
                             if (status.SalesStatusCodeId == 5)
                             {
@@ -148,7 +135,7 @@
                             {
                                 <img src="~/Images/SalesLead/close-icon.png" height="20" alt="ACCEPTED" />
                             }
-                        }
+                        }*@
                     }
                 </td>
                 <td>
@@ -157,18 +144,17 @@
 
                     <div>
                         <span style="color:darkgreen;font:bold 16px arial, verdana;">
-                            @try
-                            {
-                                if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
-                                {
-                                    var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
 
-                                    <text>
-                                        @company.Name
-                                    </text>
-                                }
+                            @if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
+                            {
+                                var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
+
+                                <text>
+                                    @company.Name
+                                </text>
                             }
-                            catch { }
+
+
                         </span> |
                         <span style="color:maroon;font:bold 12px arial, verdana;">
                             @Html.DisplayFor(modelItem => item.CustName)
@@ -202,12 +188,12 @@
                         }
 
                         <span style="margin-left:10px;">
-                            @foreach (var salescat in item.SalesLeadCategories)
+                            @*@foreach (var salescat in item.SalesLeadCategories)
                             {
                                 <img src=@Url.Content(@salescat.SalesLeadCatCode.iconPath)
                                      alt=@salescat.SalesLeadCatCode.CatName height="20" width="20"
                                      title=@salescat.SalesLeadCatCode.CatName />
-                            }
+                            }*@
                         </span>
 
                         <br />
@@ -238,18 +224,17 @@
 
                         @Html.Partial("_PartialSalesLeadActivities", item,
                             new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", USER }, { "IsAdmin", ISADMIN } })
-
-
-                        <!-- Late Loading Procurment / Supplier Items -->
+                            
+                        @*
                         @Html.Partial("_PartialSupplierItems", item.SalesLeadItems,
-                            new ViewDataDictionary { { "Id", item.Id }, { "User", USER }, { "IsAdmin", ISADMIN } })
-
+                            new ViewDataDictionary { { "Id", item.Id }, { "User", USER }, { "IsAdmin", ISADMIN } })     
+                        *@
 
                         <!--Add Files-->
 
                         <br />
-                        @Html.Partial("_PartialLeadFiles", item.SalesLeadFiles.OrderByDescending(c => c.Id).FirstOrDefault(),
-                            new ViewDataDictionary { { "Id", item.Id }, { "FileCount", item.SalesLeadFiles.Count() } })
+                        @*@Html.Partial("_PartialLeadFiles", item.SalesLeadFiles.OrderByDescending(c => c.Id).FirstOrDefault(),
+                            new ViewDataDictionary { { "Id", item.Id }, { "FileCount", item.SalesLeadFiles.Count() } })*@
 
 
                         <br />
@@ -281,28 +266,21 @@
 
 
 @{Html.RenderPartial("AddSupItemPartial");}
-@{Html.RenderPartial("_UpdateActivityStatus");}
-@{Html.RenderPartial("_AddLeadWeight");}
-@{Html.RenderPartial("_AddLeadFileLink");}
+    @{Html.RenderPartial("_UpdateActivityStatus");}
+    @{Html.RenderPartial("_AddLeadWeight");}
+    @{Html.RenderPartial("_AddLeadFileLink");}
 
 @section scripts
 {
-    <script src="~/Scripts/Filters/FormInputFilter.js"></script>
-    <script src="~/Scripts/Job/Scroll.js"></script>
-    <script type="text/javascript" src="~/Scripts/SalesLead/SalesLead.js"></script>
-    <script type="text/javascript" src="~/Scripts/SalesLead/AddSupItem.js"></script>
-    <script type="text/javascript" src="~/Scripts/SalesLead/AddLeadWeight.js"></script>
-    <script type="text/javascript" src="~/Scripts/SalesLead/AddLeadFileLink.js"></script>
-
+    
+        <script type="text/javascript" src="~/Scripts/SalesLead/SalesLead.js"></script>
+        <script type="text/javascript" src="~/Scripts/SalesLead/AddSupItem.js"></script>
+        <script type="text/javascript" src="~/Scripts/SalesLead/AddLeadWeight.js"></script>
+        <script type="text/javascript" src="~/Scripts/SalesLead/AddLeadFileLink.js"></script>
+    
     <script type="text/javascript">
         $(document).ready(function () {
-            if ('@(ViewBag.LeadId)' != '') {
-                $('html, body').animate({
-                    scrollTop: $("#lead@(ViewBag.LeadId)").offset().top - 50
-                }, 0);
-            }
-
-
+         
             if(@((int)Session["SLFilterID"]) != null){
                 var statusId = @((int)Session["SLFilterID"]);
                 switch(statusId){
