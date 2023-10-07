@@ -19,9 +19,19 @@ namespace JobsV1.Areas.Receivables.Controllers
         private ReceivableFactory ar = new ReceivableFactory();
 
         // GET: ArAccounts
-        public ActionResult Index()
+        public ActionResult Index(string status)
         {
             var accountList = ar.AccountMgr.GetArAccounts();
+
+            if (!status.IsNullOrWhiteSpace())
+            {
+                if (status == "Inactive")
+                {
+                    accountList = ar.AccountMgr.GetArAccountsWithStatus(2);
+                }
+            }
+
+            ViewBag.Status = status;
 
             return View(accountList);
         }

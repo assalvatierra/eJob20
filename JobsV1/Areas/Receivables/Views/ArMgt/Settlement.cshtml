@@ -175,15 +175,32 @@
                 @transaction.Amount.ToString("#,##0.00")
             </td>
             <td style="color:@textColor">
-                @paymentTotal.ToString("#,##0.00")
+             
+                 @foreach (var payment in transaction.ArTransPayments)
+                 {
+                     //var totalTransPayment = totalTransPayment + payment.ArPayment.Amount;
+                     paymentType = payment.ArPayment.ArPaymentType.Type;
+                     paymentDeposited = payment.ArPayment.IsDeposited ?? false;
+                     paymentRemarks += payment.ArPayment.Remarks;
+
+                        <span>@payment.ArPayment.Amount.ToString("#,##0.00")</span><br />
+                        <span style="font-size:11px;color:gray;">@paymentType</span><br />
+                        <span style="font-size:11px;color:gray;">@payment.ArPayment.Remarks</span><br />
+
+                        if (transaction.ArTransPayments.Count() > 1 && !String.IsNullOrEmpty(paymentRemarks))
+                        {
+                            paymentRemarks += " / ";
+                        }
+                    }
+                <!--paymentTotal.ToString("#,##0.00")
                 <br />
-                <span style="font-size:11px;color:gray;">@paymentType</span>
+                <span style="font-size:11px;color:gray;">paymentType</span>-->
                 @*@if (paymentDeposited)
                 {
                     <span style="font-size:11px;color:gray;"> - Deposited </span>
                 }*@
-                <br />  
-                <span style="font-size:10px;color:gray;">
+                <!--<br />-->  
+                @*<span style="font-size:10px;color:gray;">
 
                     @foreach (var payments in transaction.ArTransPayments)
                     {
@@ -195,7 +212,7 @@
                         <br />
                     }
 
-                </span>
+                </span>*@
 
                 @if ((paymentTotal < (totalAmount - amountVariance) || paymentTotal > (totalAmount + amountVariance)))
                 {
@@ -217,7 +234,7 @@
                 }
             </td>
             <td>
-                <a class="btn btn-default" onclick="UpdateStatus(@transaction.Id, 6)"> Close </a>
+                <a class="btn btn-default" onclick="UpdateStatus(this, @transaction.Id, 6)"> Close </a>
                 @if (paymentType != "Bank" && !paymentDeposited)
                 {
                    @*<a class="btn btn-default" onclick="UpdateStatusAndDeposit(@transaction.Id)"> Deposited </a>*@

@@ -1,5 +1,5 @@
 ﻿
-function UpdateStatus(transId, statusId) {
+function UpdateStatus(e, transId, statusId) {
     $("#overlay").show();
     var result = $.post("/Receivables/ArMgt/UpdateTransStatus", {
         transId: transId,
@@ -8,7 +8,8 @@ function UpdateStatus(transId, statusId) {
         console.log("Update Status : " + response);
         if (response == "True") {
             $("#overlay").hide();
-            window.location.reload(false);
+            //window.location.reload(false);
+            $(e).parent().parent().hide(150);
         } else {
             alert("Unable to Update transaction.");
             $("#overlay").hide();

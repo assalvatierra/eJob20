@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Customer Accounts";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    string status = ViewBag.Status as string;
 }
 
 <h2>Customer Accounts</h2>
@@ -13,6 +14,11 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+<div class="btn-group">
+    @Html.ActionLink("Active", "Index", new { status = "Active" }, new { @class = "btn btn-default" })
+    @Html.ActionLink("Inactive", "Index", new { status = "Inactive" }, new { @class = "btn btn-default" })
+</div>
 <table class="table">
     <tr>
         <th>
@@ -42,7 +48,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.OrderBy(c=>c.Company)   )
     {
         <tr>
             <td>

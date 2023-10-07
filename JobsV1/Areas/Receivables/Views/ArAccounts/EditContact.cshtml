@@ -18,7 +18,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ArAccountId, "Account", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ArAccountId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("ArAccountId", null, htmlAttributes: new { @class = "form-control dropdown-search" })
                 @Html.ValidationMessageFor(model => model.ArAccountId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -66,3 +66,7 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts{
+    <script src="~/Scripts/Filters/FormInputFilter.js"></script>
+}
