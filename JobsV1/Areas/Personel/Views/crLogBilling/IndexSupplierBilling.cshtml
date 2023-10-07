@@ -504,6 +504,9 @@
     <script src="~/Areas/Personel/Script/CreateTripLogTime.js"></script>
     <script>
         $(document).ready(() => {
+
+            HideLoading();
+
             $("#filter-unit").val("@ViewBag.FilteredUnit")
             $("#filter-driver").val("@ViewBag.FilteredDriver")
             $("#filter-company").val("@ViewBag.FilteredCompany")
@@ -661,12 +664,12 @@
         }
 
         function PrintBilling() {
-            ShowLoading();
+            //ShowLoading();
             location.href = "/Personel/crLogBilling/PrintIndexSupplierBilling"
         }
 
         function PrintBillingNoDriver() {
-            ShowLoading();
+            //ShowLoading();
             location.href = "/Personel/crLogBilling/PrintIndexSupplierBillingNoDriver"
         }
 

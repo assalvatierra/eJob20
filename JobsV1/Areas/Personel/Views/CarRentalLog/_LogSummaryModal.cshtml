@@ -3,10 +3,12 @@
     var DriversLogSummary = ViewBag.DriversLogSummary as List<JobsV1.Areas.Personel.Models.CrDriverLogs>;
     var CompaniesLogSummary = ViewBag.CompaniesLogSummary as List<JobsV1.Areas.Personel.Models.CrCompanyLogs>;
     var UnitsLogSummary = ViewBag.UnitsLogSummary as List<JobsV1.Areas.Personel.Models.CrUnitLogs>;
+    var OwnersLogSummary = ViewBag.OwnersLogSummary as List<JobsV1.Areas.Personel.Models.CrOwnerLogs>;
 
     var totalCount_ByCompany = 0;
     var totalCount_ByDriver = 0;
     var totalCount_ByUnit = 0;
+    var totalCount_ByOwner = 0;
 }
 
 <div class="modal fade" role="dialog" id="SummaryModal" data-keyboard="false" data-backdrop="static">
@@ -39,14 +41,14 @@
                             <td> @log.TotalAmount.ToString("#,##0.00") </td>
                         </tr>
                     }
-                <tr>
-                    <td>
-                        Total Count:
-                    </td>
-                    <td colspan="2">
-                        @totalCount_ByCompany
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            Total Count:
+                        </td>
+                        <td colspan="2">
+                            @totalCount_ByCompany
+                        </td>
+                    </tr>
 
                     <tr>
                         <td colspan="3"> <span class="text-muted" style="margin-left:0px;">By Driver</span> </td>
@@ -60,14 +62,14 @@
                             <td> @log.TotalDriverFee.ToString("#,##0.00") </td>
                         </tr>
                     }
-                <tr>
-                    <td>
-                        Total Count:
-                    </td>
-                    <td colspan="2">
-                        @totalCount_ByDriver
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            Total Count:
+                        </td>
+                        <td colspan="2">
+                            @totalCount_ByDriver
+                        </td>
+                    </tr>
 
                     <tr>
                         <td colspan="3"> <span class="text-muted" style="margin-left:0px;">By Unit </span> </td>
@@ -83,11 +85,33 @@
                     }
 
                     <tr>
-                        <td >
-                            Total Count: 
+                        <td>
+                            Total Count:
                         </td>
                         <td colspan="2">
                             @totalCount_ByUnit
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3"> <span class="text-muted" style="margin-left:0px;">By Unit </span> </td>
+                    </tr>
+                    @foreach (var log in OwnersLogSummary)
+                    {
+                        totalCount_ByOwner += log.JobCount;
+                        <tr>
+                            <td> <span style="margin-left:15px;"> @log.Owner </span> </td>
+                            <td> @log.JobCount </td>
+                            <td> @log.TotalAmount.ToString("#,##0.00") </td>
+                        </tr>
+                    }
+
+                    <tr>
+                        <td>
+                            Total Count:
+                        </td>
+                        <td colspan="2">
+                            @totalCount_ByOwner
                         </td>
                     </tr>
                 </table>

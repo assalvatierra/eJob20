@@ -28,7 +28,7 @@
 
     .container-content {
         background-color: #eff3f6;
-        border: none;
+        border: none;   
     }
 
     .datepicker {
@@ -446,7 +446,7 @@
             <td>
                 @{
                     decimal DriversOT = 0;
-                    if (item.OTRate != null && item.AddonOT != null && item.OTRate != 0)
+                    if (item.OTRate != null && item.AddonOT != null && item.OTRate != 0 && item.DriverOTRate != null)
                     {
                         decimal calcTimeOT = ((decimal)item.AddonOT / (decimal)item.OTRate);
                         DriversOT = calcTimeOT * (decimal)item.DriverOTRate;
@@ -462,6 +462,18 @@
             </td>
             <td>
                 @item.StartTime -  @item.EndTime
+                @if (item.EndTime != null)
+                {
+                    if (item.EndTime.Contains("AM"))
+                    {
+                        <i class="fa fa-warning" title="Time end is AM."></i>
+                    }
+                }
+
+                @{ 
+
+                }
+
             </td>
             <td class="actions">
 
@@ -515,6 +527,7 @@
                             <li><a class="cursor-pointer" onclick="SetTripTicket(this, '@item.Id')">   Trip Ticket Received  </a></li>
                         }
 
+                        <li><a class="cursor-pointer" onclick="RequestFuel('@item.Id')">  Request Fuel  </a></li>
 
                         <li role="separator" class="divider"></li>
                         @if (item.crLogTripJobMains.FirstOrDefault() != null)
@@ -608,7 +621,7 @@
 
 
 @Html.Partial("_LogSummaryModal", null, new ViewDataDictionary { { "DriversLogSummary" , ViewBag.DriversLogSummary },
-    { "CompaniesLogSummary", ViewBag.CompaniesLogSummary }, { "UnitsLogSummary", ViewBag.UnitsLogSummary } })
+    { "CompaniesLogSummary", ViewBag.CompaniesLogSummary }, { "UnitsLogSummary", ViewBag.UnitsLogSummary }, { "OwnersLogSummary", ViewBag.OwnersLogSummary } })
 
 @Html.Partial("_LogOdoUpdateModal")
 
@@ -648,11 +661,14 @@
                 $("#filter-sdate").val(moment().format("MM/DD/YYYY"))
             }
 
-            if ("@ViewBag.FilteredsDate" != "") {
+            if ("@ViewBag.FilteredeDate" != "") {
                 $("#filter-edate").val(moment("@ViewBag.FilteredeDate").format("MM/DD/YYYY"))
             } else {
                 $("#filter-edate").val(moment().format("MM/DD/YYYY"))
             }
+
+            console.log(@ViewBag.FilteredsDate);
+            console.log(@ViewBag.FilteredeDate);
 
             //Handle Site Cookie, check shuttle_cookie to show
             //shuttle services only when true, else show all trips
@@ -679,6 +695,20 @@
         //Add class dropdown-search in dropdown inputs
         function InitDropdownSearch() {
             $('.dropdown-search').select2();
+        }
+
+
+        function RequestFuel(id, description) {
+            $("/Payables/ApTransactions/RequestFuel",
+                new {
+                    id: id,
+                    desc: description
+                },
+                (res) => {
+                    console.log(res);
+                }).done((res) => {
+                console.log("Done request Fuel");
+                })
         }
     </script>
 }

@@ -55,16 +55,16 @@ namespace JobsV1.Areas.Personel.Controllers
             #endregion
 
             var today = dt.GetCurrentDate();
-            var DateFilter = today.AddDays(-15);
+            var DateFilter = today.AddDays(-30);
             
             if (statusId == null || statusId == (int)CASHREQ_STATUS.REQUEST)
             {
-                DateFilter = today.AddDays(-10);
+                DateFilter = today.AddDays(-20);
             }
             if (statusId == null)
                 statusId = (int)CASHREQ_STATUS.REQUEST;
 
-            //get cash releases up to -7 days from today
+            //get cash releases up to -20 days from today
             var crLogCashReleases = db.crLogCashReleases.Include(c => c.crLogDriver).Include(c => c.crLogClosing)
                 .Where(c => DbFunctions.TruncateTime(c.DtRelease) > DateFilter);
 

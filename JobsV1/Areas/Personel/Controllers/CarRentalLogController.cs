@@ -127,6 +127,8 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.DriversLogSummary = logSummary.CrDrivers ?? new List<CrDriverLogs>();
             ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
             ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
+            ViewBag.OwnersLogSummary = logSummary.CrOwnerLogs ?? new List<CrOwnerLogs>();
+
 
             ViewBag.FilteredsDate = startDate;
             ViewBag.FilteredeDate = endDate;
@@ -364,6 +366,18 @@ namespace JobsV1.Areas.Personel.Controllers
             return View(new List<crLogTrip>());
         }
 
+        public string RequestFuel(int id)
+        {
+            // get item details
+            var trip = db.crLogTrips.Find(id);
+
+            //encode to payables
+            var desc = "PO Fuel " + trip.crLogUnit.Description + " / " + trip.crLogDriver.Name + " - " + trip.crLogCompany.Name;
+            
+            //
+
+            return "OK";
+        }
 
         #region Reports 
         public ActionResult ReportFilter(string reportby, string startDate, string endDate, string unit, string driver, string company, string sortby, string buffer)

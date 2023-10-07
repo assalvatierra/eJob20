@@ -294,6 +294,7 @@ namespace JobsV1.Areas.Personel.Services
             logSummary.CrDrivers = GetDriverLogs(logSummary, tripLogs);
             logSummary.CrCompanies = GetCompanyLogs(logSummary, tripLogs);
             logSummary.CrUnits = GetUnitLogs(logSummary, tripLogs);
+            logSummary.CrOwnerLogs = GetOwnerLogs(logSummary, tripLogs);
 
             return logSummary;
         }
@@ -302,6 +303,7 @@ namespace JobsV1.Areas.Personel.Services
         {
             foreach (var trip in tripLogs)
             {
+
                 //Driver Logs 
                 if (logSummary.CrDrivers == null)
                     logSummary.CrDrivers = new List<CrDriverLogs>();
@@ -315,7 +317,7 @@ namespace JobsV1.Areas.Personel.Services
                     driverLog.DriversId = trip.crLogDriverId;
                     driverLog.Driver = trip.crLogDriver.Name;
                     driverLog.JobCount = 1;
-                    driverLog.TotalDriverFee = trip.DriverFee;
+                    driverLog.TotalDriverFee = trip.DriverFee + trip.DriverOT;
 
                     logSummary.CrDrivers.Add(driverLog);
                 }
@@ -325,7 +327,7 @@ namespace JobsV1.Areas.Personel.Services
                     //find the log and update
                     var driverLog = logSummary.CrDrivers.Where(c => c.DriversId == trip.crLogDriverId).FirstOrDefault();
                     driverLog.JobCount += 1;
-                    driverLog.TotalDriverFee += trip.DriverFee;
+                    driverLog.TotalDriverFee += trip.DriverFee + trip.DriverOT;
                 }
             }
 
@@ -337,6 +339,8 @@ namespace JobsV1.Areas.Personel.Services
 
             foreach (var trip in tripLogs)
             {
+                decimal AddonOT = trip.AddonOT == null ? 0: (decimal)trip.AddonOT;
+
                 //Driver Logs 
                 if (logSummary.CrCompanies == null)
                     logSummary.CrCompanies = new List<CrCompanyLogs>();
@@ -350,7 +354,7 @@ namespace JobsV1.Areas.Personel.Services
                     companyLogs.CompanyId = trip.crLogCompanyId;
                     companyLogs.Company = trip.crLogCompany.Name;
                     companyLogs.JobCount = 1;
-                    companyLogs.TotalAmount = trip.Rate + trip.Addon;
+                    companyLogs.TotalAmount = trip.Rate + trip.Addon + AddonOT;
 
                     logSummary.CrCompanies.Add(companyLogs);
                 }
@@ -360,7 +364,7 @@ namespace JobsV1.Areas.Personel.Services
                     //find the log and update
                     var companyLogs = logSummary.CrCompanies.Where(c => c.CompanyId == trip.crLogCompanyId).FirstOrDefault();
                     companyLogs.JobCount += 1;
-                    companyLogs.TotalAmount += trip.Rate + trip.Addon;
+                    companyLogs.TotalAmount += trip.Rate + trip.Addon + AddonOT;
                 }
             }
 
@@ -372,6 +376,8 @@ namespace JobsV1.Areas.Personel.Services
 
             foreach (var trip in tripLogs)
             {
+                decimal AddonOT = trip.AddonOT == null ? 0 : (decimal)trip.AddonOT;
+
                 //Driver Logs 
                 if (logSummary.CrUnits == null)
                     logSummary.CrUnits = new List<CrUnitLogs>();
@@ -385,7 +391,7 @@ namespace JobsV1.Areas.Personel.Services
                     unitLogs.UnitId = trip.crLogUnitId;
                     unitLogs.Unit = trip.crLogUnit.Description;
                     unitLogs.JobCount = 1;
-                    unitLogs.TotalAmount = trip.Rate + trip.Addon;
+                    unitLogs.TotalAmount = trip.Rate + trip.Addon + AddonOT;
 
                     logSummary.CrUnits.Add(unitLogs);
                 }
@@ -395,11 +401,48 @@ namespace JobsV1.Areas.Personel.Services
                     //find the log and update
                     var unitLogs = logSummary.CrUnits.Where(c => c.UnitId == trip.crLogUnitId).FirstOrDefault();
                     unitLogs.JobCount += 1;
-                    unitLogs.TotalAmount += trip.Rate + trip.Addon;
+                    unitLogs.TotalAmount += trip.Rate + trip.Addon + AddonOT;
                 }
             }
 
             return logSummary.CrUnits;
+        }
+
+
+        public List<CrOwnerLogs> GetOwnerLogs(CrLogSummary logSummary, List<crLogTrip> tripLogs)
+        {
+
+            foreach (var trip in tripLogs)
+            {
+                decimal AddonOT = trip.AddonOT == null ? 0 : (decimal)trip.AddonOT;
+                //Driver Logs 
+                if (logSummary.CrOwnerLogs == null)
+                    logSummary.CrOwnerLogs = new List<CrOwnerLogs>();
+
+                //check if log for the driver exists
+                if (logSummary.CrOwnerLogs.Where(c => c.OwnerId == trip.crLogUnit.crLogOwnerId).FirstOrDefault() == null)
+                {
+                    //if does not exist
+
+                    CrOwnerLogs owner = new CrOwnerLogs();
+                    owner.OwnerId = trip.crLogUnit.crLogOwnerId;
+                    owner.Owner = trip.crLogUnit.crLogOwner.Name;
+                    owner.JobCount = 1;
+                    owner.TotalAmount = trip.Rate + trip.Addon + AddonOT;
+
+                    logSummary.CrOwnerLogs.Add(owner);
+                }
+                else
+                {
+                    //if driver log exist
+                    //find the log and update
+                    CrOwnerLogs owner = logSummary.CrOwnerLogs.Where(c => c.OwnerId == trip.crLogUnit.crLogOwnerId).FirstOrDefault();
+                    owner.JobCount += 1;
+                    owner.TotalAmount += trip.Rate + trip.Addon + AddonOT;
+                }
+            }
+
+            return logSummary.CrOwnerLogs;
         }
 
         public crLogTrip GetTripLogLatestTrip(int unitID, int driverID, int CompanyID)

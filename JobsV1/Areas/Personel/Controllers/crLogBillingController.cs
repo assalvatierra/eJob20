@@ -121,7 +121,7 @@ namespace JobsV1.Areas.Personel.Controllers
             }
             #endregion
 
-            var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby);
+            var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby, owner);
 
             crLogTripBilling tripBilling = new crLogTripBilling();
             tripBilling.SundayTrips = new List<crBilling_Daily>();
@@ -167,6 +167,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.DriversLogSummary = logSummary.CrDrivers ?? new List<CrDriverLogs>();
             ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
             ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
+            ViewBag.OwnersLogSummary = logSummary.CrOwnerLogs ?? new List<CrOwnerLogs>();
 
             if (startDate != "")
             {
@@ -266,7 +267,7 @@ namespace JobsV1.Areas.Personel.Controllers
             }
             #endregion
 
-            var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby);
+            var tripLogs = crServices.GetTripLogs(startDate, endDate, unit, driver, company, sortby, owner);
 
             crLogTripBilling tripBilling = new crLogTripBilling();
             tripBilling.SundayTrips = new List<crBilling_Daily>();
@@ -1532,7 +1533,6 @@ namespace JobsV1.Areas.Personel.Controllers
                 }
             }
 
-            var includeDriverSalary = Session["triplog-owner"].ToString();
           
             #endregion
             var SOANum = "";
@@ -1543,11 +1543,14 @@ namespace JobsV1.Areas.Personel.Controllers
             tripBilling.Daily = new List<crBillingDetails_Daily>();
             tripBilling.DriversSalary = new List<crBillingDrivers_Salary>();
             tripBilling.Supplier = owner;
-            tripBilling.BillingDate = DateTime.Parse(startDate).ToString("MMM dd yyyy") + " - " + DateTime.Parse(endDate).ToString("MMM dd yyyy");
             tripBilling.GeneratedDate = dt.GetCurrentDate();
             tripBilling.PONum = "0";
             tripBilling.Supplier = owner;
-            
+
+            if (startDate != null && endDate != null)
+            {
+                tripBilling.BillingDate = DateTime.Parse(startDate).ToString("MMM dd yyyy") + " - " + DateTime.Parse(endDate).ToString("MMM dd yyyy");
+            }
 
             // Daily trips
             var OTTrips = tripLogs.OrderBy(t => t.crLogUnit.OrderNo).ToList();
@@ -1580,11 +1583,6 @@ namespace JobsV1.Areas.Personel.Controllers
             tripBilling.SubTotalDriverOT = OTTrips.Sum(t => t.DriverOT);
 
             tripBilling.TotalNet = tripBilling.SubTotalRate + tripBilling.SubTotalOT + tripBilling.SubTotalAddon;
-
-            if (includeDriverSalary == "true")
-            {
-
-            }
 
             // driver deductions
             if (tripBilling.SubTotaDriverRate > 0 )
@@ -1693,7 +1691,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 }
             }
 
-            var includeDriverSalary = Session["triplog-owner"].ToString();
+            //var includeDriverSalary = Session["triplog-owner"].ToString();
 
             #endregion
             var SOANum = "";
@@ -1704,12 +1702,15 @@ namespace JobsV1.Areas.Personel.Controllers
             tripBilling.Daily = new List<crBillingDetails_Daily>();
             tripBilling.DriversSalary = new List<crBillingDrivers_Salary>();
             tripBilling.Supplier = owner;
-            tripBilling.BillingDate = DateTime.Parse(startDate).ToString("MMM dd yyyy") + " - " + DateTime.Parse(endDate).ToString("MMM dd yyyy");
             tripBilling.GeneratedDate = dt.GetCurrentDate();
             tripBilling.PONum = "0";
             tripBilling.Supplier = owner;
 
 
+            if (startDate != null && endDate != null)
+            {
+                tripBilling.BillingDate = DateTime.Parse(startDate).ToString("MMM dd yyyy") + " - " + DateTime.Parse(endDate).ToString("MMM dd yyyy");
+            }
             // Daily trips
             var OTTrips = tripLogs.OrderBy(t => t.crLogUnit.OrderNo).ToList();
 
@@ -1737,8 +1738,8 @@ namespace JobsV1.Areas.Personel.Controllers
             tripBilling.SubTotalRate = tripBilling.Daily.Sum(t => t.Rate);
             tripBilling.SubTotalOT = tripBilling.Daily.Sum(t => t.OTRate);
             tripBilling.SubTotalAddon = tripBilling.Daily.Sum(t => t.AddOns);
-            tripBilling.SubTotaDriverRate = OTTrips.Sum(t => t.DriverFee);
-            tripBilling.SubTotalDriverOT = OTTrips.Sum(t => t.DriverOT);
+            tripBilling.SubTotaDriverRate = 0;
+            tripBilling.SubTotalDriverOT = 0;
 
             tripBilling.TotalNet = tripBilling.SubTotalRate + tripBilling.SubTotalOT + tripBilling.SubTotalAddon;
 
@@ -1924,8 +1925,8 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 case "grace.realbreeze@gmail.com":
                     return "Grace-chell V. Capandac";
-                case "jhudy.realbreeze@gmail.com":
-                    return "Jhudy Claire D. Molles";
+                case "ranel.realbreeze@gmail.com":
+                    return "Ranel Villahermosa";
                 case "assalvatierra@gmail.com":
                     return "Elvie S. Salvatierra ";
                 default:
@@ -1939,8 +1940,8 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 case "grace.realbreeze@gmail.com":
                     return "/Images/Signature/GraceSign.jpg";
-                case "jhudy.realbreeze@gmail.com":
-                    return "/Images/Signature/JhudySign.jpg";
+                case "ranel.realbreeze@gmail.com":
+                    return "/Images/Signature/RanelSign.jpg";
                 case "assalvatierra@gmail.com":
                     return "/Images/Signature-1.png";
                 default:

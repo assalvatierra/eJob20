@@ -11,6 +11,7 @@ namespace JobsV1.Areas.Personel.Models
         public List<CrDriverLogs> CrDrivers { get; set; }
         public List<CrCompanyLogs> CrCompanies { get; set; }
         public List<CrUnitLogs> CrUnits { get; set; }
+        public List<CrOwnerLogs> CrOwnerLogs { get; set; }
     }
 
     public class CrDriverLogs
@@ -40,6 +41,18 @@ namespace JobsV1.Areas.Personel.Models
         public int Id { get; set; }
         public int UnitId { get; set; }
         public string Unit { get; set; }
+        public int JobCount { get; set; }
+        public decimal TotalAmount { get; set; }
+    }
+
+
+
+    public class CrOwnerLogs
+    {
+        [Key]
+        public int Id { get; set; }
+        public int OwnerId { get; set; }
+        public string Owner { get; set; }
         public int JobCount { get; set; }
         public decimal TotalAmount { get; set; }
     }

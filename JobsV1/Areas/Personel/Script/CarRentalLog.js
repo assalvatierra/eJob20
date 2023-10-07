@@ -446,10 +446,10 @@ function AllowEdit(e, id){
 function CloseForEdit(e, id) {
     $.post('/Personel/CarRentalLog/CloseForEditTripLog', { id: id })
         .done((res) => {
-            console.log('Allowed edit on triplog ' + id);
-            window.location.reload(false);
+            console.log('Closed for edit on triplog ' + id);
+            //window.location.reload(false);
             //$(e).parent().append('<a style="cursor:not-allowed;color:gray;"> OT Calculated </a>');
-            $(e).remove();
+            $(e).parent().parent().parent().parent().parent().hide(150);
         })
         .fail((err) => {
             console.log('Unable to edit:' + id + "\n " + err);
