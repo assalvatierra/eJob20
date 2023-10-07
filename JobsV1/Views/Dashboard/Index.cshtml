@@ -43,11 +43,9 @@
                     </div>
                     <hr />
                 </div>
-
             </div>
         </div>
     </div>
-
 </div>
 
 @section Scripts{
@@ -70,7 +68,7 @@
 
             console.log("monthdays: " + monthdays);
             
-            let goal = 200;
+            let goal = 280;
             let goalperday =Math.floor(parseFloat(goal / monthdays ));
             let goalTotal = 0;
             let goalDataset = new Array();
@@ -80,11 +78,11 @@
             for (var i = 0; i <= monthdays; i++) {
 
                 if (i > 20) {
-                    goalperday = 7;
+                    goalperday = 8;
                 }
 
                 if (i > 26) {
-                    goalperday = 8;
+                    goalperday = 9;
                 }
 
                 if (goalTotal < goal) {

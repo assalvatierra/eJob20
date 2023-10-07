@@ -27,13 +27,13 @@
 <script>
     /**
     *   Handles footer. Show Footer only when device is
-    *   mobile or screen width less than 600 pixels.
+    *   mobile or screen width less than 800 pixels.
     */
     function toggleScreen() {
         var f = document.getElementById("mobile-footer");
         var screenwidth = document.documentElement.clientWidth;
 
-        if (screenwidth < 600) {
+        if (screenwidth < 800) {
             //alert("MOBILE DEVICE!!");
             f.style.display = "block";
         }
