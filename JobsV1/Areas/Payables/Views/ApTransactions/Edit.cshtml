@@ -19,7 +19,7 @@
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ApAccountId, "Trans Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Id, "Trans Id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.Id)
                 @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
@@ -28,7 +28,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ApAccountId, "Account", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ApAccountId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("ApAccountId", null, htmlAttributes: new { @class = "form-control dropdown-search" })
                 @Html.ValidationMessageFor(model => model.ApAccountId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -177,7 +177,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="form-group">
             @Html.LabelFor(model => model.IsFunded, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -187,7 +187,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="form-group">
             @Html.LabelFor(model => model.IsPrinted, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -213,6 +213,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/Filters/FormInputFilter.js"></script>
     <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransCreate.js"></script>
     <script>
         $(() => {
@@ -232,5 +233,9 @@
                 $("#repeat-group").hide();
             }
         }
+        //Add class dropdown-search in dropdown inputs
+        $(document).ready(function () {
+            $('.dropdown-search').select2();
+        });
     </script>
 }

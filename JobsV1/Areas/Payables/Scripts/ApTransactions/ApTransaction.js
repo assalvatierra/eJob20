@@ -22,7 +22,7 @@ function Initialize(status, sortBy) {
 
     }
 
-    Init_Repeating();
+    //Init_Repeating();  
 }
 
 //update filter on list
@@ -45,19 +45,19 @@ function UpdateFilter(statusId, sort) {
 
 //update payables status
 function UpdateStatus(transId, statusId) {
-    $("#overlay").show();
+    //$("#overlay").show();
     var result = $.post("/Payables/ApTransactions/UpdateTransStatus", {
         transId: transId,
         statusId: statusId
         }, (response) => {
             //console.log("Update Status : " + response);
             if (response == "True") {
-                $("#overlay").hide();
+                //$("#overlay").hide();
 
                 AddStatusLabel(transId, statusId);
             } else {
                 alert("Unable to Update transaction.");
-                $("#overlay").hide();
+                //$("#overlay").hide();
             }
         }
     );
@@ -65,27 +65,27 @@ function UpdateStatus(transId, statusId) {
     //console.log(result);
     if (result["ResponseCode"] == 500) {
         alert("Unable to Update transaction.");
-        $("#overlay").hide();
+        //$("#overlay").hide();
     }
 }
 
 
 //update payables status
 function UpdateStatusAsync(e, transId, statusId) {
-    $("#overlay").show();
+    //$("#overlay").show();
     var result = $.post("/Payables/ApTransactions/UpdateTransStatus", {
         transId: transId,
         statusId: statusId
     }, (response) => {
         //console.log("Update Status : " + response);
         if (response == "True") {
-            $("#overlay").hide();
+            //$("#overlay").hide();
 
             AddStatusLabel(transId, statusId);
 
         } else {
             alert("Unable to Update transaction.");
-            $("#overlay").hide();
+            //$("#overlay").hide();
         }
     }
     );
@@ -93,7 +93,7 @@ function UpdateStatusAsync(e, transId, statusId) {
     //console.log(result);
     if (result["ResponseCode"] == 500) {
         alert("Unable to Update transaction.");
-        $("#overlay").hide();
+        //$("#overlay").hide();
     }
 }
 
@@ -137,12 +137,12 @@ function UpdateStatusClose(e, transId) {
     }, (response) => {
         //console.log("Update Status : " + response);
         if (response == "True") {
-            $("#overlay").hide();
+            //$("#overlay").hide();
             //window.location.reload(false);
             $(e).parent().parent().parent().parent().parent().fadeOut(250);
         } else {
             alert("Unable to Update transaction.");
-            $("#overlay").hide();
+            //$("#overlay").hide();
         }
     }
     );
@@ -150,7 +150,7 @@ function UpdateStatusClose(e, transId) {
     //console.log(result);
     if (result["ResponseCode"] == 500) {
         alert("Unable to Update transaction.");
-        $("#overlay").hide();
+        //$("#overlay").hide();
     }
 }
 
@@ -164,12 +164,12 @@ function UpdateStatusCloseAsync(e, transId) {
     }, (response) => {
         //console.log("Update Status : " + response);
         if (response == "True") {
-            $("#overlay").hide();
+            //$("#overlay").hide();
             //window.location.reload(false);
             $(e).parent().parent().fadeOut(250);
         } else {
             alert("Unable to Update transaction.");
-            $("#overlay").hide();
+            //$("#overlay").hide();
         }
     }
     );
@@ -177,7 +177,7 @@ function UpdateStatusCloseAsync(e, transId) {
     //console.log(result);
     if (result["ResponseCode"] == 500) {
         alert("Unable to Update transaction.");
-        $("#overlay").hide();
+        //$("#overlay").hide();
     }
 }
 
@@ -325,7 +325,7 @@ function ShowReleaseModal(Id, Desription, Budget, Type) {
     $("#ReleasePayment-Budget").val(Budget);
     $("#ReleasePayment-Description").val(Desription);
     $('#ReleasePayment-Date').val(moment().format('MM/DD/YYYY hh:mm A'));
-    $("#ReleasePayment-Amount").val(0);
+    $("#ReleasePayment-Amount").val(Budget);
 
     if (Type == 'PO') {
         $("#ReleasePayment-Amount").prop('disabled', true);
@@ -345,8 +345,12 @@ function ReleasePayment(e) {
     $.post("/Payables/ApTransactions/ReleasePayment", { id: id, amount: amount, date: date }, (res) => {
         if (res == "OK") {
             UpdateStatus(id, 3); //update to release
+
             $(e).prop('disabled', false);
             $("#ReleasePayment-Modal").modal('hide');
+
+            //update-text and status by id
+            $("#Expense-Status-" + id).append('<span class="label label-warning"> Released </span>');
         }
     });
 }
@@ -355,6 +359,9 @@ function ReleasePayment(e) {
 //---------- Return Amount ----------------//
 //release payment amount
 function ReturnAmount(e) {
+
+    console.log("ReturnAmount");
+
     var remarks = $("#ReturnAmount-Remarks").val();
     var amount = $("#ReturnAmount-Amount").val();
     var invoiceDate = $("#ReturnAmount-Date").val();
@@ -366,33 +373,64 @@ function ReturnAmount(e) {
 
     $(e).prop('disabled', true);
 
+    console.log("ReturnAmount variance:" + varianceCheck);
+
+
     if (varianceCheck) {
+        console.log("ReturnAmount: varianceCheck");
         POST_ReturnAmount(id, amount, remarks, invoiceDate);
     } else {
-        if (released_amount > 0) {
+        if (released_amount > 0 && budgetAmount > 0) {
+            console.log("ReturnAmount: released_amount > 0");
+
             var verification_msg = "The Returned Amount " + amount
                 + " have reached the 30% variance of Budget Amount "
                 + budgetAmount + ". Do you want to return?";
 
-            if (confirm(verification_msg)){
+            if (confirm(verification_msg)) {
                 POST_ReturnAmount(id, amount, remarks, invoiceDate);
             }
-        }
+        } else {
+
+            //PO
+            if (budgetAmount <= 0) {
+                POST_ReturnAmount(id, amount, remarks, invoiceDate);
+            } else {
+                alert("Unable to return with 0 amount.")
+            }
+        } 
+
     }
 }
 
 function POST_ReturnAmount(id, amount, remarks, invoiceDate) {
 
-    $.post("/Payables/ApTransactions/ReturnAmount",
-        { id: id, amount: amount, remarks: remarks, invoiceDate: invoiceDate },
-        (res) => {
-            if (res == "OK") {
-                UpdateStatus(id, 5); //update to return
-                //$(e).prop('disabled', false);
-                $("#ReturnAmount-Modal").modal('hide');
-                window.location.reload(false);
-            }
-    });
+    console.log("POST_ReturnAmount");
+    console.log("id: " + id);
+    console.log("amount: " + amount);
+    console.log("remarks: " + remarks);
+    console.log("invoiceDate: " + invoiceDate);
+
+    //if (amount > 0) {
+        $.post("/Payables/ApTransactions/ReturnAmount",
+            { id: id, amount: amount, remarks: remarks, invoiceDate: invoiceDate },
+            (res) => {
+                if (res == "OK") {
+
+                    console.log("POST_ReturnAmount : OK ");
+
+                    UpdateStatus(id, 5); //update to return
+                    //$(e).prop('disabled', false);
+                    $("#ReturnAmount-Modal").modal('hide');
+                    //window.location.reload(false);
+
+                    //update-text and status by id
+                    $("#Expense-Status-" + id).append('<span class="label label-success"> Returned </span>');
+                }
+            });
+    //} else {
+    //    alert("Unable to return 0 amount");
+    //}
 }
 
 function ShowReturnAmountModal(id, Description, amount, budget, invoiceDate, remarks) {
@@ -431,7 +469,7 @@ function ShowPaymentModal(Id, Description, Amount) {
     $('#Payment-Date').val(moment().format('MM/DD/YYYY hh:mm A'));
     $("#Payment-Description").val(Description);
     $("#Payment-Remarks").val("");
-    $("#Payment-Amount").val(0);
+    $("#Payment-Amount").val(Amount);
     $("#Payment-TmpAmount").val(Amount);
 }
 
@@ -443,15 +481,58 @@ function Payment(e) {
     var remarks = $("#Payment-Remarks").val();
 
     $(e).prop('disabled', true);
+    //if (amount > 0) {
+        $.post("/Payables/ApTransactions/AddPayment", { id: id, amount: amount, date: date, remarks: remarks }, (res) => {
+            if (res == "OK") {
+                //reload page
+                $("#overlay").hide();
 
-    $.post("/Payables/ApTransactions/AddPayment", { id: id, amount: amount, date: date, remarks: remarks }, (res) => {
-        if (res == "OK") {
-            //reload page
-            $("#overlay").hide();
-            window.location.reload(false);
-            $(e).prop('disabled', false);
-        }
-    });
+                //window.location.reload(false);
+                $(e).prop('disabled', false);
+
+                //update-text and status by id
+                $("#Expense-Payment-" + id).append('<span class="text-sucess">' + amount + ' </span>');
+
+
+                $("#Payment-Modal").modal('hide');
+
+            }
+        });
+    //} else {
+    //    alert("Unable to return 0 amount");
+    //}
+}
+
+
+//submit add payment amount
+function PaymentAndReturn(e) {
+    var amount = $("#Payment-Amount").val();
+    var id = $("#Payment-Id").val();
+    var date = $("#Payment-Date").val();
+    var remarks = $("#Payment-Remarks").val();
+
+    $(e).prop('disabled', true);
+    if (amount > 0) {
+        $.post("/Payables/ApTransactions/AddPayment", { id: id, amount: amount, date: date, remarks: remarks }, (res) => {
+            if (res == "OK") {
+                //reload page
+                $("#overlay").hide();
+
+                //window.location.reload(false);
+                $(e).prop('disabled', false);
+
+                //update-text and status by id
+                $("#Expense-Payment-" + id).append('<span class="text-sucess">' + amount + ' </span>');
+
+                POST_ReturnAmount(id, amount, remarks, date)
+
+                //reload page
+                $("#Payment-Modal").modal('hide');
+            }
+        });
+    } else {
+        alert("Unable to return 0 amount");
+    }
 }
 
 
@@ -461,6 +542,9 @@ function FundedTrans(e, id) {
     $.post("/Payables/ApTransactions/SetFunded", { id: id }, (res) => {
 
         $(e).prop('disabled', false);
+
+        //update-text and status by id
+        $("#Expense-Status-" + id).append('<span class="label label-info"> Funded </span>');
 
     })
 }

@@ -19,6 +19,7 @@ namespace JobsV1.Areas.Payables.Controllers
         private PayablesFactory ap = new PayablesFactory();
         private DateClassMgr dt = new DateClassMgr();
         private ApDBContainer db = new ApDBContainer();
+        private DateClassMgr dateServices = new DateClassMgr();
 
         private enum STATUS : int {
             NEW = 6,
@@ -630,6 +631,33 @@ namespace JobsV1.Areas.Payables.Controllers
             {
                 return false;
             }
+        }
+
+
+        [HttpPost]
+        public bool RequestFuel(int jobId, string Desc)
+        {
+
+            var expenses = new ApTransaction();
+
+            expenses.DtInvoice = dateServices.GetCurrentDateTime();
+            expenses.DtDue = dateServices.GetCurrentDateTime();
+            expenses.InvoiceNo = "";
+            expenses.JobRef = jobId;
+            expenses.Description = Desc;
+            expenses.DtEncoded = dateServices.GetCurrentDateTime();
+            expenses.DtService = dateServices.GetCurrentDateTime(); 
+            expenses.DtServiceTo = dateServices.GetCurrentDateTime();
+            expenses.DtDue = dateServices.GetCurrentDateTime();
+            expenses.BudgetAmt = 0;
+            expenses.BudgetAmt = 0;
+            expenses.ApAccountId = db.ApAccounts.Where(a => a.Name == "Real Breeze").FirstOrDefault().Id;
+            expenses.Remarks = "";
+
+            ap.TransactionMgr.AddTransaction(expenses);
+            ap.TransactionMgr.SaveChanges();
+
+            return false;
         }
         #endregion
 
