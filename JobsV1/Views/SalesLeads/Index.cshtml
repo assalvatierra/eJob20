@@ -224,18 +224,17 @@
 
                         @Html.Partial("_PartialSalesLeadActivities", item,
                             new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", USER }, { "IsAdmin", ISADMIN } })
-                            
-                        @*
+
+
+                        <!-- Late Loading Procurment / Supplier Items -->
                         @Html.Partial("_PartialSupplierItems", item.SalesLeadItems,
                             new ViewDataDictionary { { "Id", item.Id }, { "User", USER }, { "IsAdmin", ISADMIN } })     
-                        *@
+                        
 
                         <!--Add Files-->
 
-                        <br />
-                        @*@Html.Partial("_PartialLeadFiles", item.SalesLeadFiles.OrderByDescending(c => c.Id).FirstOrDefault(),
-                            new ViewDataDictionary { { "Id", item.Id }, { "FileCount", item.SalesLeadFiles.Count() } })*@
-
+                        @Html.Partial("_PartialLeadFiles", item.SalesLeadFiles.OrderByDescending(c => c.Id).FirstOrDefault(),
+                            new ViewDataDictionary { { "Id", item.Id }, { "FileCount", item.SalesLeadFiles.Count() } })
 
                         <br />
                         <span style="font: status-bar; color:gray;">

@@ -125,7 +125,7 @@ namespace JobsV1.Controllers
         //GET: /Procurement/ListActivityCodes
         public ActionResult ListActivityCodes(int id)
         {
-            var data = db.SupplierActActionCodes.ToList();
+            var data = db.SupplierActActionCodes.OrderBy(s=>s.SeqNo).ToList();
             ViewBag.SalesLeadId = id;
 
             return View(data);
