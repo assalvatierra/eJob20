@@ -473,6 +473,19 @@ function ShowPaymentModal(Id, Description, Amount) {
     $("#Payment-TmpAmount").val(Amount);
 }
 
+
+function ShowPaymentModal(Id, Description, Amount, ApDate) {
+    $("#Payment-Modal").modal('show');
+
+    $("#Payment-Id").val(Id);
+    $('#Payment-Date').val(moment(ApDate).format('MM/DD/YYYY hh:mm A'));
+    $("#Payment-Description").val(Description);
+    $("#Payment-Remarks").val("");
+    $("#Payment-Amount").val(0);
+    $("#Payment-TmpAmount").val(Amount);
+}
+
+
 //submit add payment amount
 function Payment(e) {
     var amount = $("#Payment-Amount").val();

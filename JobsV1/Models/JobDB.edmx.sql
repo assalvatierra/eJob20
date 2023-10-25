@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/23/2022 10:54:41
+-- Date Created: 07/25/2023 14:17:25
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -2186,7 +2186,7 @@ CREATE TABLE [dbo].[SupplierActivities] (
     [SupplierId] int  NOT NULL,
     [Amount] decimal(18,0)  NULL,
     [Type] nvarchar(20)  NULL,
-    [ProjName] nvarchar(80)  NULL,
+    [ProjName] nvarchar(160)  NULL,
     [ActivityType] nvarchar(20)  NOT NULL,
     [SupplierActStatusId] int  NOT NULL,
     [SupplierActActionCodeId] int  NOT NULL,
@@ -2215,7 +2215,7 @@ CREATE TABLE [dbo].[CustEntActivities] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Date] datetime  NOT NULL,
     [Assigned] nvarchar(40)  NOT NULL,
-    [ProjectName] nvarchar(80)  NULL,
+    [ProjectName] nvarchar(160)  NULL,
     [SalesCode] nvarchar(20)  NULL,
     [Amount] decimal(18,0)  NULL,
     [Status] nvarchar(20)  NOT NULL,

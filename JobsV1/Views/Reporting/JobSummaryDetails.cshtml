@@ -21,6 +21,10 @@
     decimal Expenses_Request = 0;
     decimal Expenses_Request_3rdParty = 0;
 
+    decimal TotalNetAmount_Tour = 0;
+    decimal Expenses_Amount_PO = 0;
+    decimal Expenses_Amount_Maintenance = 0;
+
     decimal Receivables_Amount = 0;
     decimal Receivables_Payment = 0;
     decimal Receivables_Deposit = 0;
@@ -30,6 +34,8 @@
 
     decimal decimal_zero = 0;
     int TriplogCount = 0;
+
+
 }
 
 <h2>Job Summary Details</h2>
@@ -90,6 +96,8 @@
         Triplog_DriverRate += trip.DriverFee;
         Triplog_DriverOT += trip.DriverOT;
         Triplog_DriverAmount += trip.DriverFee + trip.DriverOT;
+
+        
 
         if (trip.crLogUnit.crLogOwner.Name == "Realbreeze")
         {
@@ -175,7 +183,8 @@
             <b>
                 @Triplog_TotalRate.ToString("#,##0.00")
             </b>
-            <span hidden>
+            <span >
+                <br />
                 <br />
                 @Triplog_TotalRate_RB.ToString("#,##0.00")
                 <br />
@@ -197,7 +206,8 @@
             <b>
                 @Triplog_DriverAmount.ToString("#,##0.00")
             </b>
-            <span hidden>
+            <span >
+                <br />
                 <br />
                 @Triplog_DriverAmount_RB.ToString("#,##0.00")
                 <br />
@@ -226,19 +236,39 @@
             Type
         </th>
         <th>
+            Released
+        </th>
+        <th>
             Amount
+        </th>
+        <th>
+            Change
         </th>
     </tr>
 
     @foreach (var expense in Model.Expenses.Where(e => (e.ApTransStatu.Status == "Returned" || e.ApTransStatu.Status == "Closed" || e.ApTransStatu.Status == "Released") && e.ApTransCategory.Name != "3rd Party Expenses").OrderBy(e => e.DtInvoice))
     {
+        decimal Change = 0;
         if (expense.ApTransStatu.Status == "Returned" || expense.ApTransStatu.Status == "Closed" || expense.ApTransStatu.Status == "Released")
         {
             Expenses_Amount += expense.Amount;
-            Expenses_Payment += expense.ApTransPayments.Sum(c => c.ApPayment.Amount);
+
+            if (expense.ApTransType.Type == "PO"){
+
+                Expenses_Amount_PO += expense.Amount;
+            }
+
+            if (expense.ApTransType.Type == "Maintenance")
+            {
+
+                Expenses_Amount_Maintenance += expense.Amount;
+            }
+
+
         }
         else
         {
+
         }
         <tr>
             <td>
@@ -248,8 +278,12 @@
                 @expense.DtInvoice.ToString("MMM dd yyyy")
             </td>
             <td>
-                @expense.Description
-                <span class="text-muted"> @expense.Remarks </span>
+                <p> @expense.Description </p>
+                <span class="text-muted"> @expense.Remarks </span> 
+                @foreach (var subitems in expense.ApTransItems) 
+                {
+                    <p style="margin-bottom:0px;margin-left:10px;"> @subitems.Description - P @subitems.Amount.ToString("#,##0.00") </p>
+                }
             </td>
             <td>
                 @expense.ApTransStatu.Status
@@ -258,27 +292,45 @@
                 @expense.ApTransType.Type
             </td>
             <td>
+                @expense.ReleaseAmt
+            </td>
+            <td>
                 @if (expense.ApTransStatu.Status == "Returned" || expense.ApTransStatu.Status == "Closed" || expense.ApTransStatu.Status == "Released")
                 {
                     @expense.Amount.ToString("#,##0.00")
+                    
                 }
                 else
                 {
                     <span class="text-muted">  @expense.Amount.ToString("#,##0.00")</span>
                 }
 
+                @{ 
+                    if (expense.ApTransStatu.Status == "Returned" && expense.ApTransType.Type == "Cash")
+                    {
+                        Change = (Decimal)expense.ReleaseAmt - expense.Amount;
+                    }
+                }
+
+            </td>
+            <td>
+               @Change
             </td>
         </tr>
     }
     <tr>
-        <td colspan="5">
+        <td colspan="6">
         </td>
         <td>
             Total <br />
             <b>
                 @Expenses_Amount.ToString("#,##0.00")
             </b>
+
+            <br />
+            maintenance: @Expenses_Amount_Maintenance.ToString("#,##0.00")
         </td>
+        <td></td>
     </tr>
 </table>
 
@@ -305,7 +357,7 @@
         </th>
     </tr>
 
-    @foreach (var expense in Model.Expenses.Where(e => (e.ApTransStatu.Status == "Request" || e.ApTransStatu.Status == "Approved" || e.ApTransStatu.Status == "Returned" || e.ApTransStatu.Status == "Closed" || e.ApTransStatu.Status == "Released") && e.ApTransCategory.Name == "3rd Party Expenses").OrderBy(e => e.DtInvoice))
+    @foreach (var expense in Model.Expenses.Where(e => e.ApTransCategory.Name == "3rd Party Expenses").OrderBy(e => e.DtInvoice))
     {
         Expenses_Request_3rdParty += expense.Amount;
 
@@ -319,6 +371,11 @@
             <td>
                 @expense.Description
                 <span class="text-muted"> @expense.Remarks </span>
+
+                @foreach (var subitems in expense.ApTransItems)
+                {
+                   <p> @subitems.Description - P @subitems.Amount.ToString("#,##0.00") </p> 
+                }
             </td>
             <td>
                 @expense.ApTransStatu.Status
@@ -366,7 +423,7 @@
         </th>
     </tr>
 
-    @foreach (var expense in Model.Expenses.Where(e => (e.ApTransStatu.Status == "Requested" || e.ApTransStatu.Status == "New" || e.ApTransStatu.Status == "Approved") && e.ApTransCategory.Name != "3rd Party Expenses").OrderBy(e => e.DtInvoice))
+    @foreach (var expense in Model.Expenses.Where(e => (e.ApTransStatu.Status == "Request" || e.ApTransStatu.Status == "Requested" || e.ApTransStatu.Status == "New" || e.ApTransStatu.Status == "Approved") && e.ApTransCategory.Name != "3rd Party Expenses"  ).OrderBy(e => e.DtInvoice))
     {
         Expenses_Request +=  expense.Amount;
         <tr>
@@ -495,15 +552,29 @@
 </table>
 
 <hr />
+    @if (Model.Service == "Tour")
+    {
+        TotalNetAmount_Tour = (Receivables_Payment ) - ((Expenses_Amount  + Triplog_TotalRate_RB) - (Expenses_Amount_PO + Expenses_Amount_Maintenance));
+    }
 
-@{ TotalNetAmount = Receivables_Payment - Expenses_Amount - Expenses_Request_3rdParty - Triplog_DriverAmount; }
+    @{
+        TotalNetAmount = (Receivables_Payment ) - (Expenses_Amount + Triplog_DriverAmount_RB);
+    }
 
 <div style="padding:25px;background-color:#e8e8e8;">
     <h2> Summary </h2>
     <h3> Invoice Amount: <b>@Model.Amount.ToString("#,##0.00")</b></h3>
     <h3> Collected Amount:  <b>@Receivables_Payment.ToString("#,##0.00")</b></h3>
     <h3> Expense Amount:  <b>@Expenses_Amount.ToString("#,##0.00")</b></h3>
-    <h3> Drivers Amount:  <b>@Triplog_DriverAmount.ToString("#,##0.00")</b></h3>
+    <h3> Drivers Amount:  <b>@Triplog_DriverAmount_RB.ToString("#,##0.00")</b></h3>
+    @if (Model.Service == "Tour")
+    {
+        <h3> Transportation:  <b>@Triplog_TotalRate_RB.ToString("#,##0.00")</b></h3>
+    }
     <hr />
     <h3> Net Amount:  <b>@TotalNetAmount.ToString("#,##0.00")</b></h3>
-</div>
+    @if (Model.Service == "Tour")
+    {
+        <h3 style="color:gray;"> Tour Net Amount:  <b>@TotalNetAmount_Tour.ToString("#,##0.00")</b></h3>
+    }
+    </div>

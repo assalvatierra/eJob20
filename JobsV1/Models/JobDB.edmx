@@ -2006,7 +2006,7 @@
     <Property Name="SupplierId" Type="int" Nullable="false" />
     <Property Name="Amount" Type="decimal" Nullable="true" />
     <Property Name="Type" Type="nvarchar" Nullable="true" MaxLength="20" />
-    <Property Name="ProjName" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="ProjName" Type="nvarchar" Nullable="true" MaxLength="160" />
     <Property Name="ActivityType" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="SupplierActStatusId" Type="int" Nullable="false" />
     <Property Name="SupplierActActionCodeId" Type="int" Nullable="false" />
@@ -2035,7 +2035,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="Assigned" Type="nvarchar" Nullable="false" MaxLength="40" />
-    <Property Name="ProjectName" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="ProjectName" Type="nvarchar" Nullable="true" MaxLength="160" />
     <Property Name="SalesCode" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="Amount" Type="decimal" Nullable="true" />
     <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="20" />
@@ -7969,7 +7969,7 @@
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
           <Property Name="Amount" Type="Decimal" Nullable="true" />
           <Property Name="Type" Type="String" Nullable="true" MaxLength="20" />
-          <Property Name="ProjName" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="ProjName" Type="String" Nullable="true" MaxLength="160" />
           <Property Name="ActivityType" Type="String" Nullable="false" MaxLength="20" />
           <NavigationProperty Name="SupplierActStatu" Relationship="JobDB.SupplierActStatusSupplierActivity" FromRole="SupplierActivity" ToRole="SupplierActStatus" />
           <Property Name="SupplierActStatusId" Type="Int32" Nullable="false" />
@@ -8042,7 +8042,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Date" Type="DateTime" Nullable="false" />
           <Property Name="Assigned" Type="String" Nullable="false" MaxLength="40" />
-          <Property Name="ProjectName" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="ProjectName" Type="String" Nullable="true" MaxLength="160" />
           <Property Name="SalesCode" Type="String" Nullable="true" MaxLength="20" />
           <Property Name="Amount" Type="Decimal" Nullable="true" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="20" />

@@ -1568,6 +1568,10 @@ namespace JobsV1.Controllers
                 return HttpNotFound();
             }
 
+            var jobServiceDate = jobServicePickup.JobService.DtStart;
+
+            jobServicePickup.JsDate = (DateTime)jobServiceDate;
+
             ViewBag.Contact = db.JobContacts.Where(d => d.ContactType == "100").OrderBy(d=>d.ContactType).ToList();
             ViewBag.svcId = jobServicePickup.JobServicesId;
 
@@ -1938,7 +1942,7 @@ namespace JobsV1.Controllers
             {
                 sCompany = "RealWheels Davao Car Rental";
                 sLine1 = "Door 1 Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000";
-                sLine2 = "Tel# (+63)82 333-5157; (+63)9954508517; (+63)9193812657 ";
+                sLine2 = "Tel# (+63)82 333-5157; (+63)9171438050; (+63)9193812657 ";
                 sLine3 = "Email: inquiries.realwheels@gmail.com; Website: https://realwheelsdavao.com/";
                 sLine4 = " ";
                 sLogo = "Logo_Realwheels.png";
@@ -2047,8 +2051,8 @@ namespace JobsV1.Controllers
             {
                 case "grace.realbreeze@gmail.com":
                     return "Grace-chell V. Capandac";
-                case "jhudy.realbreeze@gmail.com":
-                    return "Jhudy Claire D. Molles";
+                case "ranel.realbreeze@gmail.com":
+                    return "Ranel Villahermosa";
                 case "assalvatierra@gmail.com":
                     return "Elvie S. Salvatierra ";
                 default:
@@ -2062,8 +2066,8 @@ namespace JobsV1.Controllers
             {
                 case "grace.realbreeze@gmail.com":
                     return "/Images/Signature/GraceSign.jpg";
-                case "jhudy.realbreeze@gmail.com":
-                    return "/Images/Signature/JhudySign.jpg";
+                case "ranel.realbreeze@gmail.com":
+                    return "/Images/Signature/RanelSign.jpg";
                 case "assalvatierra@gmail.com":
                     return "/Images/Signature-1.png";
                 default:

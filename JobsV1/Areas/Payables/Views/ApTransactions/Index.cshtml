@@ -438,7 +438,7 @@
                                 {
                                     if (item.ApTransTypeId != TYPE_PO)
                                     {
-                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount)"> Add Payment </a>
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id,'@item.Description', @item.Amount, '@item.DtInvoice.ToString("MM/dd/yyyy")')"> Add Payment </a>
                                     }
                                     else
                                     {

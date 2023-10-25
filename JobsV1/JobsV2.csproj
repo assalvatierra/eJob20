@@ -816,6 +816,7 @@
     <Compile Include="Models\Class\PortalCustomersClass.cs" />
     <Compile Include="Models\Class\RptGmsAutoClass.cs" />
     <Compile Include="Models\Class\SalesLeadClass.cs" />
+    <Compile Include="Models\Class\StringExt.cs" />
     <Compile Include="Models\CoopMember.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1630,6 +1631,7 @@
     <Content Include="Images\AutoCare\icons-suv.png" />
     <Content Include="Images\AutoCare\icons-user.png" />
     <Content Include="Images\AutoCare\icons-wrench.png" />
+    <Content Include="Images\CarRental\settings.png" />
     <Content Include="Images\Icons\Call.png" />
     <Content Include="Images\CarRental\4x4.101.png" />
     <Content Include="Images\CarRental\Ads\Ads-Airport-2019.png" />
@@ -1918,7 +1920,6 @@
     <Content Include="Images\CarRental\tourer\Toyota-tourer-seats.jpg" />
     <Content Include="Images\CarRental\Driver102.png" />
     <Content Include="Images\CarRental\OffRoad101.png" />
-    <Content Include="Images\CarRental\settings.png" />
     <Content Include="Images\CarRental\OffRoad101.jpg" />
     <Content Include="Images\CarRental\OffRoad102.jpg" />
     <Content Include="Images\CarRental\placeholder.png" />
@@ -2127,6 +2128,8 @@
     <Content Include="Images\Signature-1.png" />
     <Content Include="Images\Signature\GraceSign.jpg" />
     <Content Include="Images\Icons\SMS.png" />
+    <Content Include="Images\Signature\JenSign.jpg" />
+    <Content Include="Images\Signature\RanelSign.jpg" />
     <Content Include="Images\SolidSteel\Solid Steel Logo.jpg" />
     <Content Include="Images\SolidSteel\V-Steel-Logo-2022.png" />
     <Content Include="Models\Migration\1-20-2023-Add-CustAssocTypes.sql" />
@@ -2714,6 +2717,7 @@
     <Content Include="Areas\Personel\Views\crLogBilling\IndexSupplierBilling.cshtml" />
     <Content Include="Areas\Personel\Views\crLogBilling\PrintIndexSupplierBilling.cshtml" />
     <Content Include="Areas\Personel\Views\crLogBilling\PrintIndexSupplierBillingNoDriver.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransactions\_IndexModals.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
@@ -2899,7 +2903,7 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Login2.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
@@ -3471,7 +3475,7 @@
     <Content Include="Areas\AutoCare\Views\RptGmsAuto\ReferralReport.cshtml" />
     <Content Include="Views\JobPostSales\Update.cshtml" />
     <Content Include="Views\Account\Login-default.cshtml" />
-    <Content Include="Views\Account\Login-solidsteel.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\JobPostSales\Index2.cshtml" />
     <Content Include="Views\Cashier\_EditPaymentStatus.cshtml" />
     <Content Include="Views\JobOrder\_PermissionModal.cshtml" />
@@ -3606,6 +3610,7 @@
     <Content Include="Views\SalesLeads\_PartialSalesLeadActivities.cshtml" />
     <Content Include="Views\SalesLeads\_PartialLeadItemWeight.cshtml" />
     <Content Include="Views\CustEntMains\_CompanyStatus.cshtml" />
+    <Content Include="Views\Activities\IndexActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -3683,6 +3688,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
+      <UserProperties content_4bootstrap-theme_1min_1css_1map__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

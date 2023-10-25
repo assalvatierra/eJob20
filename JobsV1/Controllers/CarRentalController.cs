@@ -56,7 +56,7 @@ namespace JobsV1.Controllers
             //End of SEO
 
             ViewBag.isAuthorize = HttpContext.User.Identity.Name == "" ? 0 : 1;
-            ViewBag.CarUnitList = db.CarUnits.ToList();
+            ViewBag.CarUnitList = db.CarUnits.Where(c=>c.Status == "ACTIVE").ToList();
             ViewBag.CarRates = db.CarRates.ToList();
             ViewBag.Packages = db.CarRatePackages.ToList();
 

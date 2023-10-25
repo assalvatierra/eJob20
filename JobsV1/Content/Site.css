@@ -131,8 +131,9 @@ textarea {
     padding: 5px 15px;
 }
 
-.car-home-list{
-    padding:10px;
+
+.car-home-list {
+    padding: 10px;
 }
 
 .car-img {
@@ -802,16 +803,19 @@ rental-type-wdriver {
         width: 340px;
     }
 
-    .joblist-status{
-        display:inline;
-        height:30px;
-        margin-top:-20px;
+    .joblist-status {
+        display: flex;
+        height: 30px;
+        margin-top: -20px;
+        margin-bottom: 5px;
+        justify-content: end;
     }
 
-    .joblist-status .label {
-        font-size:12px;
-        margin-top:0.5px;
-    }
+        .joblist-status .label {
+            font-size: 12px;
+            margin-top: 0.5px;
+            padding: 5px;
+        }
 
     .joblist-description {
         display:block;

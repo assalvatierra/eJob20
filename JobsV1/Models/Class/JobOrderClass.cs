@@ -1297,5 +1297,19 @@ namespace JobsV1.Models
 
             return receivables;
         }
+
+        public string GetJobServiceType(int jobId)
+        {
+            string type = "Car Rental";
+
+            var jobServices = db.JobServices.Where(j => j.JobMainId == jobId && j.Service.Name == "Tour").ToList();
+
+            if (jobServices.Count > 0)
+            {
+                type = jobServices.FirstOrDefault().Service.Name;
+            }
+
+            return type;
+        }
     }
 }

@@ -91,7 +91,7 @@ namespace JobsV1.Controllers
                     record.Odometer = int.Parse(db.InvCarGateControls.Where(s => s.InvItemId == (int)carId).OrderByDescending(s => s.dtControl).FirstOrDefault().Odometer);
             }
 
-            var invItems = db.InvItems.Where(s => s.ViewLabel == "UNIT").Select(
+            var invItems = db.InvItems.Where(s => s.ViewLabel == "UNIT" && s.OrderNo == 100).Select(
                         s => new SelectListItem
                         {
                             Value = s.Id.ToString(),
@@ -145,8 +145,20 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
+
+            var invItems = db.InvItems.Where(s => s.ViewLabel == "UNIT" && s.OrderNo == 100).Select(
+                        s => new SelectListItem
+                        {
+                            Value = s.Id.ToString(),
+                            Text = s.ItemCode.ToString() + " - " + s.Description
+                        }
+                 );
+
             ViewBag.InvCarRecordTypeId = new SelectList(db.InvCarRecordTypes, "Id", "Description", invCarRecord.InvCarRecordTypeId);
-            ViewBag.InvItemId = new SelectList(db.InvItems, "Id", "ItemCode", invCarRecord.InvItemId);
+            ViewBag.InvItemId = new SelectList(invItems, "Value", "Text", invCarRecord.InvItemId);
+
+            //ViewBag.InvCarRecordTypeId = new SelectList(db.InvCarRecordTypes, "Id", "Description", invCarRecord.InvCarRecordTypeId);
+            //ViewBag.InvItemId = new SelectList(db.InvItems, "Id", "ItemCode", invCarRecord.InvItemId);
             return View(invCarRecord);
         }
 

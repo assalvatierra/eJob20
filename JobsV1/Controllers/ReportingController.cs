@@ -175,6 +175,7 @@ order by x.jobid
             jobSummary.Expenses = jobs.GetExpensesByJobId(id);
             jobSummary.Receivables = jobs.GetReceivablesByJobId(id);
             jobSummary.Status = jobs.GetJobStatusByJobId(id);
+            jobSummary.Service = jobs.GetJobServiceType(id);
 
             return View(jobSummary);
         }

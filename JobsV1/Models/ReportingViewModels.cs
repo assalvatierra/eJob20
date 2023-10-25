@@ -31,6 +31,7 @@ namespace JobsV1.Models
         {
             public int Id { get; set; }
             public string Account { get; set; }
+            public string Service { get; set; }
             public string Date { get; set; }
             public decimal Amount { get; set; }
             public string Status { get; set; }
