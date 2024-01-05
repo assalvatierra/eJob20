@@ -15,6 +15,7 @@ namespace JobsV1.Areas.Payables.Controllers
     public class ApAccountsController : Controller
     {
         private PayablesFactory ap = new PayablesFactory();
+        private ApDBContainer db = new ApDBContainer();
 
         // GET: Payables/ApAccounts
         public ActionResult Index()
@@ -38,6 +39,32 @@ namespace JobsV1.Areas.Payables.Controllers
             return View(apAccount);
         }
 
+        [HttpPost]
+        // GET: Payables/ApTransactions/Details/5
+        public ActionResult Details(int? id, DateTime startDate, DateTime endDate)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApAccount apAccount = ap.AccountMgr.GetAccountById((int)id);
+
+            if (startDate != null || endDate != null)
+            {
+                var transactions = apAccount.ApTransactions.Where(s => s.ApAccountId == id &&
+                                (s.DtInvoice >= startDate && s.DtInvoice < endDate))
+                                .ToList();
+                apAccount.ApTransactions = transactions;
+            }
+
+            if (apAccount == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.StartDateFilter = startDate;
+            ViewBag.EndDateFilter = endDate;
+            return View(apAccount);
+        }
         // GET: Payables/ApAccounts/Create
         public ActionResult Create()
         {

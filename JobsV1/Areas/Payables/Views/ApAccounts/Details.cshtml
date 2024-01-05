@@ -58,7 +58,19 @@
     </div>
 </div>
 
+<div>
 
+    @using (Html.BeginForm())
+    {
+        <span> Start date </span>
+        <input type="date" id="startDate" name="startDate" value="@ViewBag.StartDateFilter" />
+        <span> End date </span>
+        <input type="date" id="endDate"  name="endDate"  value="@ViewBag.EndDateFilter" />
+        <button class="btn btn-primary" type="submit" value="Search">
+            Search
+        </button>
+    }
+    </div>
 <div class="col-md-12">
     <h3> Payables </h3>
 

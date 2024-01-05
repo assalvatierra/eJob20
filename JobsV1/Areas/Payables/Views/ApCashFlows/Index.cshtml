@@ -79,14 +79,16 @@
                 <td>
                     @if (item.REQUEST != null)
                     {
-                        <span class="text-success"> @item.REQUEST</span>
+                        var reqAmount = (Decimal)item.REQUEST;
+                        <span class="text-success"> @reqAmount.ToString("#,##0.00")</span>
                     }
                 </td>
 
                 <td>
                     @if (item.FUNDED != null)
                     {
-                        <span class="text-primary"> @item.FUNDED</span>
+                        var fundAmount = (Decimal)item.FUNDED;
+                        <span class="text-primary"> @fundAmount.ToString("#,##0.00")</span>
                     }
                 </td>
                 <td>

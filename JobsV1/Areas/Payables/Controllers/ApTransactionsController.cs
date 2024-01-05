@@ -131,6 +131,35 @@ namespace JobsV1.Areas.Payables.Controllers
             return View(apTransaction);
         }
 
+        [HttpPost]
+        // GET: Payables/ApTransactions/Details/5
+        public ActionResult Details(int? id, DateTime startDate ,DateTime endDate)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
+            ApTransaction apTransaction = ap.TransactionMgr.GetTransactionById((int)id);
+
+            if (startDate != null || endDate != null)
+            {
+                var Payments = db.ApTransPayments.Where(s => s.ApTransaction.ApAccountId == id &&
+                                (s.ApTransaction.DtInvoice >= startDate && s.ApTransaction.DtInvoice < endDate))
+                                .ToList();
+                apTransaction.ApTransPayments = Payments;
+            }
+
+            if (apTransaction == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Repeating = apTransaction.ApTransRepeat;
+            return View(apTransaction);
+        }
+
+
         // GET: Payables/ApTransactions/Create
         public ActionResult Create()
         {
