@@ -525,7 +525,7 @@ function PaymentAndReturn(e) {
     var remarks = $("#Payment-Remarks").val();
 
     $(e).prop('disabled', true);
-    if (amount > 0) {
+    /*if (amount > 0) {*/
         $.post("/Payables/ApTransactions/AddPayment", { id: id, amount: amount, date: date, remarks: remarks }, (res) => {
             if (res == "OK") {
                 //reload page
@@ -543,9 +543,9 @@ function PaymentAndReturn(e) {
                 $("#Payment-Modal").modal('hide');
             }
         });
-    } else {
-        alert("Unable to return 0 amount");
-    }
+    //} else {
+    //    alert("Unable to return 0 amount");
+    //}
 }
 
 

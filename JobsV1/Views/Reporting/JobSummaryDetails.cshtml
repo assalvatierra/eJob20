@@ -250,7 +250,16 @@
 
     @foreach (var expense in Model.Expenses.Where(e => (e.ApTransStatu.Status == "Returned" || e.ApTransStatu.Status == "Closed" || e.ApTransStatu.Status == "Released") && e.ApTransCategory.Name != "3rd Party Expenses").OrderBy(e => e.DtInvoice))
     {
-        var actualReleased = (decimal)expense.ReleaseAmt;
+
+
+        decimal actualReleased =  0;
+
+
+        if (expense.ReleaseAmt != null)
+        {
+            actualReleased = expense.ReleaseAmt != null ? (decimal)expense.ReleaseAmt : 0; 
+
+        }
 
         var changeAmount = actualReleased - expense.Amount;
 
