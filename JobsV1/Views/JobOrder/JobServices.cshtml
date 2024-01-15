@@ -218,7 +218,7 @@
                 </td>
                 <td>
                         <p>
-                            @if (item.DtStart > DateTime.Today)
+                            @if (item.DtStart > DateTime.Today && ViewBag.JobStatus == "INQUIRY")
                             {
                                 <text>
                                     @Html.ActionLink("Edit", "JobServiceEdit", new { id = item.Id }) |

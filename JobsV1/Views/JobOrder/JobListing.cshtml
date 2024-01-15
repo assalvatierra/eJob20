@@ -100,10 +100,14 @@
                             <span>/</span>
                             <span>@item.Main.Customer.Name</span>
 
-                            <br />
-                            <span>
-                                @item.Main.Description
-                            </span>
+                            @if (item.Main.Customer.Name != item.Main.Description)
+                            {
+                                <br />
+                                <span>
+                                    @item.Main.Description
+                                </span>
+                            }
+
                             <br />
                             <span>
                                 @item.Main.JobRemarks
@@ -118,26 +122,55 @@
                     {
 
                         <!-- RESERVATION / CONFIRM -->
-                <p style="margin-bottom:0px">
+                        <p style="margin-bottom:0px">
 
-                    <span style="font-weight:bold;">
-                        @item.Company
-                    </span>
+                            <span style="font-weight:bold;">
+                                @item.Company
+                            </span>
 
-                    <span>/</span>
-                    <span>@item.Main.Customer.Name</span>
-                    <br />
-                    <span>
-                        @item.Main.Description
-                    </span>
-                    <br />
-                    <span>
-                        @item.Main.Description
-                    </span>
-                </p>
+                            <span>/</span>
+                            <span>@item.Main.Customer.Name</span>
+
+                            @if (item.Main.Customer.Name != item.Main.Description)
+                            {
+                                <br />
+                                <span>
+                                    @item.Main.Description
+                                </span>
+                            }
+                        </p>
 
                         <span class="table-name-col" style="padding-left:0px;color:black;">
-                            [ @item.Main.JobStatus.Status ]
+                            @if (item.Main.JobStatusId == 1)
+                            {
+                                <span class="label label-default">
+                                    @item.Main.JobStatus.Status
+                                </span>
+                            }
+                            else if (item.Main.JobStatusId == 2)
+                            {
+                                <span class="label label-info">
+                                    @item.Main.JobStatus.Status
+                                </span>
+                            }
+                            else if (item.Main.JobStatusId == 3)
+                            {
+                                <span class="label label-success">
+                                    @item.Main.JobStatus.Status
+                                </span>
+                            }
+                            else if (item.Main.JobStatusId == 4)
+                            {
+                                <span class="label label-primary">
+                                    @item.Main.JobStatus.Status
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="label label-warning" style="margin-bottom:5px;margin-top:-5px;font-size:15px;">
+                                    @item.Main.JobStatus.Status
+                                </span>
+                            }
                         </span>
                     }
                 </td>
@@ -301,9 +334,13 @@
                                 <span>@item.Main.Customer.Name</span>
 
                                 <span>-</span>
-                                <span>
-                                    @item.Main.Description
-                                </span>
+                                @if (item.Main.Customer.Name != item.Main.Description)
+                                {
+                                    <br />
+                                    <span>
+                                        @item.Main.Description
+                                    </span>
+                                }
                             </span>
                         }
                         else
@@ -315,11 +352,13 @@
                                 <span>/</span>
                                 <span>@item.Main.Customer.Name</span>
                                 <span>-</span>
-                                <span>
-                                    @item.Main.Description
-                                </span>
-                                <span>
-                                </span>
+                                @if (item.Main.Customer.Name != item.Main.Description)
+                                {
+                                    <br />
+                                    <span>
+                                        @item.Main.Description
+                                    </span>
+                                }
                             </span>
                         }
                     </td>
@@ -488,7 +527,11 @@
                                     @item.Company
                                 </span>
                                 <span>/</span>
-                                <span>@item.Main.Customer.Name</span>
+
+                                @if (item.Main.Customer.Name != item.Main.Description)
+                                {
+                                    <span>@item.Main.Customer.Name</span>
+                                }
 
                                 <span>-</span>
                                 <span>
@@ -507,8 +550,10 @@
                                 </span>
 
                                 <span>/</span>
-                                <span>@item.Main.Customer.Name</span>
-
+                                @if (item.Main.Customer.Name != item.Main.Description)
+                                {
+                                    <span>@item.Main.Customer.Name</span>
+                                }
                                 <span>-</span>
                                 <span>
                                     @item.Main.Description

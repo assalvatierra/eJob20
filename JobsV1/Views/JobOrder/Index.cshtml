@@ -116,9 +116,17 @@
 
                         <br />
                         
+                           
                         <span class="joblist-description" style="font:500 10px;color:darkblue;">
-                             @item.Main.Description
+                            @if (item.Main.Customer.Name != item.Main.Description)
+                            {
+                                @item.Main.Description
+                                <br />
+                            }
+                            Pax: @item.Main.NoOfPax
                         </span>
+                         
+
                         <div class="joblist-status pull-right">
                             @if (item.Main.JobStatusId == 1)
                             {
@@ -192,8 +200,8 @@
                         }
 
                         <!--
-    Html.ActionLink("[ Send Email ]", "SendEmail", new { jobId = item.Main.Id , mailType = "CLIENT" }, null)
-      -->
+                        Html.ActionLink("[ Send Email ]", "SendEmail", new { jobId = item.Main.Id , mailType = "CLIENT" }, null)
+                          -->
                     </p>
                 </td>
             </tr>
