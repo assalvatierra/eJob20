@@ -36,13 +36,13 @@ namespace JobsV1.Controllers
 
         // GET: Activities
         [Authorize]
-        public ActionResult Index(string sdate, string edate)
+        public ActionResult Index(string sdate, string edate, string name)
         {
             var user = HttpContext.User.Identity.Name;
             var isAdmin = false;
             var date1 = new DateTime();
             var date2 = new DateTime();
-
+            var filtername = "";
             //handle date
             if (sdate != null || edate != null)
             {
@@ -54,8 +54,14 @@ namespace JobsV1.Controllers
                 date1 = dt.GetCurrentDate().AddMonths(-1);
                 date2 = dt.GetCurrentDate().AddDays(1);
             }
-            
-            //handle user roles
+
+            if (String.IsNullOrEmpty(name))
+            {
+                name = filtername;
+            }
+
+
+                //handle user roles
             if (User.IsInRole("Admin"))
             {
                 isAdmin = true;
@@ -66,6 +72,14 @@ namespace JobsV1.Controllers
 
                 //get activities of all users on Companies
                 var companyActivity = ac.GetCompanyActivitiesAdmin(date1,date2);
+
+                if (!String.IsNullOrEmpty(name))
+                {
+                    companyActivity = companyActivity.Where(c => c.Assigned.Contains(name)).OrderByDescending(c=>c.Date);
+                }
+
+                ViewBag.filterName = name; 
+
                 return View(companyActivity);
             }
             else
@@ -77,6 +91,9 @@ namespace JobsV1.Controllers
 
                 //get activities of the user on Companies
                 var companyActivity = ac.GetCompanyActivitiesUser(user, date1, date2);
+
+                ViewBag.filterName = name;
+
                 return View(companyActivity);
             }
         }

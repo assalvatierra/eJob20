@@ -652,8 +652,12 @@ namespace JobsV1.Controllers
                     return Json(null, JsonRequestBehavior.AllowGet);
                 }
 
-                var defaultCustomer = customerList.FirstOrDefault().Customer;
+                var defaultCustomer = customerList.Where(s => s.Customer.Status == "ACT").FirstOrDefault().Customer;
 
+                if (defaultCustomer == null)
+                {
+                    return Json(null, JsonRequestBehavior.AllowGet);
+                }
 
                 return Json(new
                 {

@@ -27,7 +27,7 @@
 
                 <span style="color:maroon;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency - @tmpAct.Type | @tmpAct.Remarks </span>
                 <span style="font:status-bar;color:darkgray;">
-                    @tmpAct.DtActivity.ToString("MMM-dd-yyyy")
+                    @tmpAct.DtActivity.ToString("MMM-dd-yyyy hh:mm tt")
                     &nbsp;By: @tmpAct.Assigned.Split('@')[0]
                 </span>
 
@@ -40,7 +40,8 @@
                      alt=@tmpAct.SupplierActActionCode.IconPath height="16"
                      title=@tmpAct.SupplierActActionCode.IconPath />
                 <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name  - @amount.ToString("N0") @tmpAct.Currency -  @tmpAct.Type | @tmpAct.Remarks</span>
-                <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                <span style="font:status-bar;color:darkgray;">
+                    @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
                 <br />
             }
             if (tmpAct.SupplierActActionStatusId == 3)
@@ -51,7 +52,8 @@
                      title=@tmpAct.SupplierActActionCode.IconPath />
                 <strike style="color:darkgray;">
                     <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency -  @tmpAct.Type | @tmpAct.Remarks</span>
-                    <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                    <span style="font:status-bar;color:darkgray;"> 
+                        @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
                 </strike>
                 <br />
             }

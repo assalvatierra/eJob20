@@ -84,6 +84,8 @@
     <tr>
         <td>
             @item.Date.ToString("MMM dd yyyy (ddd)")
+            <br />
+            @DateTime.Parse(item.Date.ToString()).ToString("hh:mm tt")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Assigned)

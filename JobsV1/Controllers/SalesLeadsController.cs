@@ -94,16 +94,16 @@ namespace JobsV1.Controllers
 
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
-            ViewBag.StatusCodes = db.SalesStatusCodes
+            ViewBag.StatusCodes = await db.SalesStatusCodes
                 .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 2)
-                .OrderBy(s => s.OrderNo).ThenBy(s => s.Id).ToList();
+                .OrderBy(s => s.OrderNo).ThenBy(s => s.Id).ToListAsync();
             ViewBag.User = HttpContext.User.Identity.Name;
-            ViewBag.ActTypes = db.CustEntActTypes.ToList();
+            ViewBag.ActTypes = await db.CustEntActTypes.ToListAsync();
             ViewBag.IsAdmin = IsUserAdmin();
             ViewBag.IsChecker = User.IsInRole("Checker");
 
             //for adding new item 
-            ViewBag.InvItems = db.InvItems.ToList();
+            ViewBag.InvItems = await db.InvItems.Where(i =>  i.ItemCode != "").ToListAsync();
 
             return View(salesLeads);
         }

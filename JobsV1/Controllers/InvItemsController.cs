@@ -52,10 +52,11 @@ namespace JobsV1.Controllers
         public ActionResult Index(int? showAll)
         {
             //inventory items
-            var itemList = db.InvItems.Include(s => s.SupplierInvItems)
-                .Include(s => s.InvCarRecords)
-                .Include(s => s.InvCarGateControls)
-                .Include(s => s.CoopMemberItems)
+            var itemList = db.InvItems
+                //.Include(s => s.SupplierInvItems)
+                //.Include(s => s.InvCarRecords)
+                //.Include(s => s.InvCarGateControls)
+                //.Include(s => s.CoopMemberItems)
                 .Where(s => s.OrderNo < 500);
 
             if (showAll == 1)

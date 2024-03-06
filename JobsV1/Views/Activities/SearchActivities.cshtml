@@ -44,6 +44,8 @@
         <tr>
             <td>
                 @DateTime.Parse(item.Date.ToString()).ToString("MMM dd yyyy")
+                <br />
+                @DateTime.Parse(item.Date.ToString()).ToString("hh:mm tt")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProjectName)

@@ -58,7 +58,7 @@ namespace JobsV1.Controllers
                 .OrderBy(s => s.OrderNo).ThenBy(s=>s.Id).ToList();
             ViewBag.UnitList = db.SupplierUnits.ToList();
             ViewBag.Suppliers = db.Suppliers.Where(s => s.Status != "INC").OrderBy(s => s.Name).ToList();
-            ViewBag.Items = db.InvItems.ToList();
+            ViewBag.Items = db.InvItems.Where(i => i.ItemCode != "").ToList();
             ViewBag.User = HttpContext.User.Identity.Name;
             ViewBag.UserName = GetUserName();
             ViewBag.IsAdmin = IsUserAdmin();
@@ -94,7 +94,7 @@ namespace JobsV1.Controllers
                 .OrderBy(s => s.OrderNo).ThenBy(s => s.Id).ToList();
             ViewBag.UnitList = db.SupplierUnits.ToList();
             ViewBag.Suppliers = db.Suppliers.Where(s => s.Status != "INC").OrderBy(s => s.Name).ToList();
-            ViewBag.Items = db.InvItems.ToList();
+            ViewBag.Items = db.InvItems.Where(i=>i.ItemCode != "").ToList();
             ViewBag.User = HttpContext.User.Identity.Name;
             ViewBag.UserName = GetUserName();
             ViewBag.IsAdmin = IsUserAdmin();
@@ -109,7 +109,7 @@ namespace JobsV1.Controllers
         //Partial View: /Procurement/AddSupItemPartial
         public void AddSupItemPartial()
         {
-            var items = db.InvItems.ToList();
+            var items = db.InvItems.Where(i => i.ItemCode != "").ToList();
             ViewBag.InvItems = items;
         }
 
@@ -428,7 +428,7 @@ namespace JobsV1.Controllers
                     supplierActivity.Amount = 0;
                 }
 
-                supplierActivity.ProjName = supplierActivity.ProjName.Truncate(80);
+                supplierActivity.ProjName = supplierActivity.ProjName;
 
                 supplierActivity.SupplierActActionStatusId = 1; // default 
                 supplierActivity.Amount = Decimal.Parse(supplierActivity.Amount.ToString());

@@ -63,7 +63,7 @@ else
                      alt=@tmpAct.SalesActCode.iconPath height="16"
                      title=@tmpAct.SalesActCode.iconPath />
                 <span style="color:darkgray;">@tmpAct.Particulars</span>
-                <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy hh:mm tt")</span>
                 <br />
             }
             if (tmpAct.SalesActStatusId == 3)
@@ -73,7 +73,7 @@ else
                      alt=@tmpAct.SalesActCode.iconPath height="16"
                      title=@tmpAct.SalesActCode.iconPath />
                 <span style="color:darkgray;">@tmpAct.Particulars</span>
-                <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy hh:mm tt")</span>
                 <br />
             }
         }

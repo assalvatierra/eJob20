@@ -40,7 +40,7 @@
             </a>*@
         <table class="table" id="Act-Main-Table">
             <tr>
-                <th>
+                <th style="width:120px">
                     @Html.DisplayNameFor(model => model.Date)
                 </th>
                 <th>
@@ -88,6 +88,8 @@
                 <tr>
                     <td>
                         @DateTime.Parse(item.Date.ToString()).ToString("MMM-dd yyyy")
+                        <br />
+                        @DateTime.Parse(item.Date.ToString()).ToString("hh:mm tt")
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ProjectName)

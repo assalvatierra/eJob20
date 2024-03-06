@@ -437,14 +437,17 @@ LEFT JOIN CustNotifs cn ON cn.Id = cnr.CustNotifId
 WHERE cna.DtActivity <= convert(datetime, GETDATE()) AND cna.Status = 'PENDING'            
 
 --Company List--                                                           
-SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
+SELECT * FROM (SELECT 
+                 cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
                  City = (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), 
                  cust.Name as ContactName, cust.Email as ContactEmail, cust.Contact1 as ContactNumber, 
                  cet.Position as ContactPosition 
                  FROM CustEntMains cem 
                  LEFT JOIN CustEntities cet ON cet.CustEntMainId = cem.Id 
                  LEFT JOIN Customers cust ON cust.Id = cet.CustomerId ) as com 
-                 WHERE Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE')                 
+                 WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE'))
+                 AND (com.Status != 'INC' OR com.Status != 'BAD' )
+                 AND  com.AssignedTo Like '%mark%'
 				 ORDER BY 
                          CASE com.Status
                               WHEN 'PRI' THEN 1
@@ -452,8 +455,21 @@ SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM C
                               WHEN 'ACC' THEN 3
                               WHEN 'ACP' THEN 4
                               WHEN 'BIL' THEN 5
-                              ELSE 6 END; 
-                             
+                              ELSE 6 END;
+
+SELECT * FROM 
+    (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId )FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
+    City = (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), 
+    cust.Name as ContactName, cust.Email as ContactEmail, cust.Contact1 as ContactNumber, cet.Position as ContactPosition 
+    FROM CustEntMains cem LEFT JOIN CustEntities cet ON cet.CustEntMainId = cem.Id LEFT JOIN Customers cust ON cust.Id = cet.CustomerId ) 
+    as com  
+    
+    WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE' AND AssignedTo='admin@gmail.com')) 
+  
+    AND  com.Name Like '%Google%'  
+    ORDER BY com.Name ASC;
+
+    
 
 SELECT  jm.Id, jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
 Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
@@ -767,3 +783,12 @@ SELECT Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MIN(job.DtEnd), Job
 		                            FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId  WHERE jm.Id = 17
 
 SELECT j.Id FROM JobMains j WHERE j.JobStatusId < 4 AND j.JobDate < GETDATE() AND MONTH(j.JobDate) != MONTH(GETDATE()) 
+
+
+
+ SELECT sl.*, 
+ SalesStatusCodeId = (SELECT TOP 1 st.SalesStatusCodeId FROM SalesStatus LEFT JOIN SalesStatusCodes ssc ON ssc.Id = st.SalesStatusCodeId WHERE st.SalesLeadId = sl.Id  AND ssc.SeqNo < 3 )  
+ FROM SalesLeads sl 
+LEFt JOIN SalesStatus st ON st.SalesLeadId = sl.Id 
+WHERE SalesStatusCodeId > 0 AND st.SalesStatusStatusId = 1 AND 
+sl.Date >= DateAdd(month, DateDiff(month, 0, DateAdd(month,-12,GetDate())), 0) ORDER BY  sl.Date DESC ;

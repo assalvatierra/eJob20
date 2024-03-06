@@ -66,7 +66,7 @@
             </td>
             <td>
                 <!--List for Inv Item Categories-->
-                @foreach (var cat in item.InvItemCategories as IEnumerable<JobsV1.Models.InvItemCategory>)
+                <!--foreach (var cat in item.InvItemCategories as IEnumerable<JobsV1.Models.InvItemCategory>)
                 {
                     if (cat.InvItemCatId == 2 || cat.InvItemCatId == 3 || cat.InvItemCatId == 4)
                     {
@@ -74,21 +74,21 @@
                     }
 
                     <span>
-                        @Html.DisplayFor(modelItem => cat.InvItemCat.Name)
+                        Html.DisplayFor(modelItem => cat.InvItemCat.Name)
                     </span>
                     <br />
                 }
 
 
-                <br />
+                <br />-->
                 <!--List for Inv Item Suppliers-->
-                @foreach (var supplier in item.SupplierInvItems as IEnumerable<JobsV1.Models.SupplierInvItem>)
+                <!--foreach (var supplier in item.SupplierInvItems as IEnumerable<JobsV1.Models.SupplierInvItem>)
                 {
 
 
-                    @Html.DisplayFor(modelItem => supplier.Supplier.Name)
+                    Html.DisplayFor(modelItem => supplier.Supplier.Name)
                     <br />
-                }
+                }-->
 
             </td>
 

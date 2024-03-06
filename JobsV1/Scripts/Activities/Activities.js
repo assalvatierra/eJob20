@@ -4,7 +4,8 @@
 
 $(document).ready(new function () {
     var sDate ;
-    var eDate ;
+    var eDate;
+    var name;
     let searchParams = new URLSearchParams(window.location.search)
 
     if (searchParams.has('sDate')) {
@@ -12,6 +13,7 @@ $(document).ready(new function () {
         //get dates from url parameter
         sDate = getUrlParameter('sDate');
         eDate = getUrlParameter('eDate');
+        name = getUrlParameter('name');
         
     } else {
 
@@ -22,15 +24,17 @@ $(document).ready(new function () {
     }
     $("#DtStart").val(sDate);
     $("#DtEnd").val(eDate);
+    $("#Name").val(name);
 });
 
 
 function Filter() {
    console.log("test");
    var startDate = $("#DtStart").val();
-   var endDate = $("#DtEnd").val();
+    var endDate = $("#DtEnd").val();
+    var name = $("#Name").val();
 
-   window.location.href = "/Activities?sDate=" + startDate + "&eDate=" + endDate;
+    window.location.href = "/Activities?sDate=" + startDate + "&eDate=" + endDate + "&name=" + name;
 }
 
 //get url parameter

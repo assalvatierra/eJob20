@@ -93,6 +93,57 @@ namespace JobsV1.Controllers
             }
         }
 
+
+        //Ajax - Table Result 
+        //Get the list of company containing the search string,
+        //if search is empty, return all active items
+        //Param : search = search string
+        //        status = company list string
+        public string TableResultIndexed(string search, string searchCat, string status, string sort, int startRow, int endRow)
+        {
+            try
+            {
+
+                //get lit of customers
+                List<cCompanyList> custList = new List<cCompanyList>();
+                var user = HttpContext.User.Identity.Name;
+
+                //handle user roles
+                if (User.IsInRole("Admin"))
+                {
+                    if (endRow != 0)
+                    {
+                        custList = comdb.GenerateCompanyListIndexed(search, searchCat, status, sort, "admin", startRow, endRow);
+                    }
+                    else
+                    {
+                        custList = comdb.generateCompanyList(search, searchCat, status, sort, "admin");
+                    }
+
+                }
+                else
+                {
+                    if (endRow != 0)
+                    {
+                        custList = comdb.GenerateCompanyListIndexed(search, searchCat, status, sort, user, startRow, endRow);
+                    }
+                    else
+                    {
+                        custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
+                    }
+                }
+
+                //custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
+
+                //convert list to json object
+                return JsonConvert.SerializeObject(custList, Formatting.Indented);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         [Authorize]
         // GET: CustEntMains/Details/5
         public ActionResult Details(int? id, int? top, string sdate, string edate, string status)

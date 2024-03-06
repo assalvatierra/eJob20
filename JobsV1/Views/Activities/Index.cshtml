@@ -14,6 +14,7 @@
         <h4 class="col-md-2 col-xs-2 control-label" style="width:10%;padding-left:0px;">Filter: </h4>
         <input id="DtStart" name="DtStart" type="text" class="form-control col-md-2 col-xs-5" style="margin-right:10px;max-width:140px;" />
         <input id="DtEnd" name="DtEnd" type="text" class="form-control col-md-2 col-xs-5" style="margin-right:10px;max-width:140px;" />
+        <input id="Name" name="Name" type="text" class="form-control col-md-2 col-xs-5" style="margin-right:10px;max-width:140px;" placeholder="Assigned" />
         <button class="btn btn-default" style="margin-top:0px;" onclick="Filter()"> Filter </button>
     </div>
 
@@ -42,9 +43,19 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        var trcolor = "white";
+
+        if (item != null) {
+            if (item.CustEntActStatu.Status == "Awarded"){
+                trcolor = "paleturquoise";
+            }
+        }
+
+        <tr style="background-color:@trcolor;">
             <td>
                 @DateTime.Parse(item.Date.ToString()).ToString("MMM dd yyyy")
+                <br />
+                @DateTime.Parse(item.Date.ToString()).ToString("hh:mm tt")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProjectName)
@@ -100,21 +111,22 @@
                 @if (ViewBag.IsAdmin == true)
                 {
                     <text>
-                        @Html.ActionLink("Edit", "CompanyActsEdit", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "CompanyActsDelete", new { id = item.Id })
+                        @Html.ActionLink("Edit", "CompanyActsEdit", new { id = item.Id }) 
+                        @*@Html.ActionLink("Delete", "CompanyActsDelete", new { id = item.Id })*@
                     </text>
                 }
             </td>
         </tr>
     }
 </table>
-
+<br />
+<hr />
 
 <h4>Suppliers Activities</h4>
 
 <table class="table">
     <tr>
-        <th style="min-width:120px;"> Date    </th>
+        <th style="min-width:120px;"> Date </th>
         <th> Code  </th>
         <th> Amount  </th>
         <th> Suppliers  </th>
@@ -131,15 +143,17 @@
         <tr>
             <td>
                 @DateTime.Parse(item.DtActivity.ToString()).ToString("MMM dd yyyy")
+                <br />
+                @DateTime.Parse(item.DtActivity.ToString()).ToString("hh:mm tt")
             </td>
             <td>
                 <a style="cursor:pointer;" onclick="SearchCodeSupActivities('@item.Code')">  @Html.DisplayFor(modelItem => item.Code) </a>
             </td>
             <td>
-                @if (item.Amount != null)
+                @if (item.Amount != null && item.Amount != 0)
                 {
                     <span>
-                    @(((Decimal)item.Amount).ToString("N0"))&nbsp;@item.Currency
+                        @(((Decimal)item.Amount).ToString("N0"))&nbsp;@item.Currency
                     </span>
                 }
             </td>
@@ -177,8 +191,8 @@
                 @if (ViewBag.IsAdmin == true)
                 {
                     <text>
-                        @Html.ActionLink("Edit", "SupplierActsEdit", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "SupplierActsDelete", new { id = item.Id })
+                        @Html.ActionLink("Edit", "SupplierActsEdit", new { id = item.Id }) 
+                        @*@Html.ActionLink("Delete", "SupplierActsDelete", new { id = item.Id })*@
                     </text>
                 }
             </td>
