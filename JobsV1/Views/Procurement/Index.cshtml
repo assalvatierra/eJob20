@@ -414,7 +414,13 @@
             searchString = $("#saleslead-input-search").val();
             window.location.href = "Procurement?search=" + searchString;
         }
+        
 
+        //For Initializing search in dropdowns
+        //Add class dropdown-search in dropdown inputs
+        $(document).ready(function () {
+            $('.dropdown-search').select2();
+        });
     </script>
 
 }

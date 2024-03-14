@@ -227,7 +227,7 @@ function SimpleTable(data) {
         content += "<td>" + category + "</td>";
         content += "<td>" + FilteredStatus(status) + "</td>";
 
-        content += "<td> ";
+        content += "<td style='white-space:nowrap'> ";
 
         //Products
         for (var prods = 0; prods < productslength["length"]; prods++) {
@@ -237,7 +237,7 @@ function SimpleTable(data) {
                 var product = productslength[prods].toString();
                 //console.log(productslength);
                 //console.log(name);
-                content += "<span style='font-weight:600;'> " + product + " <span> </br> ";
+                content += "<span style='font-weight:600;'> " + product + " <span> </br> </br> ";
             }
         }
         content += "</td>";
@@ -256,7 +256,7 @@ function SimpleTable(data) {
         }
         content +=  "</td> ";
 
-        content += "<td>";
+        content += "<td style='white-space:nowrap'>";
         for (var contact = 0; contact < contact3["length"]; contact++) {
             if (typeof contact3[contact] === "undefined") {
                 console.log("something is undefined");
@@ -264,7 +264,7 @@ function SimpleTable(data) {
                 var name = contact3[contact].toString();
                 //console.log(contact3);
                 //console.log(name);
-                content += " " + name + "</br> ";
+                content += " " + name + "</br> <br>";
             }
         }
 

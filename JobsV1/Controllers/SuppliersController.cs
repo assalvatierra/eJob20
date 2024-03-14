@@ -323,11 +323,11 @@ namespace JobsV1.Controllers
             ViewBag.UnitList = db.SupplierUnits.ToList();
 
             //get items not added
-            var allitems = db.InvItems.ToList();
+            var allitems = db.InvItems.Where(i=>i.ItemCode != "").ToList();
             //get list of ids of items of supplier
             var supItemsIds = db.SupplierInvItems.Where(d => d.SupplierId == id).ToList().Select(d => d.InvItemId);
             //get list of items of supplier
-            var supItems = db.InvItems.Where(d=> supItemsIds.Contains(d.Id)).ToList();
+            var supItems = db.InvItems.Where(d=> supItemsIds.Contains(d.Id) && d.ItemCode != "").ToList();
             //display items except existing 
             var filteredItems = allitems.Except(supItems).ToList();
             
