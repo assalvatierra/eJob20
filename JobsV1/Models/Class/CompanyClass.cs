@@ -101,7 +101,8 @@ namespace JobsV1.Models
 
                     if (status == "ALL")
                     {
-
+                        //status is null
+                        sql += " AND NOT com.Status = 'INC' ";
                     }
                     else
                     {
@@ -112,7 +113,7 @@ namespace JobsV1.Models
                 else
                 {
                     //status is null
-                    sql += " AND com.Status != 'INC' OR com.Status != 'BAD' ";
+                    sql += " AND (com.Status != 'INC' OR com.Status != 'BAD') ";
                 }
 
                 //handle search by name filter

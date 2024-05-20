@@ -1,7 +1,7 @@
 ﻿@{
 
-    if ( ViewBag.CanonicalURL == null)
-    { ViewBag.CanonicalURL = "https://realwheelsdavao.com/"; }
+    //if ( ViewBag.CanonicalURL == null)
+    //{ ViewBag.CanonicalURL = "https://realwheelsdavao.com/"; }
 
     if (ViewBag.NoIndex == null)
     { ViewBag.NoIndex = "all"; }
@@ -21,7 +21,7 @@
     <meta name="description" content="@ViewBag.Description" />
     <meta name="googlebot" content="@ViewBag.NoIndex" />
     <link rel="canonical" href="@ViewBag.CanonicalURL" />
-    <link rel="next" href="https://realwheelsdavao.com/CarRental/About" />
+    <@*link rel="next" href="https://realwheelsdavao.com/CarRental/About" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="@ViewBag.Title" />
@@ -33,7 +33,7 @@
     <meta name="twitter:description" content="@ViewBag.Description" />
     <meta name="twitter:title" content="@ViewBag.Title" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://realwheelsdavao.com/Images/CarRental/Home/Vehicles/RealWheelsDavao-CarRental.jpg">
+    <meta name="twitter:image" content="https://realwheelsdavao.com/Images/CarRental/Home/Vehicles/RealWheelsDavao-CarRental.jpg">*@
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
     @Styles.Render("~/Content/css")

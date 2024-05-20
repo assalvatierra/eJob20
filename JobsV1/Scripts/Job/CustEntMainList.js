@@ -166,7 +166,7 @@ function ajax_loadContent() {
 
     //request data from server using ajax call
    var result = $.ajax({
-       url: '/CustEntMains/TableResultIndexed?search=' + query + '&searchCat=' + category + '&status=' + status + '&sort=' + sort + '&startRow=' + startRow + '&endRow=' + endRow,
+       url: '/CustEntMains/TableResult?search=' + query + '&searchCat=' + category + '&status=' + status + '&sort=' + sort,
         //url: 'CustEntMains/TableResult',
         type: "POST",
         data: JSON.stringify(data),
@@ -176,19 +176,14 @@ function ajax_loadContent() {
         },
         error: function (data) {
             //console.log("ERROR");
-            //console.log(data);
+            console.log(data);
             LoadTable(data);
 
-            ajax_loadContent_Next();
+           // ajax_loadContent_Next();
         }
     })
 
     console.log(result);
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 }
 
 

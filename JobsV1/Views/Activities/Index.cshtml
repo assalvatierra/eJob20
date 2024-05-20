@@ -121,6 +121,8 @@
 </table>
 <br />
 <hr />
+@if (!User.IsInRole("Marketing"))
+{
 
 <h4>Suppliers Activities</h4>
 
@@ -199,6 +201,7 @@
         </tr>
     }
 </table>
+}
 
 @Html.Partial("_SalesCodeModal")
 

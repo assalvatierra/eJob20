@@ -206,7 +206,7 @@ namespace JobsV1.Models.Class
             {
                 salesLeads = salesLeads = db.SalesLeads
                     .Where(s => s.SalesLeadCompanies.FirstOrDefault().CustEntMain.Name.Contains(search) ||
-                              s.Details.Contains(search) || s.SalesCode == search)
+                              s.Details.Contains(search) || s.SalesCode == search || s.SalesCode.Contains(search))
                                  .ToList();
 
                 return salesLeads;

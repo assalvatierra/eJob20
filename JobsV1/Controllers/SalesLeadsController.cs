@@ -101,6 +101,7 @@ namespace JobsV1.Controllers
             ViewBag.ActTypes = await db.CustEntActTypes.ToListAsync();
             ViewBag.IsAdmin = IsUserAdmin();
             ViewBag.IsChecker = User.IsInRole("Checker");
+            ViewBag.SearchString = search;
 
             //for adding new item 
             ViewBag.InvItems = await db.InvItems.Where(i =>  i.ItemCode != "").ToListAsync();

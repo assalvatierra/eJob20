@@ -60,9 +60,9 @@ namespace JobsV1.Controllers
                 name = filtername;
             }
 
-
-                //handle user roles
-            if (User.IsInRole("Admin"))
+          
+            //handle user roles
+            if (User.IsInRole("Admin") )
             {
                 isAdmin = true;
                 ViewBag.IsAdmin = isAdmin;
@@ -72,14 +72,27 @@ namespace JobsV1.Controllers
 
                 //get activities of all users on Companies
                 var companyActivity = ac.GetCompanyActivitiesAdmin(date1,date2);
-
                 if (!String.IsNullOrEmpty(name))
                 {
-                    companyActivity = companyActivity.Where(c => c.Assigned.Contains(name)).OrderByDescending(c=>c.Date);
+                    companyActivity = companyActivity.Where(c => c.Assigned.Contains(name)).OrderByDescending(c => c.Date);
                 }
+
 
                 ViewBag.filterName = name; 
 
+                return View(companyActivity);
+            }
+            else if (User.IsInRole("Marketing"))
+            {
+                ViewBag.SupplierActivities = ac.GetSupplierActivitiesAdmin(date1, date2);
+
+                var companyActivity = ac.GetCompanyActivitiesAdmin(date1, date2);
+                if (!String.IsNullOrEmpty(name))
+                {
+                    companyActivity = companyActivity.Where(c => c.Assigned.Contains(name)).OrderByDescending(c => c.Date);
+                }
+
+                ViewBag.filterName = name;
                 return View(companyActivity);
             }
             else
