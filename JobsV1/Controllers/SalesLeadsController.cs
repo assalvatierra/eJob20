@@ -816,6 +816,7 @@ namespace JobsV1.Controllers
                         break;
                     case 5:
                         Session["SLFilterID"] = 5;
+                        AddActivityStatus(slId, "Quotation", "Approved");
                         break;
                     case 6: 
                         //Awarded
@@ -1047,6 +1048,14 @@ namespace JobsV1.Controllers
 
                 switch (activityStatus)
                 {
+                    case "Approved":
+                        activity.CustEntActStatusId = 1;
+                        activity.ActivityType = "Quotation";
+                        activity.Status = "Open";
+                        activity.Type = "Others";
+                        activity.Assigned = salesLead.AssignedTo;
+                        activity.Remarks = "Sales Lead Approved";
+                        break;
                     case "Awarded":
                         //activity.CustEntActActionStatusId = 4; //awarded
                         activity.CustEntActStatusId = 4;

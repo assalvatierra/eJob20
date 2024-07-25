@@ -365,19 +365,16 @@ namespace JobsV1.Models.Class
             {
                 if (!tempCodes.Contains(act.SalesCode))
                 {
-                   
                         //if Id is not in the list, add id to the list
                         //and retain the point
                         tempCodes.Add(act.SalesCode);
-                    
-
-
                 }
                 else
                 {
                     //If Id is in the list, remove the point
                     act.Points = 0;
                 }
+
             }
 
             return activityList;
@@ -387,7 +384,7 @@ namespace JobsV1.Models.Class
         private List<cUserActivity> FilterQuotationActivity(List<cUserActivity> activityList)
         {
             //holds the Ids of unique activity
-            List<string> tempCodes = new List<string>();
+            CustEntActivity tempActivities = new CustEntActivity();
 
             foreach (var act in activityList)
             {
@@ -401,10 +398,50 @@ namespace JobsV1.Models.Class
                     {
                         act.Points = 0;
                     }
+
+                    if (tempActivities.Date.ToShortDateString() == act.Date.ToShortDateString() 
+                        && tempActivities.SalesCode == act.SalesCode 
+                        && tempActivities.ActivityType == act.ActivityType
+                        && tempActivities.Remarks == act.Remarks)
+                    {
+                        act.Points = 0;
+                    }
+
+                    if (tempActivities.ActivityType == "Quotation")
+                    {
+                        if (IsCustActivityHaveApprovedQuotation(act, activityList))
+                        {
+                            if (act.Remarks == "Sales Lead Approved")
+                            {
+                                act.Points = 8;
+
+                            }
+                            else
+                            {
+                                act.Points = 0;
+                            }
+                        }
+                    }
+                    
+                    tempActivities = act;
+                    
                 }
             }
 
             return activityList;
+        }
+
+        public bool IsCustActivityHaveApprovedQuotation(CustEntActivity activity, List<cUserActivity> custEntActivities)
+        {
+            var CustActivitiesBySalesCode = custEntActivities.Where(c => c.SalesCode == activity.SalesCode).ToList();
+
+            if (CustActivitiesBySalesCode.Any(c=>c.Remarks == "Sales Lead Approved"))
+            {
+                return true;
+            }
+
+            return false;
+
         }
 
 

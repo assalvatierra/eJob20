@@ -547,7 +547,7 @@ namespace JobsV1.Controllers
             {
                 //create activity
                 CustEntActivity act = db.CustEntActivities.Find(id);
-                act.Date = DateTime.Parse(actDate);
+                act.Date = act.Date;
                 act.Assigned = Assigned;
                 act.ProjectName = ProjectName;
                 act.SalesCode = SalesCode;
