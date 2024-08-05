@@ -767,3 +767,12 @@ SELECT Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MIN(job.DtEnd), Job
 		                            FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId  WHERE jm.Id = 17
 
 SELECT j.Id FROM JobMains j WHERE j.JobStatusId < 4 AND j.JobDate < GETDATE() AND MONTH(j.JobDate) != MONTH(GETDATE()) 
+
+
+
+-- SALES LEAD GET
+SELECT TOP 100 sl.*, 
+    SalesStatusCodeId = ( SELECT TOP 1 st.SalesStatusCodeId FROM SalesStatus LEFT JOIN SalesStatusCodes ssc ON ssc.Id = st.SalesStatusCodeId WHERE st.SalesLeadId = sl.Id  AND ssc.SeqNo = 5 ) 
+    FROM SalesLeads sl 
+    LEFt JOIN  SalesStatus st ON st.SalesLeadId = sl.Id 
+    WHERE SalesStatusCodeId > 4 AND st.SalesStatusStatusId = 1

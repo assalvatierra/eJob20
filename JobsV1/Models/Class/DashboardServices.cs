@@ -36,9 +36,9 @@ namespace JobsV1.Models.Class
             {
 
                 var salesTotal = ardb.ArTransactions
-                    .Where(t => t.ArTransPayments.Select(p => p.ArPayment.DtPayment.Month).FirstOrDefault() == month &&
-                                t.ArTransPayments.Select(p => p.ArPayment.DtPayment.Year).FirstOrDefault() == year)
-                    .ToList().Select(t => t.ArTransPayments.Sum(p=>p.ArPayment.Amount)).Sum();
+                    .Where(t => t.DtInvoice.Month == month &&
+                                t.DtInvoice.Year  == year)
+                    .Select(t => t.ArTransPayments.Sum(p=>p.ArPayment.Amount)).Sum();
 
                 return salesTotal;
             }
@@ -55,11 +55,9 @@ namespace JobsV1.Models.Class
             {
                 //1st rev
                 var expensesTotal = apdb.ApTransactions
-                    .Where(t => t.DtDue.Month == month && t.DtDue.Year == year 
-                           && t.ApTransTypeId != 2)
-                    .ToList().Select(t => t.ApTransPayments
-                    .Where(c => c.ApPayment.ApPaymentStatusId == 2)
-                    .Sum(p => p.ApPayment.Amount))
+                    .Where(t => (t.DtInvoice.Month == month && t.DtInvoice.Year == year) &&
+                           (t.ApTransStatusId == 3 || t.ApTransStatusId == 4 || t.ApTransStatusId == 5) && t.ApTransTypeId != 2) 
+                    .Select(t => t.Amount)
                     .Sum();
 
                 return expensesTotal;

@@ -235,8 +235,6 @@ function SimpleTable(data) {
                 console.log("Products is undefined");
             } else {
                 var product = productslength[prods].toString();
-                //console.log(productslength);
-                //console.log(name);
                 content += "<span style='font-weight:600;'> " + product + " <span> </br> ";
             }
         }
@@ -249,8 +247,6 @@ function SimpleTable(data) {
                 console.log("Contact Person is undefined");
             } else {
                 var contactName = contactslength[name].toString();
-                //console.log(contactslength);
-                //console.log(contactName);
                 content += " " + contactName + "</br> </br>";
             }
         }
@@ -262,9 +258,7 @@ function SimpleTable(data) {
                 console.log("something is undefined");
             } else {
                 var name = contact3[contact].toString();
-                //console.log(contact3);
-                //console.log(name);
-                content += " " + name + "</br> ";
+                content += " " + name + "</br> </br>";
             }
         }
 

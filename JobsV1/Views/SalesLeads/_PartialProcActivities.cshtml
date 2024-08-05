@@ -28,7 +28,12 @@
                 <span style="color:maroon;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency - @tmpAct.Type | @tmpAct.Remarks </span>
                 <span style="font:status-bar;color:darkgray;">
                     @tmpAct.DtActivity.ToString("MMM-dd-yyyy")
-                    &nbsp;By: @tmpAct.Assigned.Split('@')[0]
+                    @if (@tmpAct.Assigned != null)
+                    {
+                        <span>
+                            &nbsp; By: @tmpAct.Assigned.Split('@')[0]  &nbsp;
+                        </span>
+                    }
                 </span>
 
                 <br />

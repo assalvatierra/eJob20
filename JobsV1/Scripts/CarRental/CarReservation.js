@@ -131,3 +131,90 @@ function GetVehicleDetails(id) {
         }
     });
 }
+
+/**
+ *  Show Vehicle Modal
+ */
+
+function OpenVehicleListModal() {
+    $("#ShowVehicleListModal").modal("show");
+}
+
+function SelectVehicle(id) {
+    $("#rsvCarUnit").val(id).change();
+    $("#ShowVehicleListModal").modal("hide");
+
+}
+
+
+
+/** 
+ *  Vehicle Slide Shows Images
+ * **/
+function ViewVehicleImages() {
+    $("#vehicleImagesModal").modal("show");
+}
+
+$('#rsvCarUnit').on('change', function () {
+    //Get updated images
+    console.log("Get Car Unit");
+    //GetCarImages();
+
+});
+
+function openModal() {
+    document.getElementById("LightboxModal").style.display = "block";
+
+}
+
+function closeModal() {
+    document.getElementById("LightboxModal").style.display = "none";
+}
+
+
+function GetCarImages() {
+    let carUnitId = $("#rsvCarUnit").val();
+    //console.log(carUnitId);
+
+    $.get("/CarRental/GetUnitImages", { unitId: carUnitId }, (response) => {
+        //console.log(response);
+
+        for (var i = 0; i < response.length; i++) {
+            //console.log(response[i]);
+
+            let carImgUrl = "/Images/CarRental/" + response[i];
+            let htmlId = i + 1;
+            $("#lightbox-img-" + htmlId).attr("src", carImgUrl);
+            $("#lightbox-item-" + htmlId).attr("src", carImgUrl);
+        }
+    });
+}
+
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+    showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+    showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+    var i;
+    var slides = document.getElementsByClassName("mySlides");
+    var dots = document.getElementsByClassName("lightbox-item");
+    var captionText = document.getElementById("caption");
+    if (n > slides.length) { slideIndex = 1 }
+    if (n < 1) { slideIndex = slides.length }
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
+    captionText.innerHTML = dots[slideIndex - 1].alt;
+}

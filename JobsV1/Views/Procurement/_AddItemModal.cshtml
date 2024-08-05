@@ -20,7 +20,7 @@
                     <div class="form-group col-md-12">
                         <b class="col-md-2"> Items: </b>
                         <div class="col-md-7">
-                            <select name="InvItems" class="form-control" id="supItem-Items">
+                            <select name="InvItems" class="form-control dropdown-search" id="supItem-Items">
                                 @foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
                                 {
                                     <option value="@item.Id"> @item.Description </option>
@@ -78,7 +78,7 @@
                     <div class="form-group col-md-12">
                         <b class="col-md-2"> Items: </b>
                         <div class="col-md-7">
-                            <select name="InvItems" class="form-control" id="edit-supItem-Items">
+                            <select name="InvItems" class="form-control  dropdown-search" id="edit-supItem-Items">
                                 @foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
                                 {
                                     <option value="@item.Id"> @item.Description </option>

@@ -14,11 +14,7 @@ insert into Banks([BankName],[BankBranch],[AccntName],[AccntNo])
 
 insert into Customers([Name],[Email],[Contact1],[Contact2],[Remarks],[Status]) values
     ('<< New Customer >>','--','--',' ',' ','ACT'),
-	('Mark Dalton','markdalton@gmail.com','0916-755-8473','','','ACT'),
-	('John Doe','johndoe@gmail.com','09123456789','','','ACT'),
-	('Jerry','Jerry@gmail.com','09654-987-9898','998-3321','','ACT'),
-	('Stephen','stephen@gmail.com','0915-225-1221','','','ACT'),
-	('Kevin','Kevin@gmail.com','0954-321-65454','084-9898','','ACT');
+	('John Doe','johndoe@gmail.com','09123456789','','','ACT');
 		
 insert Into Destinations([Description],[Remarks],[CityId]) 
 values 
@@ -62,7 +58,7 @@ values
 ('MEETING-DONE','Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',2); 
 
 insert into SalesStatusAllowedUsers ([User])
-values ('admin@gmail.com'),('jahdielsvillosa@gmail.com');
+values ('admin@gmail.com');
 
 insert into SalesStatusRestrictions([SalesStatusCodeId],[SalesStatusAllowedUsersId])
 values (15, 1), (16 ,2);
@@ -332,9 +328,9 @@ insert into SupplierPoStatus ([Status],[OrderNo]) values ('REQUEST',1),('APPROVE
 -- ----------------------------------------------
 -- Paypal Accounts
 -- ----------------------------------------------
-insert into PaypalAccounts ([SysCode],[Key],[Secret])
-values
-('Realwheels', 'ASTv_oxNk66nZW4tVTbt78dtocU-70VVoDDmgtdMSzv1Aqmw8QK6lJ01vzn6lO6jPio3DbfbT_6G6F6b' , 'EAYtPcgQYKu5UfA4WV5lzE_iPj1WFiGnPC_8XvSgYrjoISJEnZAezmdcofe5oRyJZzPToJO6QUMlgmS2');
+--insert into PaypalAccounts ([SysCode],[Key],[Secret])
+--values
+--('Realwheels', 'ASTv_oxNk66nZW4tVTbt78dtocU-70VVoDDmgtdMSzv1Aqmw8QK6lJ01vzn6lO6jPio3DbfbT_6G6F6b' , 'EAYtPcgQYKu5UfA4WV5lzE_iPj1WFiGnPC_8XvSgYrjoISJEnZAezmdcofe5oRyJZzPToJO6QUMlgmS2');
 
 insert into JobMains([JobDate],[CustomerId],[Description],[NoOfPax],[NoOfDays],[JobRemarks],[JobStatusId],[StatusRemarks],[BranchId],[JobThruId],[AgreedAmt])
 values
@@ -386,23 +382,23 @@ values (1,'10 seater vehicle',3500,1), (1,'14 seater vehicle',4000,1);
 
 insert into CustCategories([Name],[iconPath])
 values 
-	   --('PRIORITY','Images/Customers/Category/star-filled-40.png'),
-	   --('ACTIVE','Images/Customers/Category/star-filled-40.png'),
-	   --('INACTIVE','Images/Customers/Category/star-filled-40.png'),
-	   --('BAD ACCOUNT','Images/Customers/Category/star-filled-40.png'),
-	   --('SUSPENDED','Images/Customers/Category/star-filled-40.png'),
-	   --('BILLING/TERMS','Images/Customers/Category/star-filled-40.png'),
-	   --('ACCREDITATION ON PROCESS','Images/Customers/Category/star-filled-40.png'),
-	   ('General Engg','Images/Customers/Category/star-filled-40.png'),
-	   ('Electrical','Images/Customers/Category/Active-30.png'),
-	   ('Mechanical','Images/Customers/Category/suspended-64.png'),
-	   ('Civil','Images/Customers/Category/cancel-40.png'),
-	   ('Structural','Images/Customers/Category/Active-30.png'),
-	   ('Plumbing and Sanitary Work','Images/Customers/Category/star-filled-40.png'),
-	   ('Mechanical Piping','Images/Customers/Category/Active-30.png'),
-	   ('Airconditioning and Refrigeration','Images/Customers/Category/star-filled-40.png'),
-	   ('Fire Protection','Images/Customers/Category/star-filled-40.png'),
-	   ('Well Drilling Works','Images/Customers/Category/star-filled-40.png'); 
+	   ('PRIORITY','Images/Customers/Category/star-filled-40.png'),
+	   ('ACTIVE','Images/Customers/Category/star-filled-40.png'),
+	   ('INACTIVE','Images/Customers/Category/star-filled-40.png'),
+	   ('BAD ACCOUNT','Images/Customers/Category/star-filled-40.png'),
+	   ('SUSPENDED','Images/Customers/Category/star-filled-40.png'),
+	   ('BILLING/TERMS','Images/Customers/Category/star-filled-40.png'),
+	   ('ACCREDITATION ON PROCESS','Images/Customers/Category/star-filled-40.png');
+	   --('General Engg','Images/Customers/Category/star-filled-40.png'),
+	   --('Electrical','Images/Customers/Category/Active-30.png'),
+	   --('Mechanical','Images/Customers/Category/suspended-64.png'),
+	   --('Civil','Images/Customers/Category/cancel-40.png'),
+	   --('Structural','Images/Customers/Category/Active-30.png'),
+	   --('Plumbing and Sanitary Work','Images/Customers/Category/star-filled-40.png'),
+	   --('Mechanical Piping','Images/Customers/Category/Active-30.png'),
+	   --('Airconditioning and Refrigeration','Images/Customers/Category/star-filled-40.png'),
+	   --('Fire Protection','Images/Customers/Category/star-filled-40.png'),
+	   --('Well Drilling Works','Images/Customers/Category/star-filled-40.png'); 
 
 insert into CustEntAccountTypes ([Name],[SysCode]) values
 ('Regular','REG01');

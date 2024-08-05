@@ -197,20 +197,39 @@ namespace JobsV1.Models.Class
         {
 
             var salesLeads = new List<SalesLead>();
-
+            string sql = "";
             switch (sortId)
             {
                 case 1:// Inquiry
-                    salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 0 && ss.SalesStatusStatusId == 1)
-                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo < 3 )
-                                .ToList();
+                       //salesLeads = db.SalesLeads
+                       //            .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 0 && ss.SalesStatusStatusId == 1)
+                       //            .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo < 3 )
+                       //            .ToList();
+
+
+                     sql = " SELECT sl.*, " +
+                                 "SalesStatusCodeId = (SELECT TOP 1 st.SalesStatusCodeId FROM SalesStatus LEFT JOIN SalesStatusCodes ssc ON ssc.Id = st.SalesStatusCodeId WHERE st.SalesLeadId = sl.Id  AND ssc.SeqNo < 3 )  " +
+                                 "FROM SalesLeads sl " +
+                                 "LEFt JOIN SalesStatus st ON st.SalesLeadId = sl.Id " +
+                                 "WHERE SalesStatusCodeId > 0 AND st.SalesStatusStatusId = 1 ";
+
+                    salesLeads = db.Database.SqlQuery<SalesLead>(sql).ToList();
+
                     break;
                 case 2:// Sales
-                    salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 1 && ss.SalesStatusStatusId == 1)
-                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 2 )
-                                .ToList();
+                       //salesLeads = db.SalesLeads
+                       //            .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 1 && ss.SalesStatusStatusId == 1)
+                       //            .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 2 )
+                       //            .ToList();
+
+                     sql = " SELECT sl.*, " +
+                                 "SalesStatusCodeId = (SELECT TOP 1 st.SalesStatusCodeId FROM SalesStatus LEFT JOIN SalesStatusCodes ssc ON ssc.Id = st.SalesStatusCodeId WHERE st.SalesLeadId = sl.Id  AND ssc.SeqNo == 2 )  " +
+                                 "FROM SalesLeads sl " +
+                                 "LEFt JOIN SalesStatus st ON st.SalesLeadId = sl.Id " +
+                                 "WHERE SalesStatusCodeId > 1 AND st.SalesStatusStatusId = 1 ";
+
+                    salesLeads = db.Database.SqlQuery<SalesLead>(sql).ToList();
+
                     break;
                 case 3:// Procurement
                     salesLeads = db.SalesLeads
@@ -297,10 +316,21 @@ namespace JobsV1.Models.Class
                     break;
                 case 5:
                     // Approved
-                    salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4 && ss.SalesStatusStatusId == 1)
-                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 5)
-                                .ToList();
+                    //salesLeads = db.SalesLeads.AsParallel()
+                    //            .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4 && ss.SalesStatusStatusId == 1)
+                    //            .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 5)
+                    //            .ToList();
+
+                    List<SalesLead> salesLeadList = new List<SalesLead>();
+
+                    string sql = " SELECT TOP 100 sl.*, "+
+                                 "SalesStatusCodeId = (SELECT TOP 1 st.SalesStatusCodeId FROM SalesStatus LEFT JOIN SalesStatusCodes ssc ON ssc.Id = st.SalesStatusCodeId WHERE st.SalesLeadId = sl.Id  AND ssc.SeqNo = 5 )  " +
+                                 "FROM SalesLeads sl " +
+                                 "LEFt JOIN SalesStatus st ON st.SalesLeadId = sl.Id " +
+                                 "WHERE SalesStatusCodeId > 4 AND st.SalesStatusStatusId = 1 ";
+
+                    salesLeads = db.Database.SqlQuery<SalesLead>(sql).ToList();
+
                     break;
                 case 6:
                     // Awarded

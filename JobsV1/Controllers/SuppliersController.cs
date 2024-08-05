@@ -323,7 +323,7 @@ namespace JobsV1.Controllers
             ViewBag.UnitList = db.SupplierUnits.ToList();
 
             //get items not added
-            var allitems = db.InvItems.ToList();
+            var allitems = db.InvItems.Where( s=> s.ItemCode != "").ToList();
             //get list of ids of items of supplier
             var supItemsIds = db.SupplierInvItems.Where(d => d.SupplierId == id).ToList().Select(d => d.InvItemId);
             //get list of items of supplier
@@ -333,7 +333,7 @@ namespace JobsV1.Controllers
             
             ViewBag.ItemList = filteredItems;
 
-            ViewBag.InvItems = db.SupplierInvItems.Where(s => s.SupplierId == id).ToList();
+            ViewBag.InvItems = db.SupplierInvItems.Where(s => s.SupplierId == id && s.InvItem.ItemCode != "").ToList();
 
             ViewBag.InvItemsRates = db.SupplierItemRates.Where(s => s.SupplierInvItem.SupplierId == id).ToList().OrderByDescending(s=> Convert.ToDateTime(s.DtValidFrom)).ToList();
 

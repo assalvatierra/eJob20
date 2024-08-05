@@ -41,7 +41,8 @@
                 </div>
 
                 <div class="col-md-12" style="display:flex;justify-content:flex-end">
-                    <a onclick="openModal();currentSlide(1)" class="cursor view-image-link"> View Vehicle Images </a>
+                    @*<a onclick="openModal();currentSlide(1)" class="cursor view-image-link"> View Vehicle Images </a>*@
+                    <a onclick="OpenVehicleListModal()" class="cursor view-image-link"> View Vehicles </a>
                 </div>
 
                 <!-- Pick Up -->
@@ -86,7 +87,7 @@
 
         <div class="col-md-6 section-banner-group">
             <h3 style="text-align:center;color:white;"> Plan Your Trip Now For As Low As <span style="color:limegreen;"> <br /> 2500 Pesos/Day</span> ! </h3>
-            <img src="~/Images/CarRental/Home/Vehicles/Honda-City-Reservation.png" title="Honda City Reservation" class="rsv-image" />
+            <img src="~/Images/CarRental/glgrandia/Toyota-Hiace-2017-Banner.png" title="Honda City Reservation" class="rsv-image" />
         </div>
 
     </div>
@@ -609,7 +610,116 @@
     <div class="google-maps-location">
         Visit Our Office
     </div>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15838.236513404292!2d125.5702029!3d7.0609737!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x5cb429424f90e9d9!2sReal%20Wheels%20Rent%20A%20Car!5e0!3m2!1sen!2sph!4v1609998760742!5m2!1sen!2sph" class="google-maps-location-section" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7261.858275548917!2d125.56493055621749!3d7.061294377536518!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f973900884e8b3%3A0xe1967e6e37caba77!2sRealBreeze%20Car%20Rental!5e0!3m2!1sen!2sph!4v1707811349119!5m2!1sen!2sph" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+
+<div class="modal fade" id="ShowVehicleListModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Vehicle List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default vehicle-panel">
+                            <img src="~/Images/CarRental/tourer/Toyota-Grandia-Tourer.jpg" class="panel-img-top">
+                            <img src="~/Images/CarRental/tourer/Toyota-Grandia-Tourer-2019-seats.jpg" class="panel-img-top" />
+                            <img src="~/Images/CarRental/tourer/Toyota-Grandia-Tourer-2019-side.jpg" class="panel-img-top" />
+                            <img src="~/Images/CarRental/tourer/Toyota-Grandia-Tourer-2019-back.jpg" class="panel-img-top" />
+                            <div class="panel-body">
+                                <h3 class="card-title"> Toyota Grandia Tourer (Van) </h3>
+                                <a href="#" class="btn btn-primary btn-full-width" onclick="SelectVehicle(7)">Select</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default vehicle-panel">
+                            <img src="~/Images/CarRental/nissanPremium/Nissan-Premium-2019.jpg" class="panel-img-top">
+                            <img src="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back-seat.jpg" class="panel-img-top" />
+                            <img src="~/Images/CarRental/nissanPremium/Nissan-Premium-side.jpg" class="panel-img-top" />
+                            <img src="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back.jpg" class="panel-img-top" />
+                            <div class="panel-body">
+                                <h3 class="card-title"> Nissan Premium (Van) </h3>
+                                <a href="#" class="btn btn-primary btn-full-width" onclick="SelectVehicle(2)">Select</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default vehicle-panel">
+                            <img src="~/Images/CarRental/glgrandia/Toyota-Grandia.jpg" class="panel-img-top">
+                            <img src="~/Images/CarRental/glgrandia/Toyota-Grandia-seats.jpg" class="panel-img-top" />
+                            <img src="~/Images/CarRental/glgrandia/Toyota-Grandia-side.jpg" class="panel-img-top" />
+                            <img src="~/Images/CarRental/glgrandia/Toyota-Grandia-front-seats.jpg" class="panel-img-top" />
+                            <div class="panel-body">
+                                <h3 class="card-title"> Toyota Super Grandia (Van) </h3>
+                                <a href="#" class="btn btn-primary btn-full-width" onclick="SelectVehicle(1)">Select</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default vehicle-panel">
+                            <img src="~/Images/CarRental/fortuner/Toyota-Fortuner-2022.jpg" class="panel-img-top">
+                            <img src="~/Images/CarRental/fortuner/Toyota-Fortuner-2022-interior.jpg" class="panel-img-top" />
+                            <img src="~/Images/CarRental/fortuner/Toyota-Fortuner-2022-back.jpg" class="panel-img-top" />
+                            <img src="~/Images/CarRental/fortuner/Toyota-Fortuner-2022-side.jpg" class="panel-img-top" />
+                            <div class="panel-body">
+                                <h3 class="card-title"> Toyota Fortuner (SUV) </h3>
+                                <a href="#" class="btn btn-primary btn-full-width" onclick="SelectVehicle(3)">Select</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default vehicle-panel">
+                            <img src="~/Images/CarRental/innova/Toyota-Innova-2021-Front.jpg" class="panel-img-top" />
+                            <img src="~/Images/CarRental/innova/toyota-innova-front-seat.jpg" class="panel-img-top">
+                            <img src="~/Images/CarRental/innova/Toyota-Innova-2021-Back.jpg" class="panel-img-top" />
+                            <img src="~/Images/CarRental/innova/toyota-innova-back-seat.jpg" class="panel-img-top" />
+                            <div class="panel-body">
+                                <h3 class="card-title"> Toyota Innova (MPV/Minivan) </h3>
+                                <a href="#" class="btn btn-primary btn-full-width" onclick="SelectVehicle(4)">Select</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default vehicle-panel">
+                            <img src="~/Images/CarRental/rush/Toyota-Rush-2019.png" class="panel-img-top" />
+                            <img src="~/Images/CarRental/rush/Toyota-Rush-2019-back-seat.jpg" class="panel-img-top">
+                            <img src="~/Images/CarRental/rush/Toyota-Rush-2019-back.jpg" class="panel-img-top" />
+                            <img src="~/Images/CarRental/rush/Toyota-Rush-2019-seat.jpg" class="panel-img-top" />
+                            <div class="panel-body">
+                                <h3 class="card-title"> Toyota Rush (MPV)</h3>
+                                <a href="#" class="btn btn-primary btn-full-width" onclick="SelectVehicle(8)">Select</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-default vehicle-panel">
+                            <img src="~/Images/CarRental/estrada/Mitsubishi-Estrada-2022.jpg" class="panel-img-top" />
+                            <img src="~/Images/CarRental/estrada/Mitsubishi-Estrada-2022-seats.jpg" class="panel-img-top">
+                            <img src="~/Images/CarRental/estrada/Mitsubishi-Estrada-2022-back.jpg" class="panel-img-top" />
+                            <div class="panel-body">
+                                <h3 class="card-title"> Mitsubishi Strada / Toyota Hilux (Pickup)</h3>
+                                <a href="#" class="btn btn-primary btn-full-width" onclick="SelectVehicle(6)">Select</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="container">
@@ -652,74 +762,6 @@
             
             GetCarImages();
         });
-
-        function ViewVehicleImages() {
-            $("#vehicleImagesModal").modal("show");
-        }
-
-        $('#rsvCarUnit').on('change', function () {
-            //Get updated images
-            console.log("Get Car Unit");
-            GetCarImages();
-
-        });
-
-        function openModal() {
-            document.getElementById("LightboxModal").style.display = "block";
-            
-        }
-
-        function closeModal() {
-          document.getElementById("LightboxModal").style.display = "none";
-        }
-
-
-        function GetCarImages() {
-            let carUnitId = $("#rsvCarUnit").val();
-            //console.log(carUnitId);
-
-            $.get("/CarRental/GetUnitImages", { unitId : carUnitId }, (response) => {
-                //console.log(response);
-
-                for (var i = 0; i < response.length; i++) {
-                    //console.log(response[i]);
-
-                    let carImgUrl = "/Images/CarRental/" + response[i];
-                    let htmlId = i + 1;
-                    $("#lightbox-img-" + htmlId).attr("src", carImgUrl);
-                    $("#lightbox-item-" + htmlId).attr("src", carImgUrl);
-                }
-            });
-        }
-
-        var slideIndex = 1;
-        showSlides(slideIndex);
-
-        function plusSlides(n) {
-          showSlides(slideIndex += n);
-        }
-
-        function currentSlide(n) {
-          showSlides(slideIndex = n);
-        }
-
-        function showSlides(n) {
-          var i;
-          var slides = document.getElementsByClassName("mySlides");
-          var dots = document.getElementsByClassName("lightbox-item");
-          var captionText = document.getElementById("caption");
-          if (n > slides.length) {slideIndex = 1}
-          if (n < 1) {slideIndex = slides.length}
-          for (i = 0; i < slides.length; i++) {
-              slides[i].style.display = "none";
-          }
-          for (i = 0; i < dots.length; i++) {
-              dots[i].className = dots[i].className.replace(" active", "");
-          }
-          slides[slideIndex-1].style.display = "block";
-          dots[slideIndex-1].className += " active";
-          captionText.innerHTML = dots[slideIndex-1].alt;
-        }
 
     </script>
 }

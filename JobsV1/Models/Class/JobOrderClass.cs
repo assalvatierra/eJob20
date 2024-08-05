@@ -1311,5 +1311,20 @@ namespace JobsV1.Models
 
             return type;
         }
+
+
+        public string GetJobServiceFirstDesc(int jobId)
+        {
+            string description = "NA"; // default
+
+            var jobServices = db.JobServices.Where(j => j.JobMainId == jobId).ToList();
+
+            if (jobServices.Count > 0)
+            {
+                description = jobServices.FirstOrDefault().Particulars;
+            }
+
+            return description;
+        }
     }
 }

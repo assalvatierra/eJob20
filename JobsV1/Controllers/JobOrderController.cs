@@ -2556,7 +2556,7 @@ namespace JobsV1.Controllers
                 return Json(new
                 {
                     jobDetails.Id,
-                    jobDetails.Description,
+                    Description = jo.GetJobServiceFirstDesc(id),
                     jobDetails.JobDate,
                     SvcStart = jo.GetMinMaxServiceDate(id, "min"),
                     SvcEnd = jo.GetMinMaxServiceDate(id, "max"),

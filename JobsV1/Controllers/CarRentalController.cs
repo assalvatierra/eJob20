@@ -516,10 +516,12 @@ namespace JobsV1.Controllers
                     unit = db.CarUnits.Find(id).Description;
                 }
 
+                var carunits = db.CarUnits.ToList();
+
                 ViewBag.Unit = unit + " ";
                 ViewBag.CarUnitId = new SelectList(db.CarUnits, "Id", "Description", id);
                 ViewBag.CarResTypeId = new SelectList(db.CarResTypes, "Id", "Type", rsvTypeId);
-                ViewBag.CarUnitList = db.CarUnits.ToList().OrderBy(s => s.SortOrder);
+                ViewBag.CarUnitList = db.CarUnits.Where(c=>c.Status=="ACTIVE").ToList().OrderBy(s => s.SortOrder);
                 ViewBag.IsFormValid = true;
 
                 return View(reservation);

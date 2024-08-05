@@ -54,6 +54,27 @@ namespace JobsV1.Controllers
             return Json(expenses.ToString("#,##0"), JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult GetSalesByMonth(int Month, int Year)
+        {
+            decimal sales = services.GetSalesByMonthNo(Month, Year);
+
+            return Json(sales.ToString("#,##0"), JsonRequestBehavior.AllowGet);
+        }
+
+        //GET: Dashboard/GetExpensesThisMonth
+        [HttpGet]
+        public JsonResult GetExpensesByMonth(int Month, int Year)
+        {
+
+            DateTime dt = new DateTime(Year, Month, 1);
+            DateTime dtEnd = new DateTime(Year, Month, DateTime.DaysInMonth(Year, Month));
+
+            decimal expenses = services.GetExpensesByMonthNo(Month,Year);
+
+            return Json(expenses.ToString("#,##0"), JsonRequestBehavior.AllowGet);
+        }
+
         //GET: Dashboard/GetActiveJobs
         [HttpGet]
         public JsonResult GetActiveJobsCount()

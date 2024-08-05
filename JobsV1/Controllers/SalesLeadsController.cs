@@ -95,8 +95,10 @@ namespace JobsV1.Controllers
             ViewBag.StatusCodes = db.SalesStatusCodes
                 .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 2)
                 .OrderBy(s => s.OrderNo).ThenBy(s => s.Id).ToList();
+
             ViewBag.User = HttpContext.User.Identity.Name;
             ViewBag.ActTypes = db.CustEntActTypes.ToList();
+
             ViewBag.IsAdmin = IsUserAdmin();
             ViewBag.IsChecker = User.IsInRole("Checker");
 

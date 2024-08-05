@@ -16,7 +16,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JobsV1</RootNamespace>
     <AssemblyName>JobsV1</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -1631,6 +1631,7 @@
     <Content Include="Images\AutoCare\icons-suv.png" />
     <Content Include="Images\AutoCare\icons-user.png" />
     <Content Include="Images\AutoCare\icons-wrench.png" />
+    <Content Include="Images\CarRental\glgrandia\Toyota-Hiace-2017-Banner.png" />
     <Content Include="Images\CarRental\settings.png" />
     <Content Include="Images\Icons\Call.png" />
     <Content Include="Images\CarRental\4x4.101.png" />
@@ -2164,10 +2165,13 @@
     <Content Include="Models\SQL.Job\Reports\ProductsDB.sql" />
     <Content Include="Models\SQL.Job\Reports\SalesLead.sql" />
     <Content Include="Models\SQL.Job\InitTestData.sql" />
+    <Content Include="Models\SQL.Job\Reports\SalesLeadList.sql" />
     <Content Include="Models\SQL.SolidSteel\InitialAll.sql" />
     <Content Include="Models\SQL.SolidSteel\Countries.sql" />
     <Content Include="Models\SQL.SolidSteel\InitialData_Solid.sql" />
     <Content Include="Models\SQL.Sys\InitialData_SysTbls.sql" />
+    <Content Include="Models\SQL.vpro\InitialAll.sql" />
+    <Content Include="Models\SQL.vpro\InitialData_Solid.sql" />
     <Content Include="Models\SysDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SysDB.Context.cs</LastGenOutput>
@@ -2896,14 +2900,14 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Index realwheels.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login2.cshtml" />
+    <Content Include="Views\Account\Login-realwheels.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
@@ -3475,7 +3479,7 @@
     <Content Include="Areas\AutoCare\Views\RptGmsAuto\ReferralReport.cshtml" />
     <Content Include="Views\JobPostSales\Update.cshtml" />
     <Content Include="Views\Account\Login-default.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Login3.cshtml" />
     <Content Include="Views\JobPostSales\Index2.cshtml" />
     <Content Include="Views\Cashier\_EditPaymentStatus.cshtml" />
     <Content Include="Views\JobOrder\_PermissionModal.cshtml" />
@@ -3610,7 +3614,9 @@
     <Content Include="Views\SalesLeads\_PartialSalesLeadActivities.cshtml" />
     <Content Include="Views\SalesLeads\_PartialLeadItemWeight.cshtml" />
     <Content Include="Views\CustEntMains\_CompanyStatus.cshtml" />
-    <Content Include="Views\Activities\IndexActivity.cshtml" />
+    <Content Include="Views\Dashboard\_PayablesView - Copy.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

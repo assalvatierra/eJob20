@@ -30,8 +30,12 @@
                 <span style="color:maroon;"> @tmpAct.CustEntActActionCode.Name -  @tmpAct.ActivityType | @tmpAct.Remarks </span>
                 <span style="font:status-bar;color:gray;padding-left:8px;">
                     @tmpAct.Date.ToString("MMM-dd-yyyy")
-                    &nbsp;By: @tmpAct.Assigned.Split('@')[0]
-                    &nbsp;
+                    @if (@tmpAct.Assigned != null)
+                    {
+                        <span>
+                            &nbsp; By: @tmpAct.Assigned.Split('@')[0]  &nbsp;
+                        </span>
+                    }
                 </span>
 
                 if (USER == tmpAct.Assigned || ISADMIN || ISASSIGNED)
@@ -52,7 +56,12 @@
                 <span style="color:gray;"> @tmpAct.CustEntActActionCode.Name -  @tmpAct.ActivityType | @tmpAct.Remarks </span>
                 <span style="font:status-bar;color:gray;padding-left:8px;">
                     @tmpAct.Date.ToString("MMM-dd-yyyy")
-                    &nbsp;By: @tmpAct.Assigned.Split('@')[0]
+                    @if (@tmpAct.Assigned != null)
+                    {
+                        <span>
+                            &nbsp; By: @tmpAct.Assigned.Split('@')[0]  &nbsp;
+                        </span>
+                    }
                 </span>
                 <br />
             }
@@ -66,7 +75,12 @@
                 <span style="color:gray;text-decoration:line-through"> @tmpAct.CustEntActActionCode.Name -  @tmpAct.ActivityType | @tmpAct.Remarks</span>
                 <span style="font:status-bar;color:gray;padding-left:8px;">
                     @tmpAct.Date.ToString("MMM-dd-yyyy")
-                    &nbsp;By: @tmpAct.Assigned.Split('@')[0]
+                    @if (@tmpAct.Assigned != null)
+                    {
+                        <span>
+                            &nbsp; By: @tmpAct.Assigned.Split('@')[0]  &nbsp;
+                        </span>
+                    }
                 </span>
                 <br />
             }

@@ -89,7 +89,7 @@
 
             <br />
 
-            @if (ViewBag.JobStatus == "INQUIRY" && ViewBag.JobStatus == "CONFIRMED" && ViewBag.JobStatus == "RESERVATION")
+            @*@if (ViewBag.JobStatus == "INQUIRY" && ViewBag.JobStatus == "CONFIRMED" && ViewBag.JobStatus == "RESERVATION")
             {
                 @Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
             }
@@ -99,9 +99,10 @@
                 {
                     @Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
                 }
-            }
+            }*@
 
 
+            @Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
 
 
             <span>
@@ -217,34 +218,37 @@
                         </span>
                 </td>
                 <td>
-                        <p>
-                            @if (item.DtStart > DateTime.Today && ViewBag.JobStatus == "INQUIRY")
-                            {
-                                <text>
-                                    @Html.ActionLink("Edit", "JobServiceEdit", new { id = item.Id }) |
-                                </text>
-                            }
-                            else if (isAdmin)
-                            {
-                                <text>
-                                    @Html.ActionLink("Edit", "JobServiceEdit", new { id = item.Id }) |
-                                </text>
-                            }
+                    <p>
+                        @*@if (item.DtEnd > DateTime.Today)
+                        {
+                            <text>
+                                @Html.ActionLink("Edit", "JobServiceEdit", new { id = item.Id }) |
+                            </text>
+                        }
+                        else if (isAdmin)
+                        {
+                            <text>
+                                @Html.ActionLink("Edit", "JobServiceEdit", new { id = item.Id }) |
+                            </text>
+                        }*@
 
-                            @Html.ActionLink("Instructions", "DriverInstructions", new { id = item.Id, mainId = item.JobMainId }) |
 
-                            <br />
+                        @Html.ActionLink("Edit", "JobServiceEdit", new { id = item.Id }) |
 
-                            @Html.ActionLink("Pickup", "InitServicePickup", new { id = item.Id }) |
-                            @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id, SvcId = item.Id }, null) |
-                            @Html.ActionLink("Text Form", "TextMessage", new { id = item.Id })  |
+                        @Html.ActionLink("Instructions", "DriverInstructions", new { id = item.Id, mainId = item.JobMainId }) |
 
-                            <br />
-                            @if (isAdmin)
-                            {
-                                @Html.ActionLink("Delete", "JobSvcDelete", new { id = item.Id })
-                            }
-                        </p>
+                        <br />
+
+                        @Html.ActionLink("Pickup", "InitServicePickup", new { id = item.Id }) |
+                        @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id, SvcId = item.Id }, null) |
+                        @Html.ActionLink("Text Form", "TextMessage", new { id = item.Id })  |
+
+                        <br />
+                        @if (isAdmin)
+                        {
+                            @Html.ActionLink("Delete", "JobSvcDelete", new { id = item.Id })
+                        }
+                    </p>
                     
                 </td>
             </tr>

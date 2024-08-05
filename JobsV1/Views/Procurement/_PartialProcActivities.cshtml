@@ -30,8 +30,12 @@
                     <span style="color:maroon;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency - @tmpAct.Type | @tmpAct.Remarks </span>
                     <span style="font:status-bar;color:darkgray;padding-left:8px;">
                         @tmpAct.DtActivity.ToString("MMM-dd-yyyy")
-                        &nbsp;By: @tmpAct.Assigned.Split('@')[0]
-                        &nbsp;
+                        @if (@tmpAct.Assigned != null)
+                        {
+                            <span>
+                                &nbsp; By: @tmpAct.Assigned.Split('@')[0]  &nbsp;
+                            </span>
+                        }
                     </span>
                     if (USER == tmpAct.Assigned || ISADMIN)
                     {
@@ -54,8 +58,12 @@
                     <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency -  @tmpAct.Type | @tmpAct.Remarks</span>
                     <span style="font: status-bar; color: darkgray; padding-left: 8px;">
                         @tmpAct.DtActivity.ToString("MMM-dd-yyyy")
-                        &nbsp;By: @tmpAct.Assigned.Split('@')[0]
-                        &nbsp;
+                        @if (@tmpAct.Assigned != null)
+                        {
+                            <span>
+                                &nbsp; By: @tmpAct.Assigned.Split('@')[0]  &nbsp;
+                            </span>
+                        }
                     </span>
                     <br />
                 }
@@ -69,8 +77,12 @@
                         <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency -  @tmpAct.Type | @tmpAct.Remarks</span>
                         <span style="font: status-bar; color: darkgray; padding-left: 8px;">
                             @tmpAct.DtActivity.ToString("MMM-dd-yyyy")
-                            &nbsp;By: @tmpAct.Assigned.Split('@')[0]
-                            &nbsp;
+                            @if (@tmpAct.Assigned != null)
+                            {
+                                <span>
+                                    &nbsp; By: @tmpAct.Assigned.Split('@')[0]  &nbsp;
+                                </span>
+                            }
                         </span>
                     </strike>
                     <br />
