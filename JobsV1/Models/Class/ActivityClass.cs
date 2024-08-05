@@ -421,6 +421,13 @@ namespace JobsV1.Models.Class
                                 act.Points = 0;
                             }
                         }
+                       
+                            if (act.Remarks == "Sales Lead Approved")
+                            {
+                                act.Points = 8;
+
+                            }
+                        
                     }
                     
                     tempActivities = act;

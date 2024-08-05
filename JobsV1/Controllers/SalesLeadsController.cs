@@ -1055,6 +1055,13 @@ namespace JobsV1.Controllers
                         activity.Type = "Others";
                         activity.Assigned = salesLead.AssignedTo;
                         activity.Remarks = "Sales Lead Approved";
+
+                        if (CheckIfLeadHaveExistingApprovedActivity(salesLead.SalesCode))
+                        {
+                            //dont add activity if existing sales lead is approved once
+                            return true;
+                        }
+
                         break;
                     case "Awarded":
                         //activity.CustEntActActionStatusId = 4; //awarded
@@ -1101,6 +1108,21 @@ namespace JobsV1.Controllers
                 return false;
             }
 
+        }
+
+        public bool CheckIfLeadHaveExistingApprovedActivity(string salescode)
+        {
+            if (!string.IsNullOrEmpty(salescode))
+            {
+                var salesActivity = db.CustEntActivities.Where(c => c.SalesCode == salescode && c.Remarks == "Sales Lead Approved").ToList();
+
+                if (salesActivity.Count > 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         //POST: Update Sales Lead Weight
