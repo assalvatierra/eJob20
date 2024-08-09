@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/23/2022 10:54:41
+-- Date Created: 08/07/2024 13:46:23
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -503,6 +503,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CustAssocTypeCustEntity]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustEntities] DROP CONSTRAINT [FK_CustAssocTypeCustEntity];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SalesLeadCheckerActivity]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CheckerActivities] DROP CONSTRAINT [FK_SalesLeadCheckerActivity];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CheckerActivityTypeCheckerActivity]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CheckerActivities] DROP CONSTRAINT [FK_CheckerActivityTypeCheckerActivity];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -993,6 +999,12 @@ IF OBJECT_ID(N'[dbo].[InvCarRcmdRequests]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[CustAssocTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CustAssocTypes];
+GO
+IF OBJECT_ID(N'[dbo].[CheckerActivities]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CheckerActivities];
+GO
+IF OBJECT_ID(N'[dbo].[CheckerActivityTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CheckerActivityTypes];
 GO
 
 -- --------------------------------------------------
@@ -2673,6 +2685,28 @@ CREATE TABLE [dbo].[CustAssocTypes] (
 );
 GO
 
+-- Creating table 'CheckerActivities'
+CREATE TABLE [dbo].[CheckerActivities] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DtActivity] datetime  NOT NULL,
+    [CheckedBy] nvarchar(80)  NOT NULL,
+    [Remarks] nvarchar(80)  NOT NULL,
+    [SalesLeadId] int  NOT NULL,
+    [CheckerActivityTypeId] int  NOT NULL
+);
+GO
+
+-- Creating table 'CheckerActivityTypes'
+CREATE TABLE [dbo].[CheckerActivityTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] nvarchar(40)  NOT NULL,
+    [iconPath] nvarchar(80)  NOT NULL,
+    [Points] int  NOT NULL,
+    [OrderNo] int  NOT NULL,
+    [Remarks] nvarchar(80)  NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -3646,6 +3680,18 @@ GO
 -- Creating primary key on [Id] in table 'CustAssocTypes'
 ALTER TABLE [dbo].[CustAssocTypes]
 ADD CONSTRAINT [PK_CustAssocTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CheckerActivities'
+ALTER TABLE [dbo].[CheckerActivities]
+ADD CONSTRAINT [PK_CheckerActivities]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CheckerActivityTypes'
+ALTER TABLE [dbo].[CheckerActivityTypes]
+ADD CONSTRAINT [PK_CheckerActivityTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -6081,6 +6127,36 @@ GO
 CREATE INDEX [IX_FK_CustAssocTypeCustEntity]
 ON [dbo].[CustEntities]
     ([CustAssocTypeId]);
+GO
+
+-- Creating foreign key on [SalesLeadId] in table 'CheckerActivities'
+ALTER TABLE [dbo].[CheckerActivities]
+ADD CONSTRAINT [FK_SalesLeadCheckerActivity]
+    FOREIGN KEY ([SalesLeadId])
+    REFERENCES [dbo].[SalesLeads]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SalesLeadCheckerActivity'
+CREATE INDEX [IX_FK_SalesLeadCheckerActivity]
+ON [dbo].[CheckerActivities]
+    ([SalesLeadId]);
+GO
+
+-- Creating foreign key on [CheckerActivityTypeId] in table 'CheckerActivities'
+ALTER TABLE [dbo].[CheckerActivities]
+ADD CONSTRAINT [FK_CheckerActivityTypeCheckerActivity]
+    FOREIGN KEY ([CheckerActivityTypeId])
+    REFERENCES [dbo].[CheckerActivityTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CheckerActivityTypeCheckerActivity'
+CREATE INDEX [IX_FK_CheckerActivityTypeCheckerActivity]
+ON [dbo].[CheckerActivities]
+    ([CheckerActivityTypeId]);
 GO
 
 -- --------------------------------------------------

@@ -691,3 +691,13 @@ insert into SalesLeads([Date],[Details],[Remarks],[CustomerId], [CustName], [DtE
 values ('3/8/2021', 'Sales Lead Sample 01', '', 2, 'John Doe', '3/8/2021', 'admin', 75000, 'admin@gmail.com', '0912 345 6789', 'johndoe@gmail.com', 'SL-001');
 
 
+--------------------------------
+------ CHECKER ACTIVTIES -------
+--------------------------------
+
+insert into CheckerActivityTypes([Type],[iconPath],[Points],[OrderNo],[Remarks])
+values ('Initial-Check','/Images/SalesLead/Quotation101.png',0,1,'Initial Check is Done'),
+	   ('Final-Check','/Images/SalesLead/Awarded.png',3,2,'Final Check is Done'),
+	   ('Clarification','/Images/SalesLead/Quotation101.png',0,3,'Need Clarification'),
+	   ('Other','/Images/SalesLead/Quotation101.png',0,4,' ');
+

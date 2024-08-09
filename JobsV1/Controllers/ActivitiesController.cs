@@ -210,6 +210,25 @@ namespace JobsV1.Controllers
             return UserList;
         }
 
+
+        //Get User Activities within a specific date range
+        [Authorize]
+        public ActionResult CheckerActivities(string user, string sDate, string eDate)
+        {
+            if (!String.IsNullOrEmpty(user))
+            {
+                var activities = ac.GetCheckerActivities(user, sDate, eDate);
+
+                ViewBag.User = user;
+                ViewBag.IsAdmin = User.IsInRole("Admin");
+
+
+                return View(activities);
+            }
+
+            return RedirectToAction("Index");
+        }
+
         #endregion
 
         #region Company Edit

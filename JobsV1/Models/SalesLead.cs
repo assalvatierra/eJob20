@@ -26,6 +26,7 @@ namespace JobsV1.Models
             this.SalesProcStatus = new HashSet<SalesProcStatus>();
             this.SalesLeadSupActivities = new HashSet<SalesLeadSupActivity>();
             this.SalesLeadFiles = new HashSet<SalesLeadFile>();
+            this.CheckerActivities = new HashSet<CheckerActivity>();
         }
     
         public int Id { get; set; }
@@ -63,5 +64,7 @@ namespace JobsV1.Models
         public virtual ICollection<SalesLeadSupActivity> SalesLeadSupActivities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesLeadFile> SalesLeadFiles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CheckerActivity> CheckerActivities { get; set; }
     }
 }

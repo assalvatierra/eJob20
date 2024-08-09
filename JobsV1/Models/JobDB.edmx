@@ -168,6 +168,8 @@
     <EntitySet Name="InvCarRcmdStatus" EntityType="JobDB.Store.InvCarRcmdStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvCarRcmdRequests" EntityType="JobDB.Store.InvCarRcmdRequests" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustAssocTypes" EntityType="JobDB.Store.CustAssocTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CheckerActivities" EntityType="JobDB.Store.CheckerActivities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CheckerActivityTypes" EntityType="JobDB.Store.CheckerActivityTypes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -815,6 +817,14 @@
     <AssociationSet Name="CustAssocTypeCustEntity" Association="JobDB.Store.CustAssocTypeCustEntity">
       <End Role="CustAssocType" EntitySet="CustAssocTypes" />
       <End Role="CustEntity" EntitySet="CustEntities" />
+    </AssociationSet>
+    <AssociationSet Name="SalesLeadCheckerActivity" Association="JobDB.Store.SalesLeadCheckerActivity">
+      <End Role="SalesLead" EntitySet="SalesLeads" />
+      <End Role="CheckerActivity" EntitySet="CheckerActivities" />
+    </AssociationSet>
+    <AssociationSet Name="CheckerActivityTypeCheckerActivity" Association="JobDB.Store.CheckerActivityTypeCheckerActivity">
+      <End Role="CheckerActivityType" EntitySet="CheckerActivityTypes" />
+      <End Role="CheckerActivity" EntitySet="CheckerActivities" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -2490,6 +2500,28 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="CheckerActivities">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DtActivity" Type="datetime" Nullable="false" />
+    <Property Name="CheckedBy" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="SalesLeadId" Type="int" Nullable="false" />
+    <Property Name="CheckerActivityTypeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CheckerActivityTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="iconPath" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Points" Type="int" Nullable="false" />
+    <Property Name="OrderNo" Type="int" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -4435,6 +4467,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SalesLeadCheckerActivity">
+    <End Role="SalesLead" Type="JobDB.Store.SalesLeads" Multiplicity="1" />
+    <End Role="CheckerActivity" Type="JobDB.Store.CheckerActivities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesLead">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CheckerActivity">
+        <PropertyRef Name="SalesLeadId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CheckerActivityTypeCheckerActivity">
+    <End Role="CheckerActivityType" Type="JobDB.Store.CheckerActivityTypes" Multiplicity="1" />
+    <End Role="CheckerActivity" Type="JobDB.Store.CheckerActivities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CheckerActivityType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CheckerActivity">
+        <PropertyRef Name="CheckerActivityTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -5249,6 +5305,16 @@
           <AssociationSet Name="CustAssocTypeCustEntity" Association="JobDB.CustAssocTypeCustEntity">
             <End Role="CustAssocType" EntitySet="CustAssocTypes" />
             <End Role="CustEntity" EntitySet="CustEntities" />
+          </AssociationSet>
+          <EntitySet Name="CheckerActivities" EntityType="JobDB.CheckerActivity" />
+          <EntitySet Name="CheckerActivityTypes" EntityType="JobDB.CheckerActivityType" />
+          <AssociationSet Name="SalesLeadCheckerActivity" Association="JobDB.SalesLeadCheckerActivity">
+            <End Role="SalesLead" EntitySet="SalesLeads" />
+            <End Role="CheckerActivity" EntitySet="CheckerActivities" />
+          </AssociationSet>
+          <AssociationSet Name="CheckerActivityTypeCheckerActivity" Association="JobDB.CheckerActivityTypeCheckerActivity">
+            <End Role="CheckerActivityType" EntitySet="CheckerActivityTypes" />
+            <End Role="CheckerActivity" EntitySet="CheckerActivities" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -6223,6 +6289,7 @@
           <Property Name="ItemWeight" Type="String" Nullable="true" MaxLength="20" />
           <NavigationProperty Name="SalesLeadFiles" Relationship="JobDB.SalesLeadSalesLeadFile" FromRole="SalesLead" ToRole="SalesLeadFile" />
           <Property Name="Commodity" Type="String" Nullable="true" MaxLength="250" />
+          <NavigationProperty Name="CheckerActivities" Relationship="JobDB.SalesLeadCheckerActivity" FromRole="SalesLead" ToRole="CheckerActivity" />
         </EntityType>
         <EntityType Name="SalesStatusCode">
           <Key>
@@ -9195,6 +9262,55 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CheckerActivity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DtActivity" Type="DateTime" Nullable="false" />
+          <Property Name="CheckedBy" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="80" />
+          <NavigationProperty Name="SalesLead" Relationship="JobDB.SalesLeadCheckerActivity" FromRole="CheckerActivity" ToRole="SalesLead" />
+          <Property Name="SalesLeadId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CheckerActivityType" Relationship="JobDB.CheckerActivityTypeCheckerActivity" FromRole="CheckerActivity" ToRole="CheckerActivityType" />
+          <Property Name="CheckerActivityTypeId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CheckerActivityType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="40" />
+          <Property Name="iconPath" Type="String" Nullable="false" MaxLength="80" />
+          <NavigationProperty Name="CheckerActivities" Relationship="JobDB.CheckerActivityTypeCheckerActivity" FromRole="CheckerActivityType" ToRole="CheckerActivity" />
+          <Property Name="Points" Type="Int32" Nullable="false" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+        </EntityType>
+        <Association Name="SalesLeadCheckerActivity">
+          <End Type="JobDB.SalesLead" Role="SalesLead" Multiplicity="1" />
+          <End Type="JobDB.CheckerActivity" Role="CheckerActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesLead">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckerActivity">
+              <PropertyRef Name="SalesLeadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CheckerActivityTypeCheckerActivity">
+          <End Type="JobDB.CheckerActivityType" Role="CheckerActivityType" Multiplicity="1" />
+          <End Type="JobDB.CheckerActivity" Role="CheckerActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CheckerActivityType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckerActivity">
+              <PropertyRef Name="CheckerActivityTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11034,6 +11150,30 @@
         <MappingFragment StoreEntitySet="CustAssocTypes">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CheckerActivities">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CheckerActivity)">
+        <MappingFragment StoreEntitySet="CheckerActivities">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DtActivity" ColumnName="DtActivity" />
+          <ScalarProperty Name="CheckedBy" ColumnName="CheckedBy" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="SalesLeadId" ColumnName="SalesLeadId" />
+          <ScalarProperty Name="CheckerActivityTypeId" ColumnName="CheckerActivityTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CheckerActivityTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CheckerActivityType)">
+        <MappingFragment StoreEntitySet="CheckerActivityTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="iconPath" ColumnName="iconPath" />
+          <ScalarProperty Name="Points" ColumnName="Points" />
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

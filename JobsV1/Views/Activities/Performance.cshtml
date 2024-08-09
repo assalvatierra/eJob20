@@ -50,6 +50,7 @@
             <th class="js-sort-number"> Procurement </th>
             <th class="js-sort-number"> JobOrder </th>
             <th class="js-sort-number"> Total&nbsp;Job</th>
+            <th class="js-sort-number"> Checker </th>
         </tr>
     </thead>
     <tbody>
@@ -85,6 +86,14 @@
                         </a>
                     }
 
+                    @if (item.Role == "Checker" )
+                    {
+                        //CheckerActivities
+                        <a href="#"  onclick="GotoCheckerActivities('@item.UserName')"  data-toggle="tooltip" data-placement="top" title="View Checker Activites">
+                            Checker
+                        </a>
+                    }
+
                 </td>
                 <td>
                     @item.Role
@@ -112,6 +121,14 @@
                 </td>
                 <td>
                     @item.ProcAmount.ToString("N0")
+                </td>
+                <td>
+                    @if (item.Checker > 0)
+                    {
+                        <a href="#" onclick="GotoCheckerActivities('@item.UserName')" data-toggle="tooltip" data-placement="top" title="View Checker Activites">
+                            @item.Checker
+                        </a>
+                    }
                 </td>
             </tr>
         }
@@ -146,6 +163,15 @@
             let eDate = moment($("#DtEnd").val()).format("MM/DD/YYYY");
 
             window.location.href = "../Activities/SupActivities?user=" + user + "&sDate=" + sDate + "&eDate=" + eDate;
+
+        }
+
+        function GotoCheckerActivities(user) {
+
+            let sDate = moment($("#DtStart").val()).format("MM/DD/YYYY");
+            let eDate = moment($("#DtEnd").val()).format("MM/DD/YYYY");
+
+            window.location.href = "../Activities/CheckerActivities?user=" + user + "&sDate=" + sDate + "&eDate=" + eDate;
 
         }
     </script>

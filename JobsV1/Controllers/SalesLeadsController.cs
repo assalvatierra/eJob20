@@ -14,6 +14,7 @@ using Microsoft.Ajax.Utilities;
 using System.Net.Http;
 using PayPal.Api;
 using System.Threading.Tasks;
+using static JobsV1.API.SalesLeadApiController;
 
 namespace JobsV1.Controllers
 {
@@ -105,6 +106,9 @@ namespace JobsV1.Controllers
 
             //for adding new item 
             ViewBag.InvItems = await db.InvItems.Where(i =>  i.ItemCode != "").ToListAsync();
+
+            //checker activity
+            ViewBag.CheckerActivtyTypes = await db.CheckerActivityTypes.ToListAsync();
 
             return View(salesLeads);
         }
@@ -2337,6 +2341,10 @@ namespace JobsV1.Controllers
             }
         }
 
+        #endregion
+
+        #region CheckerActivity
+      
         #endregion
 
     }

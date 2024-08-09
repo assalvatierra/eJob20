@@ -7,6 +7,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     string USER = ViewBag.User;
     bool ISADMIN = ViewBag.IsAdmin;
+    bool ISCHECKER = ViewBag.IsChecker;
 
     var BIDDING = "Bidding Only";
     var FIRM = "Firm Inquiry";
@@ -196,6 +197,12 @@
                                 new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", item.AssignedTo }, { "IsAdmin", ISADMIN } })
 
                         <br />
+
+
+                        <!-- Late Checker Activities -->
+                        @Html.Partial("_PartialCheckerActivities", item.CheckerActivities,
+                            new ViewDataDictionary { { "Id", item.Id }, { "User", USER }, { "IsAdmin", ISADMIN }, { "IsChecker", ISCHECKER } })
+
                         <!--Add Files-->
                         @Html.Partial("_PartialLeadFiles", item.SalesLeadFiles.OrderByDescending(c => c.Id).FirstOrDefault(),
                               new ViewDataDictionary { { "Id", item.Id }, { "FileCount", item.SalesLeadFiles.Count() } })

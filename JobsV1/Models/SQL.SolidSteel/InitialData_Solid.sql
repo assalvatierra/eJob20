@@ -148,8 +148,11 @@ insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (10,1,'2019/1/1');
 
+
+
 insert into SysSettings([SysKey],[SysValue],[Remarks]) values
 ('DatabaseState','Dev.DB','Development DB');
+
 
 insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com',1,1), 

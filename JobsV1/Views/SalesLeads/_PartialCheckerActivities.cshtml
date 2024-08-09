@@ -1,0 +1,46 @@
+﻿@model IEnumerable<JobsV1.Models.CheckerActivity>
+
+@{
+    Layout = null;
+    int SalesLeadId = Convert.ToInt32(ViewData["Id"]);
+    string USER = ViewBag.User as string;
+    bool IsAdmin = (Boolean)ViewData["IsAdmin"];
+    bool IsChecker = (Boolean)ViewData["IsChecker"];
+}
+
+<br />
+<br />
+<span style="font:bold 8px, arial, verdana; color:maroon ;">
+    Checker Activities
+</span>
+<br />
+<span style="font:bold 8px, arial, verdana; color: royalblue;" id="checkedActivties-@SalesLeadId">
+
+    @foreach (var activity in Model)
+    {
+
+        <span style="color:red;font-weight:800;">! </span>
+        <img src=@Url.Content(activity.CheckerActivityType.iconPath)
+             height="16" />
+
+        <span style="color:maroon;"> @activity.CheckerActivityType.Type - @activity.Remarks &nbsp; </span>
+
+        <span style="font:status-bar;color:darkgray;">
+            @activity.DtActivity.ToString("MMM-dd-yyyy hh:mm tt")
+            @if (activity.CheckedBy != null)
+            {
+                <span>
+                    &nbsp; By: @activity.CheckedBy.Split('@')[0]&nbsp;
+                </span>
+            }
+        </span>
+        <br />
+    }
+</span>
+
+@if (IsChecker || IsAdmin)
+{
+    <br />
+    <a href="javascript:void(0);" onclick="ShowModal_AddCheckerActivity(@SalesLeadId, '@USER')"> [ Add Checker Activity ] </a>
+
+}

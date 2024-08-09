@@ -680,6 +680,10 @@ rental-type-wdriver {
     color:darkred;
 }
 
+.no-scroll {
+    overflow: hidden;
+}
+
 /* PC 1080p Screens */
 @media only screen and (max-width: 1200px) {
     .nav-submenu-home {

@@ -15,6 +15,7 @@ namespace JobsV1.Models.Class
         public int ProcMeeting { get; set; }
         public int Procurement { get; set; }
         public int JobOrder { get; set; }
+        public int Checker { get; set; }
         public decimal Amount { get; set; }
         public decimal ProcAmount { get; set; }
         public string Role { get; set; }
@@ -220,7 +221,8 @@ namespace JobsV1.Models.Class
 
             string sql =
                " SELECT	UserName,"+
-		       "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND ca.Remarks = 'Quotation Sent' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'"+ sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'"+ edate + "') ),"+
+		       "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND ca.Remarks = 'Quotation Sent' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'"+ sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'"+ edate + "') )," +
+               "         Checker = (SELECT COUNT(*) FROM CheckerActivities cha WHERE cha.CheckerActivityTypeId = 2 AND au.UserName = cha.CheckedBy AND convert(datetime, cha.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, cha.DtActivity) < convert(datetime,'" + edate + "') )," +
                "         Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Meeting' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         Sales = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         ProcMeeting = (SELECT COUNT(*) FROM SupplierActivities sa WHERE sa.ActivityType = 'Meeting' AND au.UserName = sa.Assigned AND convert(datetime, sa.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, sa.DtActivity) < convert(datetime,'" + edate + "') )," +
@@ -232,7 +234,7 @@ namespace JobsV1.Models.Class
 
                "  Where UserName NOT IN " +
                " ('jahdielvillosa@gmail.com' ,'jahdielsvillosa@gmail.com', 'assalvatierra@gmail.com', " +
-               " 'admin@gmail.com' ,'demo@gmail.com', 'assalvatierra@yahoo.com' )" +
+               " 'demo@gmail.com', 'assalvatierra@yahoo.com' )" +
 
                "  ORDER BY Sales DESC, Meeting DESC, Quotation Desc ;";
 
@@ -255,6 +257,7 @@ namespace JobsV1.Models.Class
             string sql =
                " SELECT	UserName," +
                "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND ca.Remarks = 'Quotation Sent' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
+               "         Checker = (SELECT COUNT(*) FROM CheckerActivities cha WHERE cha.CheckerActivityTypeId = 2 AND au.UserName = cha.CheckedBy AND convert(datetime, cha.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, cha.DtActivity) < convert(datetime,'" + edate + "') )," +
                "         Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Meeting' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         Sales = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         ProcMeeting = (SELECT COUNT(*) FROM SupplierActivities sa WHERE sa.ActivityType = 'Meeting' AND au.UserName = sa.Assigned AND convert(datetime, sa.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, sa.DtActivity) < convert(datetime,'" + edate + "') )," +
@@ -451,6 +454,25 @@ namespace JobsV1.Models.Class
 
         }
 
+
+
+        //GET : get user activities by the user 
+        public List<CheckerActivity> GetCheckerActivities(string user, string sDate, string eDate)
+        {
+            try
+            {
+                List<CheckerActivity> CheckerActivities = new List<CheckerActivity>();
+
+                CheckerActivities = db.CheckerActivities.Where(c => c.CheckedBy == user).OrderByDescending(d => d.DtActivity).ToList();
+
+                return CheckerActivities;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                //return new List<cUserActivity>();
+            }
+        }
 
         //GET : return user performance report based on the count of each Activity Type
         public cUserPerformanceReport GetUserPerformance(List<cUserActivity> activities, string user)

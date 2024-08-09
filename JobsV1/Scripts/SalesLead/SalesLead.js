@@ -314,3 +314,86 @@ function RevisionConfirmation(id) {
         window.location.href = "/SalesLeads/Revision/" + id;
     }
 }
+
+
+
+
+//---------- CHECKER ACTIVITIES -----------//
+function ShowModal_AddCheckerActivity(salesLeadId, user) {
+    $("#CheckerActivityList").modal("show");
+
+    $("#AddCheckerAct-SalesLeadId").val(salesLeadId);
+    $("#AddCheckerAct-Date").val(moment().format("MM/DD/YYYY h:mm:ss A"));
+    $("#AddCheckerAct-CheckedBy").val(user);
+}
+
+function SelectThisCheckerActivity(typeId, Type, Remarks) {
+
+    $("#CheckerActivityList").modal("hide");
+    $("#AddCheckerActivityModal").modal("show");
+
+    $("#AddCheckerAct-Type").val(typeId);
+    $("#AddCheckerAct-Remarks").val(Remarks);
+}
+
+//add activity
+function SubmitCheckerActivity() {
+    var salesLeadId = $("#AddCheckerAct-SalesLeadId").val();
+    var data = {
+        SalesLeadId: salesLeadId,
+        ActivityTypeId: $("#AddCheckerAct-Type option:selected").val(),
+        Remarks: $("#AddCheckerAct-Remarks").val(),
+        CheckedBy: $("#AddCheckerAct-CheckedBy").val(),
+        Date: $("#AddCheckerAct-Date").val(),
+    };
+
+    console.log(data);
+
+    var url = '/api/CheckerActivity/';
+
+    //Post data from server using ajax call
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        dataType: 'application/json; charset=utf-8',
+        success: function (response) {
+            console.log(response);
+
+            if (response.status == 200) {
+                AddCheckerActivityOnSalesLeadView(salesLeadId);
+            }
+
+        },
+        error: function (response) {
+            console.log(response);
+
+            if (response.status == 200) {
+                AddCheckerActivityOnSalesLeadView(salesLeadId);
+            } else {
+                alert("Unable to Add Activity");
+            }
+
+            //location.reload(false);
+        }
+    });
+}
+
+function AddCheckerActivityOnSalesLeadView(salesLeadId) {
+    var activityrow = "";
+
+    var activityType = $("#AddCheckerAct-Type option:selected").text();
+    var remarks = $("#AddCheckerAct-Remarks").val();
+    var date = moment().format("MMM-DD-YYYY h:mm A");
+    var checkedby = $("#AddCheckerAct-CheckedBy").val();
+
+    activityrow += "<span style='color: red; font-weight: 800;'>! </span>"
+    activityrow += "<img src='/Images/SalesLead/Quotation101.png' height='16' />"
+    activityrow += "<span style='color:maroon;'> " + activityType + " - " + remarks + "</span>"
+    activityrow += "<span style='font:status-bar;color:darkgray;'> " + date + " By: " + checkedby + "</span> <br>"
+
+    $("#checkedActivties-" + salesLeadId).append(activityrow);
+}
+
+
+//---------- END OF CHECKER ACTIVITIES -----------//
