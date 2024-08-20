@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Web.Security;
 
 namespace JobsV1.Models.Class
 {
@@ -18,7 +19,7 @@ namespace JobsV1.Models.Class
         public int Checker { get; set; }
         public decimal Amount { get; set; }
         public decimal ProcAmount { get; set; }
-        public string Role { get; set; }
+        public List<string> Role { get; set; }
         public string Remarks { get; set; }
     }
 
@@ -189,6 +190,17 @@ namespace JobsV1.Models.Class
             return companyActivity.OrderByDescending(s => s.DtActivity);
         }
 
+
+        // GET: Supplier Activities
+        public IOrderedEnumerable<CheckerActivity> GetCheckerActivitiesAdmin(DateTime sdate, DateTime edate)
+        {
+            //get activities of all users
+            var checkerActivity = db.CheckerActivities
+                .Where(c => c.DtActivity.CompareTo(sdate) >= 0 && c.DtActivity.CompareTo(edate) <= 0)
+                .ToList();
+            return checkerActivity.OrderByDescending(s => s.DtActivity);
+        }
+
         // GET: Company Activities
         public IOrderedEnumerable<CustEntActivity> GetCompanyActivitiesUser(string user, DateTime sdate, DateTime edate)
         {
@@ -221,7 +233,7 @@ namespace JobsV1.Models.Class
 
             string sql =
                " SELECT	UserName,"+
-		       "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND ca.Remarks = 'Quotation Sent' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'"+ sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'"+ edate + "') )," +
+		       "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND ca.Remarks = 'Sales Lead Approved' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'"+ sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'"+ edate + "') )," +
                "         Checker = (SELECT COUNT(*) FROM CheckerActivities cha WHERE cha.CheckerActivityTypeId = 2 AND au.UserName = cha.CheckedBy AND convert(datetime, cha.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, cha.DtActivity) < convert(datetime,'" + edate + "') )," +
                "         Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Meeting' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         Sales = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
@@ -233,8 +245,22 @@ namespace JobsV1.Models.Class
                "  FROM AspNetUsers au " +
 
                "  Where UserName NOT IN " +
-               " ('jahdielvillosa@gmail.com' ,'jahdielsvillosa@gmail.com', 'assalvatierra@gmail.com', " +
-               " 'demo@gmail.com', 'assalvatierra@yahoo.com' )" +
+               " ('jahdielvillosa@gmail.com'" +
+               " ,'jahdielsvillosa@gmail.com'" +
+               " ,'assalvatierra@gmail.com'" +
+               " ,'admin@gmail.com'" +
+               " ,'demo@gmail.com'" +
+               " ,'InvDemo@gmail.com'" +
+               " ,'InvAdmin@gmail.com'" +
+               " ,'Accounting@gmail.com'" +
+               " ,'Proc.Head@gmail.com'" +
+               " ,'Purchaser@gmail.com'" +
+               " ,'Sales@gmail.com'" +
+               " ,'sales@solid-steel-supply.com'" +
+               " ,'proc@solid-steel-supply.com'" +
+               " ,'store@gmail.com'" +
+               " ,'marketing@vsteelmetalasia.com'" +
+               " ,'assalvatierra@yahoo.com')" +
 
                "  ORDER BY Sales DESC, Meeting DESC, Quotation Desc ;";
 
@@ -242,6 +268,8 @@ namespace JobsV1.Models.Class
 
             //Update total meeting Count
             userReport = UpdateTotalMeeting(userReport);
+            //Update total meeting Count
+            userReport = UpdateTotalQuotation(userReport, sdate, edate);
 
             return userReport;
         }
@@ -289,6 +317,22 @@ namespace JobsV1.Models.Class
             return userPerf;
         }
 
+        private List<cUserPerformance> UpdateTotalQuotation(List<cUserPerformance> userPerformances, DateTime startdate, DateTime enddate)
+        {
+            if (userPerformances == null || startdate == null || enddate == null)
+            {
+                return userPerformances;
+            }
+
+            foreach (var userPerf in userPerformances)
+            {
+                var userActivities = GetUserActivities(userPerf.UserName, startdate.ToString("MM/dd/yyyy"), enddate.ToString("MM/dd/yyyy"));
+
+                userPerf.Quotation = FilterQuotationActivityCount(userActivities);
+            }
+            return userPerformances;
+        }
+
 
 
         public string GetUserRole(string user)
@@ -296,7 +340,7 @@ namespace JobsV1.Models.Class
             if (!String.IsNullOrEmpty(user))
             {
 
-                string sql = @"SELECT UserName, UserRole = (SELECT Name FROM AspNetRoles r WHERE r.Id = ur.RoleId) FROM AspNetUsers u
+                string sql = @" SELECT UserName, UserRole = (SELECT Name FROM AspNetRoles r WHERE r.Id = ur.RoleId) FROM AspNetUsers u
 	                            LEFT JOIN AspNetUserRoles ur ON ur.UserId = u.Id
 	                            WHERE UserName = '"+ user +"' ;";
 
@@ -305,6 +349,30 @@ namespace JobsV1.Models.Class
             }
 
             return "NA";
+        }
+
+        public List<string> GetUserRoles(string user)
+        {
+            List<string> userRoles = new List<string>();
+
+
+            if (!String.IsNullOrEmpty(user))
+            {
+                string sql = @" SELECT UserName, UserRole = (SELECT Name FROM AspNetRoles r WHERE r.Id = ur.RoleId) FROM AspNetUsers u
+	                            LEFT JOIN AspNetUserRoles ur ON ur.UserId = u.Id
+	                            WHERE UserName = '" + user + "' ;";
+
+                var roles = db.Database.SqlQuery<cUserRole>(sql).ToList();
+
+                foreach(var role in roles)
+                {
+                    userRoles.Add(role.UserRole);
+                }
+
+                return userRoles;
+            }
+
+            return null;
         }
 
         #endregion
@@ -388,57 +456,109 @@ namespace JobsV1.Models.Class
         {
             //holds the Ids of unique activity
             CustEntActivity tempActivities = new CustEntActivity();
-
+            var tempRemarks = tempActivities.Remarks;
             foreach (var act in activityList)
             {
                 if(act.ActivityType == "Quotation")
                 {
-                    if (act.Remarks == "Quotation Sent" || act.Remarks == "Awarded")
+                    if (act.Remarks == "Awarded")
                     {
                         act.Points = 8;
+                    }
+
+                    if (act.Remarks == "Quotation Sent")
+                    {
+                        if (IsCustActivityHaveApprovedQuotation(act, activityList))
+                        {
+                            act.Points = 0;
+                        }
+                        else
+                        {
+                            act.Points = 8;
+                        }
                     }
                     else
                     {
                         act.Points = 0;
                     }
 
-                    if (tempActivities.Date.ToShortDateString() == act.Date.ToShortDateString() 
-                        && tempActivities.SalesCode == act.SalesCode 
+
+                    if (act.ActivityType == "Quotation" && act.Remarks == "Sales Lead Approved")
+                    {
+                        if (IsCustActivityHaveApprovedQuotation(act, activityList))
+                        {
+                            act.Points = 8;
+                        }
+                        else
+                        {
+                            act.Points = 0;
+                        }
+                    }
+
+
+                    //duplicate activity
+                    if (tempActivities.Date.ToShortDateString() == act.Date.ToShortDateString()
+                        && tempActivities.SalesCode == act.SalesCode
                         && tempActivities.ActivityType == act.ActivityType
                         && tempActivities.Remarks == act.Remarks)
                     {
                         act.Points = 0;
                     }
 
-                    if (tempActivities.ActivityType == "Quotation")
-                    {
-                        if (IsCustActivityHaveApprovedQuotation(act, activityList))
-                        {
-                            if (act.Remarks == "Sales Lead Approved")
-                            {
-                                act.Points = 8;
-
-                            }
-                            else
-                            {
-                                act.Points = 0;
-                            }
-                        }
-                       
-                            if (act.Remarks == "Sales Lead Approved")
-                            {
-                                act.Points = 8;
-
-                            }
-                        
-                    }
-                    
                     tempActivities = act;
                     
                 }
             }
 
             return activityList;
+        }
+
+
+        private int FilterQuotationActivityCount(List<cUserActivity> activityList)
+        {
+
+            var TotalCountValidQuotation = 0;
+           
+
+            //holds the Ids of unique activity
+            CustEntActivity tempActivities = new CustEntActivity();
+
+            foreach (var act in activityList)
+            {
+                if (act.ActivityType == "Quotation")
+                {
+                    if (act.Remarks == "Quotation Sent")
+                    {
+                        if (!IsCustActivityHaveApprovedQuotation(act, activityList))
+                        {
+                            TotalCountValidQuotation += 1;
+                        }
+                    }
+
+
+                    if (IsCustActivityHaveApprovedQuotation(act, activityList))
+                    {
+                        if (act.Remarks == "Sales Lead Approved")
+                        {
+                            TotalCountValidQuotation += 1;
+                        }
+                    }
+
+                    //duplicate activity
+                    if (tempActivities.Date.ToShortDateString() == act.Date.ToShortDateString()
+                        && tempActivities.SalesCode == act.SalesCode
+                        && tempActivities.ActivityType == act.ActivityType
+                        && tempActivities.Remarks == act.Remarks)
+                    {
+                        TotalCountValidQuotation -= 1;
+                    }
+
+                    tempActivities = act;
+
+                }
+            }
+
+            return TotalCountValidQuotation;
         }
 
         public bool IsCustActivityHaveApprovedQuotation(CustEntActivity activity, List<cUserActivity> custEntActivities)

@@ -61,14 +61,14 @@
                     @item.UserName
                 </td>
                 <td>
-                    @if (item.Role == "Sales")
+                    @if (item.Role.Any(r=>r == "Sales"))
                     {
                         <a href="#" onclick="GotoSalesActivities('@item.UserName')" data-toggle="tooltip" data-placement="top" title="View User Activites">
                             Sales
                         </a>
                     }
 
-                    @if (item.Role == "Procurement" || item.Role == "Checker")
+                    @if (item.Role.Any(r => r == "Procurement") || item.Role.Any(r => r == "Checker"))
                     {
 
                         <a href="#" onclick="GotoProcActivities('@item.UserName')" data-toggle="tooltip" data-placement="top" title="View Procurement Activites">
@@ -76,7 +76,7 @@
                         </a>
                     }
 
-                    @if (item.Role == "Admin")
+                    @if (item.Role.Any(r => r == "Admin"))
                     {
                         <a href="#" onclick="GotoSalesActivities('@item.UserName')" data-toggle="tooltip" data-placement="top" title="View User Activites">
                             Sales |
@@ -86,17 +86,23 @@
                         </a>
                     }
 
-                    @if (item.Role == "Checker" )
+                    @if (item.Role.Any(r => r == "Checker") )
                     {
+                        <span> | </span>
                         //CheckerActivities
                         <a href="#"  onclick="GotoCheckerActivities('@item.UserName')"  data-toggle="tooltip" data-placement="top" title="View Checker Activites">
                             Checker
                         </a>
                     }
 
-                </td>
+                </td> 
                 <td>
-                    @item.Role
+                    @foreach (var role in item.Role)
+                    {
+                        <span>
+                            @role &nbsp;
+                        </span>
+                    }
                 </td>
 
                 <td>

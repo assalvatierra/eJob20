@@ -20,7 +20,7 @@
 
     <div class="col-lg-offset-1 col-md-4 col-xs-4" style="padding:0px;">
         <button class="btn btn-default search-group pull-right" style="margin-top:0px;" id="srch-btn" onclick="SubmitActivityCode()">Search</button>
-        <input class="form-control search-cat pull-right" id="srch-field" type="search" placeholder="Search Code"  value="@ViewBag.SrchCode" />
+        <input class="form-control search-cat pull-right" id="srch-field" type="search" placeholder="Search Code" value="@ViewBag.SrchCode" />
     </div>
 
 </div>
@@ -45,8 +45,10 @@
     {
         var trcolor = "white";
 
-        if (item != null) {
-            if (item.CustEntActStatu.Status == "Awarded"){
+        if (item != null)
+        {
+            if (item.CustEntActStatu.Status == "Awarded")
+            {
                 trcolor = "paleturquoise";
             }
         }
@@ -101,7 +103,7 @@
                         int idx = input.IndexOf(ch);
                         <text> @input.Substring(0, idx)</text>
                     }
-                    catch 
+                    catch
                     {
                         <text> NA </text>
                     }
@@ -111,7 +113,7 @@
                 @if (ViewBag.IsAdmin == true)
                 {
                     <text>
-                        @Html.ActionLink("Edit", "CompanyActsEdit", new { id = item.Id }) 
+                        @Html.ActionLink("Edit", "CompanyActsEdit", new { id = item.Id })
                         @*@Html.ActionLink("Delete", "CompanyActsDelete", new { id = item.Id })*@
                     </text>
                 }
@@ -121,86 +123,161 @@
 </table>
 <br />
 <hr />
+
+
 @if (!User.IsInRole("Marketing"))
 {
 
-<h4>Suppliers Activities</h4>
+    <h4>Suppliers Activities</h4>
 
-<table class="table">
-    <tr>
-        <th style="min-width:120px;"> Date </th>
-        <th> Code  </th>
-        <th> Amount  </th>
-        <th> Suppliers  </th>
-        <th> Activity </th>
-        <th> Type </th>
-        <th> Status </th>
-        <th> Remarks </th>
-        <th> Assigned</th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in ViewBag.SupplierActivities as IOrderedEnumerable<JobsV1.Models.SupplierActivity>)
-    {
+    <table class="table">
         <tr>
-            <td>
-                @DateTime.Parse(item.DtActivity.ToString()).ToString("MMM dd yyyy")
-                <br />
-                @DateTime.Parse(item.DtActivity.ToString()).ToString("hh:mm tt")
-            </td>
-            <td>
-                <a style="cursor:pointer;" onclick="SearchCodeSupActivities('@item.Code')">  @Html.DisplayFor(modelItem => item.Code) </a>
-            </td>
-            <td>
-                @if (item.Amount != null && item.Amount != 0)
-                {
-                    <span>
-                        @(((Decimal)item.Amount).ToString("N0"))&nbsp;@item.Currency
-                    </span>
-                }
-            </td>
-            <td>
-                @Html.ActionLink(item.Supplier.Name, "Records", "SupplierActivities", new { id = item.SupplierId }, null)
-            </td>
-           <td>
-                @Html.DisplayFor(modelItem => item.ActivityType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SupplierActStatu.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Remarks)
-            </td>
-            <td>
-                <a href="@Url.Action("SupActivities", "Activities", new { user = item.Assigned })">
-                    @{var input = @item.Assigned;}
-                    @try
-                    {
-                        char ch = '@';
-                        int idx = input.IndexOf(ch);
-                        <text> @input.Substring(0, idx)</text>
-                    }
-                    catch 
-                    {
-                        <text>  input </text>
-                    }
-                </a>
-            </td>
-            <td>
-                @if (ViewBag.IsAdmin == true)
-                {
-                    <text>
-                        @Html.ActionLink("Edit", "SupplierActsEdit", new { id = item.Id }) 
-                        @*@Html.ActionLink("Delete", "SupplierActsDelete", new { id = item.Id })*@
-                    </text>
-                }
-            </td>
+            <th style="min-width:120px;"> Date </th>
+            <th> Code  </th>
+            <th> Amount  </th>
+            <th> Suppliers  </th>
+            <th> Activity </th>
+            <th> Type </th>
+            <th> Status </th>
+            <th> Remarks </th>
+            <th> Assigned</th>
+            <th></th>
         </tr>
-    }
-</table>
+
+        @foreach (var item in ViewBag.SupplierActivities as IOrderedEnumerable<JobsV1.Models.SupplierActivity>)
+        {
+            <tr>
+                <td>
+                    @DateTime.Parse(item.DtActivity.ToString()).ToString("MMM dd yyyy")
+                    <br />
+                    @DateTime.Parse(item.DtActivity.ToString()).ToString("hh:mm tt")
+                </td>
+                <td>
+                    <a style="cursor:pointer;" onclick="SearchCodeSupActivities('@item.Code')">  @Html.DisplayFor(modelItem => item.Code) </a>
+                </td>
+                <td>
+                    @if (item.Amount != null && item.Amount != 0)
+                    {
+                        <span>
+                            @(((Decimal)item.Amount).ToString("N0"))&nbsp;@item.Currency
+                        </span>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink(item.Supplier.Name, "Records", "SupplierActivities", new { id = item.SupplierId }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActivityType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierActStatu.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    <a href="@Url.Action("SupActivities", "Activities", new { user = item.Assigned })">
+                        @{var input = @item.Assigned;}
+                        @try
+                        {
+                            char ch = '@';
+                            int idx = input.IndexOf(ch);
+                            <text> @input.Substring(0, idx)</text>
+                        }
+                        catch
+                        {
+                            <text>  input </text>
+                        }
+                    </a>
+                </td>
+                <td>
+                    @if (ViewBag.IsAdmin == true)
+                    {
+                        <text>
+                            @Html.ActionLink("Edit", "SupplierActsEdit", new { id = item.Id })
+                            @*@Html.ActionLink("Delete", "SupplierActsDelete", new { id = item.Id })*@
+                        </text>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+
+
+
+@if (User.IsInRole("Admin"))
+{
+
+    <h4>Checker Activities</h4>
+
+    <table class="table">
+        <tr>
+            <th style="min-width:120px;"> Date </th>
+            <th> Code  </th>
+            <th> Amount  </th>
+            <th> Activity </th>
+            <th> Remarks </th>
+            <th> Assigned</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in ViewBag.CheckerActivities as IOrderedEnumerable<JobsV1.Models.CheckerActivity>)
+        {
+            <tr>
+                <td>
+                    @DateTime.Parse(item.DtActivity.ToString()).ToString("MMM dd yyyy")
+                    <br />
+                    @DateTime.Parse(item.DtActivity.ToString()).ToString("hh:mm tt")
+                </td>
+                <td>
+                    <a style="cursor:pointer;" onclick="SearchCodeSupActivities('@item.SalesLead.SalesCode')">  @Html.DisplayFor(modelItem => item.SalesLead.SalesCode) </a>
+                </td>
+                <td>
+                    @if (item.SalesLead.Price != null && item.SalesLead.Price != 0)
+                    {
+                        <span>
+                            @(((Decimal)item.SalesLead.Price).ToString("N0"))&nbsp;
+                        </span>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckerActivityType.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    <a href="@Url.Action("SupActivities", "Activities", new { user = item.CheckedBy })">
+                        @{var input = @item.CheckedBy;}
+                        @try
+                        {
+                            char ch = '@';
+                            int idx = input.IndexOf(ch);
+                            <text> @input.Substring(0, idx)</text>
+                        }
+                        catch
+                        {
+                            <text>  input </text>
+                        }
+                    </a>
+                </td>
+                <td>
+                    @if (ViewBag.IsAdmin == true)
+                    {
+                        <text>
+                            @Html.ActionLink("Edit", "CheckerActsEdit", new { id = item.Id })
+                            @*@Html.ActionLink("Delete", "SupplierActsDelete", new { id = item.Id })*@
+                        </text>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
 }
 
 @Html.Partial("_SalesCodeModal")
@@ -230,7 +307,7 @@
                 SubmitActivityCode();
                 return false;
             }
-        });   
+        });
 
     </script>
 

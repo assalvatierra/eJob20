@@ -70,6 +70,9 @@ namespace JobsV1.Controllers
                 //get activities of all users on Supplier
                 ViewBag.SupplierActivities = ac.GetSupplierActivitiesAdmin(date1, date2);
 
+                //get activities of all users on Supplier
+                ViewBag.CheckerActivities = ac.GetCheckerActivitiesAdmin(date1, date2);
+
                 //get activities of all users on Companies
                 var companyActivity = ac.GetCompanyActivitiesAdmin(date1,date2);
                 if (!String.IsNullOrEmpty(name))
@@ -86,6 +89,9 @@ namespace JobsV1.Controllers
             {
                 ViewBag.SupplierActivities = ac.GetSupplierActivitiesAdmin(date1, date2);
 
+                //get activities of all users on Supplier
+                ViewBag.CheckerActivities = ac.GetCheckerActivitiesAdmin(date1, date2);
+
                 var companyActivity = ac.GetCompanyActivitiesAdmin(date1, date2);
                 if (!String.IsNullOrEmpty(name))
                 {
@@ -101,6 +107,9 @@ namespace JobsV1.Controllers
 
                 //get activities of the user on Supplier
                 ViewBag.SupplierActivities = ac.GetSupplierActivitiesUser(user, date1, date2);
+
+                //get activities of all users on Supplier
+                ViewBag.CheckerActivities = ac.GetCheckerActivitiesAdmin(date1, date2);
 
                 //get activities of the user on Companies
                 var companyActivity = ac.GetCompanyActivitiesUser(user, date1, date2);
@@ -204,7 +213,7 @@ namespace JobsV1.Controllers
         {
             foreach (var user in UserList)
             {
-                user.Role = ac.GetUserRole(user.UserName);
+                user.Role = ac.GetUserRoles(user.UserName);
             }
 
             return UserList;
@@ -1045,6 +1054,51 @@ namespace JobsV1.Controllers
 
         }
 
+
+        #endregion
+
+        #region Checker Activities
+
+        // GET: SupplierActivities/Edit/5
+        public ActionResult CheckerActsEdit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CheckerActivity checkerActivity = db.CheckerActivities.Find(id);
+
+            if (checkerActivity == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CheckedBy = new SelectList(dbc.getUsers_wdException(), "UserName", "UserName", checkerActivity.CheckedBy);
+            ViewBag.CheckerActivityTypeId = new SelectList(db.CheckerActivityTypes, "Id", "Type", checkerActivity.CheckerActivityTypeId);
+            ViewBag.SalesLeadId = new SelectList(db.SalesLeads, "Id", "Id", checkerActivity.SalesLeadId);
+
+            return View(checkerActivity);
+        }
+
+        // POST: SupplierActivities/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CheckerActsEdit([Bind(Include = "Id,DtActivity,CheckedBy,Remarks,CheckerActivityTypeId,SalesLeadId")] CheckerActivity checkerActivity)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(checkerActivity).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Assigned = new SelectList(dbc.getUsers_wdException(), "UserName", "UserName", checkerActivity.CheckedBy);
+            ViewBag.CheckerActivityType = new SelectList(db.CheckerActivityTypes, "Id", "Type", checkerActivity.CheckerActivityTypeId);
+            ViewBag.SalesLeadId = new SelectList(db.SalesLeads, "Id", "Id", checkerActivity.SalesLeadId);
+
+            return View(checkerActivity);
+        }
 
         #endregion
     }
