@@ -91,9 +91,12 @@ namespace JobsV1.Areas.Payables.Controllers
             dateStart = dateStart == null ? startMonthDate : dateStart;
             dateEnd = dateEnd == null ? endMonthDate : dateEnd;
             transType = transType ?? 1;
-            category = category ?? 0; 
+            category = category ?? 0;
 
-            if (transType == 2)
+            int TYPE_PO = 2;
+            int TYPE_CASH = 1;
+
+            if (transType == TYPE_PO)
             {
                 apTransactions = ap.TransactionMgr
                     .GetDailyReleasedByDateReturned((DateTime)dateStart, (DateTime)dateEnd, (int)category, search);

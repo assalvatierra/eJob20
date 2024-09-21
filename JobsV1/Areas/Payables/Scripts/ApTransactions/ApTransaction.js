@@ -525,7 +525,8 @@ function PaymentAndReturn(e) {
     var remarks = $("#Payment-Remarks").val();
 
     $(e).prop('disabled', true);
-    /*if (amount > 0) {*/
+
+    if (amount > 0) {
         $.post("/Payables/ApTransactions/AddPayment", { id: id, amount: amount, date: date, remarks: remarks }, (res) => {
             if (res == "OK") {
                 //reload page
@@ -543,9 +544,34 @@ function PaymentAndReturn(e) {
                 $("#Payment-Modal").modal('hide');
             }
         });
-    //} else {
-    //    alert("Unable to return 0 amount");
-    //}
+    } else {
+
+        if (amount == 0) {
+            if (confirm("the amount returned is 0. Are you sure?")) {
+                $.post("/Payables/ApTransactions/AddPayment", { id: id, amount: amount, date: date, remarks: remarks }, (res) => {
+                    if (res == "OK") {
+                        //reload page
+                        $("#overlay").hide();
+
+                        //window.location.reload(false);
+                        $(e).prop('disabled', false);
+
+                        //update-text and status by id
+                        $("#Expense-Payment-" + id).append('<span class="text-sucess">' + amount + ' </span>');
+
+                        POST_ReturnAmount(id, amount, remarks, date)
+
+                        //reload page
+                        $("#Payment-Modal").modal('hide');
+                    }
+                });
+            } else {
+
+                console.log("Unable to return 0 amount");
+            }
+        }
+
+    }
 }
 
 
