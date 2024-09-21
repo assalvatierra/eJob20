@@ -10,6 +10,7 @@
     decimal dContractAmt = 0;
     decimal dQuotedAmt = 0;
     decimal dPaidAmt = 0;
+    decimal wtax_Amount = 0;
 
     string sDocTitle = "";
 
@@ -139,9 +140,17 @@
                 Payment Term &nbsp;
             </th>
         }
-        <td>
-            @Html.DisplayFor(model => model.JobRemarks)
-        </td>
+
+        @if (Model.JobRemarks != "Witholding Tax")
+        {
+            <td> </td>
+        }
+        else
+        {
+            <td>
+                @Html.DisplayFor(model => model.JobRemarks)
+            </td>
+        }
     </tr>
 </table>
 
@@ -352,6 +361,17 @@
                             <td>Total Due:</td>
                             <td align="right">@dQuotedAmt.ToString("##,###.00")</td>
                         </tr>
+
+                          @if (Model.JobRemarks == "Witholding Tax")
+                          {
+                              wtax_Amount = ((decimal)0.03 * dQuotedAmt);
+
+                              <tr>
+                                  <td>Witholding Tax: </td>
+                                  <td align="right">-@wtax_Amount.ToString("##,###.00")</td>
+                              </tr>
+                          }
+
                         @if (Model.JobStatusId == 2 || Model.JobStatusId == 3 || Model.JobStatusId == 4)
                         {
                             <tr>
@@ -371,7 +391,7 @@
                             </tr>
                             <tr>
                                 <td>Balance:</td>
-                                @{  Decimal dBalance = (dQuotedAmt - dPaidAmt); }
+                                @{  Decimal dBalance = ((dQuotedAmt - dPaidAmt) - wtax_Amount); }
                                 <td align="right">@dBalance.ToString("##,###.00")</td>
                             </tr>
                                     }

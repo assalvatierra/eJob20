@@ -78,7 +78,7 @@
     </tr>
     <tr>
         <th valign="top">
-            Account : 
+            Account :
         </th>
 
         <td>
@@ -87,7 +87,7 @@
 
                 if (ViewBag.IsBilling)
                 {
-                    //If Company have billing details 
+                    //If Company have billing details
                     <br /> <span> @ViewBag.custCompany </span>
                     <br /><span> Address: </span> @ViewBag.custCompanyAddress
                     if (!String.IsNullOrEmpty(ViewBag.custCompanyTel))
@@ -122,7 +122,13 @@
                 }
             }
 
-            @if (Model.JobRemarks != null)
+        
+
+            @if (Model.JobRemarks == "Witholding Tax")
+            {
+               <span> </span>
+            }
+            else
             {
                 <br />
                 @Html.DisplayFor(model => model.JobRemarks)
@@ -144,9 +150,9 @@
                 </span>
             }
 
-        </td>
+            </td>
 
-    </tr>
+        </tr>
 </table>
 
 
@@ -251,10 +257,10 @@
 
                         @if (Model.JobRemarks == "Witholding Tax")
                         {
-                             wtax_Amount = ((decimal)0.05 * dQuotedAmt);
+                            wtax_Amount = ((decimal)0.05 * dQuotedAmt);
 
                             <tr>
-                                <td>Witholding Tax: </td>
+                                <td>Witholding Tax (5%): </td>
                                 <td align="right">-@wtax_Amount.ToString("##,###.00")</td>
                             </tr>
                         }
@@ -270,20 +276,23 @@
                                 @{ Decimal dBalance = (dQuotedAmt - dPaidAmt) - wtax_Amount; }
                                 <td align="right">@dBalance.ToString("##,###.00")</td>
                             </tr>
-                            <tr>
-                                <td>Due Date:  </td>
-                                <td>
-                                    @if (Model.DueDate != null)
-                                    {
-                                        DateTime duedate = (DateTime)Model.DueDate;
-                                        <span>
-                                            @duedate.ToString("MMM dd yyyy")
-                                        </span>
-                                    }
-                                </td>
-                            </tr>
-                        }
-                    </table>
+
+                                if (Model.DueDate != null)
+                                {
+                                    DateTime duedate = (DateTime)Model.DueDate;
+
+                                    <tr>
+                                        <td>Due Date:  </td>
+                                        <td>
+                                            <span>
+                                                @duedate.ToString("MMM dd yyyy")
+                                            </span>
+                                        
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
                 </div>
             </td>
 
