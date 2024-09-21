@@ -357,8 +357,9 @@
                         paymentRemarks += payment.ArPayment.Remarks;
 
                         <span>@payment.ArPayment.Amount.ToString("#,##0.00")</span><br />
-                        <span style="font-size:11px;color:gray;">@paymentType</span><br />
-                        <span style="font-size:11px;color:gray;">@payment.ArPayment.Remarks</span><br />
+                        <span style="font-size:11px;color:gray;"> @payment.ArPayment.DtPayment.ToString("MMM dd yyyy") </span> <br />
+                        <span style="font-size:11px;color:gray;">@paymentType - </span>
+                        <span style="font-size:11px;color:gray;">@payment.ArPayment.Remarks</span><br /><br />
 
                         if (item.ArTransPayments.Count() > 1 && !String.IsNullOrEmpty(paymentRemarks))
                         {

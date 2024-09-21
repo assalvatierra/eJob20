@@ -9,6 +9,8 @@
 
     decimal dQuotedAmt = 0;
 
+    decimal wtax_Amount = 0;
+
     string sDocTitle = "";
 
     if (Model.JobStatusId == 1)
@@ -27,7 +29,7 @@
     {
         sDocTitle = "INVOICE";
     }
-   
+
 
 }
 
@@ -215,10 +217,22 @@
     <p>
         <table>
             <tr>
+                @if (Model.JobRemarks == "Witholding Tax")
+                {
+                    wtax_Amount = ((decimal)0.03 * dQuotedAmt);
+
+                    <tr>
+                        <td>Witholding Tax: </td>
+                        <td align="right">-@wtax_Amount.ToString("##,###.00")</td>
+                    </tr>
+                }
+
+                @{ Decimal dBalance = dQuotedAmt - wtax_Amount; }
+
                 <td>Total Due:</td>
                 <td align="right">@dQuotedAmt.ToString("##,###.00")</td>
-            </tr>
-        </table>
+                </tr>
+            </table>
     </p>
 </div>
 
