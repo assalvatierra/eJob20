@@ -20,6 +20,6 @@ C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\bin\ArServices.pdb
 C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\bin\ArServices.dll.config
 C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV2.csproj.AssemblyReference.cache
 C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV2.csproj.CoreCompileInputs.cache
-C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV2.csproj.CopyComplete
 C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV1.dll
 C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV1.pdb
+C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV2.csproj.Up2Date
