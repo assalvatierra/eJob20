@@ -285,18 +285,25 @@ namespace JobsV1.Models.Class
                           .OrderByDescending(s => s.Date)
                           .ToListAsync();
 
-
-                    // sql = " SELECT sl.*, " +
-                    //            " SalesStatusCodeId = (SELECT TOP 1 st.SalesStatusCodeId FROM SalesStatus LEFT JOIN SalesStatusCodes ssc ON ssc.Id = st.SalesStatusCodeId WHERE st.SalesLeadId = sl.Id  AND ssc.SeqNo == 5 )  " +
-                    //            " FROM SalesLeads sl " +
-                    //            " LEFt JOIN SalesStatus st ON st.SalesLeadId = sl.Id " +
-                    //            " WHERE SalesStatusCodeId == 5 AND st.SalesStatusStatusId = 1 AND " +
-                    //            " sl.Date >= DateAdd(month, DateDiff(month, 0, DateAdd(month,-12,GetDate())), 0)  ORDER BY  sl.Date DESC  ";
-
-
-                    //salesLeads = db.Database.SqlQuery<SalesLead>(sql).ToList();
                     break;
-               
+
+                case 6:
+                    // Awarded
+                    //salesLeads = await db.SalesLeads
+                    //            .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo == 4 && ss.SalesStatusStatusId == 1
+                    //             && ss.SalesLead.Date > DbFunctions.AddMonths(DateTime.Now, -12))
+                    //            .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 4)
+                    //            .OrderBy(s => s.Date)
+                    //            .ToListAsync();
+
+                    salesLeads = await db.SalesLeads
+                               .Where(s => s.SalesStatus.OrderByDescending(c => c.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 6
+                                && s.SalesStatus.OrderByDescending(c => c.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusStatusId == 1
+                                && s.Date > DbFunctions.AddMonths(DateTime.Now, -24))
+                               .OrderByDescending(s => s.Date)
+                               .ToListAsync();
+                    break;
+
                 case 9:
                     // All
                     salesLeads = await db.SalesLeads

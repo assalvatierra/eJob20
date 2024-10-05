@@ -47,14 +47,46 @@
 <div class="view-content content-min-width">
 
 
+
+    <!-- Status Filters -->
     <p>
-        Go to:
+        Filters:
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("New", "Index", new { sortid = 1 }, new { @id = "status-1", @class = "link-white" })
+            @{Html.RenderAction("GetLeadStatusCount", new { statusId = 1 });}
+        </span>
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("Sales", "Index", new { sortid = 2 }, new { @id = "status-2", @class = "link-white" })
+            @{Html.RenderAction("GetLeadStatusCount", new { statusId = 2 });}
+        </span>
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("Procurement", "Index", new { sortid = 3 }, new { @id = "status-3", @class = "link-white" })
+            @{Html.RenderAction("GetLeadStatusCount", new { statusId = 3 });}
+        </span>
         <span class="label label-primary filter-link">
             @Html.ActionLink("For Approval", "Index", new { sortid = 4 }, new { @id = "status-4", @class = "link-white" })
+            @{Html.RenderAction("GetLeadStatusCount", new { statusId = 4 });}
         </span>
         <span class="label label-primary filter-link">
             @Html.ActionLink("Approved", "Index", new { sortid = 5 }, new { @id = "status-5", @class = "link-white" })
+            @{Html.RenderAction("GetLeadStatusCount", new { statusId = 5 });}
         </span>
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("Awarded", "Index", new { sortid = 6 }, new { @id = "status-6", @class = "link-white" })
+            @{Html.RenderAction("GetLeadStatusCount", new { statusId = 6 });}
+        </span>
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("Rejected", "Index", new { sortid = 7 }, new { @id = "status-7", @class = "link-white" })
+            @{Html.RenderAction("GetLeadStatusCount", new { statusId = 7 });}
+        </span>
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("Closed", "Index", new { sortid = 8 }, new { @id = "status-8", @class = "link-white" })
+            @{Html.RenderAction("GetLeadStatusCount", new { statusId = 8 });}
+        </span>
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("All", "Index", new { sortid = 9 }, new { @id = "status-9", @class = "link-white" })
+        </span>
+
     </p>
 
 
@@ -228,8 +260,9 @@
 @{Html.RenderPartial("AddSupItemPartial");}
 @{Html.RenderPartial("_UpdateActivityStatus");}
 @{Html.RenderPartial("_AddLeadWeight");}
+@{Html.RenderPartial("_AddLeadPrice");}
 @{Html.RenderPartial("_AddLeadFileLink");}
-
+@{Html.RenderPartial("_AddCheckerActivityModal"); }
 
 @section scripts
 {
@@ -237,17 +270,18 @@
     <script type="text/javascript" src="~/Scripts/SalesLead/SalesLead.js"></script>
     <script type="text/javascript" src="~/Scripts/SalesLead/AddSupItem.js"></script>
     <script type="text/javascript" src="~/Scripts/SalesLead/AddLeadWeight.js"></script>
+    <script type="text/javascript" src="~/Scripts/SalesLead/AddLeadPrice.js"></script>
     <script type="text/javascript" src="~/Scripts/SalesLead/AddLeadFileLink.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
-          
+
         });
 
 
-        function UpdateLeadItemStatus(leadItemId, statusId ) {
+        function UpdateLeadItemStatus(leadItemId, statusId) {
 
-            $.post('/Procurement/UpdateLeadItemStatus',  { id: leadItemId, statusId: statusId })
+            $.post('/Procurement/UpdateLeadItemStatus', { id: leadItemId, statusId: statusId })
                 .done((result) => {
                     console.log(result);
                     if (result == "True") {

@@ -108,7 +108,7 @@ namespace JobsV1.Controllers
             ViewBag.InvItems = await db.InvItems.Where(i =>  i.ItemCode != "").ToListAsync();
 
             //checker activity
-            ViewBag.CheckerActivtyTypes = await db.CheckerActivityTypes.ToListAsync();
+            ViewBag.CheckerActivtyTypes = db.CheckerActivityTypes.ToList();
 
             return View(salesLeads);
         }
@@ -358,6 +358,9 @@ namespace JobsV1.Controllers
             ViewBag.ActTypes = db.CustEntActTypes.ToList();
             ViewBag.IsAdmin = IsUserAdmin();
             ViewBag.IsChecker = User.IsInRole("Checker");
+
+            //checker activity
+            ViewBag.CheckerActivtyTypes = db.CheckerActivityTypes.ToList();
 
             //for adding new item 
             AddSupItemPartial();
@@ -1137,6 +1140,30 @@ namespace JobsV1.Controllers
                 var salesLead = db.SalesLeads.Find(id);
 
                 salesLead.ItemWeight = weight;
+
+                db.Entry(salesLead).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+        //POST: Update Sales Lead Price
+        public bool UpdateLeadPrice(int id, string price)
+        {
+            try
+            {
+                var salesLead = db.SalesLeads.Find(id);
+
+                //remove comma
+                price = price.Replace(",", "");
+
+                salesLead.Price = decimal.Parse(price);
 
                 db.Entry(salesLead).State = EntityState.Modified;
                 db.SaveChanges();

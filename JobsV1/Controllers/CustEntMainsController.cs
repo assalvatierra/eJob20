@@ -388,7 +388,7 @@ namespace JobsV1.Controllers
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", 1); //default regular
-
+           
             ViewBag.isOwner = User.IsInRole("Owner");
             return View(main);
         }

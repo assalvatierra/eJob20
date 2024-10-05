@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using JobsV1.Controllers;
 using System.Data.Entity;
+using JobsV1.Models.Class;
+using System.Web.Security;
 
 namespace JobsV1.Models
 {
@@ -261,11 +263,48 @@ namespace JobsV1.Models
             return data.ToList();
         }
 
+        public IList<AspUser> getUsersWithId()
+        {
+            var data = db.Database.SqlQuery<AspUser>("Select UserName,Id,Email from AspNetUsers");
+            return data.ToList();
+        }
+        public List<AspRoles> getUserRoles(string userId)
+        {
+            var userRoles = db.Database.SqlQuery<AspRoles>("Select roles.Name from AspNetUserRoles userroles"+
+                " LEFT JOIN AspNetUsers users ON userroles.UserId = users.Id" +
+                " LEFT JOIN AspNetRoles roles ON userroles.RoleId = roles.Id" +
+                " WHERE users.Email = '" + userId + "'");
+            return userRoles.ToList();
+        }
+
+        public IList<AspRoles> getRoles()
+        {
+            var roles = db.Database.SqlQuery<AspRoles>("Select Id,Name from AspNetRoles");
+            return roles.ToList();
+        }
+        public bool AddUserRoles(string userId, string roleId)
+        {
+            try
+            {
+                
+
+                var result = db.Database.SqlQuery<string>("INSERT INTO AspNetUserRoles([UserId],[RoleId]) " +
+                    "  VALUES ('"+ userId + "','" + roleId + "')");
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+
+                return false;
+            }
+        }
+
         public IList<AppUser> getUsers_wdException()
         {
             var data = db.Database.SqlQuery<AppUser>("Select UserName from AspNetUsers Where UserName NOT IN "+
                 " ('jahdielvillosa@gmail.com' ,'jahdielsvillosa@gmail.com', 'assalvatierra@gmail.com', " +
-                " 'admin@gmail.com' ,'demo@gmail.com', 'assalvatierra@yahoo.com', 'abel@yahoo.com' " +
+                "  'demo@gmail.com', 'assalvatierra@yahoo.com', 'abel@yahoo.com' " +
                 ")"); 
             return data.ToList();
         }

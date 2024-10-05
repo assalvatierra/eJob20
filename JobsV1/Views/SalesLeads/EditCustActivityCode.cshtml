@@ -16,7 +16,7 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
-    <div class="form-group">
+    <div class="form-group" hidden>
         @Html.LabelFor(model => model.CustEntActActionCodesId, "ActionCode", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList("CustEntActActionCodesId", null, htmlAttributes: new { @class = "form-control" })
@@ -105,7 +105,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" hidden>
         @Html.LabelFor(model => model.CustEntActStatusId, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList("CustEntActStatusId", null, htmlAttributes: new { @class = "form-control", @id = "CustEntActStatusId" })
@@ -138,7 +138,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index", new { id = ViewBag.Id })
+    @Html.ActionLink("Back to Lead Details", "Details", new { id = ViewBag.Id })
 </div>
 
 

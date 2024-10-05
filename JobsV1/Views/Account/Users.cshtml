@@ -1,0 +1,104 @@
+﻿@model IEnumerable<JobsV1.Models.Class.AspUser>
+
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>Users</h2>
+
+<p>
+    @Html.ActionLink("Register New User", "Register")
+</p>
+<table class="table">
+    <tr>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            Role
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @foreach (var role in item.aspRoles)
+                {
+                    @Html.DisplayFor(modelItem => role.Name) <br />
+                }
+            </td>
+            <td>
+                <button class="btn btn-default" onclick="ShowAddUserRolesModal('@item.Id')"> + Add Role </button>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+@{ Html.RenderPartial("ModalAddUserRole"); }
+
+
+@section scripts
+{
+
+    <script type="text/javascript">
+
+        function ShowAddUserRolesModal(userId) {
+            $("#SelectedUser").val(userId);
+            $("#AddRolesModal").modal('show');
+            console.log("UserId: " + userId)
+        }
+
+        function SetUserRole(role) {
+            var userId = $("#SelectedUser").val();
+
+            $.ajax({
+
+                url: '/Account/AddUserRole',
+                type: 'POST',
+                data: {
+                    userId: userId,
+                    rolename: role
+                },
+                dataType: 'json',
+                success: function (data) {
+                    //alert('Data: ' + data);
+                    $("#AddRolesModal").modal('hide');
+                    window.location.reload();
+                },
+                error: function (request, error) {
+                    alert("Request: " + JSON.stringify(request));
+                }
+            });
+        }
+
+    </script>
+
+}

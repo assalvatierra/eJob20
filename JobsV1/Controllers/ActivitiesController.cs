@@ -259,6 +259,10 @@ namespace JobsV1.Controllers
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", custEntActivity.Type);
             ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", custEntActivity.ActivityType);
             ViewBag.Id = custEntActivity.CustEntMainId;
+            ViewBag.SalesLeadId = new SelectList(db.CustEntActivityTypes, "Id", "Id", custEntActivity.SalesLeadId);
+            ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Id", custEntActivity.CustEntActActionStatusId);
+            ViewBag.CustEntActActionCodesId = new SelectList(db.CustEntActActionCodes, "Id", "Id", custEntActivity.CustEntActActionCodesId);
+            ViewBag.CustEntActActionStatusId  = new SelectList(db.CustEntActActionStatus, "Id", "Id", custEntActivity.CustEntActActionStatusId);
             return View(custEntActivity);
         }
 
@@ -267,7 +271,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CompanyActsEdit([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType,Commodity")] CustEntActivity custEntActivity)
+        public ActionResult CompanyActsEdit([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType,Commodity,SalesLeadId,CustEntActActionCodesId,CustEntActStatusId,CustEntActActionStatusId")] CustEntActivity custEntActivity)
         {
             if (ModelState.IsValid)
             {
@@ -281,6 +285,10 @@ namespace JobsV1.Controllers
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", custEntActivity.Type);
             ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", custEntActivity.ActivityType);
             ViewBag.Id = custEntActivity.CustEntMainId;
+            ViewBag.SalesLeadId = new SelectList(db.CustEntActivityTypes, "Id", "Id", custEntActivity.SalesLeadId);
+            ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Id", custEntActivity.CustEntActActionStatusId);
+            ViewBag.CustEntActActionCodesId = new SelectList(db.CustEntActActionCodes, "Id", "Id", custEntActivity.CustEntActActionCodesId);
+            ViewBag.CustEntActActionStatusId = new SelectList(db.CustEntActActionStatus, "Id", "Id", custEntActivity.CustEntActActionStatusId);
             return RedirectToAction("Index", "CompanyActsEdit", new { id = custEntActivity.Id});
         }
 

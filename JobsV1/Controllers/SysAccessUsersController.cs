@@ -6,7 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using JobsV1.API;
 using JobsV1.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace JobsV1.Controllers
 {
@@ -14,6 +17,8 @@ namespace JobsV1.Controllers
     {
         private SysDBContainer db = new SysDBContainer();
         private DBClasses userdb = new DBClasses();
+
+        private DBClasses dbclasses = new DBClasses();
 
         // GET: SysAccessUsers
         public ActionResult Index()
@@ -586,6 +591,26 @@ namespace JobsV1.Controllers
             }
         }
 
+
+        [HttpGet]
+        public string GetUserRole()
+        {
+            return "Roles";
+
+        }
+
+        [HttpPost]
+        public string AddUserRole(string userId, string roleId)
+        {
+            var result = dbclasses.AddUserRoles(userId, roleId);
+
+            if (result == false)
+            {
+                return "Cannot Add roles to user";
+            }
+
+            return "success";
+        }
         #region Modules
         //Modules
         // GET: UsersList
@@ -1012,6 +1037,13 @@ namespace JobsV1.Controllers
         {
             public string Id { get; set; }
             public string Email { get; set; }
+        }
+
+
+        public class AspUserRoleApiModel
+        {
+            public string userId { get; set; }
+            public string roleId { get; set; }
         }
     }
 

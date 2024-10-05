@@ -10,6 +10,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using JobsV1.Models;
 using JobsV1.Models.Class;
+using System.Collections;
+using System.Collections.Generic;
+using System.Web.Helpers;
 
 namespace JobsV1.Controllers
 {
@@ -19,6 +22,7 @@ namespace JobsV1.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ActionTrailClass trail = new ActionTrailClass();
+        private DBClasses dbclasses = new DBClasses();
 
         public AccountController()
         {
@@ -439,8 +443,57 @@ namespace JobsV1.Controllers
             return RedirectToAction("Contact", "CarRental", null);
         }
 
+
+        public ActionResult Users()
+        {
+            List<AspUser> UserList = new List<AspUser>();
+            var userFromDb = dbclasses.getUsersWithId();
+            int countId = 0;
+
+
+            foreach (var user in userFromDb)
+            {
+                countId++;
+                UserList.Add(new AspUser
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    Status = "Active",
+                    aspRoles = dbclasses.getUserRoles(user.UserName)
+
+                });;
+            }
+
+            ViewBag.RolesList = dbclasses.getRoles();
+            return View(UserList);
+        }
+
+        public ActionResult UserRoles(int UserId)
+        {
+            List<AspUser> UserList = new List<AspUser>();
+
+            return View(UserList);
+        }
+
+        [HttpPost]
+        public string AddUserRoles()
+        {
+            List<AspUser> UserList = new List<AspUser>();
+
+            return "success";
+        }
+
+        public bool AddUserRole(string userId, string RoleName)
+        {
+            UserManager.AddToRole(userId, RoleName);
+
+            return true;
+        }
+
+
         #region Helpers
-            // Used for XSRF protection when adding external logins
+        // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
         private IAuthenticationManager AuthenticationManager

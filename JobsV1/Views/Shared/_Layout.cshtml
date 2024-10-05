@@ -18,24 +18,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
 
-    <meta name="description" content="@ViewBag.Description" />
-    <meta name="googlebot" content="@ViewBag.NoIndex" />
-    <link rel="canonical" href="@ViewBag.CanonicalURL" />
-    <@*link rel="next" href="https://realwheelsdavao.com/CarRental/About" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="@ViewBag.Title" />
-    <meta property="og:description" content="@ViewBag.Description" />
-    <meta property="og:url" content="https://realwheelsdavao.com/" />
-    <meta property="og:site_name" content="Real Wheels Car Rental Davao" />
-    <meta property="og:image" content="https://realwheelsdavao.com/Images/CarRental/Home/Vehicles/RealWheelsDavao-CarRental.jpg" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:description" content="@ViewBag.Description" />
-    <meta name="twitter:title" content="@ViewBag.Title" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://realwheelsdavao.com/Images/CarRental/Home/Vehicles/RealWheelsDavao-CarRental.jpg">*@
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css/DateRangePicker")
@@ -57,18 +39,17 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Home</a></li>
+                    <li><a href="/">Vpro</a></li>
                     @if (Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Control Panel", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
-                        @*
+                        @* <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
+                       
                         <li>@Html.ActionLink("Jobs", "JobTable", "JobMains", new { span = 30 }, null)</li>
                         <li>@Html.ActionLink("Accounting", "Index", "AsMain", new { Area = "Accounting", span = 30 }, null)</li>
                         *@
                     }
-                    <li>@Html.ActionLink("About", "About")</li>
-                    <li>@Html.ActionLink("Contact", "Contact")</li>
+                 
 
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -94,12 +75,7 @@
     </div>
 
     <div class="container body-content">
-         <div class="col-md-1" style="height:0px;width:0px;font-size:0px;">
-            <p>
-                <img src="~/Images/CarRental/hondacity/Honda-City-Default.jpg" width="0" 
-                     alt="Realwheels Car Rental Davao" title="Realwheels Car Rental Davao" style="color:white;" /> &nbsp;
-            </p>
-        </div>
+        
         @RenderBody()
 
         <hr />

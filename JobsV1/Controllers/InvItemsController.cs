@@ -119,7 +119,7 @@ namespace JobsV1.Controllers
         public ActionResult Create()
         {
             InvItem item = new InvItem();
-            item.OrderNo = 999;
+            item.OrderNo = 100;
 
             ViewBag.ImgPath = new SelectList(ImgList, "value", "text");
             ViewBag.OrderNo = new SelectList(OrderList, "value", "text");

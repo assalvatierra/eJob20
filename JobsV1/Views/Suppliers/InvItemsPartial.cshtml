@@ -1,9 +1,14 @@
 ﻿@model IEnumerable<JobsV1.Models.SupplierItemRate>
 
-
+@{ 
+    var SupplierId = (int)ViewBag.SupplierId;
+}
 <h3>Inventory Products</h3>
 
 @*<a href="" id="catbtn" data-toggle="modal" data-target="#ItemAddModal" style="margin-bottom:10px;">Add Item</a>*@
+
+@Html.ActionLink("Add Product", "InvItems", "Suppliers", new { id = SupplierId }, null)
+@*<a href="/Suppliers/InvItems/2" class="btn btn-default">Add Item</a>*@
 
 <table class="js-sort-table table" id="invItems-Table">
     <tr>
@@ -41,72 +46,74 @@
     {
 
 
-            <tr>
-                <td >
-                    <p>
-                        <b>
-                            @Html.DisplayFor(modelItem => rate.SupplierInvItem.InvItem.Description)
-                        </b>
-                    </p>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => rate.Particulars)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => rate.Material)
-                </td>
-                <td>
-                    <b style="color:green;">  @rate.ItemRate / @rate.SupplierUnit.Unit</b>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => rate.Origin)
-                </td>
-                <td>
-                    <p>
-                        @if (rate.Remarks != "") { 
-                            <text>Remarks: </text> @rate.Remarks <text><br /></text>
-                        }
-                        @if (rate.TradeTerm != "")
-                        {
-                            <text>Trade Term: </text> @rate.TradeTerm <text><br /></text>
-                        }  
-                        @if (rate.Tolerance != "")
-                        {
-                            <text>Tolerance: </text> @rate.Tolerance  <text><br /></text>
-                        }
-                    </p>
-                    
-                </td>
-                <td>
-                    @{var date1 = new DateTime(); }
-                    @{var date2 = new DateTime(); }
-                    @if (DateTime.TryParse( rate.DtValidFrom, out date1) && DateTime.TryParse(rate.DtValidTo, out date2))
+        <tr>
+            <td>
+                <p>
+                    <b>
+                        @Html.DisplayFor(modelItem => rate.SupplierInvItem.InvItem.Description)
+                    </b>
+                </p>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => rate.Particulars)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => rate.Material)
+            </td>
+            <td>
+                <b style="color:green;">  @rate.ItemRate / @rate.SupplierUnit.Unit</b>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => rate.Origin)
+            </td>
+            <td>
+                <p>
+                    @if (rate.Remarks != "")
                     {
-                            @DateTime.Parse(rate.DtValidFrom).ToString("MMM dd, yyyy") <text>-</text>
-
-                            @DateTime.Parse(rate.DtValidTo).ToString("MMM dd, yyyy")
+                        <text>Remarks: </text> @rate.Remarks <text><br /></text>
                     }
-                </td>
-                <td>
-                    @rate.By
-                </td>
-                <td>
-                    @rate.ProcBy
-                </td>
+                    @if (rate.TradeTerm != "")
+                    {
+                        <text>Trade Term: </text> @rate.TradeTerm <text><br /></text>
+                    }
+                    @if (rate.Tolerance != "")
+                    {
+                        <text>Tolerance: </text> @rate.Tolerance <text><br /></text>
+                    }
+                </p>
 
-                <td>
-                    <a href="#" id="catbtn" data-toggle="modal" data-target="#editInvRate"
-                       onclick="editInvRate(@rate.Id, '@rate.Particulars', '@rate.Material', @rate.ItemRate , @rate.SupplierUnit.Id, '@rate.DtValidFrom',
+            </td>
+            <td>
+                @{var date1 = new DateTime(); }
+                @{var date2 = new DateTime(); }
+                @if (DateTime.TryParse(rate.DtValidFrom, out date1) && DateTime.TryParse(rate.DtValidTo, out date2))
+                {
+                    @DateTime.Parse(rate.DtValidFrom).ToString("MMM dd, yyyy") <text>-</text>
+
+                    @DateTime.Parse(rate.DtValidTo).ToString("MMM dd, yyyy")
+                }
+            </td>
+            <td>
+                @rate.By
+            </td>
+            <td>
+                @rate.ProcBy
+            </td>
+
+            <td>
+                <a href="#" id="catbtn" data-toggle="modal" data-target="#editInvRate"
+                   onclick="editInvRate(@rate.Id, '@rate.Particulars', '@rate.Material', @rate.ItemRate , @rate.SupplierUnit.Id, '@rate.DtValidFrom',
                                 '@rate.DtValidTo', '@rate.Remarks', @rate.SupplierInvItemId, '@rate.By', '@rate.ProcBy', '@rate.TradeTerm',
                                 '@rate.Tolerance', '@rate.Origin', '@rate.DtEntered')">Edit</a> |
-                    <a href="#" onclick="confirmRateDelete(@rate.Id, 'Php @rate.ItemRate / @rate.SupplierUnit.Unit')"> Remove </a>
-                 @*   <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>*@
-                </td>
-            </tr>
+                <a href="#" onclick="confirmRateDelete(@rate.Id, 'Php @rate.ItemRate / @rate.SupplierUnit.Unit')"> Remove </a>
+                @*   <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>*@
+            </td>
+        </tr>
     }
 </table>
 
-@Html.ActionLink("Back to List", "Index")
+
+
 
 <!-- Add Item Modal -->
 <div class="modal fade" id="ItemAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -140,7 +147,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 <!-- Add Inv Rate Modal -->
 <div class="modal fade" id="createInvRate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -257,7 +263,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 <!-- Edit Inv Rate Modal -->
 <div class="modal fade" id="editInvRate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">

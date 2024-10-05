@@ -98,7 +98,7 @@ function EditLeadItem(id, invItemId, QuotedRate, Remarks, itemName) {
 }
 
 //Edit Item
-function ajax_EditLeadItem() {
+function ajax_EditLeadItem(e) {
     //show loading animation on button
     addLoadingBtn(e);
 

@@ -51,7 +51,39 @@
 
 <div class="view-content content-min-width">
     <p>
-        @Html.ActionLink("Back to List ", "Index")
+        @Html.ActionLink("Back to Procurement List ", "Index")
+    </p>
+
+    <p>
+        Filters:
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("Procurement", "Index", new { sortid = 3 }, new { @id = "status-3", @class = "link-white" })
+            @{Html.RenderAction("GetLeadStatusCount", "SalesLeads", new { statusId = 3 });}
+        </span>
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("For Approval", "Index", new { sortid = 4 }, new { @id = "status-4", @class = "link-white" })
+            @{Html.RenderAction("GetLeadStatusCount", "SalesLeads", new { statusId = 4 });}
+        </span>
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("Approved", "Index", new { sortid = 5 }, new { @id = "status-5", @class = "link-white" })
+            @{Html.RenderAction("GetLeadStatusCount", "SalesLeads", new { statusId = 5 });}
+        </span>
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("Awarded", "Index", new { sortid = 6 }, new { @id = "status-6", @class = "link-white" })
+            @{Html.RenderAction("GetLeadStatusCount", "SalesLeads", new { statusId = 6 });}
+        </span>
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("Rejected", "Index", new { sortid = 7 }, new { @id = "status-7", @class = "link-white" })
+            @{Html.RenderAction("GetLeadStatusCount", "SalesLeads", new { statusId = 7 });}
+        </span>
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("Closed", "Index", new { sortid = 8 }, new { @id = "status-8", @class = "link-white" })
+            @{Html.RenderAction("GetLeadStatusCount", "SalesLeads", new { statusId = 8 });}
+        </span>
+
+        <span class="label label-primary filter-link">
+            @Html.ActionLink("All", "Index", new { sortid = 9 }, new { @id = "status-9", @class = "link-white" })
+        </span>
     </p>
 
     <table class="table table-no-border">

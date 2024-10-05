@@ -65,7 +65,6 @@
 
     <!-- Status Filters -->
     <p>
-
         Filters:
         <span class="label label-primary filter-link">
             @Html.ActionLink("New", "Index", new { sortid = 1 }, new { @id = "status-1", @class = "link-white" })
@@ -273,6 +272,7 @@
 @{Html.RenderPartial("AddSupItemPartial");}
     @{Html.RenderPartial("_UpdateActivityStatus");}
     @{Html.RenderPartial("_AddLeadWeight");}
+    @{Html.RenderPartial("_AddLeadPrice");}
     @{Html.RenderPartial("_AddLeadFileLink");}
     @{Html.RenderPartial("_AddCheckerActivityModal"); }
 
@@ -282,6 +282,7 @@
         <script type="text/javascript" src="~/Scripts/SalesLead/SalesLead.js"></script>
         <script type="text/javascript" src="~/Scripts/SalesLead/AddSupItem.js"></script>
         <script type="text/javascript" src="~/Scripts/SalesLead/AddLeadWeight.js"></script>
+        <script type="text/javascript" src="~/Scripts/SalesLead/AddLeadPrice.js"></script>
         <script type="text/javascript" src="~/Scripts/SalesLead/AddLeadFileLink.js"></script>
     
         <script type="text/javascript">

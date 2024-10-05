@@ -44,3 +44,27 @@
         }
     </nobr>
 </p>
+
+
+
+<p>
+    <nobr>
+        @if (item.Price != 0)
+        {
+
+        }
+        else
+        {
+
+            if (USER == item.AssignedTo || ISADMIN)
+            {
+                <a class="cursor-hand" onclick="ShowSalesLeadPrice(@item.Id)">
+                    <img src="~/Images/Icons/icons-peso-symbol.png" width="12" />
+                    &nbsp;
+                    Update Price
+                </a>
+            }
+
+        }
+    </nobr>
+</p>
