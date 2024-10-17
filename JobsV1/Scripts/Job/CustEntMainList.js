@@ -313,6 +313,12 @@ function LoadTable(data) {
         content += "</td>";
 
         //Contact Person Email and Number
+
+        if (IsAssigned == false) {
+            //if not  assigned to the user, hide contact
+            ContactMobileEmail = [];
+        }
+
         content += "<td>";
         for (var contact = 0; contact < ContactMobileEmail.length; contact++) {
             if (typeof ContactMobileEmail[contact] === "undefined") {
@@ -324,8 +330,15 @@ function LoadTable(data) {
         }
 
         content += "</td>";
-        content += "<td>" + LastUpdate + "</td>"
-        content += "<td>" + Assigned + "</td>";
+        content += "<td>" + LastUpdate + "</td>";
+
+        if (Exclusive == "EXCLUSIVE") {
+            content += "<td>" + Assigned +
+                "<br> <span class='label label-info'> Exclusive </span> " +
+                "</td>";
+        } else {
+            content += "<td>" + Assigned + "</td>";
+        }
 
         //  EXCLUSIVE permissions to DETAILS and HISTORY 
         //  for assigned login and admin only, 
@@ -334,7 +347,8 @@ function LoadTable(data) {
             if (IsAssigned == true) {
                 content += "<td>"
                 content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details </a><br>";
-                content += "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a><br> ";
+                content += "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a> ";
+                content += "<button class='btn btn-default btn-sm' onclick='UpdateCompanyToPublic(this," + temp[x]["Id"] + ")'> Set to Public </button>";
                 //content += "<p>" + Exclusive + "</p>";
                 content += "</td>";
             } else {
@@ -351,13 +365,14 @@ function LoadTable(data) {
         if (Exclusive == "PUBLIC") {
             if (IsAssigned == true) {
                 content += "<td>"
-                content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details </a> |";
+                content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details </a>";
                 content += "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a><br> ";
+                content += "<button class='btn btn-default btn-sm' onclick='UpdateCompanyToExclusive(this," + temp[x]["Id"] + ")'> Set to exclusive </button>";
                 //content += "<p>" + Exclusive + "</p>";
                 content += "</td>";
             } else {
                 content += "<td>"
-                content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details </a> |";
+                content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details </a>";
                 //content += "<p>" + Exclusive + "</p>";
                 content += "</td>";
             }
@@ -414,6 +429,8 @@ function LoadTableAdd(data) {
         Assigned = temp[x]["AssignedTo"] != null ? temp[x]["AssignedTo"] : " ";
         LastUpdate = temp[x]["LastUpdate"] != null ? moment(getFormattedDate(temp[x]["LastUpdate"])).format("MMM DD YYYY ") : " ";
 
+
+
         var categories = temp[x]["Category"] != null ? temp[x]["Category"] : " ";
         var Status = temp[x]["Status"] != null ? temp[x]["Status"] : " ";
         var email = temp[x]["ContactEmail"] != null ? temp[x]["ContactEmail"] : " ";
@@ -422,6 +439,7 @@ function LoadTableAdd(data) {
         var ContactPersons = temp[x]["ContactName"] != null ? temp[x]["ContactName"] : " ";
         var ContactPosition = temp[x]["ContactPosition"] != null ? temp[x]["ContactPosition"] : " ";
         var ContactMobileEmail = temp[x]["ContactMobileEmail"] != null ? temp[x]["ContactMobileEmail"] : " ";
+
         var Exclusive = temp[x]["Exclusive"] != null ? temp[x]["Exclusive"] : "PUBLIC";
         var IsAssigned = temp[x]["IsAssigned"] != null ? temp[x]["IsAssigned"] : " ";
         var ContactRemarks = temp[x]["ContactRemarks"] != null ? temp[x]["ContactRemarks"] : " ";
@@ -441,6 +459,7 @@ function LoadTableAdd(data) {
         content += "<td>" + parseStatus(Status) + "</td>";
 
         //Contact Person Names
+
         content += "<td>";
         for (var prods = 0; prods < ContactPersons.length; prods++) {
             if (typeof ContactPersons[prods] === "undefined") {
@@ -459,6 +478,12 @@ function LoadTableAdd(data) {
         content += "</td>";
 
         //Contact Person Email and Number
+
+        if (IsAssigned == false) {
+            //if not  assigned to the user, hide contact
+            ContactMobileEmail = [];
+        }
+
         content += "<td>";
         for (var contact = 0; contact < ContactMobileEmail.length; contact++) {
             if (typeof ContactMobileEmail[contact] === "undefined") {
@@ -471,7 +496,14 @@ function LoadTableAdd(data) {
 
         content += "</td>";
         content += "<td>" + LastUpdate + "</td>"
-        content += "<td>" + Assigned + "</td>";
+
+        if (Exclusive == "EXCLUSIVE") {
+            content += "<td>" + Assigned +
+                " <span class='label label-info'> Exclusive </span> " +
+                " </td>";
+        } else {
+            content += "<td>" + Assigned +"</td>";
+        }
 
         //  EXCLUSIVE permissions to DETAILS and HISTORY 
         //  for assigned login and admin only, 
@@ -480,12 +512,13 @@ function LoadTableAdd(data) {
             if (IsAssigned == true) {
                 content += "<td>"
                 content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details </a><br>";
-                content += "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a><br> ";
+                content += "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a>";
+                content += "<button class='btn btn-default' onclick='UpdateCompanyToPublic(this," + temp[x]["Id"] + ")'> Set to exclusive </button>";
                 //content += "<p>" + Exclusive + "</p>";
                 content += "</td>";
             } else {
                 content += "<td>"
-                //content += "<p>" + Exclusive + "</p>";
+
                 content += "</td>";
 
             }
@@ -499,12 +532,11 @@ function LoadTableAdd(data) {
                 content += "<td>"
                 content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details </a> |";
                 content += "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a><br> ";
-                //content += "<p>" + Exclusive + "</p>";
+                content += "<button class='btn btn-default' onclick='UpdateCompanyToExclusive(this," + temp[x]["Id"] +")'> Set to exclusive </button>";
                 content += "</td>";
             } else {
                 content += "<td>"
-                content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details </a> |";
-                //content += "<p>" + Exclusive + "</p>";
+                content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details </a> ";
                 content += "</td>";
             }
         }
@@ -618,4 +650,40 @@ function getFormattedDate(date) {
     var formattedDate = moment(dateFormatted).format('MMM DD YYYY');
 
     return formattedDate;
+}
+
+
+function UpdateCompanyToPublic(e, Id) {
+    var result = $.ajax({
+        url: '/CustEntMains/UpdateCompanyToPublic?companyId=' + Id,
+        type: "POST",
+        data: null,
+        dataType: 'application/json; charset=utf-8',
+        success: function (data) {
+        },
+        error: function (data) {
+            //update status
+            $(e).attr('disabled', true);
+            $(e).text('Updated to Public');
+            //$(e).append("<span class='label-success'> Public </span>")
+        }
+    })
+}
+
+
+function UpdateCompanyToExclusive(e, Id) {
+    var result = $.ajax({
+        url: '/CustEntMains/UpdateCompanyToExclusive?companyId=' + Id,
+        type: "POST",
+        data: null,
+        dataType: 'application/json; charset=utf-8',
+        success: function (data) {
+        },
+        error: function (data) {
+            //update status
+            $(e).attr('disabled', true);
+            $(e).text('Updated to Exclusive');
+            //$(e).append("<span class='label-info'> Exclusive </span>")
+        }
+    })
 }

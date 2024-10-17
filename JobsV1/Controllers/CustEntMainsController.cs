@@ -379,14 +379,20 @@ namespace JobsV1.Controllers
         // GET: CustEntMains/Create
         public ActionResult Create()
         {
+            string defaultExclusivity = "Public";
+
+            if (User.IsInRole("Sales") || User.IsInRole("Procurement"))
+            {
+                defaultExclusivity = "Exclusive";
+            }
            
             CustEntMain main = new CustEntMain();
 
             main.iconPath = "Images/Customers/Company/organization-40.png"; //default logo 
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c=>c.Name).ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text", "ACT");
-            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
-            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", User.Identity.Name);
+            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", defaultExclusivity);
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", 1); //default regular
            
             ViewBag.isOwner = User.IsInRole("Owner");
@@ -400,6 +406,12 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive,CustEntAccountTypeId")] CustEntMain custEntMain, int? id)
         {
+            string defaultExclusivity = "Public";
+            if (User.IsInRole("Sales") || User.IsInRole("Procurement"))
+            {
+                defaultExclusivity = "Exclusive";
+            }
+
             if (ModelState.IsValid)
             {
                 if (CompanyCreateValidation(custEntMain))
@@ -422,8 +434,8 @@ namespace JobsV1.Controllers
 
                         ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
                         ViewBag.Status = new SelectList(StatusList, "value", "text");
-                        ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
-                        ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+                        ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", User.Identity.Name);
+                        ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", defaultExclusivity);
                         ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name");
 
                         return View(custEntMain);
@@ -448,8 +460,8 @@ namespace JobsV1.Controllers
             }
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
-            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
-            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", User.Identity.Name);
+            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", defaultExclusivity);
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
             ViewBag.isOwner = User.IsInRole("Owner");
 
@@ -500,6 +512,57 @@ namespace JobsV1.Controllers
             }
         }
 
+        public bool UpdateCompanyToPublic(int companyId)
+        {
+            try
+            {
+                var custEntMain = db.CustEntMains.Find(companyId);
+
+                if (custEntMain == null)
+                {
+                    return false;
+                }
+
+                custEntMain.Exclusive = "PUBLIC";
+
+                db.Entry(custEntMain).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+           
+        }
+
+
+        public bool UpdateCompanyToExclusive(int companyId)
+        {
+            try
+            {
+                var custEntMain = db.CustEntMains.Find(companyId);
+
+                if (custEntMain == null)
+                {
+                    return false;
+                }
+
+                custEntMain.Exclusive = "EXCLUSIVE";
+
+                db.Entry(custEntMain).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+
+                return false;
+            }
+
+        }
 
         public bool CompanyCreateValidation(CustEntMain custEntMain)
         {
@@ -578,7 +641,7 @@ namespace JobsV1.Controllers
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.Status = new SelectList(StatusList, "value", "text",custEntMain.Status);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
-            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", custEntMain.Exclusive);
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
             ViewBag.isOwner = User.IsInRole("Owner");
 
