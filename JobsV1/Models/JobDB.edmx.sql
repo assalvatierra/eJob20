@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/07/2024 13:46:23
+-- Date Created: 10/18/2024 17:35:16
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [aspnet-JobsV1-20160528101923];
+USE [DB_A0A0AE_client];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -509,6 +509,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CheckerActivityTypeCheckerActivity]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CheckerActivities] DROP CONSTRAINT [FK_CheckerActivityTypeCheckerActivity];
 GO
+IF OBJECT_ID(N'[dbo].[FK_DataGroupDataGroupAssign]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DataGroupAssigns] DROP CONSTRAINT [FK_DataGroupDataGroupAssign];
+GO
+IF OBJECT_ID(N'[dbo].[FK_DataGroupCustEntMain]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustEntMains] DROP CONSTRAINT [FK_DataGroupCustEntMain];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -1006,6 +1012,12 @@ GO
 IF OBJECT_ID(N'[dbo].[CheckerActivityTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CheckerActivityTypes];
 GO
+IF OBJECT_ID(N'[dbo].[DataGroups]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DataGroups];
+GO
+IF OBJECT_ID(N'[dbo].[DataGroupAssigns]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DataGroupAssigns];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -1441,7 +1453,8 @@ CREATE TABLE [dbo].[CustEntMains] (
     [Mobile] nvarchar(80)  NULL,
     [Code] nvarchar(20)  NULL,
     [Exclusive] nvarchar(10)  NULL,
-    [CustEntAccountTypeId] int  NOT NULL
+    [CustEntAccountTypeId] int  NOT NULL,
+    [DataGroupId] int  NOT NULL
 );
 GO
 
@@ -2707,6 +2720,22 @@ CREATE TABLE [dbo].[CheckerActivityTypes] (
 );
 GO
 
+-- Creating table 'DataGroups'
+CREATE TABLE [dbo].[DataGroups] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(20)  NOT NULL,
+    [Remarks] nvarchar(20)  NULL
+);
+GO
+
+-- Creating table 'DataGroupAssigns'
+CREATE TABLE [dbo].[DataGroupAssigns] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [User] nvarchar(80)  NOT NULL,
+    [DataGroupId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -3692,6 +3721,18 @@ GO
 -- Creating primary key on [Id] in table 'CheckerActivityTypes'
 ALTER TABLE [dbo].[CheckerActivityTypes]
 ADD CONSTRAINT [PK_CheckerActivityTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'DataGroups'
+ALTER TABLE [dbo].[DataGroups]
+ADD CONSTRAINT [PK_DataGroups]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'DataGroupAssigns'
+ALTER TABLE [dbo].[DataGroupAssigns]
+ADD CONSTRAINT [PK_DataGroupAssigns]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -6157,6 +6198,36 @@ GO
 CREATE INDEX [IX_FK_CheckerActivityTypeCheckerActivity]
 ON [dbo].[CheckerActivities]
     ([CheckerActivityTypeId]);
+GO
+
+-- Creating foreign key on [DataGroupId] in table 'DataGroupAssigns'
+ALTER TABLE [dbo].[DataGroupAssigns]
+ADD CONSTRAINT [FK_DataGroupDataGroupAssign]
+    FOREIGN KEY ([DataGroupId])
+    REFERENCES [dbo].[DataGroups]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DataGroupDataGroupAssign'
+CREATE INDEX [IX_FK_DataGroupDataGroupAssign]
+ON [dbo].[DataGroupAssigns]
+    ([DataGroupId]);
+GO
+
+-- Creating foreign key on [DataGroupId] in table 'CustEntMains'
+ALTER TABLE [dbo].[CustEntMains]
+ADD CONSTRAINT [FK_DataGroupCustEntMain]
+    FOREIGN KEY ([DataGroupId])
+    REFERENCES [dbo].[DataGroups]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DataGroupCustEntMain'
+CREATE INDEX [IX_FK_DataGroupCustEntMain]
+ON [dbo].[CustEntMains]
+    ([DataGroupId]);
 GO
 
 -- --------------------------------------------------

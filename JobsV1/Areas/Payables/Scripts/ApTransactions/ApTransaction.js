@@ -431,7 +431,7 @@ function ShowPaymentModal(Id, Description, Amount) {
     $('#Payment-Date').val(moment().format('MM/DD/YYYY hh:mm A'));
     $("#Payment-Description").val(Description);
     $("#Payment-Remarks").val("");
-    $("#Payment-Amount").val(0);
+    $("#Payment-Amount").val(Amount);
     $("#Payment-TmpAmount").val(Amount);
 }
 

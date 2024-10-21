@@ -189,7 +189,7 @@ namespace JobsV1.Models
         public virtual DbSet<CustAssocType> CustAssocTypes { get; set; }
         public virtual DbSet<CheckerActivity> CheckerActivities { get; set; }
         public virtual DbSet<CheckerActivityType> CheckerActivityTypes { get; set; }
-
-        public System.Data.Entity.DbSet<JobsV1.Models.Class.AspUser> AspUsers { get; set; }
+        public virtual DbSet<DataGroup> DataGroups { get; set; }
+        public virtual DbSet<DataGroupAssign> DataGroupAssigns { get; set; }
     }
 }

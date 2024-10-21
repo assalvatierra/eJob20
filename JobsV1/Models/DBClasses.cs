@@ -304,7 +304,8 @@ namespace JobsV1.Models
         {
             var data = db.Database.SqlQuery<AppUser>("Select UserName from AspNetUsers Where UserName NOT IN "+
                 " ('jahdielvillosa@gmail.com' ,'jahdielsvillosa@gmail.com', 'assalvatierra@gmail.com', " +
-                "  'demo@gmail.com', 'assalvatierra@yahoo.com', 'abel@yahoo.com' " +
+                //"  'demo@gmail.com', " +
+                "  'assalvatierra@yahoo.com', 'abel@yahoo.com' " +
                 ")"); 
             return data.ToList();
         }

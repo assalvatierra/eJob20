@@ -170,6 +170,8 @@
     <EntitySet Name="CustAssocTypes" EntityType="JobDB.Store.CustAssocTypes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CheckerActivities" EntityType="JobDB.Store.CheckerActivities" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CheckerActivityTypes" EntityType="JobDB.Store.CheckerActivityTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DataGroups" EntityType="JobDB.Store.DataGroups" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DataGroupAssigns" EntityType="JobDB.Store.DataGroupAssigns" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -826,6 +828,14 @@
       <End Role="CheckerActivityType" EntitySet="CheckerActivityTypes" />
       <End Role="CheckerActivity" EntitySet="CheckerActivities" />
     </AssociationSet>
+    <AssociationSet Name="DataGroupDataGroupAssign" Association="JobDB.Store.DataGroupDataGroupAssign">
+      <End Role="DataGroup" EntitySet="DataGroups" />
+      <End Role="DataGroupAssign" EntitySet="DataGroupAssigns" />
+    </AssociationSet>
+    <AssociationSet Name="DataGroupCustEntMain" Association="JobDB.Store.DataGroupCustEntMain">
+      <End Role="DataGroup" EntitySet="DataGroups" />
+      <End Role="CustEntMain" EntitySet="CustEntMains" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -1260,6 +1270,7 @@
     <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="Exclusive" Type="nvarchar" Nullable="true" DefaultValue="PUBLIC" MaxLength="10" />
     <Property Name="CustEntAccountTypeId" Type="int" Nullable="false" />
+    <Property Name="DataGroupId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SalesLeads">
     <Key>
@@ -2522,6 +2533,22 @@
     <Property Name="Points" Type="int" Nullable="false" />
     <Property Name="OrderNo" Type="int" Nullable="false" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
+  </EntityType>
+  <EntityType Name="DataGroups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="DataGroupAssigns">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="DataGroupId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -4491,6 +4518,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="DataGroupDataGroupAssign">
+    <End Role="DataGroup" Type="JobDB.Store.DataGroups" Multiplicity="1" />
+    <End Role="DataGroupAssign" Type="JobDB.Store.DataGroupAssigns" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DataGroup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DataGroupAssign">
+        <PropertyRef Name="DataGroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DataGroupCustEntMain">
+    <End Role="DataGroup" Type="JobDB.Store.DataGroups" Multiplicity="1" />
+    <End Role="CustEntMain" Type="JobDB.Store.CustEntMains" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DataGroup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntMain">
+        <PropertyRef Name="DataGroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -5315,6 +5366,16 @@
           <AssociationSet Name="CheckerActivityTypeCheckerActivity" Association="JobDB.CheckerActivityTypeCheckerActivity">
             <End Role="CheckerActivityType" EntitySet="CheckerActivityTypes" />
             <End Role="CheckerActivity" EntitySet="CheckerActivities" />
+          </AssociationSet>
+          <EntitySet Name="DataGroups" EntityType="JobDB.DataGroup" />
+          <EntitySet Name="DataGroupAssigns" EntityType="JobDB.DataGroupAssign" />
+          <AssociationSet Name="DataGroupDataGroupAssign" Association="JobDB.DataGroupDataGroupAssign">
+            <End Role="DataGroup" EntitySet="DataGroups" />
+            <End Role="DataGroupAssign" EntitySet="DataGroupAssigns" />
+          </AssociationSet>
+          <AssociationSet Name="DataGroupCustEntMain" Association="JobDB.DataGroupCustEntMain">
+            <End Role="DataGroup" EntitySet="DataGroups" />
+            <End Role="CustEntMain" EntitySet="CustEntMains" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -6259,6 +6320,8 @@
           <NavigationProperty Name="Vehicles" Relationship="JobDB.CustEntMainVehicle" FromRole="CustEntMain" ToRole="Vehicle" />
           <NavigationProperty Name="CustEntAccountType" Relationship="JobDB.CustEntAccountTypeCustEntMain" FromRole="CustEntMain" ToRole="CustEntAccountType" />
           <Property Name="CustEntAccountTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DataGroup" Relationship="JobDB.DataGroupCustEntMain" FromRole="CustEntMain" ToRole="DataGroup" />
+          <Property Name="DataGroupId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="SalesLead">
           <Key>
@@ -9311,6 +9374,49 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DataGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="20" />
+          <NavigationProperty Name="DataGroupAssigns" Relationship="JobDB.DataGroupDataGroupAssign" FromRole="DataGroup" ToRole="DataGroupAssign" />
+          <NavigationProperty Name="CustEntMains" Relationship="JobDB.DataGroupCustEntMain" FromRole="DataGroup" ToRole="CustEntMain" />
+        </EntityType>
+        <EntityType Name="DataGroupAssign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User" Type="String" Nullable="false" MaxLength="80" />
+          <NavigationProperty Name="DataGroup" Relationship="JobDB.DataGroupDataGroupAssign" FromRole="DataGroupAssign" ToRole="DataGroup" />
+          <Property Name="DataGroupId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="DataGroupDataGroupAssign">
+          <End Type="JobDB.DataGroup" Role="DataGroup" Multiplicity="1" />
+          <End Type="JobDB.DataGroupAssign" Role="DataGroupAssign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DataGroupAssign">
+              <PropertyRef Name="DataGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="DataGroupCustEntMain">
+          <End Type="JobDB.DataGroup" Role="DataGroup" Multiplicity="1" />
+          <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntMain">
+              <PropertyRef Name="DataGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9785,6 +9891,7 @@
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Exclusive" ColumnName="Exclusive" />
           <ScalarProperty Name="CustEntAccountTypeId" ColumnName="CustEntAccountTypeId" />
+          <ScalarProperty Name="DataGroupId" ColumnName="DataGroupId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -11174,6 +11281,24 @@
           <ScalarProperty Name="Points" ColumnName="Points" />
           <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DataGroups">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.DataGroup)">
+        <MappingFragment StoreEntitySet="DataGroups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DataGroupAssigns">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.DataGroupAssign)">
+        <MappingFragment StoreEntitySet="DataGroupAssigns">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="User" ColumnName="User" />
+          <ScalarProperty Name="DataGroupId" ColumnName="DataGroupId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

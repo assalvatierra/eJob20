@@ -250,6 +250,9 @@ values 	('Payables' ,'',20,'Payables/ApTransactions','Index','',21,201),  -- id:
 	    ('Accounts' ,'',20,'Payables/ApAccounts','Index','',21,202),   	  -- id: 74
 	    ('Reports' ,'',20,'Payables/ApReports','Index','',21,206);		  -- id: 74;	
 
+-- Users Group --
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('User Groups' ,'',15,'/Masterlists/DataGroups','Index','',21,152);	 -- id: 75
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (12,1,'2019/1/1');

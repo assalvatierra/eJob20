@@ -346,6 +346,10 @@
         <EntityTypeShape EntityType="JobDB.CheckerActivityType" Width="1.75" PointX="2.75" PointY="36.125" />
         <AssociationConnector Association="JobDB.SalesLeadCheckerActivity" />
         <AssociationConnector Association="JobDB.CheckerActivityTypeCheckerActivity" />
+        <EntityTypeShape EntityType="JobDB.DataGroup" Width="1.75" PointX="13.375" PointY="44.25" />
+        <EntityTypeShape EntityType="JobDB.DataGroupAssign" Width="1.75" PointX="13.375" PointY="46.875" />
+        <AssociationConnector Association="JobDB.DataGroupDataGroupAssign" />
+        <AssociationConnector Association="JobDB.DataGroupCustEntMain" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
