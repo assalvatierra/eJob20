@@ -1,16 +1,11 @@
-﻿@model IEnumerable<JobsV1.Models.CustEntMain>
+﻿@model IEnumerable<JobsV1.Models.cCompanyList>
 
 @{
     ViewBag.Title = "Companies";
     Session["ROOTMENUID"] = 5;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    int count = 0;
 }
-
-@*<style> 
-    .container {
-        margin-left:25px;
-    }
-</style>*@
 
 <div class="view-header">
 
@@ -21,132 +16,245 @@
     </div>
 
 </div>
+
 <div class="view-content">
-    <div class="filter-panel">
-        <div class="sort-panel">
-            <div class="btn-group">
-                <button class="btn btn-default disabled" style="color:black;">
-                    Status:
-                </button>
-                <button id="ALL" class="btn btn-default status-link "> All   </button>
-                <button id="PRI" class="btn btn-default status-link status-active"> Priority   </button>
-                <button id="ACC" class="btn btn-default status-link"> Accredited     </button>
-                <button id="AOP" class="btn btn-default status-link"> Acc. on Process</button>
-                <button id="BOT" class="btn btn-default status-link "> Billing/Terms </button>
-                <button id="ACT" class="btn btn-default status-link"> Active </button>
-                <button id="INC" class="btn btn-default status-link "> Inactive   </button>
-                <button id="BAD" class="btn btn-default status-link "> Bad   </button>
-            </div>
 
-            <div class="btn-group">
-                <button class="btn btn-default disabled" style="color:black;">
-                    Sort: &nbsp;
-                </button>
-                <button id="sort-Name" class="btn btn-default status-link sort-link status-active" onclick="SortBy(this, 'NAME')"> Name </button>
-                <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'CITY')">     City   </button>
-                <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'CATEGORY')"> Category  </button>
-                <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'STATUS')">   Status  </button>
-                <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'UPDATE')">   Last Update  </button>
-            </div>
-        </div>
-
-        <div class="search-panel">
-            <div class="btn-group">
+        <div class="filter-panel">
+            <div class="sort-panel">
                 <div class="btn-group">
-                    <input class="form-control search-cat" id="srch-field" type="search" />
-                </div>
-                <div class="btn-group">
-                    <select class="form-control search-field" id="srch-category" style="margin-right:0px;width:160px;">
-                        <option value="Company">Company Name</option>
-                        <option value="City">City</option>
-                        <option value="Category">Category</option>
-                        <option value="ContactName">Contact Person</option>
-                        <option value="AssignedTo">Assigned To</option>
-                    </select>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-default" onclick="CompanySearch();">
-                        Search
+                    <button class="btn btn-default disabled" style="color:black;">
+                        Status:
                     </button>
+                    <button id="ALL" class="btn btn-default status-link" onclick="SetPageStatus('ALL')"> All   </button>
+                    <button id="ACT" class="btn btn-default status-link status-active" onclick="SetPageStatus('ACT')"> Active </button>
+                    <button id="PRI" class="btn btn-default status-link" onclick="SetPageStatus('PRI')"> Priority   </button>
+                    <button id="ACC" class="btn btn-default status-link" onclick="SetPageStatus('ACC')"> Accredited     </button>
+                    <button id="AOP" class="btn btn-default status-link" onclick="SetPageStatus('AOP')"> Acc. on Process</button>
+                    <button id="BOT" class="btn btn-default status-link" onclick="SetPageStatus('BOT')"> Billing/Terms </button>
+                    <button id="INC" class="btn btn-default status-link" onclick="SetPageStatus('INC')"> Inactive   </button>
+                    <button id="BAD" class="btn btn-default status-link" onclick="SetPageStatus('BAD')"> Bad   </button>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-default disabled" style="color:black;">
+                        Sort: &nbsp;
+                    </button>
+                    <button id="sort-Name" class="btn btn-default status-link sort-link status-active" onclick="SortBy(this, 'NAME')"> Name </button>
+                    <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'CITY')">     City   </button>
+                    <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'CATEGORY')"> Category  </button>
+                    <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'STATUS')">   Status  </button>
+                    <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'UPDATE')">   Last Update  </button>
+                </div>
+            </div>
+
+            <div class="search-panel">
+                <div class="btn-group">
+                    <div class="btn-group">
+                        <input class="form-control search-cat" id="srch-field" type="search" value="@ViewBag.Search" />
+                    </div>
+                    <div class="btn-group">
+                        <select class="form-control search-field" id="srch-category" style="margin-right:0px;width:160px;">
+                            <option value="Company">Company Name</option>
+                            <option value="City">City</option>
+                            <option value="Category">Category</option>
+                            <option value="ContactName">Contact Person</option>
+                            <option value="AssignedTo">Assigned To</option>
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-default" type="submit" value="Search" onclick="SubmitSearchCompany()">
+                            Search
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    
 
-    <table class="js-sort-table table" id="company-Table" data-sortable>
-        <thead>
-            <tr>
-                <th>
-                    
-                </th>
-                <th class="col-md-1">
-                    Name
-                </th>
-                <th class="col-md-1">
-                    City
-                </th>
-                <th class="col-md-1">
-                    Category
-                </th>
-                <th class="col-md-1">
-                    Status
-                </th>
-                <th class="col-md-1" style="min-width:150px">
-                    Contact Person
-                </th>
-                <th class="col-md-1" style="min-width:230px">
-                    Contact Details
-                </th>
-                <th class="col-md-1" style="white-space:nowrap">
-                    Last Update
-                </th>
-                <th class="col-md-1">
-                    AssignedTo
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr id="table-row-loading">
-                <td colspan="4"> </td>
-                <td colspan="5">
-                    <br />
-                    <img src="~/Images/GIF/loading.gif" height="25" />
-                    Loading Companies, please wait...
-                </td>
-                <td></td>
-            </tr>
-
-            <!--foreach (var company in Model)
-            {
+        <table class="js-sort-table table" data-sortable>
+            <thead>
                 <tr>
-                    <td>
-                        company.Name
-                    </td>
-                    <td>
-                        company.CityId
-                    </td>
-                    <td>
-                       
-                    </td>
-                    <td>
-                        company.Contact1 
-                    </td>
-                    <td>
-                        company.Contact1
-                    </td>
-                    <td>
-                        company.AssignedTo
-                    </td>
-                    <td>
-                        Html.ActionLink("Edit", "Edit", new { id = company.Id }) |
-                       Html.ActionLink("Details", "Details", new { id = company.Id }) 
-                    </td>
+                    <th>
+
+                    </th>
+                    <th class="col-md-1">
+                        Name
+                    </th>
+                    <th class="col-md-1">
+                        City
+                    </th>
+                    <th class="col-md-1">
+                        Category
+                    </th>
+                    <th class="col-md-1">
+                        Status
+                    </th>
+                    <th class="col-md-1" style="min-width:250px">
+                        Contact Person
+                    </th>
+                    <th class="col-md-1" style="white-space:nowrap">
+                        Last Update
+                    </th>
+                    <th class="col-md-1">
+                        AssignedTo
+                    </th>
+                    <th></th>
+                    <th></th>
                 </tr>
-            }-->
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @*<tr id="table-row-loading">
+                        <td colspan="4"> </td>
+                        <td colspan="5">
+                            <br />
+                            <img src="~/Images/GIF/loading.gif" height="25" />
+                            Loading Companies, please wait...
+                        </td>
+                        <td></td>
+                    </tr>*@
+
+                @foreach (var company in Model)
+                {
+                    count++;
+
+                    <tr>
+                        <td width="10px">
+                            @count
+                        </td>
+                        <td>
+                            @Html.ActionLink(@company.Name, "Details", new { id = company.Id })
+
+                        </td>
+                        <td>
+                            @company.City
+                        </td>
+                        <td>
+                            @company.Category
+                        </td>
+                        <td>
+                            @if (company.Status == "Active" || company.Status == "Accredited" || company.Status == "Priority")
+                            {
+                                <span class="label label-info">   @company.Status </span>
+                            }
+                            else
+                            {
+                                <span class="label label-warning">   @company.Status </span>
+                            }
+
+                        </td>
+                        <td>
+
+                            <!-- Contacts -->
+                            @if ((company.Exclusive == "EXCLUSIVE" && company.IsAssigned) || company.IsGroupShared || company.Exclusive == "PUBLIC")
+                            {
+
+                                <table class="table table-borderless" style="border:none;">
+                                    @foreach (var contact in company.contacts)
+                                    {
+                                        <tr>
+                                            <td style="white-space: nowrap;" width="300px">
+                                                @contact.Name
+                                                <br /> <span class="text-muted">@contact.Position</span>
+                                            </td>
+                                            <td style="white-space: nowrap;">
+                                                @contact.Mobile | @contact.Telephone <br />
+                                                @contact.Email
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            }
+
+
+
+
+@*@if (company.Exclusive == "PUBLIC")
+                            {
+
+                                <table class="table table-borderless" style="border:none;">
+                                    @foreach (var contact in company.contacts)
+                                    {
+                                        <tr>
+                                            <td style="white-space: nowrap;">
+                                                @contact.Name
+                                                <br /> <span class="text-muted">@contact.Position</span>
+                                            </td>
+                                            <td style="white-space: nowrap;">
+                                                @contact.Mobile | @contact.Telephone <br />
+                                                @contact.Email
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            }*@
+                        </td>
+                        <td>
+                            @if (company.LastUpdate != null)
+                            {
+                                var LastUpdateDate =(DateTime)company.LastUpdate;
+                                <span>
+                                    @LastUpdateDate.ToString("MMM dd yyyy")
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @company.AssignedTo
+                        </td>
+                        <td width="50px">
+                            @if (company.Exclusive == "PUBLIC")
+                            {
+                                <span class="label label-info" id="label-exclusive-@company.Id"> @company.Exclusive </span><br />
+
+                                @*<span class="label label-default"> @company.Group </span>*@
+                            }
+                            else
+                            {
+                                <span class="label label-warning" id="label-exclusive-@company.Id" style="margin-bottom:8px;"> @company.Exclusive </span><br />
+
+                                if (ViewBag.IsAdmin)
+                                {
+                                    <span class="label label-default"> @company.Group </span>
+                                }
+
+                                if (company.IsGroupShared)
+                                {
+                                    <span class="label label-default"> Shared</span>
+                                }
+
+                            }
+
+                            @*IsAssigned: @company.IsAssigned*@
+                        </td>
+                        <td>
+
+                            @if (company.Exclusive == "PUBLIC" || company.IsAssigned)
+                            {
+                                if (ViewBag.IsAdmin)
+                                {
+                                    @Html.ActionLink("Edit", "Edit", new { id = company.Id }, new { @class = "btn btn-default btn-sm" })
+                                }
+
+                                @Html.ActionLink("Details", "Details", new { id = company.Id }, new { @class = "btn btn-default btn-sm" })<br />
+
+                                if (ViewBag.IsAdmin)
+                                {
+                                    if (company.Exclusive == "PUBLIC")
+                                    {
+                                        <button class='btn btn-default btn-sm' onclick='UpdateCompanyToExclusive(this,@company.Id)'> Set to Exclusive </button>
+                                    }
+                                    else
+                                    {
+                                        //on Exclusive
+                                        <button class='btn btn-default btn-sm' onclick='UpdateCompanyToPublic(this,@company.Id)'> Set to Public </button>
+                                    }
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
 
 @section Scripts{
@@ -154,5 +262,75 @@
     <script src="~/Scripts/Job/CustEntMainList.js"></script>
     <script src="~/Scripts/sort-table.js"></script>
     <script src="~/Scripts/sortable.min.js"></script>
+    <script>
 
+        $(document).ready(function () {
+            console.log("status: @ViewBag.Status");
+            SetStatus("@ViewBag.Status");
+            SetSort("@ViewBag.Sort");
+            srchcategory = "@ViewBag.SearchCat";
+        });
+
+        function SetPageStatus(status) {
+
+            var query = $('#srch-field').val();
+            var category = $('#srch-category').val();
+            var status = status;
+            var sort = "NAME";
+
+            window.location.href = '/CustEntMains?search=' + query + '&searchCat=' + category + '&status=' + status + '&sort=' + sort;
+        }
+
+        function SubmitSearchCompany() {
+
+            var query = $('#srch-field').val();
+            var category = $('#srch-category').val();
+            var status = "ALL";
+            var sort = "NAME";
+
+            window.location.href = '/CustEntMains?search=' + query + '&searchCat=' + category + '&status=' + status + '&sort=' + sort;
+        }
+
+
+        function UpdateCompanyToPublic(e, Id) {
+            $(e).attr('disabled', true);
+            $(e).text('Updating to Public');
+            var result = $.ajax({
+                url: '/CustEntMains/UpdateCompanyToPublic?companyId=' + Id,
+                type: "POST",
+                data: null,
+                dataType: 'application/json; charset=utf-8',
+                success: function (data) {
+                },
+                error: function (data) {
+                    //update status
+                    $(e).attr('disabled', true);
+                    $(e).text('Updated to Public');
+                    $("#label-exclusive-" + Id).text("PUBLIC");
+                    //$(e).append("<span class='label-success'> Public </span>")
+                }
+            })
+        }
+
+
+        function UpdateCompanyToExclusive(e, Id) {
+            $(e).attr('disabled', true);
+            $(e).text('Updating to Exclusive');
+            var result = $.ajax({
+                url: '/CustEntMains/UpdateCompanyToExclusive?companyId=' + Id,
+                type: "POST",
+                data: null,
+                dataType: 'application/json; charset=utf-8',
+                success: function (data) {
+                },
+                error: function (data) {
+                    //update status
+                    $(e).attr('disabled', true);
+                    $(e).text('Updated to Exclusive');
+                    $("#label-exclusive-" + Id).text("EXCLUSIVE");
+                    //$(e).append("<span class='label-info'> Exclusive </span>")
+                }
+            })
+        }
+    </script>
 }

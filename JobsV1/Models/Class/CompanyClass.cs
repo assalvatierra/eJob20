@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace JobsV1.Models
         public string Status { get; set; }
         public string Exclusive { get; set; }
         public string LastUpdate { get; set; }
+        public int DataGroupId { get; set; }
     }
 
     public class cCompanyList
@@ -47,6 +49,9 @@ namespace JobsV1.Models
         public string Exclusive { get; set; }
         public bool IsAssigned { get; set; }
         public DateTime? LastUpdate { get; set; }
+        public List<cCompanyContact> contacts { get; set; }
+        public string Group { get; set; }
+        public bool IsGroupShared { get; set; }
     }
 
     public class cCompanyContact
@@ -118,7 +123,7 @@ namespace JobsV1.Models
                 }
 
                 //handle search by name filter
-                if (search != null || search != "")
+                if (!string.IsNullOrEmpty(search))
                 {
                     sql += " AND ";
                     //search using the search by category
@@ -353,12 +358,42 @@ namespace JobsV1.Models
                 List<string> contactPositions = new List<string>(); 
                 List<string> contactNumberEmail = new List<string>();
                 List<string> contactRemarks = new List<string>();
+                List<cCompanyContact> contactsList = new List<cCompanyContact>();
+
+                string groupName = "";
                 var isAssigned = false;
-                
-                if (user == com.AssignedTo || user == "admin")
+                var isGroupShared = false;
+
+                //check if user is admin / assignedTo to company
+                if (user == com.AssignedTo || user == "admin" || com.AssignedTo == "admin@gmail.com")
                 {
                     isAssigned = true;
                 }
+
+                //assigned history lists
+                var companyAssignRecords = db.CustEntAssigns.Where(s => s.CustEntMainId == com.Id).Select(s=>s.Assigned).ToList();
+                if (companyAssignRecords.Contains(user))
+                {
+                    isAssigned = true;
+                }
+
+                if(com.DataGroupId == 0)
+                {
+                    com.DataGroupId = 1;
+                }
+
+                var sharedGroupMembers = db.DataGroups.Where(d => d.Id == com.DataGroupId).First();
+                groupName = sharedGroupMembers.Name;
+
+                if (sharedGroupMembers.DataGroupAssigns.Count()>0)
+                {
+                    if (sharedGroupMembers.DataGroupAssigns.Select(c => c.User).Contains(user))
+                    {
+                        isGroupShared = true;
+                        isAssigned = true;
+                    }
+                }
+
 
                 //show contact details to admin and public
                 if (isAssigned || com.Exclusive == "PUBLIC")
@@ -366,25 +401,39 @@ namespace JobsV1.Models
                     contactNames = custEnts.Select(s => s.Customer.Name).ToList();
                     contactPositions =  custEnts.Select(s => s.Position).ToList();
 
-                    foreach (var items in custEnts)
+                    foreach (var contact in custEnts)
                     {
                         var temp = "";
-                        if (items.Customer.Contact2 != null)
+                        if (contact.Customer.Contact2 != null)
                         {
-                            temp = items.Customer.Contact1 + " | " + items.Customer.Contact2;
+                            temp = contact.Customer.Contact1 + " | " + contact.Customer.Contact2;
                         }
                         else
                         {
-                            temp = items.Customer.Contact1;
+                            temp = contact.Customer.Contact1;
                         }
-                        contactNumberEmail.Add(temp + " <br> " + items.Customer.Email);
+                        contactNumberEmail.Add(temp + " <br> " + contact.Customer.Email);
 
-                        if (items.Customer.Remarks != null)
+                        if (contact.Customer.Remarks != null)
                         {
-                            contactRemarks.Add(items.Customer.Remarks);
+                            contactRemarks.Add(contact.Customer.Remarks);
                         }
+
+                        //for contacts object
+                        contactsList.Add(new cCompanyContact
+                        {
+                            Id = contact.Customer.Id,
+                            Name = contact.Customer.Name,
+                            Email = contact.Customer.Email,
+                            Mobile = contact.Customer.Contact1,
+                            Telephone = contact.Customer.Contact2,
+                            Position = contact.Position,
+                            SocialMedia = ""
+                        });
+
                     }
                 }
+
 
                 comlist.Add(new cCompanyList {
                     Id = com.Id,
@@ -396,7 +445,7 @@ namespace JobsV1.Models
                     Mobile = com.Mobile,
                     Name = com.Name,
                     Remarks = com.Remarks,
-                    Status = com.Status,
+                    Status = ConvertStatusString(com.Status),
                     Website = com.Website,
                     ContactName = contactNames,
                     ContactPosition = contactPositions,
@@ -404,7 +453,11 @@ namespace JobsV1.Models
                     ContactRemarks = contactNumberEmail,
                     Exclusive = com.Exclusive,
                     IsAssigned = isAssigned,
-                    LastUpdate = GetCompanyActivityLastUpdate(com.Id)
+                    LastUpdate = GetCompanyActivityLastUpdate(com.Id),
+                    contacts = contactsList,
+                    Group = groupName,
+                    IsGroupShared = isGroupShared
+
 
                 });
 
@@ -442,6 +495,58 @@ namespace JobsV1.Models
             }
 
             return null;
+        }
+
+        public string ConvertStatusString(string status)
+        {
+            switch (status)
+            {
+                case "ACT":
+                    return "Active";
+                case "PRI":
+                    return "Priority";
+                case "ACP":
+                    return "Accreditation on Process";
+                case "BIL":
+                    return "Billing/Terms";
+                case "INC":
+                    return "Inactive";
+                case "BAD":
+                    return "Bad Account";
+                case "SUS":
+                    return "Suspended";
+                default:
+                    return "NA";
+            }
+        }
+
+        public int GetUserDataGroupId(string user)
+        {
+            if (string.IsNullOrEmpty(user))
+            {
+                return 1; // default;
+            }
+
+            var DataGroups = db.DataGroups.ToList();
+
+            if (DataGroups.Count() > 0)
+            {
+                foreach (var group in DataGroups)
+                {
+                    if (group.DataGroupAssigns.Count() > 0)
+                    {
+                        if (group.DataGroupAssigns.Select(d => d.User).ToList().Contains(user))
+                        {
+                            return group.Id;
+                        }
+                    }
+                }
+            }
+
+
+            return 1; // default;
+
+
         }
 
         #endregion

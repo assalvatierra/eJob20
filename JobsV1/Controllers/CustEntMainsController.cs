@@ -23,6 +23,7 @@ namespace JobsV1.Controllers
         private DBClasses dbclasses = new DBClasses();
         private DateClass dt = new DateClass();
         private JobVehicleClass jvc = new JobVehicleClass();
+        private CompanyClass companyClass = new CompanyClass();
 
         private List<SelectListItem> StatusList = new List<SelectListItem> {
                 new SelectListItem { Value = "PRI", Text = "Priority" },
@@ -50,12 +51,40 @@ namespace JobsV1.Controllers
         private string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
 
         [Authorize]
-        public ActionResult Index()
+        public ActionResult IndexJS()
         {
             ViewBag.IsAdmin = User.IsInRole("Admin");
 
             //var companies = db.CustEntMains.ToList();
             return View();
+        }
+
+
+        [Authorize]
+        public ActionResult Index(string search, string searchCat, string status, string sort)
+        {
+
+            List<cCompanyList> custList = new List<cCompanyList>();
+            var user = HttpContext.User.Identity.Name;
+
+            //handle user roles
+            if (User.IsInRole("Admin"))
+            {
+                custList = comdb.generateCompanyList(search, searchCat, status, sort, "admin");
+            }
+            else
+            {
+                custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
+            }
+
+
+            ViewBag.IsAdmin = User.IsInRole("Admin");
+            ViewBag.Search = search;
+            ViewBag.SearchCat = searchCat;
+            ViewBag.Status = status;
+            ViewBag.Sort = sort;
+
+            return View(custList);
         }
 
         //Ajax - Table Result 
@@ -394,7 +423,8 @@ namespace JobsV1.Controllers
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", User.Identity.Name);
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", defaultExclusivity);
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", 1); //default regular
-           
+            ViewBag.DataGroupId = new SelectList(db.DataGroups, "Id", "Name", companyClass.GetUserDataGroupId(User.Identity.Name)); //default default
+
             ViewBag.isOwner = User.IsInRole("Owner");
             return View(main);
         }
@@ -404,7 +434,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive,CustEntAccountTypeId")] CustEntMain custEntMain, int? id)
+        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive,CustEntAccountTypeId,DataGroupId")] CustEntMain custEntMain, int? id)
         {
             string defaultExclusivity = "Public";
             if (User.IsInRole("Sales") || User.IsInRole("Procurement"))
@@ -437,6 +467,7 @@ namespace JobsV1.Controllers
                         ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", User.Identity.Name);
                         ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", defaultExclusivity);
                         ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name");
+                        ViewBag.DataGroupId = new SelectList(db.DataGroups, "Id", "Name", companyClass.GetUserDataGroupId(User.Identity.Name)); //default default
 
                         return View(custEntMain);
                     }
@@ -463,6 +494,7 @@ namespace JobsV1.Controllers
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", User.Identity.Name);
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", defaultExclusivity);
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
+            ViewBag.DataGroupId = new SelectList(db.DataGroups, "Id", "Name", custEntMain.DataGroupId); //default default
             ViewBag.isOwner = User.IsInRole("Owner");
 
             return View(custEntMain);
@@ -616,6 +648,7 @@ namespace JobsV1.Controllers
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", custEntMain.AssignedTo);
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", custEntMain.Exclusive);
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
+            ViewBag.DataGroupId = new SelectList(db.DataGroups, "Id", "Name", custEntMain.DataGroupId); //default default
             ViewBag.isOwner = User.IsInRole("Owner");
             return View(custEntMain);
         }
@@ -625,7 +658,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive,CustEntAccountTypeId")] CustEntMain custEntMain)
+        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive,CustEntAccountTypeId,DataGroupId")] CustEntMain custEntMain)
         {
             if (ModelState.IsValid)
             {
@@ -643,6 +676,7 @@ namespace JobsV1.Controllers
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", custEntMain.Exclusive);
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
+            ViewBag.DataGroupId = new SelectList(db.DataGroups, "Id", "Name", custEntMain.DataGroupId); //default default
             ViewBag.isOwner = User.IsInRole("Owner");
 
             return View(custEntMain);
@@ -667,6 +701,7 @@ namespace JobsV1.Controllers
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", custEntMain.AssignedTo);
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", custEntMain.Exclusive);
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
+            ViewBag.DataGroupId = new SelectList(db.DataGroups, "Id", "Name", custEntMain.DataGroupId); //default default
             ViewBag.isOwner = User.IsInRole("Owner");
             return View(custEntMain);
         }
@@ -676,7 +711,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditStatus([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive,CustEntAccountTypeId, Remarks")] CustEntMain custEntMain)
+        public ActionResult EditStatus([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive,CustEntAccountTypeId, DataGroupId,Remarks")] CustEntMain custEntMain)
         {
             if (ModelState.IsValid)
             {
@@ -692,6 +727,7 @@ namespace JobsV1.Controllers
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
+            ViewBag.DataGroupId = new SelectList(db.DataGroups, "Id", "Name", custEntMain.DataGroupId); //default default
             ViewBag.isOwner = User.IsInRole("Owner");
 
             return View(custEntMain);
@@ -1116,6 +1152,7 @@ namespace JobsV1.Controllers
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
             ViewBag.ActivityStatus = new SelectList(ActivityStatus, "value", "text");
             ViewBag.Date = dt.GetCurrentDateTime();
+
             return View(assignRecords);
         }
         
