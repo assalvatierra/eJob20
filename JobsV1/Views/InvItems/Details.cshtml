@@ -1,6 +1,8 @@
 ﻿@model JobsV1.Models.InvItem
 
 @{
+    Session["ROOTMENUID"] = 6;
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     ViewBag.Title = "Details";
     var siteConfig = ViewBag.SiteConfig;
 }
@@ -74,52 +76,51 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, null) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+<hr />
+<h4> Item Category </h4>
+<a id="catbtn" data-toggle="modal" data-target="#ShowAddCategory" style="margin-bottom:10px;cursor:pointer">Add Category</a>
+<table class="table">
+    <tr>
+        <th></th>
+    </tr> 
+    @foreach (var cat in Model.InvItemCategories as IEnumerable<JobsV1.Models.InvItemCategory>)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => cat.InvItemCat.Name)
+            </td>
+            <td>
+                @Html.ActionLink(" [ x ]", "CatRemove", "InvItems", new { id = cat.Id }, null) |
+            </td>
+        </tr>
+     }
+    </table>
+<hr />
 
-
-<table>
+<h4> Supplier </h4>
+@if (siteConfig != "AutoCare")
+{
+    <a id="catbtn" data-toggle="modal" data-target="#ShowAddSupplier" style="margin-bottom:10px;cursor:pointer">Add Supplier</a>
+}
+<table class="table">
     <tr>
         <th></th>
     </tr>
-    <tr>
-        @{ 
-
-            var isCommiAllowed = false;
-        }
-        <td>
-            <!--List for Inv Item Categories-->
-            @foreach (var cat in Model.InvItemCategories as IEnumerable<JobsV1.Models.InvItemCategory>)
-            {
-                if (cat.InvItemCatId == 2 || cat.InvItemCatId == 3 || cat.InvItemCatId == 4)
-                {
-                    isCommiAllowed = true;
-                }
-
-                <span>
-                    @Html.DisplayFor(modelItem => cat.InvItemCat.Name)
-                    @Html.ActionLink(" [ x ]", "CatRemove", "InvItems", new { id = cat.Id }, null) |
-                </span>
-                <br />
-            }
-
-            <a id="catbtn" data-toggle="modal" data-target="#ShowAddCategory" style="margin-bottom:10px;cursor:pointer">Add Category</a>
-
-            <br />
+    @foreach (var supplier in Model.SupplierInvItems as IEnumerable<JobsV1.Models.SupplierInvItem>)
+    {
+        <tr>
             <!--List for Inv Item Suppliers-->
-            @foreach (var supplier in Model.SupplierInvItems as IEnumerable<JobsV1.Models.SupplierInvItem>)
-            {
 
-
+            <td>
                 @Html.DisplayFor(modelItem => supplier.Supplier.Name)
-                @Html.ActionLink(" [ x ]", "removeSupplier", "InvItems", new { id = supplier.Id }, null)
-                <br />
-            }
+            </td>
+            <td>
 
-            @if (siteConfig != "AutoCare")
-            {
-                <a id="catbtn" data-toggle="modal" data-target="#ShowAddSupplier" style="margin-bottom:10px;cursor:pointer">Add Supplier</a>
-            }
-        </td>
-    </tr>
+                @Html.ActionLink("Remove", "removeSupplier", "InvItems", new { id = supplier.Id }, null)
+            </td>
+        </tr>
+
+    }
 </table>
 
 
@@ -137,9 +138,9 @@
 
                 <div class="list-group" id="categorylist">
                     @foreach (var cat in ViewBag.CatList as IEnumerable<JobsV1.Models.InvItemCat>)
-                        {
-                            <a href="@Url.Action("AddCategory", "InvItems", new { id = Model.Id, catid = @cat.Id })" class="list-group-item"> @cat.Name </a>
-                        }
+                    {
+                        <a href="@Url.Action("AddCategory", "InvItems", new { id = Model.Id, catid = @cat.Id })" class="list-group-item"> @cat.Name </a>
+                    }
                 </div>
 
             </div>
@@ -162,10 +163,10 @@
 
                 <div class="list-group" id="categorylist">
                     @foreach (var supplier in ViewBag.SupplierList as IEnumerable<JobsV1.Models.Supplier>)
-                        {
-                            <a href="@Url.Action("AddSupplier", "InvItems", new { id = Model.Id, supId = supplier.Id })" class="list-group-item"> @supplier.Name </a>
+                    {
+                        <a href="@Url.Action("AddSupplier", "InvItems", new { id = Model.Id, supId = supplier.Id })" class="list-group-item"> @supplier.Name </a>
 
-                        }
+                    }
                 </div>
             </div>
             <div class="modal-footer">
@@ -188,10 +189,10 @@
 
                 <div class="list-group" id="categorylist">
                     @foreach (var member in ViewBag.coopList as IEnumerable<JobsV1.Models.CoopMember>)
-                        {
-                            <a href="@Url.Action("LinkCoopMember", "InvItems", new { id = Model.Id, memberid = member.Id })" class="list-group-item"> @member.Name </a>
+                    {
+                        <a href="@Url.Action("LinkCoopMember", "InvItems", new { id = Model.Id, memberid = member.Id })" class="list-group-item"> @member.Name </a>
 
-                        }
+                    }
                 </div>
             </div>
             <div class="modal-footer">
@@ -205,34 +206,34 @@
 
 
     <script type="text/javascript">
-    //AJAX CALLS
-    function DeleteIcon(id) {
-        var serviceURL = '/SMSWebService/CatRemove';
+        //AJAX CALLS
+        function DeleteIcon(id) {
+            var serviceURL = '/SMSWebService/CatRemove';
 
-        $.ajax({
-            type: "GET",
-            url: serviceURL,
-            data: { id: id },
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: successFunc(),
-            error: errorFunc()
-        });
+            $.ajax({
+                type: "GET",
+                url: serviceURL,
+                data: { id: id },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: successFunc(),
+                error: errorFunc()
+            });
 
-    }
+        }
 
-    function successFunc() {
-        alert("Successfully Done!");
-        location.reload();
-    }
+        function successFunc() {
+            alert("Successfully Done!");
+            location.reload();
+        }
 
-    function errorFunc() {
-        alert('error');
-    }
+        function errorFunc() {
+            alert('error');
+        }
 
-    function openSupModal() {
-        $('suppliers').modal('toggle');
-    }
+        function openSupModal() {
+            $('suppliers').modal('toggle');
+        }
 
     </script>
 }

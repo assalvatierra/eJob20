@@ -46,7 +46,7 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description) <br />
-                @Html.DisplayFor(modelItem => item.Remarks)
+                Remarks: @Html.DisplayFor(modelItem => item.Remarks)
             </td>
 
             <td>
@@ -60,20 +60,24 @@
 
     }
 
-    <tr>
-        <td colspan="5">
-            <span class="btn btn-default" onclick="UpdateUrl(@showAll)" style="width:100%">
-                @if (showAll == 0)
-                {
-                    <span> Show more <span class="label label-success"> @otherItemCount </span>  </span>
-                }
-                else
-                {
-                    <span> Show less</span>
-                }
-            </span>
-        </td>
-    </tr>
+    @if (otherItemCount > 0)
+    {
+
+        <tr>
+            <td colspan="5">
+                <span class="btn btn-default" onclick="UpdateUrl(@showAll)" style="width:100%">
+                    @if (showAll == 0)
+                    {
+                        <span> Show more <span class="label label-success"> @otherItemCount </span>  </span>
+                    }
+                    else
+                    {
+                        <span> Show less</span>
+                    }
+                </span>
+            </td>
+        </tr>
+    }
 </table>
 
 <p>

@@ -12,7 +12,7 @@
 @if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
 {
     var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
-    var activities = company.CustEntActivities.Where(s => s.SalesCode == item.SalesCode);
+    var activities = company.CustEntActivities.Where(s => s.SalesCode == item.SalesCode).Distinct().ToList();
 
     @Html.Partial("CustActivitiesPartial", activities, new ViewDataDictionary { { "AssignedTo", item.AssignedTo } })
 

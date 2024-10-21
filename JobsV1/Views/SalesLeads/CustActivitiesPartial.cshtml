@@ -15,10 +15,24 @@
 
     </span>*@
 
-
+    var prevActivity = new JobsV1.Models.CustEntActivity();
     <span style="font:bold 8px, arial, verdana; color: royalblue;">
         @foreach (var tmpAct in Model)
         {
+            if (prevActivity.CustEntActStatusId != 0)
+            {
+                if (prevActivity.ActivityType == tmpAct.ActivityType
+                    && prevActivity.CustEntActStatusId == tmpAct.CustEntActStatusId && prevActivity.Remarks == tmpAct.Remarks
+                    && prevActivity.Date == tmpAct.Date)
+                {
+                    //same activity
+                    break;
+                }
+            }
+
+
+            prevActivity = tmpAct;
+
             var icon = tmpAct.CustEntActActionCode.IconPath;
             if (tmpAct.CustEntActActionStatusId == 1)
             {

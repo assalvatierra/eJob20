@@ -117,11 +117,16 @@
                             <br /><br /><span style="color:red; font: normal 18px arial, verdana;">@item.Price.ToString("##,###")</span>
                         }
                     </div>
+                    
+                    <!-- ONLY FOR VPRO -->
+                    <div>
+                        <p class="text-bold"> Unit: @item.Commodity </p>
+                    </div>
 
-                    @Html.Partial("_PartialLeadItemWeight", item,
-                            new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", item.AssignedTo }, { "IsAdmin", ISADMIN } })
+                    @*@Html.Partial("_PartialLeadItemWeight", item,
+                            new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", item.AssignedTo }, { "IsAdmin", ISADMIN } })*@
 
-                    @foreach (var status in item.SalesStatus)
+                    @*@foreach (var status in item.SalesStatus)
                     {
                         if (status.SalesStatusCodeId == 5)
                         {
@@ -132,7 +137,7 @@
                         {
                             <img src="~/Images/SalesLead/close-icon.png" height="20" alt="ACCEPTED" />
                         }
-                    }
+                    }*@
 
                 </td>
                 <td>

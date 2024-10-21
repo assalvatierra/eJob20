@@ -121,7 +121,12 @@
                         }
                     </div>
 
-                    @Html.Partial("_PartialLeadItemWeight", item, new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", USER }, { "IsAdmin", ISADMIN } })
+                    <!-- ONLY FOR VPRO -->
+                    <div>
+                        <p class="text-bold"> Unit: @item.Commodity </p>
+                    </div>
+
+                   @* @Html.Partial("_PartialLeadItemWeight", item, new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", USER }, { "IsAdmin", ISADMIN } })*@
 
                     @{
                         @*foreach (var status in item.SalesStatus)
@@ -189,11 +194,11 @@
 
                         <span style="margin-left:10px;">
                             @*@foreach (var salescat in item.SalesLeadCategories)
-            {
-                <img src=@Url.Content(@salescat.SalesLeadCatCode.iconPath)
-                     alt=@salescat.SalesLeadCatCode.CatName height="20" width="20"
-                     title=@salescat.SalesLeadCatCode.CatName />
-            }*@
+                            {
+                                <img src=@Url.Content(@salescat.SalesLeadCatCode.iconPath)
+                                     alt=@salescat.SalesLeadCatCode.CatName height="20" width="20"
+                                     title=@salescat.SalesLeadCatCode.CatName />
+                            }*@
                         </span>
 
                         <br />

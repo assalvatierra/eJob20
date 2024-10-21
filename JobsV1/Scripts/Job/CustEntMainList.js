@@ -9,11 +9,21 @@ var count_temp = 0;
 //load initial on page ready
 $(document).ready(intial());
 
+function SetStatus(new_status) {
+    status = new_status;
+
+    $(".status-link .active").removeClass("active");
+    $("#" + new_status).addClass("active");
+}
+function SetSort(new_sort) {
+    sort = new_sort;
+}
+
 function intial() {
 
     $('#ALL').css("color", "black");;
 
-    $('#ALL').addClass('active');
+    //$('#ALL').addClass('active');
     $('#sort-Name').addClass('active');
 
     ajax_loadContent();
