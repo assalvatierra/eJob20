@@ -2055,6 +2055,8 @@ namespace JobsV1.Controllers
                     return "Ranel Villahermosa";
                 case "assalvatierra@gmail.com":
                     return "Elvie S. Salvatierra ";
+                case "Shiela.realbreeze@gmail.com":
+                    return "Shiela Perater ";
                 default:
                     return "Elvie S. Salvatierra ";
             }
@@ -2066,8 +2068,8 @@ namespace JobsV1.Controllers
             {
                 case "grace.realbreeze@gmail.com":
                     return "/Images/Signature/GraceSign.jpg";
-                case "ranel.realbreeze@gmail.com":
-                    return "/Images/Signature/RanelSign.jpg";
+                case "Shiela.realbreeze@gmail.com":
+                    return "/Images/Signature/ShielaSign.jpg";
                 case "assalvatierra@gmail.com":
                     return "/Images/Signature-1.png";
                 default:

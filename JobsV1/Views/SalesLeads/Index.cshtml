@@ -3,8 +3,8 @@
 @{
     ViewBag.Title = "Sales Leads ";
     Session["ROOTMENUID"] = 2;
-    var SalesStatCode = (List<JobsV1.Models.SalesStatusCode>)ViewBag.StatusCodes;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    var SalesStatCode = (List<JobsV1.Models.SalesStatusCode>)ViewBag.StatusCodes;
     string USER = ViewBag.User;
     bool ISADMIN = ViewBag.IsAdmin;
 

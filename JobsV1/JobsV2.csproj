@@ -2129,8 +2129,7 @@
     <Content Include="Images\Signature-1.png" />
     <Content Include="Images\Signature\GraceSign.jpg" />
     <Content Include="Images\Icons\SMS.png" />
-    <Content Include="Images\Signature\JenSign.jpg" />
-    <Content Include="Images\Signature\RanelSign.jpg" />
+    <Content Include="Images\Signature\ShielaSign.jpg" />
     <Content Include="Images\SolidSteel\Solid Steel Logo.jpg" />
     <Content Include="Images\SolidSteel\V-Steel-Logo-2022.png" />
     <Content Include="Models\Migration\1-20-2023-Add-CustAssocTypes.sql" />
