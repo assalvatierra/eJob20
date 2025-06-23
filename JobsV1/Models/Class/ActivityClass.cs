@@ -9,6 +9,7 @@ namespace JobsV1.Models.Class
     #region Helper Class
     public class cUserPerformance {
         public int Id { get; set; }
+        public string UserEmail { get; set; }
         public string UserName { get; set; }
         public int Quotation { get; set; }
         public int Meeting { get; set; }
@@ -21,6 +22,7 @@ namespace JobsV1.Models.Class
         public decimal ProcAmount { get; set; }
         public List<string> Role { get; set; }
         public string Remarks { get; set; }
+        public string Group { get; set; }
     }
 
     public class cUserPerformanceReport
@@ -187,6 +189,8 @@ namespace JobsV1.Models.Class
             var companyActivity = db.SupplierActivities
                 .Where(c => c.DtActivity.CompareTo(sdate) >= 0 && c.DtActivity.CompareTo(edate) <= 0)
                 .ToList();
+
+
             return companyActivity.OrderByDescending(s => s.DtActivity);
         }
 
