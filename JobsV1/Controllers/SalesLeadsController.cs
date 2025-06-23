@@ -15,6 +15,7 @@ using System.Net.Http;
 using PayPal.Api;
 using System.Threading.Tasks;
 using static JobsV1.API.SalesLeadApiController;
+using System.Configuration;
 
 namespace JobsV1.Controllers
 {
@@ -36,6 +37,9 @@ namespace JobsV1.Controllers
         private DBClasses dbclasses = new DBClasses();
         private SalesLeadClass sldb = new SalesLeadClass();
         private DateClass date = new DateClass();
+
+        private string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+
 
         // GET: SalesLeads
         public ActionResult IndexOld(int? sortid, int? leadId, string search)
@@ -110,6 +114,8 @@ namespace JobsV1.Controllers
             //checker activity
             ViewBag.CheckerActivtyTypes = db.CheckerActivityTypes.ToList();
 
+            ViewBag.siteconfig = SITECONFIG;
+
             return View(salesLeads);
         }
 
@@ -158,6 +164,7 @@ namespace JobsV1.Controllers
             ViewBag.ActTypes = db.CustEntActTypes.ToList();
             ViewBag.IsAdmin = IsUserAdmin();
             ViewBag.IsChecker = User.IsInRole("Checker");
+            ViewBag.siteconfig = SITECONFIG;
 
             //for adding new item 
             AddSupItemPartial();

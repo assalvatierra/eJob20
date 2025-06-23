@@ -12,6 +12,8 @@
     var BIDDING = "Bidding Only";
     var FIRM = "Firm Inquiry";
     var BUYING = "Buying Inquiry";
+
+    string siteconfig = ViewBag.siteconfig;
 }
 
 <link href="/Content/TableStyles.css" rel="stylesheet" />
@@ -122,26 +124,34 @@
                     </div>
 
                     <!-- ONLY FOR VPRO -->
-                    <div>
-                        <p class="text-bold"> Unit: @item.Commodity </p>
-                    </div>
-
-                   @* @Html.Partial("_PartialLeadItemWeight", item, new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", USER }, { "IsAdmin", ISADMIN } })*@
-
-                    @{
-                        @*foreach (var status in item.SalesStatus)
-                        {
-                            if (status.SalesStatusCodeId == 5)
-                            {
-                                <img src="~/Images/Customers/Category/Active-30.png" height="20" alt="ACCEPTED" />
-                            }
-
-                            if (status.SalesStatusCodeId == 7)
-                            {
-                                <img src="~/Images/SalesLead/close-icon.png" height="20" alt="ACCEPTED" />
-                            }
-                        }*@
+                    @if (siteconfig == "VPRO SalesLead")
+                    {
+                        <div>
+                            <p class="text-bold"> Unit: @item.Commodity </p>
+                        </div>
                     }
+                    else
+                    {
+                        @* @Html.Partial("_PartialLeadItemWeight", item, new ViewDataDictionary { { "Id", item.Id }, { "AssignedTo", USER }, { "IsAdmin", ISADMIN } })*@
+
+                        {
+                            @*foreach (var status in item.SalesStatus)
+                            {
+                                if (status.SalesStatusCodeId == 5)
+                                {
+                                    <img src="~/Images/Customers/Category/Active-30.png" height="20" alt="ACCEPTED" />
+                                }
+
+                                if (status.SalesStatusCodeId == 7)
+                                {
+                                    <img src="~/Images/SalesLead/close-icon.png" height="20" alt="ACCEPTED" />
+                                }
+                            }*@
+                        }
+                    }
+
+
+
                 </td>
                 <td>
                     <!--Sales Lead Status-->

@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Daily Activities";
-    Session["ROOTMENUID"] = 9;
+    //Session["ROOTMENUID"] = 9;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 <br />
@@ -145,7 +145,7 @@
             <th></th>
         </tr>
 
-        @foreach (var item in ViewBag.SupplierActivities as IOrderedEnumerable<JobsV1.Models.SupplierActivity>)
+        @foreach (var item in ViewBag.SupplierActivities as List<JobsV1.Models.SupplierActivity>)
         {
             <tr>
                 <td>
@@ -227,7 +227,7 @@
             <th></th>
         </tr>
 
-        @foreach (var item in ViewBag.CheckerActivities as IOrderedEnumerable<JobsV1.Models.CheckerActivity>)
+        @foreach (var item in ViewBag.CheckerActivities as List<JobsV1.Models.CheckerActivity>)
         {
             <tr>
                 <td>

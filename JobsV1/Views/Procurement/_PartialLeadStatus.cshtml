@@ -75,16 +75,15 @@
         {
             //FOR APPROVAL - 4
             //Check if Weight and price is not 0 or null
-            if (item.ItemWeight != null)
-            {
-                if (item.ItemWeight.Trim() == "" || item.ItemWeight == "0" || item.ItemWeight == "0.00" ||
-                item.Price == 0)
+            //if (item.ItemWeight != null)
+            //{
+                if (item.Price == 0)
                 {
 
-                    //disable status
+                //disable status
                     <span>&#187;</span>
                     <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;"
-                            onclick="alert('Please update the Item WEIGHT and PRICE to proceed to FOR APPROVAL')">
+                            onclick="alert('Please update the Unit and PRICE to proceed to FOR APPROVAL')">
                         <a class="link-white link-status"> @salesstat.Name </a>
                     </button>
                 }
@@ -95,7 +94,7 @@
                         <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
                     </button>
                 }
-            }
+            @*}
             else
             {
                 //disable status
@@ -104,7 +103,7 @@
                         onclick="alert('Please update the item weight to proceed to FOR APPROVAL')">
                     <a class="link-white link-status"> @salesstat.Name </a>
                 </button>
-            }
+            }*@
         }
         else if (salesstat.Id == STATUS_APPROVED)
         {

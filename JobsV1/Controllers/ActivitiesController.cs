@@ -18,6 +18,7 @@ namespace JobsV1.Controllers
         private JobDBContainer db = new JobDBContainer();
         private DateClass dt = new DateClass();
         private DBClasses dbc= new DBClasses();
+        private DataGroupServices dataGroupServices = new DataGroupServices();
 
         private List<SelectListItem> ActivityStatus = new List<SelectListItem> {
                 new SelectListItem { Value = "Others", Text = "Others" },
@@ -68,16 +69,16 @@ namespace JobsV1.Controllers
                 ViewBag.IsAdmin = isAdmin;
 
                 //get activities of all users on Supplier
-                ViewBag.SupplierActivities = ac.GetSupplierActivitiesAdmin(date1, date2);
+                ViewBag.SupplierActivities = ac.GetSupplierActivitiesAdmin(date1, date2).ToList();
 
                 //get activities of all users on Supplier
-                ViewBag.CheckerActivities = ac.GetCheckerActivitiesAdmin(date1, date2);
+                ViewBag.CheckerActivities = ac.GetCheckerActivitiesAdmin(date1, date2).ToList();
 
                 //get activities of all users on Companies
-                var companyActivity = ac.GetCompanyActivitiesAdmin(date1,date2);
+                var companyActivity = ac.GetCompanyActivitiesAdmin(date1,date2).ToList();
                 if (!String.IsNullOrEmpty(name))
                 {
-                    companyActivity = companyActivity.Where(c => c.Assigned.Contains(name)).OrderByDescending(c => c.Date);
+                    companyActivity = companyActivity.Where(c => c.Assigned.Contains(name)).OrderByDescending(c => c.Date).ToList();
                 }
 
 
@@ -87,18 +88,49 @@ namespace JobsV1.Controllers
             }
             else if (User.IsInRole("Marketing"))
             {
-                ViewBag.SupplierActivities = ac.GetSupplierActivitiesAdmin(date1, date2);
+
+
+                ViewBag.SupplierActivities = ac.GetSupplierActivitiesAdmin(date1, date2).ToList();
 
                 //get activities of all users on Supplier
-                ViewBag.CheckerActivities = ac.GetCheckerActivitiesAdmin(date1, date2);
+                ViewBag.CheckerActivities = ac.GetCheckerActivitiesAdmin(date1, date2).ToList();
 
-                var companyActivity = ac.GetCompanyActivitiesAdmin(date1, date2);
+                var companyActivity = ac.GetCompanyActivitiesAdmin(date1, date2).ToList();
                 if (!String.IsNullOrEmpty(name))
                 {
-                    companyActivity = companyActivity.Where(c => c.Assigned.Contains(name)).OrderByDescending(c => c.Date);
+                    companyActivity = companyActivity.Where(c => c.Assigned.Contains(name)).OrderByDescending(c => c.Date).ToList();
                 }
 
                 ViewBag.filterName = name;
+                return View(companyActivity);
+            }
+            //handle user roles
+            if (User.IsInRole("Supervisor"))
+            {
+                isAdmin = false;
+                ViewBag.IsAdmin = isAdmin;
+
+                //get teams members
+                var userTeamId = dataGroupServices.GetUserTeamGroup(User.Identity.Name);
+                var teamMembers = dataGroupServices.GetMembersFromTeamId(userTeamId);
+
+                //get activities of all users on Supplier
+                ViewBag.SupplierActivities = ac.GetSupplierActivitiesAdmin(date1, date2).Where(activity => teamMembers.Contains(activity.Assigned)).ToList();
+
+                //get activities of all users on Supplier
+                ViewBag.CheckerActivities = ac.GetCheckerActivitiesAdmin(date1, date2).Where(activity => teamMembers.Contains(activity.CheckedBy)).ToList();
+
+                //get activities of all users on Companies
+                var companyActivity = ac.GetCompanyActivitiesAdmin(date1, date2).Where(activity => teamMembers.Contains(activity.Assigned)).ToList();
+
+                if (!String.IsNullOrEmpty(name))
+                {
+                    companyActivity = companyActivity.Where(c => c.Assigned.Contains(name)).OrderByDescending(c => c.Date).ToList();
+                }
+
+
+                ViewBag.filterName = name;
+
                 return View(companyActivity);
             }
             else
@@ -106,13 +138,13 @@ namespace JobsV1.Controllers
                 ViewBag.IsAdmin = isAdmin;
 
                 //get activities of the user on Supplier
-                ViewBag.SupplierActivities = ac.GetSupplierActivitiesUser(user, date1, date2);
+                ViewBag.SupplierActivities = ac.GetSupplierActivitiesUser(user, date1, date2).ToList();
 
                 //get activities of all users on Supplier
-                ViewBag.CheckerActivities = ac.GetCheckerActivitiesAdmin(date1, date2);
+                ViewBag.CheckerActivities = ac.GetCheckerActivitiesAdmin(date1, date2).ToList();
 
                 //get activities of the user on Companies
-                var companyActivity = ac.GetCompanyActivitiesUser(user, date1, date2);
+                var companyActivity = ac.GetCompanyActivitiesUser(user, date1, date2).ToList();
 
                 ViewBag.filterName = name;
 
@@ -198,7 +230,21 @@ namespace JobsV1.Controllers
             {
                 var userReport = ac.GetUserPerformanceReport(startDate, endDate);
                 userReport = AssignUserRoles(userReport);
+
+                return View("PerformanceByGroup",userReport);
+            }
+
+            else if(User.IsInRole("Supervisor")) 
+            {
+
+                //get teams members
+                var userTeamId = dataGroupServices.GetUserTeamGroup(User.Identity.Name);
+                var teamMembers = dataGroupServices.GetMembersFromTeamId(userTeamId);
+
+                var userReport = ac.GetUserPerformanceReport(startDate, endDate).Where(activity => teamMembers.Contains(activity.UserName)).ToList();
+                userReport = AssignUserRoles(userReport);
                 return View(userReport);
+
             }
             else
             {
@@ -214,6 +260,9 @@ namespace JobsV1.Controllers
             foreach (var user in UserList)
             {
                 user.Role = ac.GetUserRoles(user.UserName);
+                user.Group = dataGroupServices.GetUserTeamGroupName(user.UserName);
+                user.UserEmail = user.UserName;
+                user.UserName = user.UserName.Split('@')[0];
             }
 
             return UserList;
