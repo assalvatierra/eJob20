@@ -14,9 +14,11 @@ function SetStatus(new_status) {
 
     $(".status-link .active").removeClass("active");
     $("#" + new_status).addClass("active");
-}
+}   
 function SetSort(new_sort) {
     sort = new_sort;
+    $(".sort-link .active").removeClass("active");
+    $("#sort-" + new_sort).addClass("active");
 }
 
 function intial() {
@@ -133,6 +135,11 @@ $('#JOBSCOUNT').click(function () {
     setActiveSort(this);
 });
 
+$('#UPDATE').click(function () {
+    sort = "UPDATE";
+    setActiveSort(this);
+});
+
 $(".sort-panel .btn-group > .btn").click(function () {
     $(this).addClass("active").siblings().removeClass("active");
 });
@@ -173,27 +180,28 @@ function ajax_loadContent() {
     };
 
     //console.log(data);
+   // window.location.href = '/CustEntMains/Index?search=' + query + '&searchCat=' + category + '&status=' + status + '&sort=' + sort;
+   //request data from server using ajax call
+   //var result = $.ajax({
+   //    url: '/CustEntMains/TableResult?search=' + query + '&searchCat=' + category + '&status=' + status + '&sort=' + sort,
+   //     //url: 'CustEntMains/TableResult',
+   //     type: "POST",
+   //     data: JSON.stringify(data),
+   //     dataType: 'application/json; charset=utf-8',
+   //     success: function (data) {
+   //         //console.log("SUCCESS");
+   //         LoadTable(data);
+   //     },
+   //     error: function (data) {
+   //         //console.log("ERROR");
+   //         console.log(data);
+   //         LoadTable(data);
 
-    //request data from server using ajax call
-   var result = $.ajax({
-       url: '/CustEntMains/TableResult?search=' + query + '&searchCat=' + category + '&status=' + status + '&sort=' + sort,
-        //url: 'CustEntMains/TableResult',
-        type: "POST",
-        data: JSON.stringify(data),
-        dataType: 'application/json; charset=utf-8',
-        success: function (data) {
-            //console.log("SUCCESS");
-        },
-        error: function (data) {
-            //console.log("ERROR");
-            console.log(data);
-            LoadTable(data);
+   //        // ajax_loadContent_Next();
+   //     }
+   // })
 
-           // ajax_loadContent_Next();
-        }
-    })
-
-    console.log(result);
+    //console.log(result);
 }
 
 

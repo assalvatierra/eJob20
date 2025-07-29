@@ -351,6 +351,14 @@ namespace JobsV1
              * *****************************/
             Register_CarRentalAds(routes);
 
+
+
+            //routes.MapRoute(
+            //name: "ApiRoute",
+            //url: "api/{controller}/{action/{id}}",
+            //defaults: new { action = "GetNDepartmentsFromID", id = UrlParameter.Optional }
+            //);
+
             /********************************
             * AJ88 car rental default
             ********************************/

@@ -26,7 +26,7 @@
                         Status:
                     </button>
                     <button id="ALL" class="btn btn-default status-link" onclick="SetPageStatus('ALL')"> All   </button>
-                    <button id="ACT" class="btn btn-default status-link status-active" onclick="SetPageStatus('ACT')"> Active </button>
+                    <button id="ACT" class="btn btn-default status-link active" onclick="SetPageStatus('ACT')"> Active </button>
                     <button id="PRI" class="btn btn-default status-link" onclick="SetPageStatus('PRI')"> Priority   </button>
                     <button id="ACC" class="btn btn-default status-link" onclick="SetPageStatus('ACC')"> Accredited     </button>
                     <button id="AOP" class="btn btn-default status-link" onclick="SetPageStatus('AOP')"> Acc. on Process</button>
@@ -39,11 +39,11 @@
                     <button class="btn btn-default disabled" style="color:black;">
                         Sort: &nbsp;
                     </button>
-                    <button id="sort-Name" class="btn btn-default status-link sort-link status-active" onclick="SortBy(this, 'NAME')"> Name </button>
-                    <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'CITY')">     City   </button>
-                    <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'CATEGORY')"> Category  </button>
-                    <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'STATUS')">   Status  </button>
-                    <button class="btn btn-default status-link sort-link" onclick="SortBy(this, 'UPDATE')">   Last Update  </button>
+                    <button id="sort-NAME" class="btn btn-default sort-link" onclick="SetPageSort(this, 'NAME')"> Name </button>
+                    <button id="sort-CITY" class="btn btn-default sort-link" onclick="SetPageSort(this, 'CITY')">     City   </button>
+                    <button id="sort-CATEGORY" class="btn btn-default sort-link" onclick="SetPageSort(this, 'CATEGORY')"> Category  </button>
+                    <button id="sort-STATUS" class="btn btn-default sort-link" onclick="SetPageSort(this, 'STATUS')">   Status  </button>
+                    <button id="sort-UPDATE" class="btn btn-default sort-link" onclick="SetPageSort(this, 'UPDATE')">   Last Update  </button>
                 </div>
             </div>
 
@@ -193,7 +193,7 @@
                             {
                                 var LastUpdateDate =(DateTime)company.LastUpdate;
                                 <span>
-                                    @LastUpdateDate.ToString("MMM dd yyyy")
+                                    @LastUpdateDate.ToString("yyyy-MM-dd")
                                 </span>
                             }
                         </td>
@@ -265,10 +265,12 @@
     <script>
 
         $(document).ready(function () {
-            console.log("status: @ViewBag.Status");
+            console.log("sort: @ViewBag.Sort");
             SetStatus("@ViewBag.Status");
             SetSort("@ViewBag.Sort");
             srchcategory = "@ViewBag.SearchCat";
+
+
         });
 
         function SetPageStatus(status) {
@@ -277,6 +279,19 @@
             var category = $('#srch-category').val();
             var status = status;
             var sort = "NAME";
+
+            window.location.href = '/CustEntMains?search=' + query + '&searchCat=' + category + '&status=' + status + '&sort=' + sort;
+        }
+
+
+        function SetPageSort(e,sort) {
+
+            setActiveSort(e);
+
+            var query = $('#srch-field').val();
+            var category = $('#srch-category').val();
+            var status = 'ALL';
+            var sort = sort;
 
             window.location.href = '/CustEntMains?search=' + query + '&searchCat=' + category + '&status=' + status + '&sort=' + sort;
         }
@@ -332,5 +347,6 @@
                 }
             })
         }
+
     </script>
 }

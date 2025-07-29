@@ -193,7 +193,7 @@ namespace JobsV1.Models
 
                 if (sort == "UPDATE")
                 {
-                    sortedCompanyList = sortedCompanyList.OrderByDescending(x => x.LastUpdate).ToList();
+                  sortedCompanyList = sortedCompanyList.OrderByDescending(x => x.LastUpdate).ToList();
                 }
 
                 return sortedCompanyList;
@@ -370,36 +370,45 @@ namespace JobsV1.Models
                     isAssigned = true;
                 }
 
-                //assigned history lists
-                var companyAssignRecords = db.CustEntAssigns.Where(s => s.CustEntMainId == com.Id).Select(s=>s.Assigned).ToList();
+                ////assigned history lists
+                var companyAssignRecords = db.CustEntAssigns.Where(s => s.CustEntMainId == com.Id).Select(s => s.Assigned).ToList();
                 if (companyAssignRecords.Contains(user))
                 {
                     isAssigned = true;
                 }
 
-                if(com.DataGroupId == 0)
+                if (com.DataGroupId == 0)
                 {
                     com.DataGroupId = 1;
                 }
 
-                var sharedGroupMembers = db.DataGroups.Where(d => d.Id == com.DataGroupId).First();
-                groupName = sharedGroupMembers.Name;
-
-                if (sharedGroupMembers.DataGroupAssigns.Count()>0)
+                try
                 {
-                    if (sharedGroupMembers.DataGroupAssigns.Select(c => c.User).Contains(user))
+
+                    if (com.DataGroupId > 0)
                     {
-                        isGroupShared = true;
-                        isAssigned = true;
+
+                        var sharedGroupMembers = db.DataGroups.Where(d => d.Id == com.DataGroupId).First();
+                        groupName = sharedGroupMembers.Name;
+
+                        if (sharedGroupMembers.DataGroupAssigns.Count() > 0)
+                        {
+                            if (sharedGroupMembers.DataGroupAssigns.Select(c => c.User).Contains(user))
+                            {
+                                isGroupShared = true;
+                                isAssigned = true;
+                            }
+                        }
                     }
                 }
+                catch(Exception ex) { }
 
 
-                //show contact details to admin and public
+                ////show contact details to admin and public
                 if (isAssigned || com.Exclusive == "PUBLIC")
                 {
                     contactNames = custEnts.Select(s => s.Customer.Name).ToList();
-                    contactPositions =  custEnts.Select(s => s.Position).ToList();
+                    contactPositions = custEnts.Select(s => s.Position).ToList();
 
                     foreach (var contact in custEnts)
                     {

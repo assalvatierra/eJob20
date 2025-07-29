@@ -89,7 +89,37 @@
       <HintPath>..\packages\Microsoft.ApplicationInsights.1.2.3\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.AspNetCore.Cryptography.Internal, Version=8.0.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Cryptography.Internal.8.0.8\lib\net462\Microsoft.AspNetCore.Cryptography.Internal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation, Version=8.0.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Cryptography.KeyDerivation.8.0.8\lib\net462\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.8.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Identity.Core, Version=8.0.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Identity.Core.8.0.8\lib\net462\Microsoft.Extensions.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.8.0.0\lib\net462\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=8.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.8.0.2\lib\net462\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.8.0.0\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ReportViewer.Runtime.Common.12.0.2402.15\lib\Microsoft.ReportViewer.Common.dll</HintPath>
       <Private>True</Private>
@@ -115,15 +145,40 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.8.0.0\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Cors, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.6\lib\net45\System.Web.Cors.dll</HintPath>
       <Private>True</Private>
@@ -237,6 +292,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\AccountsApiController.cs" />
     <Compile Include="API\CheckerActivityController.cs" />
     <Compile Include="API\SalesLeadApiController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -353,6 +409,8 @@
       <DependentUpon>AppointmentDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Masterlists\Controllers\CitiesController.cs" />
+    <Compile Include="Areas\Masterlists\Controllers\DataGroupAssignsController.cs" />
+    <Compile Include="Areas\Masterlists\Controllers\DataGroupsController.cs" />
     <Compile Include="Areas\Masterlists\MasterlistsAreaRegistration.cs" />
     <Compile Include="Areas\Payables\Controllers\ApAccountsController.cs" />
     <Compile Include="Areas\Payables\Controllers\ApCashFlowsController.cs" />
@@ -810,12 +868,14 @@
     <Compile Include="Models\Class\ActionTrailClass.cs" />
     <Compile Include="Models\Class\ActivityClass.cs" />
     <Compile Include="Models\Class\AppointmentClass.cs" />
+    <Compile Include="Models\Class\AspNetUser.cs" />
     <Compile Include="Models\Class\CashierClass.cs" />
     <Compile Include="Models\Class\CompanyClass.cs" />
     <Compile Include="Models\Class\CustAgentClass.cs" />
     <Compile Include="Models\Class\CustEntCode.cs" />
     <Compile Include="Models\Class\CustNotifClass.cs" />
     <Compile Include="Models\Class\DashboardServices.cs" />
+    <Compile Include="Models\Class\DataGroupServices.cs" />
     <Compile Include="Models\Class\EmailBuilderClass.cs" />
     <Compile Include="Models\Class\JobPostSaleClass.cs" />
     <Compile Include="Models\Class\JobVehicleClass.cs" />
@@ -923,6 +983,12 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DashboardViewModel.cs" />
+    <Compile Include="Models\DataGroup.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataGroupAssign.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DateClass.cs" />
     <Compile Include="Models\DBClasses.cs" />
     <Compile Include="Models\Destination.cs">
@@ -2172,6 +2238,8 @@
     <Content Include="Models\SQL.SolidSteel\InitialAll.sql" />
     <Content Include="Models\SQL.SolidSteel\Countries.sql" />
     <Content Include="Models\SQL.SolidSteel\InitialData_Solid.sql" />
+    <Content Include="Models\SQL.SolidSteel\Migration\2024.10.UserGroup.sql" />
+    <Content Include="Models\SQL.SolidSteel\Migration\2024.10.CustEntities.sql" />
     <Content Include="Models\SQL.SolidSteel\Migration\2024.08.Add.CheckerActivities.sql" />
     <Content Include="Models\SQL.Sys\InitialData_SysTbls.sql" />
     <Content Include="Models\SysDB.Context.tt">
@@ -2723,6 +2791,19 @@
     <Content Include="Areas\Personel\Views\crLogBilling\IndexSupplierBilling.cshtml" />
     <Content Include="Areas\Personel\Views\crLogBilling\PrintIndexSupplierBilling.cshtml" />
     <Content Include="Areas\Personel\Views\crLogBilling\PrintIndexSupplierBillingNoDriver.cshtml" />
+    <Content Include="Areas\Masterlists\Views\DataGroups\Create.cshtml" />
+    <Content Include="Areas\Masterlists\Views\DataGroups\Delete.cshtml" />
+    <Content Include="Areas\Masterlists\Views\DataGroups\Details.cshtml" />
+    <Content Include="Areas\Masterlists\Views\DataGroups\Edit.cshtml" />
+    <Content Include="Areas\Masterlists\Views\DataGroups\Index.cshtml" />
+    <Content Include="Areas\Masterlists\Views\DataGroupAssigns\Create.cshtml" />
+    <Content Include="Areas\Masterlists\Views\DataGroupAssigns\Delete.cshtml" />
+    <Content Include="Areas\Masterlists\Views\DataGroupAssigns\Details.cshtml" />
+    <Content Include="Areas\Masterlists\Views\DataGroupAssigns\Edit.cshtml" />
+    <Content Include="Areas\Masterlists\Views\DataGroupAssigns\Index.cshtml" />
+    <Content Include="Areas\Masterlists\Views\DataGroups\CreateAssign.cshtml" />
+    <Content Include="Areas\Masterlists\Views\DataGroupAssigns\DeleteAssign.cshtml" />
+    <Content Include="Areas\Masterlists\Views\DataGroups\DeleteAssign.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
@@ -2742,6 +2823,7 @@
     <Content Include="Scripts\Reporting\JobDate.js" />
     <Content Include="Scripts\Reporting\JobListing.js" />
     <Content Include="Scripts\SalesLead\AddLeadFileLink.js" />
+    <Content Include="Scripts\SalesLead\AddLeadPrice.js" />
     <Content Include="Scripts\SalesLead\AddLeadWeight.js" />
     <Content Include="Scripts\SalesLead\AddSupItem.js" />
     <Content Include="Scripts\SalesLead\SalesLead.js" />
@@ -3113,7 +3195,7 @@
     <Content Include="Views\CustEntMains\Delete.cshtml" />
     <Content Include="Views\CustEntMains\Details.cshtml" />
     <Content Include="Views\CustEntMains\Edit.cshtml" />
-    <Content Include="Views\CustEntMains\Index.cshtml" />
+    <Content Include="Views\CustEntMains\IndexJS.cshtml" />
     <Content Include="Views\CustFiles\AsynFileUpload.cshtml" />
     <Content Include="Views\CustFiles\Create.cshtml" />
     <Content Include="Views\CustFiles\Delete.cshtml" />
@@ -3619,6 +3701,12 @@
     <Content Include="Views\SalesLeads\_AddCheckerActivityModal.cshtml" />
     <Content Include="Views\SalesLeads\_PartialCheckerActivities.cshtml" />
     <Content Include="Views\Activities\CheckerActivities.cshtml" />
+    <Content Include="Views\Activities\CheckerActsEdit.cshtml" />
+    <Content Include="Views\Account\Users.cshtml" />
+    <Content Include="Views\Account\ModalAddUserRole.cshtml" />
+    <Content Include="Views\SalesLeads\_AddLeadPrice.cshtml" />
+    <Content Include="Views\CustEntMains\Index.cshtml" />
+    <Content Include="Views\Activities\PerformanceByGroup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
