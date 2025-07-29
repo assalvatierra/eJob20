@@ -344,7 +344,7 @@ namespace JobsV1.Models
                 new SelectListItem { Value = "BAD", Text = "Bad Account" }
                 };
 
-        public List<CustomerDetails> getCustomerList(string status,string search)
+        public List<Customer> getCustomerList(string status,string search)
         {
 
             var customerList = new List<Customer>();
@@ -357,74 +357,76 @@ namespace JobsV1.Models
                 customerList = searchCustomer(customerList,search);
             }
 
-            List<CustomerDetails> customerDetailList = new List<CustomerDetails>();
-            foreach (var customer in customerList)
-            {
-                CustCategory custcategory = new CustCategory();
-                CustCat custcat = new CustCat();
-                CustEntity companyEntity = new CustEntity();
-                CustEntMain company = new CustEntMain();
+            return customerList;
 
-                try
-                {
-                    custcat =  db.CustCats.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
-                    custcategory =  db.CustCategories.Where(cat => cat.Id == custcat.CustCategoryId).FirstOrDefault();
+            //List<CustomerDetails> customerDetailList = new List<CustomerDetails>();
+            //foreach (var customer in customerList)
+            //{
+            //    CustCategory custcategory = new CustCategory();
+            //    CustCat custcat = new CustCat();
+            //    CustEntity companyEntity = new CustEntity();
+            //    CustEntMain company = new CustEntMain();
 
-                }
-                catch 
-                {
-                    custcategory = new CustCategory
-                    {
-                        Id = 0,
-                        Name = "Not Assigned",
-                        iconPath = "Images/Customers/Category/unavailable-40.png"
-                    };
-                }
+            //    try
+            //    {
+            //        custcat =  db.CustCats.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
+            //        custcategory =  db.CustCategories.Where(cat => cat.Id == custcat.CustCategoryId).FirstOrDefault();
 
-                try
-                {
-                    companyEntity =  db.CustEntities.Where(ce => ce.CustomerId == customer.Id).FirstOrDefault();
-                    company =  db.CustEntMains.Where(co => co.Id == companyEntity.CustEntMainId).FirstOrDefault();
+            //    }
+            //    catch 
+            //    {
+            //        custcategory = new CustCategory
+            //        {
+            //            Id = 0,
+            //            Name = "Not Assigned",
+            //            iconPath = "Images/Customers/Category/unavailable-40.png"
+            //        };
+            //    }
 
-                }
-                catch 
-                {
-                    company = new CustEntMain
-                    {
-                        Id = 0,
-                        Name = "Not Assigned",
-                        Address = "none",
-                        Contact1 = "0",
-                        Contact2 = "0",
-                        iconPath = "Images/Customers/Category/unavailable-40.png"
-                    };
-                }
+            //    try
+            //    {
+            //        companyEntity =  db.CustEntities.Where(ce => ce.CustomerId == customer.Id).FirstOrDefault();
+            //        company =  db.CustEntMains.Where(co => co.Id == companyEntity.CustEntMainId).FirstOrDefault();
+
+            //    }
+            //    catch 
+            //    {
+            //        company = new CustEntMain
+            //        {
+            //            Id = 0,
+            //            Name = "Not Assigned",
+            //            Address = "none",
+            //            Contact1 = "0",
+            //            Contact2 = "0",
+            //            iconPath = "Images/Customers/Category/unavailable-40.png"
+            //        };
+            //    }
 
 
-                customerDetailList.Add(new CustomerDetails
-                {
-                    Id = customer.Id,
-                    Name = customer.Name,
-                    Email = customer.Email,
-                    Contact1 = customer.Contact1,
-                    Contact2 = customer.Contact2,
-                    Remarks = customer.Remarks,
-                    Status = customer.Status,
-                    JobID = customer.JobMains.Count(),
-                    CustCategoryID = custcategory.Id,
-                    CustCategoryIcon = custcategory.iconPath,
-                    CustEntID = company.Id,
-                    CustEntName = company.Name,
-                    CustEntIconPath = "~/Images/Customers/Company/organization-40.png",
-                    categories =  getCategoriesList(customer.Id),
-                    companies = getCustCompanies(customer.Id)
+            //    customerDetailList.Add(new CustomerDetails
+            //    {
+            //        Id = customer.Id,
+            //        Name = customer.Name,
+            //        Email = customer.Email,
+            //        Contact1 = customer.Contact1,
+            //        Contact2 = customer.Contact2,
+            //        Remarks = customer.Remarks,
+            //        Status = customer.Status,
+            //        JobID = customer.JobMains.Count(),
+            //        CustCategoryID = custcategory.Id,
+            //        CustCategoryIcon = custcategory.iconPath,
+            //        CustEntID = company.Id,
+            //        CustEntName = company.Name,
+            //        CustEntIconPath = "~/Images/Customers/Company/organization-40.png",
+            //        categories =  getCategoriesList(customer.Id),
+            //        companies = getCustCompanies(customer.Id)
 
-                    //end
-                });
+            //        //end
+            //    });
 
-            }
+            //}
 
-            return customerDetailList;
+            //return customerDetailList;
         }
 
         private  List<Customer> filterCustomerStatus(string status)

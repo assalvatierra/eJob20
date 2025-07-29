@@ -364,10 +364,10 @@
 
                           @if (Model.JobRemarks == "Witholding Tax")
                           {
-                              wtax_Amount = ((decimal)0.03 * dQuotedAmt);
+                              wtax_Amount = ((decimal)0.05 * dQuotedAmt);
 
                               <tr>
-                                  <td>Witholding Tax: </td>
+                                  <td>Witholding Tax (5%): </td>
                                   <td align="right">-@wtax_Amount.ToString("##,###.00")</td>
                               </tr>
                           }

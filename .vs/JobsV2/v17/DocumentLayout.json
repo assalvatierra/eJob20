@@ -3,52 +3,152 @@
   "WorkspaceRootPath": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\salesleads\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\salesleads\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|c:\\users\\acer-pc\\documents\\github\\ejob20\\jobsv1\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|c:\\users\\acer-pc\\documents\\github\\ejob20\\jobsv1\\views\\salesleads\\_partialleadfiles.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\salesleads\\_partialleadfiles.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\areas\\receivables\\views\\artransactions\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\areas\\receivables\\views\\artransactions\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|c:\\users\\acer-pc\\documents\\github\\ejob20\\jobsv1\\views\\salesleads\\_partialsalesleadactivities.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\salesleads\\_partialsalesleadactivities.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\customers\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\customers\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|c:\\users\\acer-pc\\documents\\github\\ejob20\\jobsv1\\views\\salesleads\\_partialsupplieritems.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\salesleads\\_partialsupplieritems.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|c:\\users\\acer-pc\\documents\\github\\ejob20\\jobsv1\\views\\joborder\\details_invoice.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\joborder\\details_invoice.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\custentmains\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\custentmains\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\joborder\\details_quote.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\joborder\\details_quote.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\controllers\\jobordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\controllers\\jobordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\joborder\\details_voucher.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\joborder\\details_voucher.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\joborder\\details_invoice.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\joborder\\details_invoice.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\joborder\\bookingdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\joborder\\bookingdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\reporting\\jobsummarydetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\reporting\\jobsummarydetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\joborder\\browseinvitem_withschedule.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\joborder\\browseinvitem_withschedule.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\joborder\\browsetemplate.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\joborder\\browsetemplate.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\controllers\\activitiescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\controllers\\activitiescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\custfiles\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\custfiles\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\controllers\\customerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\controllers\\customerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\models\\customerclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\models\\customerclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\controllers\\custentitiescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\controllers\\custentitiescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\controllers\\jobordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\controllers\\jobordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\models\\dbclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\models\\dbclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\app_start\\bundleconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\app_start\\bundleconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\areas\\payables\\views\\apcashflows\\posted.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\areas\\payables\\views\\apcashflows\\posted.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\areas\\payables\\controllers\\apcashflowscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\areas\\payables\\controllers\\apcashflowscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\areas\\payables\\views\\apcashflows\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\areas\\payables\\views\\apcashflows\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\areas\\personel\\views\\crlogcashsalaries\\printsalary.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\areas\\personel\\views\\crlogcashsalaries\\printsalary.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\areas\\personel\\controllers\\crlogcashsalariescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\areas\\personel\\controllers\\crlogcashsalariescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\areas\\personel\\views\\crlogcashsalaries\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\areas\\personel\\views\\crlogcashsalaries\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\reporting\\jobsummarydetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\reporting\\jobsummarydetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\reporting\\jobsummary.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\reporting\\jobsummary.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\reporting\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\reporting\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\activities\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\activities\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\salesleads\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\salesleads\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\areas\\payables\\scripts\\aptransactions\\aptransaction.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\areas\\payables\\scripts\\aptransactions\\aptransaction.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\areas\\payables\\scripts\\aptransactions\\aptransrepeating.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\areas\\payables\\scripts\\aptransactions\\aptransrepeating.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\scripts\\job\\jobpostreceivables.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\scripts\\job\\jobpostreceivables.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\joborder\\jobservices.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\joborder\\jobservices.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\salesleads\\_partialleadfiles.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\salesleads\\_partialleadfiles.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\salesleads\\_partialsalesleadactivities.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\salesleads\\_partialsalesleadactivities.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\salesleads\\_partialsupplieritems.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\salesleads\\_partialsupplieritems.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\controllers\\activitiescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\controllers\\activitiescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\models\\class\\activityclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -99,10 +199,6 @@
       "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\activities\\useractivities.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\areas\\personel\\views\\crlogcashsalaries\\printsalary.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\areas\\personel\\views\\crlogcashsalaries\\printsalary.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\views\\joborder\\dailyupdatelist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\views\\joborder\\dailyupdatelist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -117,22 +213,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\jobsv1\\models\\sysaccesslayer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\models\\sysaccesslayer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|c:\\users\\acer-pc\\documents\\github\\ejob20\\jobsv1\\models\\sql.solidsteel\\initialall.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
-      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\models\\sql.solidsteel\\initialall.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|c:\\users\\acer-pc\\documents\\github\\ejob20\\jobsv1\\models\\sql.solidsteel\\initialdata_solid.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
-      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\models\\sql.solidsteel\\initialdata_solid.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|c:\\users\\acer-pc\\documents\\github\\ejob20\\jobsv1\\models\\sql.job\\initialall.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
-      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\models\\sql.job\\initialall.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|c:\\users\\acer-pc\\documents\\github\\ejob20\\jobsv1\\models\\jobdb.edmx.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
-      "RelativeMoniker": "D:0:0:{0C7180C0-7C07-454E-96F3-562B508371DC}|JobsV1\\JobsV2.csproj|solutionrelative:jobsv1\\models\\jobdb.edmx.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
     }
   ],
   "DocumentGroupContainers": [
@@ -142,17 +222,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 41,
               "Title": "_PartialLeadStatus.cshtml",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialLeadStatus.cshtml",
               "RelativeDocumentMoniker": "JobsV1\\Views\\SalesLeads\\_PartialLeadStatus.cshtml",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialLeadStatus.cshtml",
               "RelativeToolTip": "JobsV1\\Views\\SalesLeads\\_PartialLeadStatus.cshtml",
-              "ViewState": "AQIAACEAAAAAAAAAAIAwwDQAAABWAAAA",
+              "ViewState": "AgIAACEAAAAAAAAAAIAwwDQAAABWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-07-29T02:47:51.405Z",
               "IsPinned": true,
@@ -160,13 +240,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 36,
               "Title": "ActivitiesController.cs",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\ActivitiesController.cs",
               "RelativeDocumentMoniker": "JobsV1\\Controllers\\ActivitiesController.cs",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\ActivitiesController.cs",
               "RelativeToolTip": "JobsV1\\Controllers\\ActivitiesController.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAABRwAwAAAABAAAA",
+              "ViewState": "AgIAAAkAAAAAAAAAAABRwAwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-25T07:05:52.276Z",
               "IsPinned": true,
@@ -174,13 +254,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 40,
               "Title": "SalesLead.js",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Scripts\\SalesLead\\SalesLead.js",
               "RelativeDocumentMoniker": "JobsV1\\Scripts\\SalesLead\\SalesLead.js",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Scripts\\SalesLead\\SalesLead.js",
               "RelativeToolTip": "JobsV1\\Scripts\\SalesLead\\SalesLead.js",
-              "ViewState": "AQIAAKQAAAAAAAAAAADgv7oAAAAmAAAA",
+              "ViewState": "AgIAAKQAAAAAAAAAAADgv7oAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2024-07-29T02:48:47.787Z",
               "IsPinned": true,
@@ -188,13 +268,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 28,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\Index.cshtml",
               "RelativeDocumentMoniker": "JobsV1\\Views\\SalesLeads\\Index.cshtml",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\Index.cshtml",
               "RelativeToolTip": "JobsV1\\Views\\SalesLeads\\Index.cshtml",
-              "ViewState": "AQIAAN0AAAAAAAAAAAAAAOcAAAAPAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-07-29T02:47:42.129Z",
               "IsPinned": true,
@@ -203,53 +283,92 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "_PartialLeadFiles.cshtml",
-              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialLeadFiles.cshtml",
-              "RelativeDocumentMoniker": "JobsV1\\Views\\SalesLeads\\_PartialLeadFiles.cshtml",
-              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialLeadFiles.cshtml",
-              "RelativeToolTip": "JobsV1\\Views\\SalesLeads\\_PartialLeadFiles.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Receivables\\Views\\ArTransactions\\Index.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Areas\\Receivables\\Views\\ArTransactions\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Receivables\\Views\\ArTransactions\\Index.cshtml",
+              "RelativeToolTip": "JobsV1\\Areas\\Receivables\\Views\\ArTransactions\\Index.cshtml",
+              "ViewState": "AgIAAFYBAAAAAAAAAAAAAG0BAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-21T08:53:49.042Z",
+              "WhenOpened": "2025-06-18T07:01:13.621Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "_PartialSalesLeadActivities.cshtml",
-              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialSalesLeadActivities.cshtml",
-              "RelativeDocumentMoniker": "JobsV1\\Views\\SalesLeads\\_PartialSalesLeadActivities.cshtml",
-              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialSalesLeadActivities.cshtml",
-              "RelativeToolTip": "JobsV1\\Views\\SalesLeads\\_PartialSalesLeadActivities.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\Customers\\Index.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\Customers\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\Customers\\Index.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\Customers\\Index.cshtml",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAAAFMAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-21T08:52:14.51Z",
+              "WhenOpened": "2025-06-14T09:00:23.086Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Details_Quote.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\Details_Quote.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\JobOrder\\Details_Quote.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\Details_Quote.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\JobOrder\\Details_Quote.cshtml",
+              "ViewState": "AgIAAMoAAAAAAAAAAAAWwNgAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-05T06:50:57.145Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "JobsV1\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "JobsV1\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAAI4AAAAAAAAAAAAIwKAAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-19T07:12:08.468Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "_PartialSupplierItems.cshtml",
-              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialSupplierItems.cshtml",
-              "RelativeDocumentMoniker": "JobsV1\\Views\\SalesLeads\\_PartialSupplierItems.cshtml",
-              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialSupplierItems.cshtml",
-              "RelativeToolTip": "JobsV1\\Views\\SalesLeads\\_PartialSupplierItems.cshtml",
-              "ViewState": "AQIAAFsAAAAAAAAAAAAAAG8AAAAYAAAA",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\CustEntMains\\Index.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\CustEntMains\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\CustEntMains\\Index.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\CustEntMains\\Index.cshtml",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAAAE4AAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-21T08:47:31.864Z",
+              "WhenOpened": "2024-10-17T07:54:59.691Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Details_Voucher.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\Details_Voucher.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\JobOrder\\Details_Voucher.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\Details_Voucher.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\JobOrder\\Details_Voucher.cshtml",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-18T02:42:51.08Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "JobOrderController.cs",
-              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\JobOrderController.cs",
-              "RelativeDocumentMoniker": "JobsV1\\Controllers\\JobOrderController.cs",
-              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\JobOrderController.cs",
-              "RelativeToolTip": "JobsV1\\Controllers\\JobOrderController.cs",
-              "ViewState": "AQIAAPEHAAAAAAAAAABRwPQHAAA4AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-16T05:40:32.221Z",
+              "Title": "Details_Invoice.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\Details_Invoice.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\JobOrder\\Details_Invoice.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\Details_Invoice.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\JobOrder\\Details_Invoice.cshtml",
+              "ViewState": "AgIAAPwAAAAAAAAAAAAWwAMBAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-06-04T02:16:35.421Z",
               "EditorCaption": ""
             },
             {
@@ -260,66 +379,365 @@
               "RelativeDocumentMoniker": "JobsV1\\Views\\JobOrder\\BookingDetails.cshtml",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\BookingDetails.cshtml",
               "RelativeToolTip": "JobsV1\\Views\\JobOrder\\BookingDetails.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAxwJgAAAAJAAAA",
+              "ViewState": "AgIAAGEBAAAAAAAAAAAWwHABAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-08-09T02:19:41.177Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Details_Quote.cshtml",
-              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\Details_Quote.cshtml",
-              "RelativeDocumentMoniker": "JobsV1\\Views\\JobOrder\\Details_Quote.cshtml",
-              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\Details_Quote.cshtml",
-              "RelativeToolTip": "JobsV1\\Views\\JobOrder\\Details_Quote.cshtml",
-              "ViewState": "AQIAALQAAAAAAAAAAMBdwN4AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-05T06:50:57.145Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Details_Invoice.cshtml",
-              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\Details_Invoice.cshtml",
-              "RelativeDocumentMoniker": "JobsV1\\Views\\JobOrder\\Details_Invoice.cshtml",
-              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\Details_Invoice.cshtml",
-              "RelativeToolTip": "JobsV1\\Views\\JobOrder\\Details_Invoice.cshtml",
-              "ViewState": "AQIAAPkAAAAAAAAAAAAAAAIBAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-04T02:16:35.421Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 8,
+              "Title": "BrowseInvItem_withSchedule.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\BrowseInvItem_withSchedule.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\JobOrder\\BrowseInvItem_withSchedule.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\BrowseInvItem_withSchedule.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\JobOrder\\BrowseInvItem_withSchedule.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-18T02:41:19.682Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "BrowseTemplate.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\BrowseTemplate.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\JobOrder\\BrowseTemplate.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\BrowseTemplate.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\JobOrder\\BrowseTemplate.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-18T02:41:18.95Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CustomersController.cs",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\CustomersController.cs",
+              "RelativeDocumentMoniker": "JobsV1\\Controllers\\CustomersController.cs",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\CustomersController.cs",
+              "RelativeToolTip": "JobsV1\\Controllers\\CustomersController.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAQwCYAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-14T09:00:35.468Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\CustFiles\\Index.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\CustFiles\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\CustFiles\\Index.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\CustFiles\\Index.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAADQAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-14T09:05:43.025Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "CustomerClass.cs",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\CustomerClass.cs",
+              "RelativeDocumentMoniker": "JobsV1\\Models\\CustomerClass.cs",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\CustomerClass.cs",
+              "RelativeToolTip": "JobsV1\\Models\\CustomerClass.cs",
+              "ViewState": "AgIAAFIBAAAAAAAAAAAwwF4BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-14T09:00:43.768Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "CustEntitiesController.cs",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\CustEntitiesController.cs",
+              "RelativeDocumentMoniker": "JobsV1\\Controllers\\CustEntitiesController.cs",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\CustEntitiesController.cs",
+              "RelativeToolTip": "JobsV1\\Controllers\\CustEntitiesController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwA4AAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-14T02:46:38.162Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Web.config",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Web.config",
+              "RelativeDocumentMoniker": "JobsV1\\Web.config",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Web.config",
+              "RelativeToolTip": "JobsV1\\Web.config",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACgAAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2024-06-04T02:17:25.091Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Posted.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Payables\\Views\\ApCashFlows\\Posted.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Areas\\Payables\\Views\\ApCashFlows\\Posted.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Payables\\Views\\ApCashFlows\\Posted.cshtml",
+              "RelativeToolTip": "JobsV1\\Areas\\Payables\\Views\\ApCashFlows\\Posted.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAACoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-07T02:10:35.738Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "JobOrderController.cs",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\JobOrderController.cs",
+              "RelativeDocumentMoniker": "JobsV1\\Controllers\\JobOrderController.cs",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\JobOrderController.cs",
+              "RelativeToolTip": "JobsV1\\Controllers\\JobOrderController.cs",
+              "ViewState": "AgIAAPkHAAAAAAAAAAAIwAoIAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-16T05:40:32.221Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ApCashFlowsController.cs",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Payables\\Controllers\\ApCashFlowsController.cs",
+              "RelativeDocumentMoniker": "JobsV1\\Areas\\Payables\\Controllers\\ApCashFlowsController.cs",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Payables\\Controllers\\ApCashFlowsController.cs",
+              "RelativeToolTip": "JobsV1\\Areas\\Payables\\Controllers\\ApCashFlowsController.cs",
+              "ViewState": "AgIAAOkAAAAAAAAAAAAgwOsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-07T02:29:15.483Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "DBClasses.cs",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\DBClasses.cs",
+              "RelativeDocumentMoniker": "JobsV1\\Models\\DBClasses.cs",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\DBClasses.cs",
+              "RelativeToolTip": "JobsV1\\Models\\DBClasses.cs",
+              "ViewState": "AgIAAAkBAAAAAAAAAAAcwBIBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T02:47:03.841Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "BundleConfig.cs",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\App_Start\\BundleConfig.cs",
+              "RelativeDocumentMoniker": "JobsV1\\App_Start\\BundleConfig.cs",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\App_Start\\BundleConfig.cs",
+              "RelativeToolTip": "JobsV1\\App_Start\\BundleConfig.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAgwDQAAABUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T02:37:51.549Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "crLogCashSalariesController.cs",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Personel\\Controllers\\crLogCashSalariesController.cs",
+              "RelativeDocumentMoniker": "JobsV1\\Areas\\Personel\\Controllers\\crLogCashSalariesController.cs",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Personel\\Controllers\\crLogCashSalariesController.cs",
+              "RelativeToolTip": "JobsV1\\Areas\\Personel\\Controllers\\crLogCashSalariesController.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAADgv1AAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-16T02:59:56.449Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Payables\\Views\\ApCashFlows\\Index.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Areas\\Payables\\Views\\ApCashFlows\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Payables\\Views\\ApCashFlows\\Index.cshtml",
+              "RelativeToolTip": "JobsV1\\Areas\\Payables\\Views\\ApCashFlows\\Index.cshtml",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAAADsAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-07T02:28:56.599Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Personel\\Views\\crLogCashSalaries\\Details.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Areas\\Personel\\Views\\crLogCashSalaries\\Details.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Personel\\Views\\crLogCashSalaries\\Details.cshtml",
+              "RelativeToolTip": "JobsV1\\Areas\\Personel\\Views\\crLogCashSalaries\\Details.cshtml",
+              "ViewState": "AgIAANcAAAAAAAAAAAAAAPAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-16T02:58:57.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\Reporting\\Index.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\Reporting\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\Reporting\\Index.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\Reporting\\Index.cshtml",
+              "ViewState": "AgIAABkAAAAAAAAAAAAAABEAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-10T03:41:03.892Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "JobPostReceivables.js",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Scripts\\Job\\JobPostReceivables.js",
+              "RelativeDocumentMoniker": "JobsV1\\Scripts\\Job\\JobPostReceivables.js",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Scripts\\Job\\JobPostReceivables.js",
+              "RelativeToolTip": "JobsV1\\Scripts\\Job\\JobPostReceivables.js",
+              "ViewState": "AgIAABAAAAAAAAAAAAAiwBsAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-10-02T06:18:01.045Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "PrintSalary.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Personel\\Views\\crLogCashSalaries\\PrintSalary.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Areas\\Personel\\Views\\crLogCashSalaries\\PrintSalary.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Personel\\Views\\crLogCashSalaries\\PrintSalary.cshtml",
+              "RelativeToolTip": "JobsV1\\Areas\\Personel\\Views\\crLogCashSalaries\\PrintSalary.cshtml",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAADIAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-20T05:14:19.605Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
               "Title": "JobSummaryDetails.cshtml",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\Reporting\\JobSummaryDetails.cshtml",
               "RelativeDocumentMoniker": "JobsV1\\Views\\Reporting\\JobSummaryDetails.cshtml",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\Reporting\\JobSummaryDetails.cshtml",
               "RelativeToolTip": "JobsV1\\Views\\Reporting\\JobSummaryDetails.cshtml",
-              "ViewState": "AQIAAG8AAAAAAAAAAEBVwIMAAAARAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-09-13T03:32:51.116Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "JobsV1\\Controllers\\AccountController.cs",
-              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "JobsV1\\Controllers\\AccountController.cs",
-              "ViewState": "AQIAACQAAAAAAAAAAABRwCcAAAAOAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-19T07:12:08.468Z",
+              "DocumentIndex": 25,
+              "Title": "JobSummary.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\Reporting\\JobSummary.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\Reporting\\JobSummary.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\Reporting\\JobSummary.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\Reporting\\JobSummary.cshtml",
+              "ViewState": "AgIAAJMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-10T03:41:21.697Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 30,
+              "Title": "ApTransRepeating.js",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Payables\\Scripts\\ApTransactions\\ApTransRepeating.js",
+              "RelativeDocumentMoniker": "JobsV1\\Areas\\Payables\\Scripts\\ApTransactions\\ApTransRepeating.js",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Payables\\Scripts\\ApTransactions\\ApTransRepeating.js",
+              "RelativeToolTip": "JobsV1\\Areas\\Payables\\Scripts\\ApTransactions\\ApTransRepeating.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-10-17T06:47:43.29Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "ApTransaction.js",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Payables\\Scripts\\ApTransactions\\ApTransaction.js",
+              "RelativeDocumentMoniker": "JobsV1\\Areas\\Payables\\Scripts\\ApTransactions\\ApTransaction.js",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Payables\\Scripts\\ApTransactions\\ApTransaction.js",
+              "RelativeToolTip": "JobsV1\\Areas\\Payables\\Scripts\\ApTransactions\\ApTransaction.js",
+              "ViewState": "AgIAANEBAAAAAAAAAAAnwN4BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-10-17T06:47:47.695Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\Activities\\Index.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\Activities\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\Activities\\Index.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\Activities\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-17T07:53:58.053Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "_PartialSupplierItems.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialSupplierItems.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\SalesLeads\\_PartialSupplierItems.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialSupplierItems.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\SalesLeads\\_PartialSupplierItems.cshtml",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAAAG8AAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-21T08:47:31.864Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "_PartialSalesLeadActivities.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialSalesLeadActivities.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\SalesLeads\\_PartialSalesLeadActivities.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialSalesLeadActivities.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\SalesLeads\\_PartialSalesLeadActivities.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-21T08:52:14.51Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "_PartialLeadFiles.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialLeadFiles.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\SalesLeads\\_PartialLeadFiles.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialLeadFiles.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\SalesLeads\\_PartialLeadFiles.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-21T08:53:49.042Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "JobServices.cshtml",
+              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\JobServices.cshtml",
+              "RelativeDocumentMoniker": "JobsV1\\Views\\JobOrder\\JobServices.cshtml",
+              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\JobServices.cshtml",
+              "RelativeToolTip": "JobsV1\\Views\\JobOrder\\JobServices.cshtml",
+              "ViewState": "AgIAAEYBAAAAAAAAAAAAAD4BAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-02T06:17:38.895Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
               "Title": "JobDB.edmx [Diagram1]",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\JobDB.edmx",
               "RelativeDocumentMoniker": "JobsV1\\Models\\JobDB.edmx",
@@ -331,34 +749,21 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Web.config",
-              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Web.config",
-              "RelativeDocumentMoniker": "JobsV1\\Web.config",
-              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Web.config",
-              "RelativeToolTip": "JobsV1\\Web.config",
-              "ViewState": "AQIAABYAAAAAAAAAAABBwCMAAAAQAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2024-06-04T02:17:25.091Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 37,
               "Title": "ActivityClass.cs",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\Class\\ActivityClass.cs",
               "RelativeDocumentMoniker": "JobsV1\\Models\\Class\\ActivityClass.cs",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\Class\\ActivityClass.cs",
               "RelativeToolTip": "JobsV1\\Models\\Class\\ActivityClass.cs",
-              "ViewState": "AQIAANQAAAAAAAAAAABRwDUBAAAIAAAA",
+              "ViewState": "AgIAANQAAAAAAAAAAABRwDUBAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-25T07:07:19.66Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "InitialAll.sql ",
+              "DocumentIndex": 43,
+              "Title": "InitialAll.sql",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\SQL.SolidSteel\\InitialAll.sql",
               "RelativeDocumentMoniker": "JobsV1\\Models\\SQL.SolidSteel\\InitialAll.sql",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\SQL.SolidSteel\\InitialAll.sql",
@@ -369,47 +774,47 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 42,
               "Title": "_PartialProcActivities.cshtml",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialProcActivities.cshtml",
               "RelativeDocumentMoniker": "JobsV1\\Views\\SalesLeads\\_PartialProcActivities.cshtml",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\SalesLeads\\_PartialProcActivities.cshtml",
               "RelativeToolTip": "JobsV1\\Views\\SalesLeads\\_PartialProcActivities.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-07-29T02:47:50.63Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 38,
               "Title": "SalesLeadClass.cs",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\Class\\SalesLeadClass.cs",
               "RelativeDocumentMoniker": "JobsV1\\Models\\Class\\SalesLeadClass.cs",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\Class\\SalesLeadClass.cs",
               "RelativeToolTip": "JobsV1\\Models\\Class\\SalesLeadClass.cs",
-              "ViewState": "AQIAAM8CAAAAAAAAAIBJwAAAAAAAAAAA",
+              "ViewState": "AgIAAM8CAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-29T02:56:12.568Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 39,
               "Title": "SalesLeadsController.cs",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\SalesLeadsController.cs",
               "RelativeDocumentMoniker": "JobsV1\\Controllers\\SalesLeadsController.cs",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\SalesLeadsController.cs",
               "RelativeToolTip": "JobsV1\\Controllers\\SalesLeadsController.cs",
-              "ViewState": "AQIAAKQCAAAAAAAAAABRwNoCAAAIAAAA",
+              "ViewState": "AgIAAKQCAAAAAAAAAABRwNoCAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-25T03:32:00.112Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "JobDB.edmx.sql ",
+              "DocumentIndex": 46,
+              "Title": "JobDB.edmx.sql",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\JobDB.edmx.sql",
               "RelativeDocumentMoniker": "JobsV1\\Models\\JobDB.edmx.sql",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\JobDB.edmx.sql",
@@ -420,8 +825,8 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "InitialData_Solid.sql ",
+              "DocumentIndex": 44,
+              "Title": "InitialData_Solid.sql",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\SQL.SolidSteel\\InitialData_Solid.sql",
               "RelativeDocumentMoniker": "JobsV1\\Models\\SQL.SolidSteel\\InitialData_Solid.sql",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\SQL.SolidSteel\\InitialData_Solid.sql",
@@ -432,34 +837,34 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 48,
               "Title": "UserActivities.cshtml",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\Activities\\UserActivities.cshtml",
               "RelativeDocumentMoniker": "JobsV1\\Views\\Activities\\UserActivities.cshtml",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\Activities\\UserActivities.cshtml",
               "RelativeToolTip": "JobsV1\\Views\\Activities\\UserActivities.cshtml",
-              "ViewState": "AQIAADEAAAAAAAAAALB8wGcAAAAYAAAA",
+              "ViewState": "AgIAADEAAAAAAAAAALB8wGcAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-07-25T02:50:44.845Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 49,
               "Title": "DailyUpdateList.cshtml",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\DailyUpdateList.cshtml",
               "RelativeDocumentMoniker": "JobsV1\\Views\\JobOrder\\DailyUpdateList.cshtml",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\JobOrder\\DailyUpdateList.cshtml",
               "RelativeToolTip": "JobsV1\\Views\\JobOrder\\DailyUpdateList.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-06-13T05:46:41.78Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "InitialAll.sql ",
+              "DocumentIndex": 45,
+              "Title": "InitialAll.sql",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\SQL.Job\\InitialAll.sql",
               "RelativeDocumentMoniker": "JobsV1\\Models\\SQL.Job\\InitialAll.sql",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\SQL.Job\\InitialAll.sql",
@@ -470,52 +875,39 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 52,
               "Title": "SysAccessLayer.cs",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\SysAccessLayer.cs",
               "RelativeDocumentMoniker": "JobsV1\\Models\\SysAccessLayer.cs",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Models\\SysAccessLayer.cs",
               "RelativeToolTip": "JobsV1\\Models\\SysAccessLayer.cs",
-              "ViewState": "AQIAADAAAAAAAAAAAAAxwDAAAAAAAAAA",
+              "ViewState": "AgIAADAAAAAAAAAAAAAxwDAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-10T02:32:11.463Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 51,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "JobsV1\\Controllers\\HomeController.cs",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Controllers\\HomeController.cs",
               "RelativeToolTip": "JobsV1\\Controllers\\HomeController.cs",
-              "ViewState": "AQIAAB0AAAAAAAAAAABRwCAAAAAwAAAA",
+              "ViewState": "AgIAAB0AAAAAAAAAAABRwCAAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-10T02:31:21.035Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "PrintSalary.cshtml",
-              "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Personel\\Views\\crLogCashSalaries\\PrintSalary.cshtml",
-              "RelativeDocumentMoniker": "JobsV1\\Areas\\Personel\\Views\\crLogCashSalaries\\PrintSalary.cshtml",
-              "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Areas\\Personel\\Views\\crLogCashSalaries\\PrintSalary.cshtml",
-              "RelativeToolTip": "JobsV1\\Areas\\Personel\\Views\\crLogCashSalaries\\PrintSalary.cshtml",
-              "ViewState": "AQIAAK0BAAAAAAAAACBjwMkBAAAVAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-07-20T05:14:19.605Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 50,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "JobsV1\\Views\\Home\\Index.cshtml",
               "ToolTip": "C:\\Users\\Acer-PC\\Documents\\GitHub\\eJob20\\JobsV1\\Views\\Home\\Index.cshtml",
               "RelativeToolTip": "JobsV1\\Views\\Home\\Index.cshtml",
-              "ViewState": "AQIAAAIAAAAAAAAAAABBwAQAAAASAAAA",
+              "ViewState": "AgIAAAIAAAAAAAAAAABBwAQAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-06-10T02:31:04.009Z",
               "EditorCaption": ""

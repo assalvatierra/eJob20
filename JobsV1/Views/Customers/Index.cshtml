@@ -1,4 +1,4 @@
-﻿@model IEnumerable<JobsV1.Models.CustomerDetails>
+﻿@model IEnumerable<JobsV1.Models.Customer>
 
 @{
     ViewBag.Title = "Contact Listing";
@@ -53,14 +53,14 @@
 
     </div>
 
-    <table class="table" id="sup-Table">
+    <!--<table class="table" id="sup-Table">
         <tr>
             <th><span> CUSTOMER </span></th>
             <th><span> TEL </span></th>
             <th id="sup-header-2"><span> MOBILE </span>  </th>
-            <th id="sup-header-3"><span> COMPANY </span></th>
+            <th id="sup-header-3"><span> COMPANY </span></th>-->
             @*<th id="sup-header-3"><span> JOBS </span> </th>*@
-            <th id="sup-header-4"><span> STATUS </span></th>
+            <!--<th id="sup-header-4"><span> STATUS </span></th>
             <th></th>
         </tr>
         <tr>
@@ -71,9 +71,42 @@
                 Loading customers, please wait...
             </td>
         </tr>
+    </table>-->
+
+<table>
+    <tr>
+        <th> CUSTOMER</th>
+        <th> TEL</th>
+        <th> MOBILE </th>
+        <th> COMPANY </th>
+    </tr>
+
+    @foreach (var customer in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => customer.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => customer.Contact1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => customer.Contact2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => customer.Email)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = customer.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = customer.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = customer.Id })
+            </td>
+
+        </tr> 
+    }
     </table>
 
 </div>
 @section Scripts{
-    <script src="~/Scripts/Job/CustomerList.js"></script>
-    }
+    @*<script src="~/Scripts/Job/CustomerList.js"></script>*@
+}

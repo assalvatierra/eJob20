@@ -397,7 +397,9 @@
     {
         Expenses_Request_3rdParty += expense.Amount;
 
-        var actualReleased = (decimal)expense.ReleaseAmt;
+        var actualReleased = 0;
+
+        actualReleased = expense.ReleaseAmt != null ? (int)expense.ReleaseAmt : 0;
 
         var changeAmount = actualReleased - expense.Amount;
 

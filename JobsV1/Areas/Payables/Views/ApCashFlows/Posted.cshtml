@@ -33,11 +33,17 @@
 
     @foreach (var item in Model)
     {
-        var cashDate = item.ApCashFlowPostGroups.First().ApCashFlow.Date;
+
+        var cashDate = new DateTime();
+
+        if (item.ApCashFlowPostGroups.ToList() != null)
+        {
+            
+        }
 
         <tr>
             <td>
-                @cashDate.ToString("MMM dd yyyy")
+                @item.DtPost
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Cash)

@@ -67,32 +67,32 @@
     <table class="js-sort-table table" id="company-Table" data-sortable>
         <thead>
             <tr>
-                <th class="col-md-1">
+                <th>
                     Name
                 </th>
-                <th class="col-md-1">
+                @*<th class="col-md-1">
                     City
                 </th>
                 <th class="col-md-1">
                     Category
-                </th>
-                <th class="col-md-1">
+                </th>*@
+                @*<th class="col-md-1">
                     Status
-                </th>
-                <th class="col-md-1" style="min-width:150px">
+                </th>*@
+                <th >
                     Contact Person
                 </th>
-                <th class="col-md-1" style="min-width:230px">
+                <th>
                     Contact Details
                 </th>
-                <th class="col-md-1">
+                @*<th class="col-md-1">
                     AssignedTo
-                </th>
+                </th>*@
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr id="table-row-loading">
+            @*<tr id="table-row-loading">
                 <td colspan="4"> </td>
                 <td colspan="4">
                     <br />
@@ -100,35 +100,32 @@
                     Loading Companies, please wait...
                 </td>
                 <td></td>
-            </tr>
+            </tr>*@
 
-            <!--foreach (var company in Model)
+            @foreach (var company in Model)
             {
                 <tr>
                     <td>
-                        company.Name
+                        @company.Name
+                    </td>
+                    @*<td>
+                        @company.CityId
+                    </td>*@
+                    <td>
+                       @company.Contact1 
                     </td>
                     <td>
-                        company.CityId
+                        @company.Contact1
                     </td>
-                    <td>
-                       
-                    </td>
-                    <td>
-                        company.Contact1 
-                    </td>
-                    <td>
-                        company.Contact1
-                    </td>
-                    <td>
+                    @*<td>
                         company.AssignedTo
-                    </td>
+                    </td>*@
                     <td>
-                        Html.ActionLink("Edit", "Edit", new { id = company.Id }) |
-                       Html.ActionLink("Details", "Details", new { id = company.Id }) 
+                        @Html.ActionLink("Edit", "Edit", new { id = company.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = company.Id }) 
                     </td>
                 </tr>
-            }-->
+            }
         </tbody>
     </table>
 </div>
@@ -136,7 +133,7 @@
 
 @section Scripts{
     <script src="~/Scripts/jquery-3.3.1.js"></script>
-    <script src="~/Scripts/Job/CustEntMainList.js"></script>
+    @*<script src="~/Scripts/Job/CustEntMainList.js"></script>*@
     <script src="~/Scripts/sort-table.js"></script>
     <script src="~/Scripts/sorttable.min.js"></script>
 

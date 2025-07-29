@@ -36,7 +36,7 @@ namespace JobsV1.Controllers
         public  ActionResult Index(string status, string search)
         {
 
-            List<CustomerDetails> customerDetailList = new List<CustomerDetails>();
+            List<Customer> customerDetailList = new List<Customer>();
             //get customer list async
             customerDetailList = custdb.getCustomerList(status,search);
 
